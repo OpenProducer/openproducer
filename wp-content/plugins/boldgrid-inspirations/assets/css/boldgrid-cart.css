@@ -1,0 +1,113 @@
+.container-fluid {
+	max-width: 1024px;
+	margin: 10px 0px 0px 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.plugin-card-top .col-md-3 {
+	width: 23%;
+	padding: 0px;
+	margin: 1%;
+}
+
+.plugin-card-top .col-md-3>div:first-child {
+	border: 1px solid #ddd;
+	padding: 10px;
+	min-height: 64px;
+}
+
+.image-info {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}
+
+.image-dimensions:before {
+	content: "\f165";
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	font: normal 17px/1 'dashicons';
+	vertical-align: top;
+	margin-right: 7px;
+	margin-bottom: 5px;
+	color: #a8a8a8;
+}
+
+.col-md-3 .spinner,
+#purchase_for_publish .image-select {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	margin: 0px;
+}
+
+/*
+ * When an ajax call is being made to update the checked_in_cart attribute, all other checkboxes are
+ * disabled. Change the cursor to show users they are disabled.
+ */
+#purchase_for_publish input[disabled] {
+	cursor: progress;
+}
+
+.image-thumbnail {
+	max-width: 40%;
+}
+
+.row-title {
+	text-decoration: none;
+}
+
+.cart-summary .row {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.text-right {
+	text-align: right;
+}
+
+/* cart-summary ************************************************************ */
+hr {
+	margin: 0px;
+}
+
+.cart-summary {
+	margin-top: 15px;
+}
+
+.cart-summary .col-md-6.col-md-offset-6 {
+	padding: 0px;
+}
+
+.cart-summary table tbody tr:first-child td {
+	padding-bottom: 10px;
+}
+
+.cart-summary .plugin-card-top {
+	min-height: initial;
+	padding: 10px;
+}
+
+/* When you unselect an image, add opacity to show it is not selected */
+.unselected-image {
+	opacity: 0.3;
+	background-color: #ddd;
+}
+
+.unselected-image .image-select{
+	outline: 1px solid #000;
+	outline-offset: -2px;
+}
+
+/* When you hover over a page title, show the "Edit | View" links */
+.row:hover div.row-actions {
+	visibility: visible;
+}
+
+/* When we add the error class to plugin-card, it makes all borders red. We only want the left border changed. */
+.plugin-card.error {
+	border-top: 0px;
+	border-right: 0px;
+	border-bottom: 0px;
+}

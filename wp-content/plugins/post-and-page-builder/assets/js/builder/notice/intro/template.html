@@ -1,0 +1,81 @@
+<div class="setup">
+	<input type="hidden" name="action" value="boldgrid_editor_setup">
+	<input type="hidden" name="boldgrid_editor_setup" value="<%= nonce %>">
+	<div data-step="welcome" class="step active welcome" data-panel-width="600" data-panel-info="<%= stepper.getLabel('welcome') %>">
+		<img src="../../../../image/notice/plugin-icon-editor.png">
+		<div class="step-content">
+			<h2>
+				<span>Welcome to the </span>
+				<span>BoldGrid Post &amp; Page Builder</span>
+			</h2>
+			<p class="lead">
+				In order to optimize your experience, let's setup your plugin with some preferences. If you choose to
+				skip the setup we'll set default options that you can easily modify later.
+			</p>
+			<p class="buttons">
+				<a class='btn bg-editor-button btn-rounded bg-secondary-color dismiss'>Skip Setup</a>
+				<a class='btn bg-editor-button btn-rounded bg-primary-color' data-action-step="<%= stepper.getNext('welcome') %>">Okay, Let's Go!</a>
+			</p>
+		</div>
+	</div>
+	<div data-step="default-editor" data-panel-info="<%= stepper.getLabel('default-editor') %>" class="step choose-template" data-panel-width="550"
+	    data-panel-height="425" data-panel-title="Post and Page Builder - Editor">
+		<h3>Select a preferred editor:</h3>
+		<default-editor-form></default-editor-form>
+		<p class="buttons">
+			<a class='btn bg-editor-button btn-rounded bg-primary-color' data-action-step="<%= stepper.getNext('default-editor') %>">Next Step</a>
+		</p>
+	</div>
+	<div data-step="choose-template" data-panel-info="<%= stepper.getLabel('choose-template') %>" class="step choose-template" data-panel-width="350"
+	    data-panel-height="550" data-panel-title="Post and Page Builder - Templates">
+		<h3>Choose your default template:</h3>
+		<p class="lead">The Post and Page Builder includes 3 custom page templates provide more layout control. Choose your
+			default page template to use on new pages.</p>
+		<div class="template-control">
+			<label>
+				<span class="radio">
+					<span class="label">Full Width (Recommended)</span>
+					<input class="template sidebar none" type="radio" name="bgppb-template" checked value="fullwidth">
+					<span class="template-icon"></span>
+				</span>
+			</label>
+			<label>
+			<span class="radio">
+					<span class="label">Right Sidebar</span>
+			<input class="template sidebar right" type="radio" name="bgppb-template" value="right-sidebar">
+			<span class="template-icon"></span>
+			</span>
+			</label>
+			<label>
+				<span class="radio">
+					<span class="label">Left Sidebar</span>
+					<input class="template sidebar left" type="radio" name="bgppb-template" value="left-sidebar">
+					<span class="template-icon"></span>
+				</span>
+			</label>
+			<label>
+				<span class="radio">
+					<span class="label">Theme Default</span>
+					<input class="template default" type="radio" name="bgppb-template" value="default">
+					<span class="template-icon"></span>
+				</span>
+			</label>
+		</div>
+		<p class="buttons">
+			<a class='btn bg-editor-button btn-rounded bg-primary-color' data-action-step="<%= stepper.getNext('choose-template') %>">Next Step</a>
+		</p>
+	</div>
+	<div class="done step" data-step="done" data-panel-info="<%= stepper.getLabel('done') %>" data-panel-height="275" data-panel-width="525"
+	    data-panel-title="Post and Page Builder - Help">
+		<h2>You're done!</h2>
+		<p>
+			For guides on exploring the many features of this plugin, please visit our support site:
+			<a class="support-link" target="_blank" href="https://www.boldgrid.com/support/boldgrid-post-and-page-builder/?source=boldgrid-editor_setup">BoldGrid Post &amp; Page Builder</a>.
+			For free support, tips, and tricks try joining our <a target="_blank"
+				href="https://www.facebook.com/groups/BGTeamOrange">User Community</a>.
+		</p>
+		<p class="buttons">
+			<a class='btn bg-editor-button btn-rounded bg-primary-color dismiss'>Okay, Got It!</a>
+		</p>
+	</div>
+</div>

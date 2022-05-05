@@ -1,0 +1,105 @@
+/**
+ * #.# Main layout.
+ */
+ 
+#post-body {
+	max-width: 1000px;
+}
+
+#wpbody-content #dashboard-widgets #postbox-container-1 { /* The main left. */
+	float: left;
+	width: calc( 66.5% - 7.5px);
+}
+
+#wpbody-content #dashboard-widgets #postbox-container-2 { /* The left within the main left. */
+	float:left; width:calc(50% - 7.5px);
+}
+
+#wpbody-content #dashboard-widgets #postbox-container-3 { /* The right within the main left. */
+	float:right; width:calc(50% - 7.5px);
+}
+
+#wpbody-content #dashboard-widgets #postbox-container-4 { /* The main right. */
+	float: right;
+	width: calc( 33.5% - 7.5px );
+}
+
+#wpbody-content #dashboard-widgets #postbox-container-5,
+#wpbody-content #dashboard-widgets #postbox-container-6 { /* The full width at the bottom of the page. */
+	width: 100%;
+}
+
+/* The invoice / cache container is most likely to be empty. Avoid ugly UI, hide it if it's empty. */
+#container6-sortables.empty-container {
+	display: none;
+}
+
+
+/**
+ * Postboxes.
+ */
+
+.postbox {
+	min-width: unset;
+}
+
+#wpbody-content #dashboard-widgets #postbox-container-6 .postbox {
+	width: 303px;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 27px;
+}
+
+
+/**
+ * Postbox content.
+ */
+
+.myinsp-logo {
+	max-height: 40px;
+}
+
+#postbox-container-2 .button:first-of-type {
+	margin-bottom: 5px; /* If "Go to Pages / Posts" buttons stack, ensure there's space between them. */
+}
+
+
+/**
+ * Media queries.
+ */
+
+/* The point the WordPress dashboard hides the left nav. */
+@media screen and (max-width: 782px) {
+	#wpbody-content #dashboard-widgets #postbox-container-2,
+	#wpbody-content #dashboard-widgets #postbox-container-3 {
+		float: none;
+		width: 100%;
+	}
+}
+
+
+/**
+ * #.# Support boxes.
+ *
+ * These are the support links at the bottom of the page.
+ */
+
+.support-boxes li {
+	display: inline-block;
+	background: #f1f1f1;
+	width: 175px;
+	height: 75px;
+	padding: 30px 10px;
+	vertical-align: top;
+	text-align: center;
+}
+
+.support-boxes li:hover {
+	box-shadow: inset 0px 0px 0px 1px #ddd;
+	background: #f8f8f8;
+	cursor: pointer;
+}
+
+#screen-options-wrap .dashicons-editor-help {
+	display: none;
+}

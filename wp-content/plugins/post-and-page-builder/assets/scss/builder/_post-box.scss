@@ -1,0 +1,132 @@
+/**
+* Editor Page overwrites to prevent the bootstrap columns from collapsing early
+* Stretch the outsides of the editor and make the second column narrow
+*/
+
+.folded #wpcontent,
+.folded #wpfooter {
+	margin-left: 20px;
+}
+
+#poststuff #post-body.columns-2 {
+	margin-right: 208px;
+}
+
+#post-body.columns-2 #postbox-container-1 {
+	margin-right: -214px;
+}
+
+#wpcontent,
+#wpfooter {
+	margin-left: 142px;
+}
+
+#post-body.columns-2 #postbox-container-1,
+#poststuff #post-body.columns-2 #side-sortables {
+	width: 210px;
+}
+
+.postbox,
+#post-body.columns-2 #side-sortables {
+	min-width: 210px;
+}
+
+.spinner {
+	margin: 4px 4px 0;
+}
+
+.gridblock-grid-icon,
+.gridblock-icon .wp-media-buttons-icon {
+	background: url('../image/gridblock-icon-white.svg');
+	background-repeat: no-repeat;
+	background-size: 18px 18px;
+	transition-duration: 0.8s;
+	transition-property: transform;
+}
+
+.gridblock-icon:hover .wp-media-buttons-icon {
+	transform: rotate(120deg);
+}
+
+.gridblock-grid-icon {
+	background-size: 100%;
+	display: inline-block;
+	height: 20px;
+	width: 18px;
+}
+
+body.boldgrid-editor-fullscreen {
+	overflow: hidden;
+}
+
+.boldgrid-editor-fullscreen #wp-content-editor-container {
+	position: fixed;
+	top: 34px;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	z-index: 99999;
+}
+
+.boldgrid-editor-fullscreen #content_ifr {
+	width: 100%;
+	position: fixed;
+	z-index: 9999;
+	top: 101px;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	overflow: scroll;
+	max-height: calc(100% - 101px);
+}
+
+.bg-zoom-controls {
+	display: none;
+}
+
+.zoomout {
+	padding: 0;
+	background-color: #3a3a3a;
+}
+
+.zoomout body {
+	transform-origin: top center;
+	transform: scale(0.5);
+	margin-top: 45px !important;
+
+	.gallery-icon {
+		transform: none;
+		backface-visibility: visible;
+	}
+}
+
+.zoomout body.zoom-scale-1 {
+	transform: scale(0.3);
+}
+
+.zoomout body.zoom-scale-2 {
+	transform: scale(0.4);
+}
+
+.zoomout body.zoom-scale-3 {
+	transform: scale(0.5);
+}
+
+.zoomout body.zoom-scale-4 {
+	transform: scale(0.6);
+}
+
+.zoomout body.zoom-scale-5 {
+	transform: scale(0.7);
+}
+
+.zoomout body.zoom-scale-6 {
+	transform: scale(0.8);
+}
+
+@media (max-width: 600px) {
+	.zoomout body {
+		transform: scale(0.8);
+		margin-top: 70px !important;
+	}
+}

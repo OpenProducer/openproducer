@@ -1,0 +1,240 @@
+/** BoldGrid Connect Page Start **/
+.settings_page_boldgrid-connect #container_boldgrid_api_key_notice {
+	background: transparent;
+	box-shadow: none;
+	/* WordPress 5.3 adds notices to borders. */
+	border: 0;
+	width: auto;
+}
+
+.settings_page_boldgrid-connect #container_boldgrid_api_key_notice .dismiss-notification,
+.settings_page_boldgrid-connect #container_boldgrid_api_key_notice .notice-dismiss {
+	display: none;
+}
+.settings_page_boldgrid-connect .connect-key-management {
+	margin: 0;
+	max-width: 590px;
+	padding: 0;
+}
+/** BoldGrid Connect Page End **/
+
+/** div-table classes Start **/
+.div-table {
+	display: table;
+}
+
+.div-table-row {
+	display: table-row;
+}
+
+.div-table-heading {
+	background-color: #EEE;
+	display: table-header-group;
+	font-weight: bold;
+}
+
+.div-tableCell, .div-tableHead {
+	display: table-cell;
+	padding: 3px 10px;
+}
+
+.div-table-foot {
+	background-color: #EEE;
+	display: table-footer-group;
+	font-weight: bold;
+}
+
+.div-table-body {
+	display: table-row-group;
+}
+
+.div-table-contents {
+	display: contents;
+}
+/** div-table classes End **/
+
+.auto-update-settings .toggle {
+	width: 50px;
+}
+
+#settings-notice {
+	display: none;
+}
+
+/* Create an inline spinner. */
+.spinner.inline {
+	float: none;
+	visibility: visible;
+	vertical-align: bottom;
+	margin-left: 0px;
+}
+/* When a spinner ends up flush right to an element, add .spinner-left to give it some left margin. */
+.spinner.spinner-left {
+	margin-left: 5px;
+}
+.spinner.inline.middle {
+	vertical-align: middle;
+}
+.spinner.hidden {
+	display: none;
+}
+
+div .dashicons {
+	vertical-align: bottom;
+}
+
+/* WordPress has .dashicons-before, but not .dashicons-after. */
+.dashicons-before.dashicons-after:before {
+	float: right;
+	margin-top: 0.2em;
+	padding-left: 0.3em;
+}
+
+.dashicons-editor-help {
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+}
+
+.help[data-id] {
+	display: none;
+}
+
+.toggle .toggle-on {
+	background-color: #009CCD;
+}
+
+.bglib-collapsible-control:not(.bglib-collapsible-open) ~ .bglib-collapsible {
+	display: none;
+}
+
+.bglib-collapsible-control .dashicons {
+	transform: rotateZ(0deg);
+}
+
+.bglib-collapsible-open.dashicons-arrow-down-alt2 {
+	transform: rotateZ(-180deg);
+}
+
+.bglib-collapsible-control .dashicons {
+	vertical-align: middle;
+}
+
+.bglib-collapsible-control {
+	cursor: pointer;
+}
+
+.auto-update-settings .div-table-contents::before {
+	content: "";
+	display: table-row;
+	height: 20px;
+}
+
+.bglib-collapsible-control .div-tableCell {
+	border-bottom: 1px solid #e2e4e7;
+	border-top: 1px solid #e2e4e7;
+}
+
+.bglib-collapsible-control h3 {
+	font-size: 13px;
+	font-weight: bold;
+	margin: 12px 0px;
+}
+
+.bglib-collapsible-control:hover {
+	background-color: #f2f2f2;
+}
+
+.bglib-collapsible-control span {
+	right: 0;
+}
+
+.bglib-collapsible-control .div-tableCell:last-of-type {
+	text-align: center;
+}
+
+.bglib-collapsible-control + .div-table-row > .div-tableCell:first-of-type {
+	padding-top: 10px;
+}
+
+
+/*
+ * #.# Misc.
+ */
+
+.boldgrid-font {
+	font-family: 'Josefin Sans';
+	letter-spacing: 0.1em;
+}
+
+/* Hide notices on about page. This is temporary, WordPress 5.3 should be adding this. */
+.about__container .notice {
+	display: none;
+}
+
+
+/*
+ * #.# BoldGrid Orange
+ *
+ * Style various elements with BoldGrid's orange color.
+ *
+ * When replacing various WordPress blues and other colors, here's a list of WordPress colors as
+ * replaced by BoldGrid colors.
+ *
+ * #0085ba / #f95b26
+ * #0073aa / #f84d13
+ * #006799 / #f04207
+ * #66c6e4 / #fcb49c
+ * #008ec2 / #f96a39
+ * #007cb2 / #e05f33
+ * #33b3db / #fa865f
+ */
+
+.boldgrid-orange {
+	color: #f95b26;
+}
+
+.boldgrid-orange-important {
+	color: #f95b26 !important;
+}
+
+.boldgrid-orange-border {
+	border: 1px solid #f95b26;
+}
+
+.wp-core-ui .button.boldgrid-orange {
+	background: #f95b26;
+	border-color: #f84d13 #f04207 #f04207;
+	box-shadow: 0 1px 0 #f04207;
+	text-decoration: none;
+	text-shadow: 0 -1px 1px #f04207, 1px 0 1px #f04207, 0 1px 1px #f04207, -1px 0 1px #f04207;
+}
+
+.wp-core-ui .button.boldgrid-orange:hover {
+	background: #f96a39;
+	border-color: #f04207;
+}
+
+.wp-core-ui .button.boldgrid-orange:focus {
+	box-shadow: 0 1px 0 #f84d13, 0 0 2px 1px #fa865f;
+	background: #f96a39;
+	border-color: #f04207;
+}
+
+.wp-core-ui .button.boldgrid-orange:active {
+	background: #f84d13;
+	border-color: #f04207;
+	box-shadow: inset 0 2px 0 #f04207;
+}
+
+.wp-core-ui .button.boldgrid-orange[disabled] {
+	background: #f96a39 !important;
+    border-color: #e05f33 !important;
+	color: #fcb49c !important;
+}
+
+#boldgrid_rss_widget .rss-date {
+	margin-left: 1em;
+	color: #72777c;
+	font-size: 13px;
+}

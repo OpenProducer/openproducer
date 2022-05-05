@@ -1,0 +1,122 @@
+@mixin pointerOffset () {
+	margin-top: 20px;
+	margin-left: 20px;
+}
+
+#boldgrid-drag-pointer {
+	display: none;
+	position: fixed;
+	border-radius: 50%;
+	top: 10px;
+	left: 10px;
+	background-color: #f95b26;
+	height: 30px;
+	width: 30px;
+	z-index: 999999;
+}
+
+.section-dragging-active #boldgrid-drag-pointer {
+	display: block;
+}
+
+.wp-admin #boldgrid-drag-pointer {
+	@include pointerOffset();
+}
+
+.dragging-section.dragging-gridblock-iframe {
+	body {
+		box-shadow: 0 0 0 5px $boldgrid-color;
+	}
+
+	.delete-icon.delete-icon-wrap {
+		display: none !important;
+	}
+
+	#boldgrid-drag-pointer {
+		@include pointerOffset();
+	}
+}
+
+.dragging-section {
+	cursor: default;
+
+	.boldgrid-section:hover {
+		cursor: move !important;
+	}
+
+	body {
+		overflow: hidden !important;
+		min-height: 800px;
+	}
+
+	.section-drag-element {
+		outline: 2px solid #f95b26;
+	}
+
+	.boldgrid-section {
+		position: relative;
+		border: 0 !important;
+		outline: 0 !important;
+	}
+
+	.boldgrid-section:after {
+		background-color: transparent;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		content: ' ';
+		z-index: 2;
+	}
+
+	.bg-zoom-controls .history-controls  {
+		color: #23282d;
+	}
+
+	.boldgrid-section:before,
+	.boldgrid-section:after  {
+		display: block;
+	}
+
+	.boldgrid-section:hover:after {
+		background-color: rgba(249, 91, 38, 0.75);
+	}
+
+	.boldgrid-section.delete-overlay:before,
+	.boldgrid-section:hover:before {
+		background-color: transparent;
+		content: 'Drag Section';
+		color: #fff;
+		font-size: 33px;
+		font-family: "Open Sans",sans-serif;
+		text-align: center;
+		line-height: 10px;
+		position: absolute;
+		top: 50%;
+		left: 0;
+		z-index: 999;
+		right: 0;
+		transform: translateY(-50%);
+		font-variant: small-caps;
+	}
+
+	.boldgrid-section.delete-overlay:before {
+		content: 'Delete Section';
+	}
+
+	.boldgrid-section.delete-overlay:after {
+		background-color: rgba(255, 0, 0, 0.75);
+	}
+
+	&.dragging-gridblock-iframe .boldgrid-section:hover {
+		&:before,
+		&:after {
+			display: none;
+		}
+	}
+
+	#boldgrid-draggable-resizing-overlay {
+		cursor: move !important;
+	}
+}

@@ -1,0 +1,85 @@
+/*************** Background Panel ********************/
+.editor-panel[data-type='box'] {
+	.my-designs {
+		z-index: 1;
+	}
+
+	.panel-footer {
+		z-index: 2;
+	}
+
+	&.editor-panel,
+	.panel-body {
+		background-color: #ececec;
+	}
+
+	.bg-box {
+		width: 45px;
+		height: 45px;
+		margin: 12px 8px;
+		padding: 0;
+		cursor: pointer;
+		box-sizing: border-box;
+
+		&:before {
+			content: ' ';
+			background-image: url(../image/transparency.png);
+			background-size: 55px;
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			z-index: -1;
+		}
+	}
+
+	.bg-box.box-long {
+		height: 114px;
+	}
+
+	.bg-box.box-wide {
+		width: 106px;
+	}
+
+	.panel-body,
+	.box-design {
+		height: 100%;
+		width: 100%;
+	}
+
+	.back {
+		margin-bottom: 0;
+	}
+
+	.presets {
+		padding-bottom: 45px;
+		font-size: 7px;
+		margin: 0 auto;
+		width: 250px;
+		background-color: rgba( 255,255,255,0.75);
+
+		&.my-designs {
+			padding-bottom: 15px;
+		}
+	}
+
+	.presets .selected {
+		@include selected-preset();
+	}
+
+	.color-controls .title {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+
+	.box-design .customize {
+		display: none;
+	}
+
+	&.customize-open {
+		.slimScrollBar {
+			display: none !important;
+		}
+	}
+}

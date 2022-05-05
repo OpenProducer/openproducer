@@ -1,0 +1,75 @@
+/*************** Button Panel ********************/
+.editor-panel[data-type='button'] {
+	background-color: #eee;
+
+	.panel-body {
+		background-color: #eee;
+		padding: 0;
+
+		.theme-designs {
+			background-color: transparent !important;
+			padding-left: 2px;
+			padding-right: 12px;
+			&.presets {
+				.panel-selection {
+					width: fit-content;
+					:not( .btn-rounded ):not( .btn-pill ) {
+						border-radius: 0;
+					}
+				}
+
+
+			}
+		}
+	}
+
+	&.customize-open,
+	&.customize-open .panel-body {
+		background-color: #fff;
+	}
+
+	.customize div[data-control-name] {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+
+	.presets .panel-selection {
+		width: calc( 48% - 20px );
+		height: auto;
+		background-color: #ccc;
+		padding: 10px;
+		margin: 0;
+		&[data-preset*='btn-block'] {
+			width: calc( 98% - 20px );
+		}
+	}
+
+	.panel-selection > * {
+		max-width: 100%;
+	}
+
+	.presets .selected {
+		position: relative;
+
+		@include selected-preset();
+
+		&::after {
+			top: 2px;
+			right: 0;
+		}
+	}
+
+	.boldgrid-button {
+		text-transform: uppercase;
+	}
+
+	.presets {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+
+	.section.class-control {
+		padding-top: 0;
+		padding-bottom: 8px;
+	}
+}

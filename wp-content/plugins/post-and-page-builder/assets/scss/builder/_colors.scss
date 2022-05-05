@@ -1,0 +1,168 @@
+.editor-panel {
+	input.color-control {
+		display: none;
+	}
+
+	label.color-preview {
+		width: 28px;
+		height: 28px;
+		border-radius: 7px;
+		border: 1px solid #d2d2d2;
+		cursor: pointer;
+		background-color: #333;
+		display: inline-block;
+		position: relative;
+		margin-top: 25px;
+
+		&:before {
+			content: '\f1fc';
+			font: normal normal normal 14px/1 FontAwesome;
+			position: absolute;
+			top: -20px;
+			font-size: 16px;
+			left: 8px;
+		}
+	}
+}
+
+.editor-panel .colors,
+.color-panel .colors {
+	margin-bottom: 0;
+	margin: 0 auto;
+
+	li {
+		height: 25px;
+		width: 25px;
+		display: inline-block;
+		border: 2px solid #e1e1e1;
+		border-radius: 50%;
+		margin: 3px;
+		cursor: pointer;
+		padding: 0;
+
+		&:hover {
+			border-color: $hover-color;
+		}
+	}
+
+	li.selected {
+		border-color: $hover-color;
+	}
+
+	.custom-color {
+		background-color: white;
+		text-align: center;
+		border-color: $hover-color;
+
+		i {
+			color: $hover-color;
+			font-size: 15px;
+			line-height: 25px;
+			padding-left: 1px;
+		}
+
+		&.selected,
+		&:hover {
+			background-color: $hover-color;
+			border-color: $hover-color;
+
+			i {
+				color: white;
+			}
+		}
+	}
+}
+
+.color-panel {
+	display: none;
+	width: 275px;
+	height: auto !important;
+	top: 200px;
+	right: 300px;
+
+	.wp-color-result {
+		display: none;
+	}
+
+	.wp-picker-input-wrap {
+		display: block !important;
+	}
+
+	.wp-picker-container {
+		margin-top: 10px;
+	}
+
+	.panel-title {
+		padding: 15px;
+		background-color: white;
+		color: #333;
+		border-bottom: 1px solid #ececec;
+
+		.close-icon {
+			background-color: #32373c;
+			color: white;
+			right: 15px;
+		}
+	}
+
+	h4 {
+		margin: 10px 0;
+		font-weight: normal;
+	}
+
+	.color-control {
+		padding: 0 7px 15px;
+	}
+
+	.color-picker-wrap {
+		position: relative;
+		text-align: center;
+
+		.default-reset {
+			position: relative;
+			top: 10px;
+		}
+
+		.wp-picker-input-wrap .button {
+			margin: 2px;
+		}
+
+		.wp-picker-input-wrap .button,
+		.boldgrid-color-picker {
+			display: inline-block !important;
+		}
+
+		.iris-picker {
+			margin: 15px auto 0;
+		}
+
+		.links {
+			width: 200px;
+			margin: 3px auto 20px;
+			display: none;
+
+			a {
+				text-decoration: none;
+
+				&.cancel {
+					color: #a00;
+					float: right;
+				}
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+
+	.theme-colors-wrap {
+		border-bottom: 1px solid #f5f5f5;
+		padding-bottom: 10px;
+		margin-bottom: 15px;
+	}
+
+	&[current-selection='custom'] .links {
+		display: block;
+	}
+}

@@ -1,0 +1,210 @@
+[
+    {
+        "name": "boldgrid/bgforms",
+        "version": "1.2.0",
+        "version_normalized": "1.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/BoldGrid/bgforms.git",
+            "reference": "9d42ea73ce0da1b4ee382125a302ee6d1d5757fd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/BoldGrid/bgforms/zipball/9d42ea73ce0da1b4ee382125a302ee6d1d5757fd",
+            "reference": "9d42ea73ce0da1b4ee382125a302ee6d1d5757fd",
+            "shasum": ""
+        },
+        "require": {
+            "boldgrid/library": "^2.0.0"
+        },
+        "time": "2019-12-10T18:02:45+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Boldgrid\\Library\\Form\\": "src/Form"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Joe C",
+                "email": "joec@boldgrid.com",
+                "role": "Developer"
+            },
+            {
+                "name": "Tim Elsass",
+                "email": "dev@tim.ph",
+                "homepage": "http://tim.ph",
+                "role": "Developer"
+            },
+            {
+                "name": "Rafael Ramos",
+                "email": "rafaelh@boldgrid.com",
+                "homepage": "http://rafael-ramos.com",
+                "role": "Developer"
+            },
+            {
+                "name": "bwmarkle",
+                "email": "bradm@boldgrid.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "A composer package for BoldGrid Forms."
+    },
+    {
+        "name": "boldgrid/boldgrid-inspirations-premium",
+        "version": "1.1.1",
+        "version_normalized": "1.1.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/BoldGrid/boldgrid-inspirations-premium.git",
+            "reference": "9be9c5a0ecca2ac3cd0cc571b1517a7cf58a5635"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/BoldGrid/boldgrid-inspirations-premium/zipball/9be9c5a0ecca2ac3cd0cc571b1517a7cf58a5635",
+            "reference": "9be9c5a0ecca2ac3cd0cc571b1517a7cf58a5635",
+            "shasum": ""
+        },
+        "require": {
+            "boldgrid/library": "^2.0.0"
+        },
+        "time": "2020-06-15T13:28:50+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Boldgrid\\Inspirations\\Premium\\": "src/Premium"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Tim Elsass",
+                "email": "dev@tim.ph",
+                "homepage": "http://tim.ph",
+                "role": "Developer"
+            },
+            {
+                "name": "Rafael Ramos",
+                "homepage": "http://rafael-ramos.com",
+                "role": "Developer"
+            },
+            {
+                "name": "Joe",
+                "role": "Developer"
+            },
+            {
+                "name": "bwmarkle",
+                "role": "Developer"
+            }
+        ],
+        "description": "Premium BoldGrid Inspirations Features."
+    },
+    {
+        "name": "boldgrid/library",
+        "version": "2.13.2",
+        "version_normalized": "2.13.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/BoldGrid/library.git",
+            "reference": "9c644ed7dfbd00f050451cc39f2717e4618f7f0b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/BoldGrid/library/zipball/9c644ed7dfbd00f050451cc39f2717e4618f7f0b",
+            "reference": "9c644ed7dfbd00f050451cc39f2717e4618f7f0b",
+            "shasum": ""
+        },
+        "time": "2020-08-12T17:47:34+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Boldgrid\\Library\\Util\\": "src/Util"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Tim Elsass",
+                "email": "dev@tim.ph",
+                "homepage": "http://tim.ph",
+                "role": "Developer"
+            },
+            {
+                "name": "Rafael Ramos",
+                "homepage": "http://rafael-ramos.com",
+                "role": "Developer"
+            },
+            {
+                "name": "Joe Cartonia",
+                "email": "joec@boldgrid.com",
+                "homepage": "https://twitter.com/joemotocss",
+                "role": "Developer"
+            },
+            {
+                "name": "bwmarkle",
+                "role": "Developer"
+            }
+        ],
+        "description": "The BoldGrid Library for shared code used in official BoldGrid plugins and themes."
+    },
+    {
+        "name": "boldgrid/plugin-installer",
+        "version": "1.0.8",
+        "version_normalized": "1.0.8.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/BoldGrid/plugin-installer.git",
+            "reference": "e7aea70857a21037ed38afe8a3dbc687e047d9ff"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/BoldGrid/plugin-installer/zipball/e7aea70857a21037ed38afe8a3dbc687e047d9ff",
+            "reference": "e7aea70857a21037ed38afe8a3dbc687e047d9ff",
+            "shasum": ""
+        },
+        "time": "2020-09-22T17:41:46+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Boldgrid\\Library\\Plugin\\": "src/Plugin"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Joe C",
+                "email": "joec@boldgrid.com",
+                "role": "Developer"
+            },
+            {
+                "name": "Rafael Ramos",
+                "email": "rafaelh@boldgrid.com",
+                "homepage": "http://rafael-ramos.com",
+                "role": "Developer"
+            },
+            {
+                "name": "bwmarkle",
+                "email": "bradm@boldgrid.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "The BoldGrid plugin installer used for official BoldGrid plugins."
+    }
+]

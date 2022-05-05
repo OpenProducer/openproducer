@@ -1,0 +1,151 @@
+#container_boldgrid_api_key_notice:not(.is-dismissible) {
+	display: none;
+}
+
+
+/*
+ * #.# BoldGrid Connect Key icon.
+ *
+ * Styles needed specifically for the key icon.
+ */
+#container_boldgrid_api_key_notice .dashicons {
+	float: left;
+	margin-left: -66px;
+}
+
+#container_boldgrid_api_key_notice .dashicons:before {
+	padding-right: .73em !important;
+	font-size: 58px !important;
+	color: #ff6600;
+}
+
+#container_boldgrid_api_key_notice {
+	width: 563px;
+	padding: 1.4em 1.4em 1.4em 66px;
+}
+
+#container_boldgrid_api_key_notice .change-key,
+#container_boldgrid_api_key_notice .envato-claim-message {
+	margin-top: 20px;
+}
+
+#container_boldgrid_api_key_notice:not([data-notice-state="no-key-added"]) .api-notice,
+#container_boldgrid_api_key_notice .premium-key-active,
+#container_boldgrid_api_key_notice .basic-key-active {
+	display: none;
+}
+
+#container_boldgrid_api_key_notice .basic-key-active .button {
+	margin: 10px 0;
+}
+
+#container_boldgrid_api_key_notice[data-notice-state="premium-key-active"] .premium-key-active,
+#container_boldgrid_api_key_notice[data-notice-state="basic-key-active"] .basic-key-active {
+	display: block;
+}
+
+#container_boldgrid_api_key_notice .boldgridApiKeyLink {
+	margin-top: 10px;
+	display: inline-block;
+}
+
+#container_boldgrid_api_key_notice[data-notice-state="basic-key-active"] .envato-claim-message {
+	padding-left: 0;
+	margin-bottom: 10px;
+}
+
+#container_boldgrid_api_key_notice.success-add-key .tos-box,
+#container_boldgrid_api_key_notice.success-add-key .envato-claim-message {
+	display: none;
+}
+
+#container_boldgrid_api_key_notice.success-add-key .dashicons-admin-network::before {
+	animation-name: tada;
+	animation-duration: 1.5s;
+}
+
+#container_boldgrid_api_key_notice.success-add-key .boldgridApiKeyLink {
+	display: none;
+}
+
+@keyframes tada {
+	from {
+      -webkit-transform: scale3d(1, 1, 1);
+      transform: scale3d(1, 1, 1);
+    }
+
+    10%,
+    20% {
+      -webkit-transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+      transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+    }
+
+    30%,
+    50%,
+    70%,
+    90% {
+      -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+      transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+    }
+
+    40%,
+    60%,
+    80% {
+      -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+      transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+    }
+
+    to {
+      -webkit-transform: scale3d(1, 1, 1);
+      transform: scale3d(1, 1, 1);
+    }
+}
+
+.error-alerts {
+	color: red;
+}
+
+.error-color::before {
+	content: '*';
+	padding-right: 5px;
+}
+.error-color {
+	color: red;
+}
+
+input#boldgrid_api_key {
+	width: 59%;
+}
+
+.keyprompt-mini {
+	padding: 0 !important;
+}
+
+.keyprompt-mini input#boldgrid_api_key {
+	margin-left: 0 !important;
+}
+
+.keyprompt-mini .hidden {
+	display: none;
+}
+
+.keyprompt-mini #boldgrid_api_key_notice_message.error-color {
+	color: #dc3232;
+}
+
+
+/**
+ * #.# After key saved successfully within Dashboard > Settings > BoldGrid Connect.
+ *
+ * On this page, the connect key input form is contained within the BoldGrid Library's UI interface.
+ * To give the, "Your key saved successfully!" message a clean look on the page, we add the
+ * .boldgrid-key-saved class to the body and make the following adjustments.
+ */
+.settings_page_boldgrid-connect.boldgrid-key-saved .bg-key-saved {
+	margin-top: 0px;
+}
+
+.settings_page_boldgrid-connect.boldgrid-key-saved .connect-key-management {
+	background: none;
+	border: none;
+}

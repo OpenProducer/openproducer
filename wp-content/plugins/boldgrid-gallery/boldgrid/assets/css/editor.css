@@ -1,0 +1,25 @@
+.gallery-item.single-image-imhwpb {
+	width: 100%;
+	max-width: 100%;
+}
+
+.gallery.one-line-imhwpb {
+	overflow: hidden;
+	display: flex;
+	width: 100%;
+	max-width: 100%;
+}
+
+.slider3bottomlinks-imhwpb {
+	float: left;
+	width: 33.3333%;
+}
+.slider4bottomlinks-imhwpb {
+	float: left;
+	width: 25%;
+}
+
+.wpview .toolbar div,
+.wpview-wrap .toolbar div {
+	padding: 0;
+}

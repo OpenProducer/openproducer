@@ -1,0 +1,218 @@
+/* Add margin for WordPress filter bar. */
+.plugin-install-php .plugin-install-tab-boldgrid .wp-filter {
+	margin: 12px 0 25px;
+}
+
+/* Plugin Installer Styles */
+.bglib-plugin-installer {
+	box-sizing: border-box;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	flex-flow: row wrap;
+	-webkit-flex-flow: row wrap;
+	justify-content: space-between;
+	width: 102%;
+	position: relative;
+	left: -1%;
+}
+.bglib-plugin-installer::after {
+	content: "";
+	flex: auto;
+}
+.bglib-plugin-installer * {
+	box-sizing: border-box;
+}
+.bglib-plugin-installer .plugin {
+	width: 31.333%;
+	margin: 0 1% 23px;
+	padding: 0;
+	text-align: left;
+	border: 1px solid #e1e1e1;
+	background: #fff;
+	position: relative;
+	border-radius: 2px;
+}
+.bglib-plugin-installer .plugin:hover {
+	border-color: #cecece;
+}
+
+.bglib-plugin-installer .plugin-wrap {
+	padding: 20px 20px 95px 145px;
+	min-height: 214px;
+	display: block;
+	position: relative;
+}
+.bglib-plugin-installer .premium.plugin .plugin-wrap {
+	padding: 20px 20px 115px 145px;
+}
+.bglib-plugin-installer li a,
+.bglib-plugin-installer .plugin-wrap a {
+	text-decoration: none;
+}
+.bglib-plugin-installer .plugin-wrap-left {
+	display: block;
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	max-width: 108px;
+	max-height: 108px;
+	border: 1px solid transparent;
+}
+.bglib-plugin-installer .plugin-wrap-left {
+	display: block;
+	text-align: center;
+}
+.bglib-plugin-installer .plugin-wrap-left img {
+	display: block;
+	width: 100%;
+}
+.bglib-plugin-installer .plugin-wrap h2,
+.bglib-plugin-installer .plugin-wrap p {
+	padding: 0;
+	margin: 0;
+	font-size: 17px;
+	font-weight: 600;
+	color: #333;
+	line-height: 1.4;
+}
+.bglib-plugin-installer .plugin-wrap p {
+	padding: 10px 0 0;
+	margin: 0;
+	font-size: 14px;
+	font-weight: 400;
+	color: #777;
+}
+.bglib-plugin-installer .plugin-wrap p.plugin-author {
+	font-size: 13px;
+	padding-top: 20px;
+	font-style: italic;
+}
+
+.bglib-plugin-installer .activation-row {
+	display: block;
+	margin: 0;
+	padding: 19px 20px 20px 20px;
+	background: #f7f7f7;
+	border-top: 1px solid #e1e1e1;
+	border-radius: 0 0 2px 2px;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	border-radius: 0 0 2px 2px;
+	text-align: left;
+}
+.bglib-plugin-installer .activation-row li:last-child {
+	float: right;
+}
+.bglib-plugin-installer .activation-row li {
+	display: inline-block;
+	vertical-align: top;
+	margin: 0;
+	font-size: 13px;
+	line-height: 27px;
+}
+
+@media screen and (max-width: 1170px) {
+	.bglib-plugin-installer .plugin {
+		width: 48%;
+		margin: 0 1% 15px;
+	}
+}
+@media screen and (max-width: 960px) {
+	.bglib-plugin-installer .plugin-wrap {
+		padding: 20px 20px 95px 115px;
+		min-height: 214px;
+	}
+	.bglib-plugin-installer .plugin-wrap-left {
+		max-width: 78px;
+		max-height: 78px;
+	}
+}
+@media screen and (max-width: 640px) {
+	.bglib-plugin-installer {
+		width: 100%;
+		position: static;
+	}
+	.bglib-plugin-installer .plugin {
+		width: 100%;
+		margin: 0 0 20px;
+	}
+}
+/* Plugin Installer Messages */
+.bglib-plugin-installer .notice:empty {
+	display: none;
+}
+.bglib-plugin-installer .notice {
+	margin: 0;
+}
+
+/* Premium Plugin Styles */
+.plugin-install-tab-boldgrid .premium.plugin .activation-row:before {
+	content: 'Premium Plugin';
+	display: block;
+	width: 100%;
+	height: 17px;
+	background: #262626;
+	background: -moz-linear-gradient(left, #262626 0%, #ffffff 100%);
+	background: -webkit-linear-gradient(left, #262626 0%,#ffffff 100%);
+	background: linear-gradient(to right, #262626 0%,#ffffff 100%);
+	background-size: 100% 100%;
+	border-bottom: 1px solid #e1e1e1;
+	padding: 2px 0px;
+	padding-right: 40px;
+	margin-left: -20px;
+	position: relative;
+	bottom: 20px;
+	left: 0px;
+	color: white;
+	text-transform: uppercase;
+	text-indent: 30px;
+	font-size: 10px;
+	letter-spacing: .1em;
+	font-weight: 400;
+}
+.plugin-install-tab-boldgrid .premium.plugin .activation-row:after {
+	content: ' ';
+	width: 40px;
+	height: 40px;
+	display: block;
+	position: absolute;
+	left: -15px;
+	bottom: 58px;
+	background-size: 37px auto;
+	background: url(../images/bg-seal.png) no-repeat center right;
+}
+@media screen and (max-width: 782px) {
+	.plugin-install-tab-boldgrid .premium.plugin .activation-row:before {
+		text-indent: 33px;
+	}
+	.plugin-install-tab-boldgrid .premium.plugin .activation-row:after {
+		left: -10px;
+		bottom: 64px;
+	}
+}
+
+/* Upgrade Free Key to Premium Key Button */
+.plugin-install-tab-boldgrid .activation-row .button.get-premium {
+	background: #f95b26;
+	border-color: #ff4f13 #f75620 #ff4a0e;
+	-webkit-box-shadow: 0 1px 0 #f75620;
+	box-shadow: 0 1px 0 #f75620;
+	color: #fff;
+	text-decoration: none;
+	text-shadow: 0 -1px 1px #f75620, 1px 0 1px #f75620, 0 1px 1px #f75620, -1px 0 1px #f75620;
+}
+.plugin-install-tab-boldgrid .activation-row .button.get-premium:hover {
+	background: #ed440c;
+}
+
+/* Plugin Information Modal Styles */
+#plugin-information .fyi-description,
+#plugin-information .fyi a[href^="https://wordpress.org/plugins/boldgrid"] {
+	display: none;
+}

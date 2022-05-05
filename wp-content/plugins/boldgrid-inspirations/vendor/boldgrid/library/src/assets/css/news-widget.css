@@ -1,0 +1,28 @@
+#boldgrid_news_widget li {
+	width: calc( 50% - 6px );
+}
+
+#boldgrid_news_widget li:nth-child(odd) {
+	float: left;
+}
+
+#boldgrid_news_widget li:nth-child(even) {
+	float: right;
+}
+
+#boldgrid_news_widget .bglib-featured {
+	width: 100%;
+}
+
+#boldgrid_news_widget .bglib-date {
+	color: #72777c;
+	font-size: .82em;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+#boldgrid_news_widget .bglib-title {
+	/* Same font weight as "WordPress Events and News" titles. */
+	font-weight: 600;
+	margin-top: 0px;
+}

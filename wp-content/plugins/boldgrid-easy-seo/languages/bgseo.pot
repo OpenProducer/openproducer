@@ -1,0 +1,329 @@
+# Copyright (C) 2021 bgseo
+# This file is distributed under the same license as the bgseo package.
+msgid ""
+msgstr ""
+"Project-Id-Version: bgseo\n"
+"Report-Msgid-Bugs-To: https://boldgrid.com\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
+"Language-Team: The BoldGrid Team <support@boldgrid.com>\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: boldgrid-easy-seo.php:81
+msgid "Easy SEO Error: Easy SEO Supports WordPress version 4.0+, and PHP version 5.3+"
+msgstr ""
+
+#: boldgrid-easy-seo.php:88
+msgid "Easy SEO Error: You must have PHP 5.3 or higher and WordPress 4.0 or higher to use this plugin."
+msgstr ""
+
+#: includes/configs/admin.config.php:20
+msgid "Page"
+msgstr ""
+
+#: includes/configs/i18n/content.config.php:5
+msgid "Word Count: %s."
+msgstr ""
+
+#: includes/configs/i18n/content.config.php:7
+msgid "You haven't entered any %1$scontent%2$s yet!  As you start writing your content, we'll make recommendations for better SEO!"
+msgstr ""
+
+#: includes/configs/i18n/content.config.php:12
+msgid "The content should be longer, we recommend %1$sat least 300 words%2$s. Try writing more about the focus keyword phrase of this page."
+msgstr ""
+
+#: includes/configs/i18n/content.config.php:17
+msgid "We recommend a %1$sminimum of 300 words%2$s for the best SEO results."
+msgstr ""
+
+#: includes/configs/i18n/content.config.php:22
+msgid "Your content is over the recommended %1$sminimum of 300 words%2$s, good job!"
+msgstr ""
+
+#: includes/configs/i18n/content.config.php:34
+msgid "You haven't used your %1$skeyword phrase in your content%2$s at all.  Try adding it naturally by talking about the subject more."
+msgstr ""
+
+#: includes/configs/i18n/content.config.php:39
+msgid "Your %1$skeyword phrase is being used in your content%2$s, but we recommend using it at least 1 time."
+msgstr ""
+
+#: includes/configs/i18n/content.config.php:45
+msgid "Your %1$skeyword phrase is being used in your content%2$s, but we recommend using it at least %%s times."
+msgstr ""
+
+#: includes/configs/i18n/content.config.php:51
+msgid "Your %1$skeyword phrase appears excessively in your content%2$s.  Try to only use it 1 time and use other words and variations that are related to it."
+msgstr ""
+
+#: includes/configs/i18n/content.config.php:56
+msgid "Your %1$skeyword phrase appears excessively in your content%2$s.  Try to only use it %%s times and use other words and variations that are related to it."
+msgstr ""
+
+#: includes/configs/i18n/content.config.php:61
+msgid "Great, you have included the %1$skeyword in your content%2$s at least 1 time. This helps get you a better SEO score!"
+msgstr ""
+
+#: includes/configs/i18n/content.config.php:66
+msgid "Great, you have included the %1$skeyword phrase in your content%2$s at least %%s times. This helps get you a better SEO score!"
+msgstr ""
+
+#: includes/configs/i18n/headings.config.php:5
+msgid "It looks like this post is using %1$sonly one H1 tag%2$s! Good job!"
+msgstr ""
+
+#: includes/configs/i18n/headings.config.php:10
+msgid "This post has %1$smore than one H1 tag%2$s which can negatively impact your SEO.  You should try to only have one H1 on your page."
+msgstr ""
+
+#: includes/configs/i18n/headings.config.php:14
+msgid "This post has %1$smore than one H1 tag%2$s.  Unchecking the %3$s\"Display page title\"%4$s box at the top of this page will remove an H1 from your page."
+msgstr ""
+
+#: includes/configs/i18n/headings.config.php:21
+msgid "Your page %1$sdoesn't have any H1 tags%2$s on it, you should considering adding one that includes your target keyword!"
+msgstr ""
+
+#: includes/configs/i18n/headings.config.php:28
+msgid "Your %1$skeyword appears in your H1 and H2 tags%2$s, which is good for your search engine optimization!"
+msgstr ""
+
+#: includes/configs/i18n/headings.config.php:33
+msgid "You have not %1$sused your keyword in any H1 or H2 tags%2$s.  You should try to include this at least once."
+msgstr ""
+
+#: includes/configs/i18n/headings.config.php:38
+msgid "The %1$skeyword appears too much in your H1 and H2 tags%2$s."
+msgstr ""
+
+#: includes/configs/i18n/image.config.php:5
+msgid "Your article %1$scontains at least one image%2$s, which is great for SEO, awesome!"
+msgstr ""
+
+#: includes/configs/i18n/image.config.php:10
+msgid "Try adding %1$sat least one image%2$s that's relevant to your content's topic to further optimize your page."
+msgstr ""
+
+#: includes/configs/i18n/keywords.config.php:5
+msgid "Based on your content and frequency, search engines will likely think your content is about"
+msgstr ""
+
+#: includes/configs/i18n/keywords.config.php:6
+msgid "Set a new target keyword below, and the dashboard will be updated with new stats!"
+msgstr ""
+
+#: includes/configs/i18n/keywords.config.php:15
+msgid "Great, you've entered a %1$skeyword phrase%2$s for the focus of your content!"
+msgstr ""
+
+#: includes/configs/i18n/keywords.config.php:20
+msgid "It looks like you have entered a single word for the keyword.  We recommend adding a %1$skeyword phrase%2$s instead of a single word for better results."
+msgstr ""
+
+#: includes/configs/i18n/keywords.config.php:25
+msgid "You haven't entered a %1$skeyword phrase%2$s for the focus of this content.  This helps guide you in writing better optimized content!"
+msgstr ""
+
+#: includes/configs/i18n/noFollow.config.php:4
+msgid "Great, your links are set to %1$sfollow%2$s for search engines!"
+msgstr ""
+
+#: includes/configs/i18n/noFollow.config.php:9
+msgid "Your links are set to %1$snofollow%2$s for search engines!"
+msgstr ""
+
+#: includes/configs/i18n/noIndex.config.php:4
+msgid "This article is set to %1$sindex%2$s, so it is being indexed by search engines!"
+msgstr ""
+
+#: includes/configs/i18n/noIndex.config.php:9
+msgid "This page is set to %1$snoindex%2$s, so it is being blocked from search engine indexing!"
+msgstr ""
+
+#: includes/configs/i18n/readingEase.config.php:3
+msgid "Score: %s%."
+msgstr ""
+
+#: includes/configs/i18n/readingEase.config.php:4
+msgid "Your content's readability is looking great! It's very easy to understand by the majority of readers!"
+msgstr ""
+
+#: includes/configs/i18n/readingEase.config.php:5
+msgid "The readability of your content is easy to understand by most readers! Awesome!"
+msgstr ""
+
+#: includes/configs/i18n/readingEase.config.php:6
+msgid "Your content is pretty easy to understand by most readers."
+msgstr ""
+
+#: includes/configs/i18n/readingEase.config.php:7
+msgid "The readability of this content is okay, but could use some improvements to reach a wider audience."
+msgstr ""
+
+#: includes/configs/i18n/readingEase.config.php:8
+msgid "Your content is pretty hard to read, so you should try to simplify it."
+msgstr ""
+
+#: includes/configs/i18n/readingEase.config.php:9
+msgid "The content is hard to read. Try shortening some sentences and using less complex wording to improve this score."
+msgstr ""
+
+#: includes/configs/i18n/readingEase.config.php:10
+msgid "The text here is very hard to read, and is best understood by university graduates.  You should consider making your sentences shorter and using easier words for people to understand."
+msgstr ""
+
+#: includes/configs/i18n/seoDescription.config.php:5
+msgid "Your custom %1$sSEO Description%2$s is empty!  Try adding a description with your focus keyword phrase."
+msgstr ""
+
+#: includes/configs/i18n/seoDescription.config.php:10
+msgid "Your custom %1$sSEO Description%2$s is over the 300 character recommended length, you should consider making it shorter."
+msgstr ""
+
+#: includes/configs/i18n/seoDescription.config.php:15
+msgid "You should make your %1$sSEO Description%2$s longer!  We recommend 125-300 characters for the best results."
+msgstr ""
+
+#: includes/configs/i18n/seoDescription.config.php:20
+msgid "Your %1$sSEO Description%2$s looks great, and is optimized for search engines!"
+msgstr ""
+
+#: includes/configs/i18n/seoDescription.config.php:31
+msgid "Try incorporating your focus keyword phrase to your custom %1$sSEO Description%2$s for better optimization!"
+msgstr ""
+
+#: includes/configs/i18n/seoDescription.config.php:36
+msgid "Your focus keyword phrase is used too frequently in your %1$sSEO Description%2$s.  You should try removing some of the references."
+msgstr ""
+
+#: includes/configs/i18n/seoDescription.config.php:41
+msgid "The %1$sSEO Description%2$s is properly optimized by using your focus keyword phrase!  Good job!"
+msgstr ""
+
+#: includes/configs/i18n/seoDescription.config.php:47, includes/configs/i18n/seoTitle.config.php:47
+msgid "Your title makes use of a stop word.  We don't recommend using these as they can negatively imapct your SEO efforts"
+msgstr ""
+
+#: includes/configs/i18n/seoDescription.config.php:48, includes/configs/i18n/seoTitle.config.php:48
+msgid "Your title doesn't use any stop words that will negatively impact your SEO ranking! Good Job!"
+msgstr ""
+
+#: includes/configs/i18n/seoTitle.config.php:5
+msgid "You haven't entered a custom %1$sSEO Title%2$s to your page, you should consider adding one."
+msgstr ""
+
+#: includes/configs/i18n/seoTitle.config.php:10
+msgid "Your custom %1$sSEO Title%2$s is longer than the recommended 70 characters, you should consider making it shorter."
+msgstr ""
+
+#: includes/configs/i18n/seoTitle.config.php:15
+msgid "We suggest making your %1$sSEO Title%2$s at least 30 characters."
+msgstr ""
+
+#: includes/configs/i18n/seoTitle.config.php:20
+msgid "Your %1$sSEO Title%2$s is a good length, and optimized for search engines!"
+msgstr ""
+
+#: includes/configs/i18n/seoTitle.config.php:31
+msgid "You should try to use your focus keyword phrase at least one time in your %1$sSEO Title%2$s."
+msgstr ""
+
+#: includes/configs/i18n/seoTitle.config.php:36
+msgid "It’s great you’ve used the focus keyword phrase in your %1$sSEO Title%2$s, but you should try to only use that one time."
+msgstr ""
+
+#: includes/configs/i18n/seoTitle.config.php:41
+msgid "Your %1$sSEO Title%2$s is optimized by using your focus keyword phrase!"
+msgstr ""
+
+#: includes/configs/i18n/stopWords.config.php:2
+msgid "a,about,above,after,again,against,all,am,an,and,any,are,aren't,as,at,be,because,been,before,being,below,between,both,but,by,can,can't,cannot,could,couldn't,did,didn't,do,does,doesn't,doing,don't,down,during,each,every,few,for,from,further,had,hadn't,has,hasn't,have,haven't,having,he,he'd,he'll,he's,her,here,here's,hers,herself,him,himself,his,how,how's,i,i'd,i'll,i'm,i've,if,in,into,is,isn't,it,it's,its,itself,let's,me,more,most,mustn't,my,myself,no,nor,not,of,off,on,once,only,or,other,ought,our,ours,ourselves,out,over,own,same,shan't,she,she'd,she'll,she's,should,shouldn't,so,some,such,than,that,that's,the,their,theirs,them,themselves,then,there,there's,these,they,they'd,they'll,they're,they've,this,those,through,to,too,under,until,up,very,was,wasn't,we,we'd,we'll,we're,we've,were,weren't,what,what's,when,when's,where,where's,which,while,who,who's,whom,why,why's,with,won't,would,wouldn't,you,you'd,you'll,you're,you've,your,yours,yourself,yourselves"
+msgstr ""
+
+#: includes/configs/meta-box.config.php:12
+msgid "Easy SEO"
+msgstr ""
+
+#: includes/configs/meta-box.config.php:19
+msgid "Keyword Phrase"
+msgstr ""
+
+#: includes/configs/meta-box.config.php:23
+msgid "Title & Description"
+msgstr ""
+
+#: includes/configs/meta-box.config.php:27
+msgid "Search Visibility"
+msgstr ""
+
+#: includes/configs/meta-box.config.php:45
+msgid "SEO Title"
+msgstr ""
+
+#: includes/configs/meta-box.config.php:46
+msgid "This is very important for search engines.  The SEO Title is what usually shows as the link to your page in a Search Engine Results Page (SERP)."
+msgstr ""
+
+#: includes/configs/meta-box.config.php:57
+msgid "SEO Description"
+msgstr ""
+
+#: includes/configs/meta-box.config.php:58
+msgid "Typically what will show in a Search Engine Results Page (SERP).  This is important, but secondary to your SEO Title."
+msgstr ""
+
+#: includes/configs/meta-box.config.php:67
+msgid "Tell search engines to read and index this page"
+msgstr ""
+
+#: includes/configs/meta-box.config.php:69
+msgid "Yes ( index )"
+msgstr ""
+
+#: includes/configs/meta-box.config.php:70
+msgid "No ( noindex )"
+msgstr ""
+
+#: includes/configs/meta-box.config.php:72
+msgid "Setting this to index means that search engines are encouraged to show your website in their search results."
+msgstr ""
+
+#: includes/configs/meta-box.config.php:77
+msgid "Tell search engines to follow links in this page"
+msgstr ""
+
+#: includes/configs/meta-box.config.php:79
+msgid "Yes ( follow )"
+msgstr ""
+
+#: includes/configs/meta-box.config.php:80
+msgid "No ( nofollow )"
+msgstr ""
+
+#: includes/configs/meta-box.config.php:82
+msgid "Having this set to follow means that search engines are able to count and follow where your links go to."
+msgstr ""
+
+#: includes/configs/meta-box.config.php:90
+msgid "Tell search engines that another page should be read/indexed in place of this page"
+msgstr ""
+
+#: includes/configs/meta-box.config.php:91
+msgid "This is called the canonical URL. We recommend that you leave this field empty, so it will use the default permalink."
+msgstr ""
+
+#: includes/configs/meta-box.config.php:105
+msgid "Target Keyword or Phrase"
+msgstr ""
+
+#: includes/configs/meta-box.config.php:106
+msgid "This should be what the main focus of this page or post is about."
+msgstr ""

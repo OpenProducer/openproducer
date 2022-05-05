@@ -1,0 +1,60 @@
+.attachment  {
+	width: 333px !important;
+}
+.wp-core-ui .attachment .thumbnail .centered {
+	transform: translate(-28%, -29%);
+}
+
+.centered-content-boldgrid {
+	transform: scale(.6);
+	padding: 0 0;
+	height: 500px;
+	width: 500px;
+}
+
+.boldgrid-markup-container {
+	background-color: transparent;
+}
+
+.boldgrid-markup-container .centered-content-boldgrid {
+	transform: translate(-24%, -24%) scale(.5);
+}
+
+.media-sidebar  label {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#instance-options-boldgrid, #tabindex-wrapper-boldgrid {
+	padding: 15px 0 15px 0;
+}
+
+.inputgroup-boldgrid {
+	padding-top: 3px;
+}
+
+.editform-link {
+	margin-bottom: 5px;
+}
+
+.boldgrid-markup-container {
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+#advanced-options {
+	padding-bottom: 10px;
+}
+
+#advanced-options,
+.ajax-enable-boldgrid {
+	display: none;
+}
+
+.wp-core-ui .attachment {
+	text-align: left;
+}

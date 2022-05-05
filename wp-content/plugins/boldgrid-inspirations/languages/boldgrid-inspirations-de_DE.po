@@ -1,0 +1,1996 @@
+# Copyright (C) 2019 BoldGrid <support@boldgrid.com>
+# This file is distributed under the same license as the BoldGrid Inspirations plugin.
+# Translators:
+# Brad Markle <bradm@boldgrid.com>, 2019
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: BoldGrid Inspirations 2.0.0-rc.2\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/boldgrid-inspirations\n"
+"POT-Creation-Date: 2019-04-10T08:24:12-04:00\n"
+"PO-Revision-Date: 2019-04-11 12:15+0000\n"
+"Last-Translator: Brad Markle <bradm@boldgrid.com>, 2019\n"
+"Language-Team: German (https://www.transifex.com/boldgrid/teams/70819/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: boldgrid-inspirations\n"
+"X-Generator: WP-CLI 2.0.1\n"
+
+#. Plugin Name of the plugin
+msgid "BoldGrid Inspirations"
+msgstr "BoldGrid Inspirations"
+
+#. Plugin URI of the plugin
+msgid "https://www.boldgrid.com/boldgrid-inspirations/"
+msgstr "https://www.boldgrid.com/boldgrid-inspirations/"
+
+#. Description of the plugin
+msgid ""
+"Find inspiration, customize, and launch! BoldGrid Inspirations includes FREE"
+" WordPress themes and is the easiest way to launch a new WordPress site "
+"complete with custom content."
+msgstr ""
+"Finden Sie Inspiration, personalisieren und starten Sie Ihre Seite! BoldGrid"
+" Inspiration beinhaltet kostenfreie WordPress-Themen und ist der einfachste "
+"Wege, eine neue WordPress-Seite vollständig mit individuellem Inhalt zu "
+"starten."
+
+#. Author of the plugin
+msgid "BoldGrid <support@boldgrid.com>"
+msgstr "BoldGrid <support@boldgrid.com>"
+
+#. Author URI of the plugin
+msgid "https://www.boldgrid.com/"
+msgstr "https://www.boldgrid.com/"
+
+#: pages/boldgrid-dashboard-first-time-users.php:9
+msgid "Creating a site with BoldGrid is done in 3 steps:"
+msgstr "Die Erstellung einer Website mit BoldGrid erfolgt in 3 Schritten:"
+
+#. translators: 1 A complete anchor tag (both opening and closing tag) linking
+#. to Inspirations within the dashboard.
+#: pages/boldgrid-dashboard-first-time-users.php:34
+msgid ""
+"Go to %1$s to install your starter website and pages typical for your "
+"industry."
+msgstr ""
+"Gehen Sie zu %1$s, um Ihre Starter-Website und die für Ihre Branche "
+"typischen Seiten zu installieren."
+
+#: pages/boldgrid-dashboard-first-time-users.php:43
+msgid "Customize"
+msgstr "Individuell anpassen"
+
+#. translators: 1 A complete anchor tag (both opening and closing tag) linking
+#. to the Customizer.
+#: pages/boldgrid-dashboard-first-time-users.php:50
+msgid ""
+"%1$s site wide settings like business name, colors, menus and content in "
+"your header and footer."
+msgstr ""
+"%1$s seitenweite Einstellungen wie Firmenname, Farben, Menüs und Inhalte in "
+"Ihrer Kopf- und Fußzeile."
+
+#: pages/boldgrid-dashboard-first-time-users.php:59
+msgid "Pages"
+msgstr "Seiten"
+
+#. translators: 1 a complete anchor tag (both opening and closing tag) linking
+#. to Dashboard > Pages.
+#: pages/boldgrid-dashboard-first-time-users.php:66
+msgid "Edit your %1$s to add your content and photos."
+msgstr ""
+"Bearbeiten Sie Ihre %1$s, um Ihren Inhalt und Ihre Fotos hinzuzufügen."
+
+#. translators: 1 opening anchor tag linking to BoldGrid support center, 2
+#. closing anchor tag.
+#: pages/boldgrid-dashboard-first-time-users.php:76
+msgid ""
+"Watching the video above is recommended.  You can also visit our %1$s "
+"support center %2$s to learn more."
+msgstr ""
+"Es wird empfohlen, sich das obige Video anzusehen.  Sie können auch unser "
+"%1$s Support-Center %2$s besuchen, um mehr zu erfahren."
+
+#: pages/boldgrid-dashboard-first-time-users.php:85
+#: pages/boldgrid-dashboard-advanced-wp-users.php:48
+msgid "Learn More"
+msgstr "Erfahren Sie mehr"
+
+#: pages/boldgrid-dashboard-first-time-users.php:94
+msgid "Get Started"
+msgstr "Legen Sie los"
+
+#: pages/boldgrid-inspirations.php:17
+msgid "Add Functionality"
+msgstr "Funktionalität hinzufügen"
+
+#: pages/boldgrid-inspirations.php:18
+#: includes/class-boldgrid-inspirations-blog.php:51
+#: includes/class-boldgrid-inspirations-blog.php:56
+#: includes/class-boldgrid-inspirations-blog.php:70
+#: includes/class-boldgrid-inspirations-my-inspiration.php:249
+msgid "Blog"
+msgstr "Blog"
+
+#: pages/boldgrid-inspirations.php:19
+#: pages/includes/boldgrid-inspirations/menu.php:32
+msgid "Design"
+msgstr "Design"
+
+#: pages/boldgrid-inspirations.php:20
+#: pages/includes/boldgrid-inspirations/menu.php:38
+msgid "Content"
+msgstr "Inhalt"
+
+#: pages/boldgrid-inspirations.php:21
+msgid "Coin Budget"
+msgstr "Münzstand"
+
+#: pages/boldgrid-inspirations.php:22 pages/cart.php:73
+#: pages/templates/attachment_details.php:111
+#: pages/templates/transaction_history.php:13
+#: pages/templates/transaction_history.php:47
+#: includes/class-boldgrid-inspirations-built.php:591
+msgid "Coins"
+msgstr "Coins"
+
+#: pages/boldgrid-inspirations.php:23
+msgid "Install a sample blog."
+msgstr "Einen Beispiel-Blog einrichten."
+
+#: pages/boldgrid-inspirations.php:24
+msgid "Pageset"
+msgstr "Pageset"
+
+#: pages/boldgrid-inspirations.php:25
+msgid "Free"
+msgstr "Kostenlos"
+
+#: pages/boldgrid-inspirations.php:26
+msgid "Enter desktop preview mode"
+msgstr "Desktop-Vorschaumodus einschalten"
+
+#: pages/boldgrid-inspirations.php:27
+msgid "Enter tablet preview mode"
+msgstr "In den Vorschaumodus für Tablets wechseln"
+
+#: pages/boldgrid-inspirations.php:28
+msgid "Enter mobile preview mode"
+msgstr "Mobilen Vorschaumodus einschalten"
+
+#. translators: 1 opening strong tag, 2 closing strong tag.
+#: pages/boldgrid-inspirations.php:29
+#: pages/includes/boldgrid-inspirations/contact.php:11
+msgid "Next"
+msgstr "Weiter"
+
+#: pages/boldgrid-inspirations.php:30
+#: pages/includes/boldgrid-inspirations/menu.php:26
+msgid "Welcome"
+msgstr "Willkommen"
+
+#: pages/boldgrid-inspirations.php:114
+msgid "Just 3 Simple Steps to Get Started:"
+msgstr "Nur 3 einfache Schritte zum Einstieg:"
+
+#: pages/boldgrid-inspirations.php:120
+msgid "Choose a theme design"
+msgstr "Wählen Sie ein Design-Theme"
+
+#: pages/boldgrid-inspirations.php:129
+msgid "Choose page options"
+msgstr "Seitenoptionen auswählen"
+
+#: pages/boldgrid-inspirations.php:138
+msgid "Enter Essential info"
+msgstr "Nötige Informationen eingeben"
+
+#. translators: 1 Opening span tag which will surround "Install", 2 its
+#. closing span tag.
+#: pages/boldgrid-inspirations.php:151
+msgid ""
+"Click %1$sInstall%2$s and you're ready to customize and design with our "
+"intuitive interface."
+msgstr ""
+"Mit einem Klick auf %1$sinstallieren%2$s sind Sie bereit, über unsere "
+"intuitive Benutzeroberfläche benutzerdefinierte Änderungen vorzunehmen und "
+"Designs zu entwerfen."
+
+#: pages/boldgrid-inspirations.php:158
+msgid ""
+"Don't worry, if you make a mistake or change your mind, you can start over "
+"with a single click!"
+msgstr ""
+"Keine Sorge, wenn Sie einen Fehler machen oder Ihre Meinung ändern, können "
+"Sie mit einem einzigen Klick von vorne anfangen!"
+
+#: pages/boldgrid-inspirations.php:168
+msgid ""
+"Inspirations is a tool to inspire and create. Choose from a large repository"
+" of themes, use demo content as a start or make your own with the easy to "
+"use design tools. Customize to your heart's content and add useful plugin "
+"functionality. Publish and be proud of your new site."
+msgstr ""
+"Inspirations ist ein Tool für Inspirationen und zum Erstellen. Wählen Sie "
+"aus einem großen Repertoire an Themes, nutzen Sie für den Anfang Demo-"
+"Inhalte oder erstellen Sie mit den benutzerfreundlichen Design-Tools Ihre "
+"eigenen. Passen Sie alles individuell an und fügen Sie nützliche Plugin-"
+"Funktionen hinzu. Veröffentlichen Sie Ihre neue Seite und seien Sie stolz "
+"darauf."
+
+#: pages/boldgrid-inspirations.php:172
+msgid "Let's Get Started!"
+msgstr "Lassen Sie uns beginnen!"
+
+#: pages/boldgrid-inspirations.php:188
+msgid "Customize > Change Themes"
+msgstr "Anpassen > Themes ändern"
+
+#: pages/boldgrid-inspirations.php:188
+msgid "Appearance > Change Themes"
+msgstr "Darstellung > Themen ändern"
+
+#: pages/boldgrid-inspirations.php:191
+msgid "Content Check Warning"
+msgstr "Warnung zur Inhaltsprüfung"
+
+#: pages/boldgrid-inspirations.php:192
+msgid ""
+"We see that you have some content on your site already.  If you complete "
+"this process any existing pages and posts will be put in the \"Trash\" "
+"(recoverable).  Existing images will stay in your Media Library.  Your "
+"current theme will be deactivated but not removed."
+msgstr ""
+"Wir sehen, dass Sie bereits einige Inhalte auf Ihrer Website haben.  Wenn "
+"Sie diesen Prozess abschließen, werden alle vorhandenen Seiten und Beiträge "
+"in den \"Papierkorb\" (wiederherstellbar) gelegt.  Bestehende Bilder bleiben"
+" in Ihrer Medienbibliothek.  Ihr aktuelles Design wird deaktiviert, aber "
+"nicht entfernt."
+
+#: pages/boldgrid-inspirations.php:194
+msgid "Please check the box to continue."
+msgstr "Bitte aktivieren Sie das Kontrollkästchen, um fortzufahren."
+
+#: pages/boldgrid-inspirations.php:195
+msgid "Confirm you wish to replace your current website."
+msgstr "Bestätigen Sie, dass Sie Ihre aktuelle Website ersetzen möchten."
+
+#: pages/boldgrid-inspirations.php:197
+msgid "I Understand - Continue"
+msgstr "Ich verstehe - Fortfahren"
+
+#. translators: 1 The text, "Appearance > Change Themes".
+#: pages/boldgrid-inspirations.php:202
+msgid "To change just your theme and keep your content, go to %1$s."
+msgstr ""
+"Um nur das Theme zu ändern und den Inhalt zu behalten, gehen Sie zu %1$s."
+
+#: pages/boldgrid-inspirations.php:217
+#: pages/templates/boldgrid-inspirations.php:6
+msgid "All"
+msgstr "Alle"
+
+#: pages/boldgrid-inspirations.php:220
+msgid "Show All"
+msgstr "Alles anzeigen"
+
+#: pages/boldgrid-inspirations.php:222
+msgid "Filter Themes"
+msgstr "Themes filtern"
+
+#: pages/boldgrid-inspirations.php:231
+msgid ""
+"Choose a theme to start your design. A theme sets the basics of layout, type"
+" and colors but you can customize each once you start designing."
+msgstr ""
+"Wählen Sie ein Theme, um mit dem Entwerfen zu beginnen. Ein Theme bestimmt "
+"über das grundlegende Layout, die Schrift sowie Farben, aber Sie können all "
+"das anpassen, sobald Sie mit dem Entwerfen beginnen."
+
+#: pages/boldgrid-inspirations.php:244
+msgid "Change Content"
+msgstr "Inhalt ändern"
+
+#: pages/boldgrid-inspirations.php:265
+msgid ""
+"Choose the basic pages you wish to start with and any additional "
+"functionality."
+msgstr ""
+"Wählen Sie die grundlegenden Seiten aus, mit denen Sie beginnen möchten, und"
+" fügen Sie bei Bedarf zusätzliche Funktionen hinzu."
+
+#: pages/boldgrid-inspirations.php:287
+#: pages/includes/boldgrid-inspirations/contact.php:4
+msgid "Back"
+msgstr "Zurück"
+
+#: pages/cart.php:56
+msgid "Page coin cost"
+msgstr "Seite Münzkosten"
+
+#: pages/cart.php:240
+msgid "Your Copyright Coin balance"
+msgstr "Ihre Copyright-Münzstand"
+
+#: pages/cart.php:245
+msgid "Total coin cost"
+msgstr "Gesamte Münzkosten"
+
+#. translators: 1 opening anchor tag, a link to purchase more coins. 2 The
+#. closing anchor tag.
+#: pages/cart.php:265
+msgid ""
+"Whoops! It looks like you'll need more Coins for this transaction. You can "
+"remove images or %1$sPurchase More Coins%2$s."
+msgstr ""
+"Hoppla! Es sieht so aus, als bräuchten Sie mehr Münzen für diese "
+"Transaktion. Sie können Bilder entfernen oder %1$sMehr Münzen Kaufen%2$s."
+
+#: pages/cart.php:285
+msgid "Lost your BoldGrid Connect Key?"
+msgstr "Haben Sie Ihren BoldGrid Connect Key verloren?"
+
+#. translators: 1 a link to the BoldGrid TOS, 2 a link to the 123RF TOS.
+#: pages/cart.php:293
+msgid "I agree to the %1$s and %2$s Terms and Conditions."
+msgstr "Ich stimme den Allgemeinen Geschäftsbedingungen von %1$s und %2$s zu."
+
+#: pages/cart.php:309
+msgid "Purchase More Coins"
+msgstr "Mehr Münzen kaufen"
+
+#: pages/cart.php:316
+msgid "Purchase for Publishing"
+msgstr "Kauf für Publishing"
+
+#: pages/cart.php:333
+msgid "There are currently no assets needing purchase."
+msgstr "Es gibt derzeit keine Vermögen, die gekauft werden müssen."
+
+#: pages/deploy.php:71
+msgid "Installing..."
+msgstr "Installieren..."
+
+#: pages/includes/post_submitbox_misc_actions_auto_add_to_menu.php:12
+msgid "In menu"
+msgstr "Im Menü"
+
+#: pages/includes/post_submitbox_misc_actions_auto_add_to_menu.php:14
+#: includes/class-boldgrid-inspirations-my-inspiration.php:274
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: pages/includes/post_submitbox_misc_actions_auto_add_to_menu.php:19
+msgid "OK"
+msgstr "OK"
+
+#: pages/includes/post_submitbox_misc_actions_auto_add_to_menu.php:20
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: pages/includes/browse_category.php:9
+msgid "Choose Your Category"
+msgstr "Wählen Sie Ihre Kategorie"
+
+#: pages/includes/browse_category.php:15
+#: pages/templates/boldgrid-inspirations.php:58
+#: pages/templates/feedback-widget.php:14
+#: pages/templates/feedback-widget.php:48
+#: pages/templates/feedback-notice-1-1.php:18
+#: pages/templates/feedback-notice-1-1.php:60
+#: includes/class-boldgrid-inspirations-built.php:601
+msgid "Select"
+msgstr "Auswählen"
+
+#: pages/includes/boldgrid-inspirations/contact.php:3
+msgid "Address"
+msgstr "Addresse"
+
+#: pages/includes/boldgrid-inspirations/contact.php:5
+msgid "This information can be edited later."
+msgstr "Diese Informationen können später bearbeitet werden."
+
+#: pages/includes/boldgrid-inspirations/contact.php:6
+msgid "Company Name / Site Title"
+msgstr "Name des Unternehmens / Überschrift der Seite"
+
+#: pages/includes/boldgrid-inspirations/contact.php:7
+msgid "Do not display"
+msgstr "Nicht anzeigen"
+
+#: pages/includes/boldgrid-inspirations/contact.php:8
+msgid "Email"
+msgstr "E-Mail"
+
+#. translators: 1 opening strong tag, 2 closing strong tag.
+#: pages/includes/boldgrid-inspirations/contact.php:10
+msgid ""
+"%1$sOPTIONAL:%2$s The information you provide below will be used to populate"
+" contact information and social media icons throughout your BoldGrid "
+"website."
+msgstr ""
+"%1$sOPTIONAL:%2$s Die Informationen, die Sie hier bereitstellen, werden "
+"verwendet, um Kontaktinformationen und Social-Media-Icons auf Ihrer "
+"BoldGrid-Website auszufüllen."
+
+#: pages/includes/boldgrid-inspirations/contact.php:12
+msgid "Phone"
+msgstr "Telefon"
+
+#: pages/includes/boldgrid-inspirations/contact.php:13
+msgid "Show fewer"
+msgstr "Weniger anzeigen"
+
+#: pages/includes/boldgrid-inspirations/contact.php:14
+msgid "Show more"
+msgstr "Mehr anzeigen"
+
+#: pages/includes/boldgrid-inspirations/contact.php:15
+msgid "Social Media"
+msgstr "Soziale Medien"
+
+#: pages/includes/boldgrid-inspirations/contact.php:16
+msgid "Please enter a valid email address."
+msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+
+#: pages/includes/boldgrid-inspirations/contact.php:107
+msgid "Finish and Install"
+msgstr "Fertigstellen und Installieren"
+
+#: pages/includes/boldgrid-inspirations/menu.php:44
+msgid "Essentials"
+msgstr "Grundlegendes"
+
+#: pages/includes/boldgrid-inspirations/menu.php:50
+msgid "Finish"
+msgstr "Beenden"
+
+#: pages/includes/boldgrid-inspirations/menu.php:57
+msgid "Toggle full screen"
+msgstr "Vollbild beenden"
+
+#: pages/includes/boldgrid-inspirations/menu.php:58
+msgid "Dismiss this notice."
+msgstr "Den Hinweis verwerfen."
+
+#: pages/includes/cart_header.php:27
+msgid "Available Balance"
+msgstr "Verfügbares Guthaben"
+
+#: pages/includes/cart_header.php:34
+msgid "Receipts / Transaction History"
+msgstr "Belege/Transaktionshistorie"
+
+#: pages/includes/cart_header.php:36
+msgid "Cart / Checkout"
+msgstr "Einkaufswagen / Kasse"
+
+#: pages/includes/cart_header.php:38
+#: includes/class-boldgrid-inspirations-purchase-coins.php:49
+#: includes/class-boldgrid-inspirations-purchase-coins.php:53
+msgid "Purchase Coins"
+msgstr "Münzen kaufen"
+
+#: pages/includes/boldgrid-settings/start_over.php:1
+#: pages/includes/boldgrid-settings/start_over.php:97
+msgid "Start Over"
+msgstr "Von vorne beginnen"
+
+#: pages/includes/boldgrid-settings/start_over.php:11
+msgid ""
+"Starting over will let you start over with a fresh site to run the BoldGrid "
+"Inspirations installer again."
+msgstr ""
+"Bei einem Neuanfang können Sie mit einer neuen Website beginnen, um das "
+"BoldGrid Inspirations Installationsprogramm erneut auszuführen."
+
+#: pages/includes/boldgrid-settings/start_over.php:20
+msgid "Pages, Posts, and Menus:"
+msgstr "Seiten, Posts und Menüs"
+
+#. translators: 1 opening strong tag, 2 closing strong tag.
+#: pages/includes/boldgrid-settings/start_over.php:27
+msgid ""
+"This %1$sWILL%2$s unpublish all of your pages and posts, and all of your "
+"menus %1$sWILL%2$s be deleted!"
+msgstr ""
+"Hiermit %1$sWIRD%2$s die Veröffentlichung aller Ihrer Seiten und Posts "
+"rückgängig gemacht und Ihre gesamten Menüs %1$sWERDEN%2$s gelöscht!"
+
+#: pages/includes/boldgrid-settings/start_over.php:38
+msgid "Yes, let me start fresh!"
+msgstr "Ja, ich möchte von vorne anfangen!"
+
+#. translators: 1
+#: pages/includes/boldgrid-settings/start_over.php:43
+msgid ""
+"%1$sWARNING:%2$s Pressing the \"Start Over\" button below will move your "
+"pages and posts to your trash!"
+msgstr ""
+"%1$sWARNUNG:%2$s Wenn Sie auf die Schaltfläche „Von vorn anfangen“ klicken, "
+"werden Ihre Seiten und Posts in den Papierkorb verschoben!"
+
+#: pages/includes/boldgrid-settings/start_over.php:71
+msgid "Which sites would you like to perform the above actions with?"
+msgstr "Auf welche Seiten möchten Sie die obenstehenden Aktionen anwenden?"
+
+#: pages/includes/boldgrid-settings/start_over.php:72
+msgid "Active"
+msgstr "Aktiv"
+
+#: pages/includes/boldgrid-settings/start_over.php:73
+msgid "Staging"
+msgstr "Staging"
+
+#: pages/includes/boldgrid-settings/start_over.php:84
+msgid "BoldGrid Themes:"
+msgstr "BoldGrid-Themes:"
+
+#: pages/includes/boldgrid-settings/start_over.php:87
+msgid "Delete all BoldGrid Forms and Entries."
+msgstr "Alle BoldGrid-Formulare und -Einträge löschen."
+
+#: pages/includes/boldgrid-settings/start_over.php:90
+msgid "Remove all BoldGrid Themes."
+msgstr "Alle BoldGrid Themes entfernen."
+
+#. translators: 1 The url to access BoldGrid Inspirations in your WordPress
+#. dashboard.
+#: pages/includes/boldgrid-settings/start_over.php:110
+msgid ""
+"You do not have a BoldGrid site to delete! You can build a new website using"
+" %1$s."
+msgstr ""
+"Sie haben keine BoldGrid-Seite zum Löschen! Sie können eine neue Webseite "
+"mit %1$s erstellen."
+
+#. translators: 1 opening anchor tag linking to advanced tutorials on
+#. boldgrid.com, 2 closing anchor tag.
+#: pages/boldgrid-dashboard-advanced-wp-users.php:12
+msgid ""
+"We encourage you to watch the video above and check out the %1$s Advanced "
+"Tutorials %2$s"
+msgstr ""
+"Wir empfehlen Ihnen, das Video oben anzusehen und einen Blick auf die %1$s "
+"fortgeschrittenen Tutorials %2$s zu werfen."
+
+#: pages/boldgrid-dashboard-advanced-wp-users.php:26
+msgid " Inspirations"
+msgstr "Inspirations"
+
+#: pages/boldgrid-dashboard-advanced-wp-users.php:29
+msgid " BoldGrid"
+msgstr "BoldGrid"
+
+#. translators: 1 opening anchor tag linking to tutorial on boldgrid.com for
+#. restoring admin menu, 2 closing anchor tag, 3 opening anchor tag to
+#. boldgrid settings page.
+#: pages/boldgrid-dashboard-advanced-wp-users.php:38
+msgid ""
+"In addition to the video above, we have more detail on things that have "
+"changed like the %1$s Admin Menu %2$s (you can change it back %3$s here "
+"%2$s)."
+msgstr ""
+"Neben dem oben stehenden Video gibt es noch weitere Details über Dinge, die "
+"wir geändert haben, wie das %1$s Admin-Menü%2$s (Sie können die Veränderung "
+"%3$s hier %2$s rückgängig machen)."
+
+#: pages/my-inspiration.php:22
+#: includes/class-boldgrid-inspirations-my-inspiration.php:186
+#: includes/class-boldgrid-inspirations-my-inspiration.php:187
+msgid "My Inspiration"
+msgstr "Meine Inspiration"
+
+#: pages/my-inspiration.php:27
+msgid "Inspirations Installed Successfully!"
+msgstr "Inspirations wurde erfolgreich installiert!"
+
+#: pages/cart/checking-out.php:29
+msgid "Purchasing items in your cart"
+msgstr "Produkte in Ihrem Einkaufswagen werden gekauft"
+
+#: pages/cart/checking-out.php:34
+msgid "Installation log"
+msgstr "Installationsprotokoll"
+
+#: pages/cart/checking-out.php:35
+msgid "show / hide log"
+msgstr "Protokoll anzeigen / verstecken"
+
+#: pages/cart/checking-out.php:51
+msgid "Congratulations on your purchase!"
+msgstr "Herzlichen Glückwunsch für Ihren Kauf!"
+
+#: pages/cart/checking-out.php:53
+msgid ""
+"Your images have now downloaded to your Media Library and have replaced the "
+"watermarked versions used throughout your site."
+msgstr ""
+"Ihre Bilder wurden nun in Ihre Mediathek heruntergeladen und haben die mit "
+"Wasserzeichen versehenen Versionen überall auf Ihrer Seite ersetzt."
+
+#. translators: 1 opening strong tag, 2 closing strong tag.
+#: pages/cart/checking-out.php:58
+msgid ""
+"Should you ever delete a purchased image from your Media Library, you'll be "
+"able to download them again from the %1$sTransactions &gt; Receipts%2$s "
+"page."
+msgstr ""
+"Sollten Sie jemals ein gekauftes Bild aus Ihrer Medienbibliothek löschen, "
+"können Sie es von der Seite %1$sTransaktionen &gt; Belege%2$s jederzeit "
+"erneut herunterladen."
+
+#: pages/cart/checking-out.php:69
+msgid "Visit Your Site"
+msgstr "Besuchen Sie unsere Seite"
+
+#: pages/cart/checking-out.php:70
+msgid "Continue to your Dashboard"
+msgstr "Weiter zu Ihrem Dashboard"
+
+#: pages/image_search.php:16
+msgid "License filter"
+msgstr "Lizenzfilter"
+
+#: pages/image_search.php:17
+#: includes/class-boldgrid-inspirations-attribution.php:106
+msgid "Attribution"
+msgstr "Attribution"
+
+#: pages/image_search.php:22
+msgid "Search Media"
+msgstr "Medien durchsuchen"
+
+#: pages/image_search.php:23 pages/image_search.php:24
+msgid "Search"
+msgstr "Suche"
+
+#: pages/image_search.php:45
+msgid "Indicates a purchasable image that comes with a license."
+msgstr "Bezeichnet ein käufliches Bild mit Lizenz."
+
+#. translators: 1 URL to https://creativecommons.org/about/.
+#: pages/image_search.php:55
+msgid ""
+"Indicates an image marked by the publisher as <a href=\"%1$s\" "
+"target=\"_blank\">Creative Commons</a>, but it is not a guarantee it is "
+"legally Creative Commons.  Those images may be subject to other copyrights."
+"  You, as the website owner, are responsible for content on your site."
+msgstr ""
+"Kennzeichnet ein Bild als <a href=\"%1$s\" target=\"_blank\">Creative "
+"Commons</a>. Dies ist jedoch keine Garantie dafür, dass Creative-Commons-"
+"Rechten unterliegt. Das Bild kann anderen Urheberrechten unterliegen. Als "
+"Inhaber der Website sind Sie für den Inhalt Ihrer Website verantwortlich."
+
+#: pages/image_search.php:66
+msgid ""
+"While we've tried our best to filter out any explicit images in search "
+"results, we cannot guarantee the content of all images in your search "
+"results."
+msgstr ""
+"Obwohl wir stets bemüht sind, unangemessene Bilder aus den Sucherergebnissen"
+" herauszufiltern, können wir nicht für den Inhalt aller Bilder in Ihren "
+"Suchergebnissen garantieren."
+
+#: pages/boldgrid-dashboard-widget.php:7
+msgid "Experienced WordPress Users"
+msgstr "Erfahrene WordPress-Anwender"
+
+#: pages/boldgrid-dashboard-widget.php:22
+msgid "Click to toggle"
+msgstr "Zum Umschalten klicken"
+
+#: pages/boldgrid-dashboard-widget.php:26
+msgid "Welcome to BoldGrid!"
+msgstr "Willkommen bei BoldGrid!"
+
+#: pages/boldgrid-dashboard-widget.php:32
+msgid "First Time Users"
+msgstr "Erstnutzer"
+
+#. translators: 1 URL to BoldGrid Central.
+#: pages/purchase_coins.php:12
+msgid ""
+"You can purchase additional coins through <a href=\"%1$s\" "
+"target=\"_blank\">BoldGrid Central</a>."
+msgstr ""
+"Über <a href=\"%1$s\" target=\"_blank\">BoldGrid Central</a> können Sie "
+"zusätzliche Coins erwerben."
+
+#. translators: 1 URL to reseller's page where user can purchase additional
+#. BoldGrid Connect Coins, 2 the name of the reseller.
+#: pages/purchase_coins.php:21
+msgid ""
+"You can purchase additional coins through your official BoldGrid reseller, "
+"<a href=\"%1$s\" target=\"_blank\">%2$s</a>."
+msgstr ""
+"Sie können zusätzliche Münzen über Ihren offiziellen BoldGrid-Händler <a "
+"href=\"%1$s\" target=\"_blank\">%2$s</a> erwerben."
+
+#: pages/purchase_coins.php:43
+msgid ""
+"After you have purchased additional coins, your new coin balance will update"
+" on the transaction pages."
+msgstr ""
+"Nachdem Sie zusätzliche Münzen gekauft haben, wird Ihr neues Münzguthaben "
+"auf den Transaktionsseiten aktualisiert."
+
+#: pages/transaction_history.php:14
+msgid "Transaction History"
+msgstr "Transaktionshistorie"
+
+#: pages/transaction_history.php:16
+msgid "Loading transaction history..."
+msgstr "Transaktionshistorie laden..."
+
+#: pages/attribution.php:5
+msgid ""
+"This site has been created with the help of many different people and "
+"companies."
+msgstr ""
+"Diese Seite wurde mit der Hilfe vieler verschiedener Menschen und "
+"Unternehmen erstellt."
+
+#: pages/attribution.php:6
+msgid ""
+"In particular, a special thanks goes to the following for content running on"
+" this site:"
+msgstr ""
+"Insbesondere geht ein spezieller Dank an die Folgenden für die Inhalt auf "
+"dieser Seite:"
+
+#. translators: 1 a link to the resller.
+#: pages/attribution.php:18
+msgid "Web hosting support is provided by %1$s"
+msgstr "Webhosting-Support wird bereitgestellt durch %1$s"
+
+#. translators: 1 a link to boldgrid.com, 2 a link to wordpress.org.
+#: pages/attribution.php:29
+msgid ""
+"site was built on a powerful, Inspirations based web builder called %1$s. It"
+" is running on %2$s, the most popular content management software online "
+"today."
+msgstr ""
+"Die Seite wurde mit einem leistungsstarken, auf Inspirations basierenden Web"
+" Builder namens %1$s erstellt. Sie läuft mit %2$s, der aktuell beliebtesten "
+"Content Management Software für Online-Inhalte."
+
+#: pages/attribution.php:52
+msgid "Additional functionality provided by"
+msgstr "Zusätzliche Funktionalität durch"
+
+#: pages/templates/boldgrid-inspirations.php:2
+msgid "Categories"
+msgstr "Kategorien"
+
+#: pages/templates/image_search_results.php:5
+msgid "title goes here"
+msgstr "Titel steht hier"
+
+#: pages/templates/image_search_results.php:16
+msgid "From Web"
+msgstr "Aus dem Web"
+
+#: pages/templates/image_search_results.php:19
+msgid "Paid License"
+msgstr "Bezahlte Lizenz"
+
+#: pages/templates/unauthorized-request.php:17
+msgid ""
+"Unauthorized request.  You may not have the privileges/capabilities to "
+"perform this operation."
+msgstr ""
+"Unautorisierte Anfrage. Sie besitzen möglicherweise nicht die "
+"Rechte/Fähigkeiten, um diesen Vorgang auszuführen."
+
+#: pages/templates/feedback-widget.php:4
+#: pages/templates/feedback-notice-1-1.php:8
+msgid ""
+"We love feedback, both positive and negative.  It helps us build a better "
+"tool."
+msgstr ""
+"Wir mögen Rückmeldungen, sowohl negative als auch positive. Sie helfen uns "
+"dabei, unser Tool zu verbessern."
+
+#: pages/templates/feedback-widget.php:5
+#: pages/templates/feedback-notice-1-1.php:9
+msgid "Please take a moment to send us some of your thoughts about BoldGrid."
+msgstr ""
+"Bitte nehmen Sie sich einen Moment, um uns ein paar Ihrer Gedanken über "
+"BoldGrid mitzuteilen."
+
+#: pages/templates/feedback-widget.php:11
+#: pages/templates/feedback-notice-1-1.php:15
+msgid "Feedback type"
+msgstr "Art des Feedbacks"
+
+#: pages/templates/feedback-widget.php:15
+#: pages/templates/feedback-notice-1-1.php:19
+msgid "Theme design"
+msgstr "Theme-Design"
+
+#: pages/templates/feedback-widget.php:16
+#: pages/templates/feedback-notice-1-1.php:20
+msgid "General usability"
+msgstr "Allgemeine Nutzerfreundlichkeit"
+
+#: pages/templates/feedback-widget.php:17
+#: pages/templates/feedback-notice-1-1.php:21
+msgid "Feature suggestion"
+msgstr "Feature-Vorschlag"
+
+#: pages/templates/feedback-widget.php:18
+#: pages/templates/feedback-notice-1-1.php:23
+msgid "Your web hosting provider"
+msgstr "Ihr Webhosting-Anbieter"
+
+#: pages/templates/feedback-widget.php:19
+#: pages/templates/feedback-notice-1-1.php:29
+msgid "Bug report"
+msgstr "Fehlerbericht"
+
+#: pages/templates/feedback-widget.php:20
+#: pages/templates/feedback-notice-1-1.php:30
+msgid "Other"
+msgstr "Anderes"
+
+#: pages/templates/feedback-widget.php:24
+#: pages/templates/feedback-notice-1-1.php:34
+msgid "Comment"
+msgstr "Kommentar"
+
+#: pages/templates/feedback-widget.php:26
+#: pages/templates/feedback-notice-1-1.php:36
+msgid "Please type your feedback comment here."
+msgstr "Bitte geben Sie Ihr Feedback-Kommentar hier ein."
+
+#: pages/templates/feedback-widget.php:31
+#: pages/templates/feedback-notice-1-1.php:42
+msgid "Please contact me about my feedback"
+msgstr "Bitte kontaktieren Sie mich für Feedback"
+
+#: pages/templates/feedback-widget.php:34
+#: pages/templates/feedback-notice-1-1.php:46
+msgid "Email address"
+msgstr "E-Mail-Adresse"
+
+#: pages/templates/feedback-widget.php:36
+#: pages/templates/feedback-notice-1-1.php:48
+msgid "Please type your email address here."
+msgstr "Bitte geben Sie hier Ihre E-Mail-Adresse ein."
+
+#: pages/templates/feedback-widget.php:40
+#: pages/templates/feedback-notice-1-1.php:52
+msgid "Diagnostic report"
+msgstr "Diagnosebericht"
+
+#: pages/templates/feedback-widget.php:42
+#: pages/templates/feedback-notice-1-1.php:54
+msgid "This area will be populated with diagnostic data to better assist you."
+msgstr ""
+"Dieser Bereich wird mit Diagnosedaten gefüllt, um Ihnen besser helfen zu "
+"können."
+
+#: pages/templates/feedback-widget.php:45
+#: pages/templates/feedback-notice-1-1.php:57
+msgid "Website Experience"
+msgstr "Website-Erlebnis"
+
+#: pages/templates/feedback-widget.php:49
+#: pages/templates/feedback-notice-1-1.php:61
+msgid "Just Started"
+msgstr "Gerade angefangen"
+
+#: pages/templates/feedback-widget.php:50
+#: pages/templates/feedback-notice-1-1.php:62
+msgid "1-2 Years"
+msgstr "1–2 Jahre"
+
+#: pages/templates/feedback-widget.php:51
+#: pages/templates/feedback-notice-1-1.php:63
+msgid "2-5 Years"
+msgstr "2-5 Jahre"
+
+#: pages/templates/feedback-widget.php:52
+#: pages/templates/feedback-notice-1-1.php:64
+msgid "6+ Years"
+msgstr "6+ Jahre"
+
+#: pages/templates/feedback-widget.php:61
+#: pages/templates/feedback-notice-1-1.php:73
+msgid "Submit"
+msgstr "Abschicken"
+
+#: pages/templates/attachment_details.php:22
+msgid "Download"
+msgstr "Herunterladen"
+
+#: pages/templates/attachment_details.php:22
+msgid "Download and Insert into page"
+msgstr "Herunterladen und in die Seite einfügen"
+
+#: pages/templates/attachment_details.php:35
+msgid "Attachment Details"
+msgstr "Details zum Anhang"
+
+#: pages/templates/attachment_details.php:38
+msgid "Saved"
+msgstr "Gespeichert"
+
+#: pages/templates/attachment_details.php:50
+msgid "Edit Image"
+msgstr "Bild bearbeiten"
+
+#: pages/templates/attachment_details.php:51
+msgid "Refresh"
+msgstr "Aktualisieren"
+
+#: pages/templates/attachment_details.php:52
+msgid "Delete Permanently"
+msgstr "Dauerhaft löschen"
+
+#: pages/templates/attachment_details.php:59
+msgid "URL"
+msgstr "URL"
+
+#: pages/templates/attachment_details.php:63
+msgid "Title"
+msgstr "Titel"
+
+#: pages/templates/attachment_details.php:67
+msgid "Caption"
+msgstr "Untertitel"
+
+#: pages/templates/attachment_details.php:71
+msgid "Alt Text"
+msgstr "Alt-Text"
+
+#: pages/templates/attachment_details.php:75
+#: pages/templates/transaction_history.php:45
+msgid "Description"
+msgstr "Beschreibung"
+
+#: pages/templates/attachment_details.php:83
+msgid "Attachment Display Settings"
+msgstr "Anhang Display-Einstellungen"
+
+#: pages/templates/attachment_details.php:87
+msgid "Left"
+msgstr "Links"
+
+#: pages/templates/attachment_details.php:88
+msgid "Center"
+msgstr "Zentrum"
+
+#: pages/templates/attachment_details.php:89
+msgid "Right"
+msgstr "Rechts"
+
+#: pages/templates/attachment_details.php:90
+#: pages/templates/attachment_details.php:101
+msgid "None"
+msgstr "Keine"
+
+#: pages/templates/attachment_details.php:98
+msgid "Media File"
+msgstr "Mediendatei"
+
+#: pages/templates/attachment_details.php:99
+msgid "Attachment Page"
+msgstr "Anhang-Seite"
+
+#: pages/templates/attachment_details.php:100
+msgid "Custom URL"
+msgstr "Benutzerdefinierte URL"
+
+#: pages/templates/attachment_details.php:119
+#: includes/class-boldgrid-inspirations-attribution.php:281
+msgid "License"
+msgstr "Lizenz"
+
+#: pages/templates/attachment_details.php:129
+msgid ""
+"This {{provider_title}} image has been marked by its publisher with the "
+"following <em>Creative Commons</em> license: <a href=\"{{license.url}}\" "
+"target=\"_blank\">{{license.name}}</a>. This is not a guarantee it is "
+"legally Creative Commons. This image may be subject to other copyrights. "
+"You, as the website owner, are responsible for content on your site."
+msgstr ""
+"Dieses {{provider_title}}-Bild wurde vom Veröffentlicher mit der folgenden "
+"<em>Creative Commons</em>-Lizenz gekennzeichnet:<a href=\"{{license.url}}\" "
+"target=\"_blank\"> {{license.name}}</a>. Dies ist keine Garantie dafür, dass"
+" Creative-Commons-Rechten unterliegt. Das Bild kann anderen Urheberrechten "
+"unterliegen. Als Inhaber der Website sind Sie für den Inhalt Ihrer Website "
+"verantwortlich."
+
+#: pages/templates/attachment_details.php:155
+#: includes/class-boldgrid-inspirations-built.php:604
+msgid "Try again"
+msgstr "Erneut versuchen"
+
+#: pages/templates/transaction_history.php:5
+msgid "Transaction ID"
+msgstr "Transaktions-ID"
+
+#: pages/templates/transaction_history.php:8
+msgid "Date"
+msgstr "Datum"
+
+#: pages/templates/transaction_history.php:12
+msgid "Items"
+msgstr "Artikel"
+
+#: pages/templates/transaction_history.php:14
+msgid "Invoice"
+msgstr "Rechnung"
+
+#: pages/templates/transaction_history.php:26
+msgid "Credit"
+msgstr "Guthaben"
+
+#: pages/templates/transaction_history.php:29
+msgid "View"
+msgstr "Anzeigen"
+
+#: pages/templates/transaction_history.php:36
+msgid "There are no transactions to display at this time."
+msgstr "Es gibt im Moment keine anzeigbaren Transaktionen."
+
+#: pages/templates/transaction_history.php:41
+msgid "Invoice for Transaction ID:"
+msgstr "Rechnung für Transaktionsnummer:"
+
+#: pages/templates/transaction_history.php:61
+msgid "Processed by"
+msgstr "Bearbeitet von"
+
+#: pages/templates/transaction_history.php:78
+msgid "Invoices"
+msgstr "Rechnungen"
+
+#: pages/templates/settings-saved.php:17
+msgid "Settings saved."
+msgstr "Einstellungen gespeichert."
+
+#: pages/templates/boldgrid-connection-issue.php:16
+#: includes/class-boldgrid-inspirations-ajax.php:42
+msgid "BoldGrid Connection Issue"
+msgstr "BoldGrid Verbindungsproblem"
+
+#: pages/templates/boldgrid-connection-issue.php:20
+#: includes/class-boldgrid-inspirations-ajax.php:43
+msgid ""
+"There was an issue reaching the BoldGrid Connect server. Some BoldGrid "
+"features may be temporarily unavailable. Please try again in a moment."
+msgstr ""
+"Der BoldGrid Connect-Server konnte nicht erreicht werden. Einige BoldGrid-"
+"Funktionen könnten derzeit nicht zur Verfügung stehen. Bitte versuchen Sie "
+"es in Kürze noch einmal."
+
+#. translators: 1 The opening anchor tag to the BoldGrid Status page, 2 its
+#. closing anchor tag.
+#: pages/templates/boldgrid-connection-issue.php:30
+#: includes/class-boldgrid-inspirations-ajax.php:36
+msgid ""
+"If the issue persists, then please feel free to check our %1$sBoldGrid "
+"Status%2$s page."
+msgstr ""
+"Falls der Fehler weiterhin besteht, sehen Sie sich gerne unsere %1$sBoldGrid"
+" Status%2$s-Seite an."
+
+#: pages/templates/feedback-notice-1-1.php:7
+msgid "BoldGrid Feedback Request"
+msgstr "Anfrage für BoldGrid-Feedback"
+
+#: includes/class-boldgrid-inspirations-feedback.php:410
+msgid "Please enter your feedback comment."
+msgstr "Bitte geben Sie Ihr Feedback-Kommentar ein."
+
+#: includes/class-boldgrid-inspirations-feedback.php:411
+msgid "Thanks for the feedback"
+msgstr "Danke für die Rückmeldung"
+
+#: includes/class-boldgrid-inspirations-feedback.php:412
+msgid "There was an error processing your request.  Please try again."
+msgstr ""
+"Bei der Bearbeitung Ihrer Anfrage ist ein Fehler aufgetreten.  Bitte "
+"versuchen Sie es erneut."
+
+#: includes/class-boldgrid-inspirations-feedback.php:413
+msgid ""
+"The BoldGrid team wants you to know that we are listening and every bit of "
+"feedback helps us improve our tool."
+msgstr ""
+"Das BoldGrid-Team möchte, dass Sie wissen, dass wir zuhören und jede Art von"
+" Feedback uns hilft, unser Werkzeug zu verbessern."
+
+#: includes/class-boldgrid-inspirations-feedback.php:484
+msgid ""
+"To have diagnostic data sent with your feedback, please login as an "
+"Administrator"
+msgstr ""
+"Um Diagnosedaten mit Ihrem Feedback versenden zu lassen, melden Sie sich "
+"bitte als Administrator an."
+
+#: includes/class-boldgrid-inspirations-feedback.php:485
+#: includes/class-boldgrid-inspirations-feedback.php:493
+#: includes/class-boldgrid-inspirations-feedback.php:655
+#: includes/class-boldgrid-inspirations-feedback.php:660
+msgid "Error: WordPress security violation."
+msgstr "Fehler: WordPress Sicherheits-Missbrauch."
+
+#: includes/class-boldgrid-inspirations-feedback.php:497
+msgid ""
+"This diagnostic data is populated to better assist you, and can be modified "
+"before submitted."
+msgstr ""
+"Diese Diagnosedaten werden gesammelt, um Ihnen besser helfen zu können. Sie "
+"können diese vor dem Abschicken modifizieren."
+
+#: includes/class-boldgrid-inspirations-feedback.php:503
+msgid "WordPress Information"
+msgstr "WordPress-Information"
+
+#: includes/class-boldgrid-inspirations-feedback.php:506
+#: includes/class-boldgrid-inspirations-feedback.php:623
+msgid "Version"
+msgstr "Version"
+
+#: includes/class-boldgrid-inspirations-feedback.php:509
+msgid "Home URL"
+msgstr "Home-URL"
+
+#: includes/class-boldgrid-inspirations-feedback.php:512
+msgid "Site URL"
+msgstr "Seiten-URL"
+
+#: includes/class-boldgrid-inspirations-feedback.php:544
+msgid "Installed Plugins"
+msgstr "Installierte Plugins"
+
+#: includes/class-boldgrid-inspirations-feedback.php:572
+msgid "Installed Themes"
+msgstr "Installierte Themen"
+
+#: includes/class-boldgrid-inspirations-feedback.php:579
+msgid "Active theme"
+msgstr "Aktives Theme"
+
+#: includes/class-boldgrid-inspirations-feedback.php:581
+msgid "Active Staging theme"
+msgstr "Aktives Staging-Thema"
+
+#: includes/class-boldgrid-inspirations-feedback.php:588
+msgid "Parent Theme"
+msgstr "Übergeordnetes Thema"
+
+#: includes/class-boldgrid-inspirations-feedback.php:597
+msgid "BoldGrid Information"
+msgstr "BoldGrid Information"
+
+#: includes/class-boldgrid-inspirations-feedback.php:603
+msgid "WordPress Options"
+msgstr "WordPress-Optionen"
+
+#: includes/class-boldgrid-inspirations-feedback.php:620
+msgid "PHP Information"
+msgstr "PHP-Information"
+
+#: includes/class-boldgrid-inspirations-feedback.php:666
+msgid "Error: Empty form data set."
+msgstr "Fehler: Datensatz mit leerem Formular."
+
+#: includes/class-boldgrid-inspirations-wp-help-pointers.php:86
+#: includes/class-boldgrid-inspirations-wp-help-pointers.php:100
+msgid "Image search"
+msgstr "Bildersuche"
+
+#. translators: 1 opening em tag, 2 closing em tag, 3 opening strong tag, 4
+#. closing strong tag.
+#: includes/class-boldgrid-inspirations-wp-help-pointers.php:88
+#: includes/class-boldgrid-inspirations-wp-help-pointers.php:102
+msgid ""
+"%1$sThis search function%2$s helps you find images you've already uploaded "
+"to your Media Library. If you would like to search the web for new images, "
+"click the %3$sBoldGrid Connect Search%4$s tab in the top menu."
+msgstr ""
+"%1$sDiese Suchfunktion%2$s hilft Ihnen, Bilder zu finden, die Sie bereits in"
+" Ihre Medienbibliothek hochgeladen haben. Wenn Sie das Web nach neuen "
+"Bildern durchsuchen möchten, klicken Sie auf den Reiter %3$sBoldGrid Connect"
+" Search%4$s im oberen Menü."
+
+#: includes/class-boldgrid-inspirations-wp-help-pointers.php:114
+msgid "Image size"
+msgstr "Bildgröße"
+
+#: includes/class-boldgrid-inspirations-wp-help-pointers.php:115
+msgid "Need help choosing an image size?"
+msgstr "Benötigen Sie Hilfe bei der Auswahl der Bildgröße?"
+
+#: includes/class-boldgrid-inspirations-wp-help-pointers.php:127
+msgid "Begin customizing your new website!"
+msgstr "Beginnen Sie, Ihre Website zu personalisieren!"
+
+#: includes/class-boldgrid-inspirations-wp-help-pointers.php:128
+msgid ""
+"Congratulations, you've just installed your new website! Below you'll find "
+"tips to help you begin customizing your site."
+msgstr ""
+"Glückwunsch, Sie haben soeben Ihre neue Webseite eingerichtet. Unten finden "
+"Sie Hinweise, die Ihnen dabei helfen, Ihre Seite zu anzupassen."
+
+#: includes/class-boldgrid-inspirations-deploy.php:744
+msgid "Error: Failed to retrieve theme!"
+msgstr "Fehler: Theme konnte nicht geladen werden!"
+
+#: includes/class-boldgrid-inspirations-deploy.php:750
+msgid ""
+"Error: Received an unsuccessful return code when retrieving theme "
+"information!"
+msgstr ""
+"Fehler: Bei der Abfrage von Theme-Informationen wurde ein nicht "
+"erfolgreicher Rückgabecode empfangen!"
+
+#: includes/class-boldgrid-inspirations-deploy.php:880
+msgid "Error: Exceeded max theme install attempts!"
+msgstr ""
+"Fehler: Maximale Anzahl an Theme-Installationsversuchen überschritten!"
+
+#: includes/class-boldgrid-inspirations-deploy.php:979
+msgid "Error: Exiting theme deployment."
+msgstr "Fehler: Bereitstellung von Themen wird abgebrochen."
+
+#: includes/class-boldgrid-inspirations-deploy.php:1178
+msgid "WP ERROR"
+msgstr "WP FEHLER"
+
+#: includes/class-boldgrid-inspirations-deploy.php:1182
+msgid "Error: Asset server did not return HTTP 200 OK!"
+msgstr "Fehler: Der Asset-Server hat kein HTTP 200 OK zurückgegeben!"
+
+#: includes/class-boldgrid-inspirations-deploy.php:1186
+msgid "Error: Asset server returned an empty data set!"
+msgstr "Fehler: Asset-Server hat einen leeren Datensatz zurückgesendet!"
+
+#: includes/class-boldgrid-inspirations-deploy.php:1402
+msgid "Error downloading asset."
+msgstr "Fehler beim Download des Assets."
+
+#: includes/class-boldgrid-inspirations-deploy.php:1519
+msgid ""
+"Deployment failed. We're sorry but unfortunately the site deployment failed "
+"with the following message:"
+msgstr ""
+"Bereitstellung ist fehlgeschlagen. Es tut uns leid, aber unglücklicherweise "
+"ist die Bereitstellung der Seite fehlgeschlagen. Folgende Fehlermeldung:"
+
+#: includes/class-boldgrid-inspirations-deploy.php:1604
+msgid "Wrapping things up..."
+msgstr "Dinge werden beendet..."
+
+#: includes/class-boldgrid-inspirations-deploy.php:1632
+msgid "Error downloading plugin list."
+msgstr "Fehler beim Herunterladen der Plugin-Liste."
+
+#: includes/class-boldgrid-inspirations-deploy.php:1675
+msgid ""
+"The following existing plugins where activated for use on your new BoldGrid "
+"site:"
+msgstr ""
+"Die folgenden bestehenden Plugins wurden für die Verwendung auf Ihrer neuen "
+"BoldGrid-Seite aktiviert:"
+
+#: includes/class-boldgrid-inspirations-deploy.php:1726
+msgid "Error: Form plugin activation failed!"
+msgstr "Fehler: Formular Plugin-Aktivierung fehlgeschlagen!"
+
+#: includes/class-boldgrid-inspirations-deploy.php:1738
+msgid "Error: Plugin installation failed!"
+msgstr "Fehler: Plugin-Installation fehlgeschlagen!"
+
+#: includes/class-boldgrid-inspirations-deploy.php:1763
+msgid "Plugin activation failed."
+msgstr "Plugin-Aktivierung fehlgeschlagen."
+
+#: includes/class-boldgrid-inspirations-deploy.php:1857
+msgid "Error: Plugin activation failed!"
+msgstr "Fehler: Plugin-Aktivierung fehlgeschlagen!"
+
+#: includes/class-boldgrid-inspirations-deploy.php:2198
+msgid "Theme deployment failed.  Please choose another theme."
+msgstr ""
+"Thema bereitstellen fehlgeschlagen. Bitte wählen Sie ein anderes Thema."
+
+#: includes/class-boldgrid-inspirations-built.php:85
+msgid "We're almost ready to start your site!"
+msgstr "Wir sind fast bereit, mit Ihrer Seite anzufangen!"
+
+#: includes/class-boldgrid-inspirations-built.php:593
+msgid "Fetching themes..."
+msgstr "Themen abrufen..."
+
+#: includes/class-boldgrid-inspirations-built.php:594
+msgid "Fetching categories..."
+msgstr "Kategorien werden geladen..."
+
+#: includes/class-boldgrid-inspirations-built.php:595
+msgid "There was an error fetching themes."
+msgstr "Es gab einen Fehler beim Abrufen von Themen."
+
+#: includes/class-boldgrid-inspirations-built.php:596
+msgid "There was an error fetching categories."
+msgstr "Beim empfangen der Kategorien ist ein Fehler aufgetreten."
+
+#: includes/class-boldgrid-inspirations-built.php:597
+msgid "There was an error fetching pagesets."
+msgstr "Beim Abrufen von Pagesets ist ein Fehler aufgetreten."
+
+#: includes/class-boldgrid-inspirations-built.php:598
+msgid "There was an error building your custom website preview."
+msgstr ""
+"Es gab einen Fehler beim Erstellen Ihrer persönlichen Webseitenvorschau."
+
+#: includes/class-boldgrid-inspirations-built.php:600
+msgid "Connection timed out when attempting to load custom website preview."
+msgstr ""
+"Die Verbindung ist bei dem Versuch, eine benutzerdefinierte Website-Vorschau"
+" anzuzeigen, abgebrochen."
+
+#: includes/class-boldgrid-inspirations-built.php:602
+msgid "Please try again in a few minutes."
+msgstr "Bitte versuchen Sie es in ein paar Minuten erneut."
+
+#: includes/class-boldgrid-inspirations-built.php:603
+msgid "Please try again in a few seconds."
+msgstr "Bitte versuchen Sie es in ein paar Sekunden erneut."
+
+#. translators: 1 The version number BoldGrid Inspirations has been updated
+#. to.
+#: includes/class-boldgrid-inspirations-update.php:769
+msgid "BoldGrid Inspirations has been updated to %1$s."
+msgstr "BoldGrid Inspirations wurde auf %1$s aktualisiert."
+
+#: includes/class-boldgrid-inspirations-stock-photography.php:56
+#: includes/class-boldgrid-inspirations-stock-photography.php:183
+msgid "BoldGrid Connect Search"
+msgstr "BoldGrid Connect Suche"
+
+#: includes/class-boldgrid-inspirations-stock-photography.php:196
+#: includes/class-boldgrid-inspirations-stock-photography.php:556
+msgid "Image Search"
+msgstr "Bildersuche"
+
+#: includes/class-boldgrid-inspirations-stock-photography.php:503
+msgid "Downloading image..."
+msgstr "Bild wird heruntergeladen ..."
+
+#: includes/class-boldgrid-inspirations-stock-photography.php:504
+msgid "Image downloaded!"
+msgstr "Bild heruntergeladen!"
+
+#: includes/class-boldgrid-inspirations-stock-photography.php:505
+msgid "Loading image details"
+msgstr "Bilddetails werden geladen"
+
+#: includes/class-boldgrid-inspirations-stock-photography.php:506
+msgid "No more search results"
+msgstr "Keine weiteren Suchergebnisse"
+
+#: includes/class-boldgrid-inspirations-stock-photography.php:507
+msgid "No search results."
+msgstr "Keine Suchergebnisse"
+
+#: includes/class-boldgrid-inspirations-stock-photography.php:508
+msgid "Please enter a search term."
+msgstr "Bitte geben Sie einen Suchbegriff ein."
+
+#. translators: 1 Opening strong tag, 2 closing strong tag.
+#: includes/class-boldgrid-inspirations-stock-photography.php:511
+msgid "%1$sScroll down%2$s or %1$sclick here%2$s to load more search results"
+msgstr ""
+"%1$sScrollen Sie nach unten%2$s oder %1$sklicken Sie hier%2$s, um mehr "
+"Suchergebnisse zu laden"
+
+#: includes/class-boldgrid-inspirations-stock-photography.php:515
+msgid "Searching"
+msgstr "Wird gesucht"
+
+#: includes/class-boldgrid-inspirations-stock-photography.php:516
+msgid "View image in Media Library"
+msgstr "Bild in der Medienbibliothek anzeigen"
+
+#: includes/class-boldgrid-inspirations-stock-photography.php:554
+msgid "Change"
+msgstr "Ändern"
+
+#: includes/class-boldgrid-inspirations-stock-photography.php:555
+msgid "Edit image"
+msgstr "Bild bearbeiten"
+
+#: includes/class-boldgrid-inspirations-stock-photography.php:557
+msgid "Loading BoldGrid Connect Search."
+msgstr "BoldGrid Connect Search wird geladen."
+
+#: includes/class-boldgrid-inspirations-attribution.php:260
+msgid "Author"
+msgstr "Autor"
+
+#: includes/class-boldgrid-inspirations-attribution.php:272
+msgid "Unknown"
+msgstr "Unbekannt"
+
+#: includes/class-boldgrid-inspirations-attribution.php:290
+msgid "Unknown license"
+msgstr "Unbekannte Lizenz"
+
+#: includes/class-boldgrid-inspirations-attribution.php:306
+msgid "Attribution License"
+msgstr "Attributions-Lizenz"
+
+#: includes/class-boldgrid-inspirations-attribution.php:311
+msgid "Attribution-ShareAlike License"
+msgstr "Attribution-ShareAlike Lizenz"
+
+#: includes/class-boldgrid-inspirations-attribution.php:316
+msgid "Attribution-NoDerivs License"
+msgstr "Attribution-NoDerivs Lizenz"
+
+#: includes/class-boldgrid-inspirations-attribution.php:327
+msgid "Public Domain Dedication"
+msgstr "Public-Domain-Würdigung"
+
+#: includes/class-boldgrid-inspirations-options.php:92
+#: includes/class-boldgrid-inspirations-options.php:240
+msgid "BoldGrid Settings"
+msgstr "BoldGrid-Einstellungen"
+
+#: includes/class-boldgrid-inspirations-options.php:145
+msgid "Here you may change the BoldGrid plugin global settings."
+msgstr ""
+"Hier können Sie die globalen Einstellungen des BoldGrid-Plugins ändern."
+
+#: includes/class-boldgrid-inspirations-options.php:178
+msgid "Use BoldGrid Admin Menu system"
+msgstr "Verwenden Sie das BoldGrid Admin-Menü-System"
+
+#: includes/class-boldgrid-inspirations-options.php:196
+msgid "Opt-out of feedback"
+msgstr "Vom Feedback abmelden"
+
+#: includes/class-boldgrid-inspirations-options.php:246
+msgid "Global Settings"
+msgstr "Globale Einstellungen"
+
+#: includes/class-boldgrid-inspirations-options.php:251
+msgid "Reorder Admin Menu"
+msgstr "Admin-Menü neu sortieren"
+
+#: includes/class-boldgrid-inspirations-options.php:257
+msgid "Save Changes"
+msgstr "Änderungen speichern"
+
+#: includes/class-boldgrid-inspirations-options.php:318
+msgid "Reset Pointers and Admin Notices (help messages)"
+msgstr "Pointer und Admin-Benachrichtigungen zurücksetzen (Hilfsmeldungen)"
+
+#: includes/class-boldgrid-inspirations-options.php:347
+msgid ""
+"Error processing request to reset pointers (help messages). WordPress "
+"security violation! Please try again."
+msgstr ""
+"Fehler beim Zurücksetzen der Pointer (Hilfenachrichten). WordPress-"
+"Sicherheitsverletzung! Bitte versuchen Sie es erneut."
+
+#: includes/class-boldgrid-inspirations-options.php:454
+msgid ""
+"Error processing request to start over. WordPress security violation! Please"
+" try again."
+msgstr ""
+"Fehler beim Versuch des Neustarts. WordPress-Sicherheitsverletzung! Bitte "
+"versuchen Sie es erneut."
+
+#: includes/class-boldgrid-inspirations-pages-and-posts.php:400
+#: includes/class-boldgrid-inspirations-pages-and-posts.php:521
+#: includes/class-boldgrid-inspirations-pages-and-posts.php:526
+msgid "There are no menus to select."
+msgstr "Es stehen keine Menüs zur Auswahl."
+
+#: includes/class-boldgrid-inspirations-pages-and-posts.php:463
+msgid "Not in a menu location."
+msgstr "Nicht in einem Menü vorhanden."
+
+#: includes/class-boldgrid-inspirations-dashboard.php:184
+#: includes/class-boldgrid-inspirations-dashboard.php:185
+msgid "Customize Active"
+msgstr "Aktives individuell anpassen"
+
+#: includes/class-boldgrid-inspirations-dashboard.php:199
+#: includes/class-boldgrid-inspirations-dashboard.php:200
+msgid "Install First Inspiration"
+msgstr "Erste Inspiration installieren"
+
+#: includes/class-boldgrid-inspirations-dashboard.php:285
+#: includes/class-boldgrid-inspirations-dashboard.php:286
+msgid "Change Themes"
+msgstr "Themes ändern"
+
+#: includes/class-boldgrid-inspirations-dashboard.php:431
+#: includes/class-boldgrid-inspirations-dashboard.php:432
+msgid "CSS/HTML Editor"
+msgstr "CSS/HTML Editor"
+
+#: includes/class-boldgrid-inspirations-dashboard.php:575
+#: includes/class-boldgrid-inspirations-dashboard.php:576
+msgid "Active Site"
+msgstr "Aktive Seite"
+
+#. translators: An RSS error message.
+#: includes/class-boldgrid-inspirations-dashboard.php:595
+msgid "<strong>RSS Error</strong>: %s"
+msgstr "<strong>RSS-Fehler</strong>: %s"
+
+#: includes/class-boldgrid-inspirations-dashboard.php:673
+msgid "BoldGrid.com News"
+msgstr "BoldGrid.com News"
+
+#: includes/class-boldgrid-inspirations-dashboard.php:683
+msgid "BoldGrid Feedback"
+msgstr "BoldGrid-Feedback"
+
+#: includes/class-boldgrid-inspirations-ajax.php:44
+msgid "Ajax error: timeout. Please try your request again."
+msgstr ""
+"Ajax-Fehler: Timeout. Bitte versuchen Sie es mit einer erneuten Anfrage."
+
+#: includes/class-boldgrid-inspirations-ajax.php:46
+msgid ""
+"Ajax error: Unexpected return. In some cases, trying your request again may "
+"help."
+msgstr ""
+"Ajax-Fehler: Unerwartete Rückgabe. In manchen Fällen könnte es helfen, die "
+"Anfrage erneut zu senden."
+
+#. translators: 1 opening strong tag, 2 closing strong tag, 3 required php
+#. version for BoldGrid Inspirations plugin.
+#: includes/class-boldgrid-inspirations.php:555
+msgid "%1$sBoldGrid Inspirations%2$s requires PHP %3$s or greater."
+msgstr "%1$sBoldGrid-Inspirationen%2$s benötigt PHP %3$s oder neuer."
+
+#: includes/class-boldgrid-inspirations.php:563
+#: includes/class-boldgrid-inspirations.php:587
+msgid "Plugin Activation Error"
+msgstr "Plugin-Aktivierungsfehler"
+
+#. translators: 1 opening strong tag, 2 closing strong tag, 3 required
+#. WordPress version for BoldGrid Inspirations plugin.
+#: includes/class-boldgrid-inspirations.php:579
+msgid "%1$sBoldGrid Inspirations%2s requires WordPress %3$s or higher."
+msgstr "%1$sBoldGrid Inspirations%2s benötigt WordPress %3$s oder neuer."
+
+#: includes/class-boldgrid-inspirations.php:615
+msgid "has been deactivated."
+msgstr "wurde deaktiviert."
+
+#: includes/class-boldgrid-inspirations.php:622
+msgid "Deactivated"
+msgstr "Deaktiviert"
+
+#: includes/class-boldgrid-inspirations-receipts.php:71
+msgid "Download Image"
+msgstr "Bild herunterladen"
+
+#: includes/class-boldgrid-inspirations-receipts.php:72
+msgid "Image not available"
+msgstr "Bild nicht verfügbar"
+
+#: includes/class-boldgrid-inspirations-receipts.php:73
+msgid "View Image"
+msgstr "Bild ansehen"
+
+#: includes/class-boldgrid-inspirations-receipts.php:118
+#: includes/class-boldgrid-inspirations-receipts.php:119
+msgid "Transactions"
+msgstr "Transaktionen"
+
+#: includes/class-boldgrid-inspirations-receipts.php:132
+#: includes/class-boldgrid-inspirations-receipts.php:133
+#: includes/class-boldgrid-inspirations-receipts.php:148
+#: includes/class-boldgrid-inspirations-receipts.php:149
+msgid "Receipts"
+msgstr "Belege"
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:114
+msgid "Error, image selection has not been updated."
+msgstr "Fehler, Bildauswahl wurde nicht hochgeladen."
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:115
+msgid "Please enter your BoldGrid Connect Key!"
+msgstr "Bitte tragen Sie Ihren BoldGrid-Verbindungsschlüssel ein!"
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:116
+msgid "Invalid BoldGrid Connect Key!"
+msgstr "Ungültiger BoldGrid-Verbindungsschlüssel!"
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:117
+msgid "Your BoldGrid Connect Key appears to be invalid, it is too short."
+msgstr ""
+"Ihr BoldGrid-Verbindungsschlüssel scheint ungültig zu sein, er ist zu kurz."
+
+#. translators: 1 A break tag, please insert the break tag in the middle of
+#. the sentence.
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:120
+msgid ""
+"Please review the terms of service and%1$scheck the box above if you agree."
+msgstr ""
+"Bitte sehen Sie sich die Nutzungsbedingungen an und %1$ssetzen Sie ein "
+"Kreuzchen, wenn Sie zustimmen."
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:202
+msgid "Insufficient permissions"
+msgstr "Unzureichende Berechtigungen"
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:294
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:407
+msgid "Error: We have no local cost data"
+msgstr "Fehler: Wir haben keine lokalen Kosteninformationen"
+
+#. translators: 1 The count of watermarked images on this page, 'Image' or
+#. 'Images', 3 a link to where the user can purchase these images.
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:381
+msgid "Watermarked: <strong>%1$u %2$s</strong> %3$s"
+msgstr "Mit Wasserzeichen versehen: <strong>%1$u %2$s</strong> %3$s"
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:402
+msgid "Gathering local data about images needing purchase..."
+msgstr "Sammeln lokaler Daten über Bilder, die gekauft werden müssen..."
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:412
+msgid "Gathering remote data about each image..."
+msgstr "Für jedes Bild werden Ferndaten gesammelt..."
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:415
+msgid "Checking your coin balance..."
+msgstr "Ihr Münzstand wird überprüft ..."
+
+#. translators: 1 The user's current Copyright Coin balance.
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:421
+msgid "Available coin balance before purchase is: %1$s"
+msgstr "Verfügbarer Coin-Kontostand vor dem Kauf ist: %1$s"
+
+#. translators: 1 The opening anchor tag to our Cart page, 2 its closing
+#. anchor tag.
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:435
+msgid "Local prices have been updated.  Please proceed to the %1$sCart%2$s"
+msgstr ""
+"Die lokalen Preise wurden aktualisiert. Bitte gehen Sie zum "
+"%1$sWarenkorb%2$s."
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:509
+msgid "Error downloading image."
+msgstr "Fehler beim Laden des Bildes."
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:541
+msgid "Replacing watermaked image..."
+msgstr "Ersetzen von Bildern mit Wasserzeichen..."
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:590
+msgid "Invalid data."
+msgstr "Ungültige Daten."
+
+#. translators: 1 The id of the asset that is no longer available for
+#. purchase.
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:687
+msgid ""
+"Error: Image (asset id \"%1$s\") is no longer available for purchase, and "
+"will be removed from the cart."
+msgstr ""
+"Fehler: Bild (asset id \"%1$s\") steht nicht länger zum Kauf zur Verfügung "
+"und wird aus dem Einkaufswagen entfernt."
+
+#. translators: 1 The local coin cost, 2 the remote coin cost.
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:698
+msgid "Error: Local coin cost of %1$s does not match remote coin cost %2$s."
+msgstr ""
+"Fehler: Die lokalen Münzkosten von %1$s entsprechen nicht den Fernmünzkosten"
+" von %2$s."
+
+#. translators: 1 An opening anchor tag linking to the shopping card, 2 its
+#. closing anchor tag.
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:716
+msgid "Local prices have been updated! Please proceed to the %1$sCart%2$s."
+msgstr ""
+"Lokale Preise wurden aktualisiert! Bitte gehen Sie zum "
+"%1$sEinkaufswagen%2$s."
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:735
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:736
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:744
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:745
+msgid "Cart"
+msgstr "Einkaufswagen"
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:761
+msgid ""
+"Error processing request to purchase for publish; WordPress security "
+"violation! Please try again."
+msgstr ""
+"Fehler beim Verarbeiten der Anfrage zum Kauf für Veröffentlichung; WordPress"
+" Sicherheits-Missbrauch! Bitte versuchen Sie es erneut."
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:901
+msgid "Purchase complete!"
+msgstr "Kauf abgeschlossen!"
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:902
+msgid "Purchase complete (with errors)!"
+msgstr "Kauf abgeschlossen (mit Fehlern)!"
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:1079
+msgid "Unable to get image details."
+msgstr "Informationen zum Bild konnten nicht abgerufen werden."
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:1097
+msgid "Unable to get image details from asset server."
+msgstr "Vom Asset-Server können keine Bilddetails abgerufen werden."
+
+#: includes/class-boldgrid-inspirations-api.php:554
+msgid "Your api key has been saved successfully."
+msgstr "Ihr API Key wurde erfolgreich gespeichert."
+
+#. translators: A line break / br tag.
+#: includes/class-boldgrid-inspirations-api.php:560
+msgid ""
+"Your API key appears to be invalid!%1$sPlease try to enter your BoldGrid "
+"Connect Key again."
+msgstr ""
+"Ihr API-Schlüssel scheint ungültig zu sein!!%1$sBitte versuchen Sie, Ihren "
+"BoldGrid-Verbindungsschlüssel erneut einzugeben."
+
+#. translators: A line break / br tag.
+#: includes/class-boldgrid-inspirations-api.php:568
+msgid ""
+"There was an error saving your key.%1$sPlease try entering your BoldGrid "
+"Connect Key again."
+msgstr ""
+"Es gab einen Fehler beim Speichern Ihres Schlüssels.%1$sBitte versuchen Sie,"
+" Ihren BoldGrid Connect Key erneut einzugeben."
+
+#: includes/class-boldgrid-inspirations-api.php:574
+msgid "Security violation (invalid nonce)."
+msgstr "Sicherheitsverstoß (einstweilen ungültig)."
+
+#: includes/class-boldgrid-inspirations-api.php:578
+msgid ""
+"BoldGrid API keys can only be saved by Admins. Please contact your WordPress"
+" Admin for assistance with saving your key."
+msgstr ""
+"BoldGrid-API-Schlüssel können nur von Admins gespeichert werden. Bitte "
+"kontaktieren Sie Ihren WordPress-Admin, um Hilfe beim Speichern Ihres "
+"Schlüssels zu erhalten."
+
+#: includes/class-boldgrid-inspirations-theme-install.php:259
+msgid ""
+"We recommend choosing a BoldGrid Theme. Our themes have theme specific "
+"content available through Inspirations and include more features while "
+"customizing."
+msgstr ""
+"Wir empfehlen Ihnen die Verwendung eines BoldGrid-Themes. In unseren Themes "
+"gibt es über Inspirations theme-spezifische Inhalte und sie bieten außerdem "
+"mehr Freiheiten für die individuelle Anpassung."eruntergeladen. Dies kann beim ersten"
+" Mal bis zu einer Minute dauern."
+msgstr "Vorschau wird geladen ..."
+
+#: includes/class-boldgrid-inspirations-deploy-messages.php:94
+msgid ""
+"&#10003; Inspirations Installed Successfully! Redirecting you to the "
+"Inspirations dashboard..."
+msgstr ""
+"&#10003; Inspirations erfolgreich installiert! Sie werden zum Inspirations "
+"Dashboard weitergeleitet..."
+
+#: includes/class-boldgrid-inspirations-deploy-messages.php:129
+msgid "Downloading images..."
+msgstr "Bilder herunterladen..."
+
+#: includes/class-boldgrid-inspirations-deploy-messages.php:160
+msgid "Installing your pages..."
+msgstr "Ihre Seiten werden installiert..."
+
+#: includes/class-boldgrid-inspirations-deploy-messages.php:225
+msgid "Installing plugins..."
+msgstr "Plugines werden installiert..."
+
+#: includes/class-boldgrid-inspirations-deploy-messages.php:241
+msgid "Installing your theme..."
+msgstr "Ihr Theme wird installiert ..."
+
+#: includes/class-boldgrid-inspirations-file.php:28
+msgid "You do not have the zip extension loaded"
+msgstr "Die Zip-Erweiterung wurde nicht geladen"
+
+#: includes/class-boldgrid-inspirations-asset-manager.php:674
+msgid "Unknown Error."
+msgstr "Unbekannter Fehler."
+
+#: includes/class-boldgrid-inspirations-start-over.php:280
+msgid ""
+"Error processing request to reset pointers (help messages); WordPress "
+"security violation! Please try again."
+msgstr ""
+"Fehler bei der Bearbeitung der Anfrage zum Zurücksetzen von Zeigern "
+"(Hilfsmeldungen); WordPress-Sicherheitsverletzung! Bitte versuchen Sie es "
+"erneut."
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:66
+msgid "Current Inspiration"
+msgstr "Derzeitige Inspiration"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:74
+msgid "Site Content"
+msgstr "Seiteninhalt"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:82
+msgid "Customize Theme"
+msgstr "Design anpassen"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:90
+msgid "Current theme:"
+msgstr "Aktuelles Thema:"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:111
+msgid "Support & Learning"
+msgstr "Support & Lernen"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:201
+msgid "View Site"
+msgstr "Seite ansehen"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:202
+msgid "Start Over with New Inspiration"
+msgstr "Mit neuer Inspiration von vorne anfangen"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:225
+msgid ""
+"If you want to dive into the Customizer and change colors, fonts, headers "
+"and footers, etc., go to the Customizer directly."
+msgstr ""
+"Wenn Sie den Customizer verwenden und Farben, Schriften, Kopf- und Fußzeilen"
+" usw. ändern möchten, gehen Sie direkt zum Customizer."
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:230
+msgid "Colors"
+msgstr "Farben"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:233
+msgid "Logo"
+msgstr "Logo"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:236
+msgid "Contact Info"
+msgstr "Kontaktinformationen"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:239
+msgid "Go to Customizer"
+msgstr "Zum Customizer gehen"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:249
+msgid "Go to Posts"
+msgstr "Zu den Beiträgen gehen"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:264
+msgid ""
+"If you're happy with the look of your Inspiration theme and ready to start "
+"editing the content of your site, go directly to your page editor."
+msgstr ""
+"Wenn Sie mit dem Aussehen Ihres Inspiration-Themes zufrieden sind und mit "
+"dem Bearbeiten Ihrer Seiteninhalte beginnen möchten, gehen Sie direkt zum "
+"Seiten-Editor."
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:284
+msgid "Add New Page"
+msgstr "Neue Seite Hinzufügen"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:286
+msgid "Add New Post"
+msgstr "Neuen Eintrag hinzufügen"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:290
+msgid "Go to All Pages"
+msgstr "Zu allen Seiten gehen"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:292
+msgid "Go to All Posts"
+msgstr "Alle Posts anzeigen"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:305
+msgid "View Support Docs"
+msgstr "Support-Dokumente ansehen"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:308
+msgid "New to WordPress? Ways to get Support:"
+msgstr "Neu bei WordPress? Supportmöglichkeiten:"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:313
+msgid "Find guides and tutorials on BoldGrid.com."
+msgstr "Sehen Sie sich Guides und Tutorials auf BoldGrid.com an."
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:315
+msgid "View Tutorials"
+msgstr "Tutorials ansehen"
+
+#. translators: 1 a line break for formatting purposes, we want the string to
+#. be on two lines.
+#: includes/class-boldgrid-inspirations-my-inspiration.php:323
+msgid "Need one-one %1$s support?"
+msgstr "Benötigen Sie eine direkte %1$s Beratung?"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:329
+msgid "Login Now"
+msgstr "Jetzt anmelden"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:334
+msgid "Get support from your fellow users."
+msgstr "Lassen Sie sich von anderen Nutzern unterstützen."
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:336
+msgid "User Groups"
+msgstr "Nutzergruppen"
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:354
+msgid "Choose New Theme"
+msgstr "Neues Theme auswhählen"
+
+#: includes/class-boldgrid-inspirations-enable-media-replace.php:14
+msgid "You do not have permission to upload files."
+msgstr "Sie sind nicht berechtigt, Dateien hochzuladen."
+
+#: includes/class-boldgrid-inspirations-enable-media-replace.php:102
+msgid "File type does not meet security guidelines. Try another."
+msgstr ""
+"Dateityp entspricht nicht den Sicherheitsrichtlinien. Versuchen Sie es mit "
+"einem anderen."
+
+#. translators: 1 The name of the file that could not be deleted.
+#: includes/class-boldgrid-inspirations-enable-media-replace.php:173
+msgid ""
+"The file %1$s can not be deleted by the web server, most likely because the "
+"permissions on the file are wrong."
+msgstr ""
+"Die Datei %1$s kann vom Webserver nicht gelöscht werden, "
+"höchstwahrscheinlich aufgrund falscher Rechte für de Datei."
+
+#: includes/class-boldgrid-inspirations-branding.php:204
+msgid "Need Support?"
+msgstr "Benötigen Sie Unterstützung?"
+
+#. translators: 1 Title of reseller, 2 opening anchor tag linking to
+#. reseller's support center, 3 its closing anchor tag.
+#: includes/class-boldgrid-inspirations-branding.php:211
+msgid "%1$s provides dedicated help for %2$sBoldGrid%3$s."
+msgstr "%1$s bietet spezielle Hilfe für %2$sBoldGrid%3$s."
+
+#. translators: 1 The opening anchor tag linking to the BoldGrid support
+#. center, 2 its closing anchor tag.
+#: includes/class-boldgrid-inspirations-branding.php:221
+msgid "Check out the %1$sBoldGrid Education Channel%2$s!"
+msgstr "Sehen Sie sich den %1$sBoldGrid Education Channel%2$s an!"
+
+#. translators: 1 Opening anchor tag linking to boldgrid.com, 2 closing anchor
+#. tag, 3 opening anchor tag to wordpress.org, 4 opening i tag, 5 closing i
+#. tag.
+#: includes/class-boldgrid-inspirations-branding.php:268
+msgid ""
+"%4$sBuilt with %1$sBoldGrid%2$s.%5$s | %4$sPowered by %3$sWordPress%2$s.%5$s"
+msgstr ""
+"%4$sErstellt mit %1$sBoldGrid%2$s.%5$s | %4$sPowered by "
+"%3$sWordPress%2$s.%5$s"
+
+#. translators: 1 Opening anchor tag linking to reseller's support url, 2 its
+#. closing anchor tag, 3 name of reseller, 4 opening i tag, 5 closing i tag.
+#: includes/class-boldgrid-inspirations-branding.php:294
+msgid "%4$sSupport from %1$s%3$s%2$s.%5$s"
+msgstr "%4$sSupport von %1$s%3$s%2$s.%5$s"

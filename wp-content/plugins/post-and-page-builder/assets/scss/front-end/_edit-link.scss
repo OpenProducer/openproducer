@@ -1,0 +1,35 @@
+.bg_block-template-default.single-bg_block,
+.bg-custom-template,
+.page-template-templatepagefullwidth-php.page-template-fullwidth,
+.page-template-templatepageleft-sidebar-php.page-template-left-sidebar,
+.page-template-templatepagecontent-only-php.page-template-content-only,
+.page-template-templatepageright-sidebar-php.page-template-right-sidebar {
+	article {
+		position: relative;
+	}
+}
+
+.bg-edit-link {
+	display: inline-block;
+	position: absolute;
+	bottom: 10px;
+	right: 20px;
+
+	a:active .fa {
+		background-color: darken( $boldgrid-color, 5% );
+	}
+
+	.fa {
+		background-color: $boldgrid-color;
+		border-radius: 50%;
+		box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.38);
+		font-size: 15px;
+		padding: 9px;
+		color: #fff;
+		transition: box-shadow .5s, background-color .5s;
+
+		&:hover {
+			box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, .5);
+		}
+	}
+}

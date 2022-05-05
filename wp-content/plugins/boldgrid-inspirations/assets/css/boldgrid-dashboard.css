@@ -1,0 +1,13 @@
+/** BoldGrid Feedback Widget Styles **/
+#boldgrid_feedback_widget select,
+#boldgrid_feedback_widget textarea,
+#boldgrid_feedback_widget input[type="text"] {
+	width: 100%;
+}
+#boldgrid_feedback_widget .feedback-form-label {
+	padding: .4em 0;
+}
+#boldgrid_feedback_widget #feedback-email-address,
+#boldgrid_feedback_widget #feedback-comment-area {
+	display: none;
+}

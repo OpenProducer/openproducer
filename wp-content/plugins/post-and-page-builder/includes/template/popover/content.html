@@ -1,0 +1,29 @@
+<div spellcheck="false" data-mce-bogus="all" contenteditable="false" unselectable="on" class="draggable-tools-imhwpb">
+	<div class="bg-drag-popover content-drag-handle" >
+		<span class="popover-imhwpb content-popover-imhwpb left-popover-imhwpb" >
+			<div title="Move" contenteditable="false" draggable="true"
+				class="no-select-imhwpb drag-handle-imhwpb draggable-button">
+	 			<span class="genericon genericon-move" aria-hidden="true"></span>
+			</div>
+			<div class="popover-menu-imhwpb hidden">
+				<ul>
+					<li class="no-select-imhwpb action-list" data-action="">Edit Content</li>
+					<li class="no-select-imhwpb action-list" data-action="duplicate">Clone</li>
+					<li class="no-select-imhwpb action-list" data-action="delete">Delete</li>
+					<li class="no-select-imhwpb action-list" data-action="Font">Font</li>
+					<li class="no-select-imhwpb action-list" data-action="Advanced">Advanced Control</li>
+					<% _.each( actions, function ( value ) {
+						if ( 'content' === value.element_type ) { %>
+							<li class="no-select-imhwpb action-list" data-action="<%=value.title%>"><%=value.title%></li>
+						<% } %>
+					<% } ); %>
+				</ul>
+			</div>
+			<div title="Edit Content" class="context-menu-imhwpb draggable-button">
+				<span class="genericon genericon-menu" aria-hidden="true"></span>
+			</div>
+			<div title="Edit As Row" class="edit-as-row draggable-button">
+				<span class="genericon genericon-expand" aria-hidden="true"></span></div>
+		</span>
+	</div>
+</div>

@@ -1,0 +1,13 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2015 by original authors @ fontello.com</metadata>
+<defs>
+<font id="bg-admin-icons" horiz-adv-x="1000" >
+<font-face font-family="bg-admin-icons" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="bg-gridcoin-icon" unicode="&#xe800;" d="m503 850c-278 0-503-225-503-503s225-502 503-502 502 225 502 502-230 503-502 503z m282-319c0-11-10-26-21-26-10 0-31 15-31 26v52h-471v-471h471v262h-105c-10 0-26 10-26 21 0 10 11 31 26 31h105c31 0 52-31 52-52v-262c0-37-21-53-52-53h-471c-26 0-53 27-53 53v471c0 31 11 52 53 52h471c47 0 52-5 52-52v-52z m-445-210h246c11 0 21-10 21-21v-120c0-11-10-21-21-21h-246c-10 0-21 10-21 21v120c-5 11 6 21 21 21z m-26 79v125c0 11 11 21 21 21h152c10 0 21-10 21-21v-125c0-11-11-21-21-21h-152c-10 0-21 10-21 21z" horiz-adv-x="1000" />
+<glyph glyph-name="bg-logo-icon" unicode="&#xe801;" d="m947 587c32 0 53 21 53 53v36c0 95-79 174-174 174h-668c-105 0-158-53-158-158v-684c0-90 68-158 158-158h684c90 0 158 68 158 158v300c0 95-79 174-174 174h-142c-31 0-52-21-52-53 0-32 21-53 52-53h174c21 0 37-15 37-36v-353c0-21-16-37-37-37h-716c-21 5-37 21-37 42v716c0 21 16 37 37 37h721c16 0 32-16 32-37v-68c0-32 21-53 52-53z m-321-526h-358c-31 0-57 26-57 57v153c0 26 26 53 57 53h364c31 0 58-27 58-58v-153c-6-26-32-52-64-52z m-158 315h-200c-31 0-57 27-57 58v148c0 31 26 58 57 58h206c26 0 52-27 52-58v-153c0-26-26-53-58-53z" horiz-adv-x="1000" />
+</font>
+</defs>
+</svg>

@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "js-lint": "prettier-eslint src/**/*.js --list-different",
+    "js-lint-fix": "prettier-eslint src/**/*.js --write",
+    "create-pot": "php -d xdebug.max_nesting_level=500 \"$(which wp)\" i18n make-pot src languages/boldgrid-library.pot --slug=\"boldgrid-library\""
+  },
+  "devDependencies": {
+    "cpx": "^1.5.0",
+    "eslint": "6.6.*",
+    "eslint-config-wordpress": "^2.0.0",
+    "eslint-plugin-html": "^6.0.0",
+    "jquery-toggles": "^4.0.0",
+    "prettier-eslint": "^9.0.0",
+    "prettier-eslint-cli": "^5.0.0",
+    "rimraf": "^3.0.0"
+  }
+}

@@ -1,0 +1,113 @@
+@font-face {
+	font-family: 'boldgrid';
+	src: url('../fonts/boldgrid.eot?-k3w47');
+	src: url('../fonts/boldgrid.eot?#iefix-k3w47')
+		format('embedded-opentype'), url('../fonts/boldgrid.woff?-k3w47')
+		format('woff'), url('../fonts/boldgrid.ttf?-k3w47') format('truetype'),
+		url('../fonts/boldgrid.svg?-k3w47#boldgrid') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'bg-admin-icons';
+	src: url('../fonts/bg-admin-icons.eot?11633397');
+	src: url('../fonts/bg-admin-icons.eot?11633397#iefix')
+		format('embedded-opentype'),
+		url('../fonts/bg-admin-icons.woff?11633397') format('woff'),
+		url('../fonts/bg-admin-icons.ttf?11633397') format('truetype'),
+		url('../fonts/bg-admin-icons.svg?11633397#bg-admin-icons')
+		format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+#toplevel_page_boldgrid-transactions .wp-menu-image::before,
+#toplevel_page_boldgrid-inspirations .wp-menu-image:not(.dashicons-lightbulb)::before {
+	content: "\e801";
+	font-family: "bg-admin-icons";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 19px;
+	speak: none;
+	display: inline-block;
+	text-decoration: inherit;
+	width: 1em;
+	margin-right: .2em;
+	text-align: center;
+	/* opacity: .8; */
+	/* For safety - reset parent styles, that can break glyph codes*/
+	font-variant: normal;
+	text-transform: none;
+	/* fix buttons height, for twitter bootstrap */
+	line-height: 1em;
+	/* Animation center compensation - margins should be symmetric */
+	/* remove if not needed */
+	margin-left: .2em;
+	/* You can be more comfortable with increased icons size */
+	/* font-size: 120%; */
+	/* Font smoothing. That was taken from TWBS */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.toplevel_page_boldgrid-inspirations #step-2 .theme-browser .theme .theme-screenshot {
+	overflow: visible;
+}
+
+.toplevel_page_boldgrid-inspirations #step-2 .theme-browser .theme .theme-name {
+	position: relative;
+}
+
+.theme-install-php  .theme-browser .theme .theme-screenshot img,
+.toplevel_page_boldgrid-inspirations #step-2 .theme-browser .theme .theme-screenshot img {
+	transition: opacity 0s;
+}
+
+.theme-install-php .theme-browser .theme .theme-name,
+.toplevel_page_boldgrid-inspirations #step-2 .theme-browser .theme .theme-name {
+	background-color: #FAFAFA;
+}
+
+#toplevel_page_boldgrid-transactions .wp-menu-image::before {
+	content: "\e800";
+}
+
+.whh-icon:before {
+	content: "\e601";
+	font-family: 'boldgrid';
+	speak: none;
+	font-size: large;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.imh-icon:before {
+	content: "\e602";
+	font-family: 'boldgrid';
+	speak: none;
+	font-size: large;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.boldgrid-icon:before {
+	content: "\e600";
+	font-family: 'boldgrid';
+	speak: none;
+	font-size: large;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}

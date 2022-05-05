@@ -1,0 +1,184 @@
+.imhwpb-media-frame .attachments-browser, .imhwpb-media-frame .media-frame-toolbar
+	{
+	background: #fff;
+}
+
+.imhwpb-media-frame .media-frame-toolbar {
+	border-top: 1px solid #ddd;
+}
+
+.imhwpb-media-frame input[type="email"], .imhwpb-media-frame input[type="number"],
+	.imhwpb-media-frame input[type="password"], .imhwpb-media-frame input[type="search"],
+	.imhwpb-media-frame input[type="text"], .imhwpb-media-frame input[type="url"],
+	.imhwpb-media-frame select, .imhwpb-media-frame textarea {
+	font-family: "Open Sans", sans-serif;
+	font-size: 12px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #DFDFDF;
+}
+
+ul#search_results {
+	position: absolute;
+	padding: 0px 16px;
+	left: 0px;
+	background: #fff;
+	overflow: auto;
+}
+
+.imhwpb-media-frame div.attachments-browser .media-toolbar-secondary {
+	width: 25%;
+	max-width: 25%;
+	float: left;
+	box-sizing: border-box;
+	padding-top: 8px;
+}
+
+.imhwpb-media-frame div.attachments-browser .media-toolbar-primary {
+	width: 75%;
+	max-width: 75%;
+	float: right;
+	box-sizing: border-box;
+	text-align: right;
+	padding-top: 11px;
+}
+
+.imhwpb-media-frame #media-search-input {
+	width: calc(100% - 75px);
+	max-width: 350px;
+	margin-top: 1px;
+}
+
+.attachment {
+	cursor: default;
+}
+
+select#image_size option.recommended_image_size {
+	background: #E5FFE5;
+}
+
+/* shown under each image in search results */
+.imhwpb-media-frame .image-details {
+	padding-top: 2px;
+	text-align: right;
+	height: 25px;
+}
+
+/* creative commons icon */
+.cc-sm {
+	filter: brightness(0.45);
+}
+
+#search_results .fa-boldgrid {
+	margin-top: -1px;
+}
+#search_results .fa {
+	font-size: 22px;
+}
+
+#boldgrid_connect_search_clone body#image-upload {
+	box-sizing: border-box;
+}
+
+/* ************************************************************************
+toolbar and search results
+************************************************************************* */
+@media screen and (max-width: 788px) {
+	.attachments-browser .media-toolbar {
+		height: 75px;
+	}
+	ul#search_results {
+		top: 75px;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.attachments-browser .media-toolbar {
+		height: 125px;
+	}
+	ul#search_results {
+		top: 125px;
+	}
+}
+
+/* ************************************************************************
+Attachment sizes
+************************************************************************* */
+@media screen and (max-width: 1200px) {
+	ul#search_results .attachment {
+		width: 20%;
+	}
+}
+
+@media screen and (max-width: 975px) {
+	ul#search_results .attachment {
+		width: 33%;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	ul#search_results .attachment {
+		width: 100%;
+	}
+}
+
+/* ************************************************************************
+BoldGrid Connect Search (tab / iframe / etc)
+************************************************************************* */
+.spinner.boldgrid_connect_search {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	width: 100%;
+	height: 100%;
+	visibility: visible;
+	z-index: 100000;
+	padding: 15px 0px 0px 35px;
+	opacity: 1;
+	background-color: #fff;
+	background-position: 10px 10px;
+	box-sizing: border-box;
+}
+
+/* ************************************************************************
+Attachment details.
+************************************************************************* */
+a.button.button-small.view-image-in-library {
+	margin-top: 7px;
+}
+
+/* ************************************************************************
+Media Modal > Image Crop
+************************************************************************* */
+
+/* Prevent a portait image from displaying atop "Crop Image" and "Skip Cropping" buttons. */
+.media-frame .media-frame-content .crop-content {
+	height: calc(100% - 60px);
+}
+
+/* ************************************************************************
+Adjustments against WP's media queries in wp-includes/css/media-views.css
+************************************************************************* */
+@media only screen and (max-width: 900px) {
+	.attachments-browser .attachments, .attachments-browser .uploader-inline,
+		.attachments-browser .media-toolbar {
+		right: 267px;
+	}
+	.media-sidebar {
+		/* width: 267px; */
+		
+	}
+}
+
+/* Responsive on portrait and landscape */
+@media only screen and (max-width: 640px) , screen and (max-height:
+	400px) {
+	.attachments-browser .attachments, .attachments-browser .uploader-inline,
+		.attachments-browser .media-toolbar {
+		right: 267px;
+	}
+	.media-sidebar {
+		width: 267px;
+	}
+}

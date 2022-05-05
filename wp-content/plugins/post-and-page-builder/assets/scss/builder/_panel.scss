@@ -1,0 +1,45 @@
+@import 'panel/base';
+@import 'panel/form-reset';
+@import 'panel/icon';
+@import 'panel/box';
+@import 'panel/background';
+@import 'panel/image';
+@import 'panel/hr';
+@import 'panel/button';
+@import 'panel/font';
+@import 'panel/image-filter';
+@import 'panel/information';
+@import 'panel/palette';
+@import 'panel/library';
+@import 'panel/navigation';
+@import 'panel/advanced';
+@import 'panel/dividers';
+
+.theme-designs .button-overrides {
+	background-color: transparent;
+	text-shadow: none;
+	border: none;
+	box-shadow: none;
+
+	&:hover,
+	&:active,
+	&:focus {
+		border: none;
+		background-color: transparent;
+		box-shadow: none;
+	}
+}
+
+.editor-panel .control {
+	display: block;
+	height: 36px;
+	width: 216px;
+	width: 50%;
+	float: left;
+}
+
+.editor-panel .control .name {
+	position: relative;
+	top: 4px;
+	float: left;
+}

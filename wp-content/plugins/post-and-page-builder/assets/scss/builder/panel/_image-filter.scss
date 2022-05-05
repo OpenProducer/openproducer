@@ -1,0 +1,163 @@
+/*************** Image Panel ********************/
+.editor-panel[data-type='image-filter'] {
+	width: 400px;
+
+	.panel-selection {
+		background: none;
+		width: auto;
+		height: auto;
+		padding: 0;
+
+		&:hover {
+			color: $panel-color;
+
+			canvas,
+			img {
+				border-color: $panel-color;
+			}
+		}
+
+		canvas,
+		img {
+			width: 100%;
+			height: auto;
+			max-height: 100px;
+			max-width: 100px;
+			border-radius: 7px;
+			border: 2px solid transparent;
+		}
+	}
+
+	.panel-selection.selected {
+		color: $hover-color;
+	}
+
+	.panel-selection.selected canvas,
+	.panel-selection.selected img {
+		border-color: $hover-color;
+	}
+
+	.image-filter .customize {
+		display: none;
+		margin-left: 0;
+	}
+
+	.customizing .customize {
+		display: block;
+	}
+
+	.customizing .presets {
+		display: none;
+	}
+
+	.panel-body {
+		position: relative;
+
+		.activate-customize {
+			margin-top: 10px;
+		}
+
+		.remote-image-error {
+			display: none;
+			padding: 100px;
+			font-size: 18px;
+
+			p {
+				font-size: 1.1em;
+			}
+		}
+
+		.remote-image-error.error-active {
+			display: block;
+
+			& ~ .choices,
+			& ~ .preview {
+				display: none;
+			}
+		}
+
+		.presets {
+			padding-right: 2px;
+			padding-top: 2px;
+		}
+
+		.preview {
+			text-align: center;
+			margin-top: 4px;
+			height: 95%;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+
+			img,
+			canvas {
+				max-width: 85%;
+				max-height: 85%;
+				text-align: center;
+				border-radius: 5px;
+			}
+
+			.panel-button {
+				display: inline-block;
+				margin: 15px auto;
+				cursor: pointer;
+			}
+
+			.loading {
+				display: none;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				background-color: rgba(255, 255, 255, 0.8);
+				text-align: center;
+			}
+
+			.spinner {
+				position: relative;
+				margin-top: 50%;
+				transform: translateY(-50%);
+				float: none;
+			}
+		}
+	}
+
+	&.rendering .panel-body .preview .loading {
+		display: block;
+	}
+
+	.panel-body .choices,
+	.panel-body .preview {
+		display: inline-block;
+		text-align: center;
+	}
+
+	.panel-body .choices {
+		width: 50%;
+		margin-left: 20px;
+	}
+
+	.panel-body .preview {
+		width: calc(50% - 20px);
+	}
+
+	.panel-body .choices {
+		border-radius: 5px;
+		padding-bottom: 11px;
+		background-color: #f1f1f1;
+		box-shadow: 0 0 4px 0 #b5b5b5;
+		margin-bottom: 8px;
+		margin-top: 3px;
+	}
+
+	.panel-body ul {
+		overflow-y: scroll;
+		height: 400px;
+		margin: 10px;
+	}
+
+	.panel-body {
+		overflow: hidden;
+	}
+}

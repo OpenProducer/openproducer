@@ -1,0 +1,67 @@
+body {
+	background: #ffffff;
+}
+#wpcontent {
+	padding-left: 0;
+}
+.mt-2 {
+	margin-top: 20px;
+}
+.my-4 {
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+.header-container {
+	width: 100%;
+	margin: 1rem 1rem 4rem 0;
+	padding: 0 0 2rem;
+	border-bottom: 1px solid #dddddd;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.dreamhost-logo {
+	width: 14em;
+	margin-left: 10px;
+}
+.blogvault-logo {
+	width: 12em;
+	float: right;
+	margin-right: 10px;
+}
+.text-center {
+	text-align: center;
+}
+.card {
+	margin: auto;
+	width: 100%;
+	max-width: 650px;
+	background: #fff;
+	padding: 2rem;
+	border: 1px solid rgba(74,144,226,0.24);
+	box-shadow: 0px 2px 9px rgba(212,212,212,0.5);
+	border-radius: 8px;
+}
+.card-title {
+	font-size: 2.5rem;
+	line-height: 1;
+}
+.form-content {
+	max-width: 400px;
+	margin: auto;
+}
+.email-label {
+	display: block;
+	text-align: left;
+	font-weight: bold;
+}
+input[type=email] {
+	font-size: inherit;
+	padding: .5em;
+	width: 100%;
+}
+#migratesubmit {
+	display: block;
+	margin: 2rem auto 0;
+}

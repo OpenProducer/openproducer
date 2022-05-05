@@ -1,0 +1,38 @@
+<div class="media-sidebar visible">
+	<div class='hidden'>
+		<h3>Preview</h3>
+        <p class='bg-info'>This map is a preview. Your map will be inserted based on the critera below, not including any changes you make directly to the preview.</p>
+        <iframe style="max-width:100%" class='fullwidth-imhwpb boldgrid-google-map' width="100%"
+          height="250"
+          frameborder="0" style="border:0"
+          src="">
+        </iframe>
+		<hr>
+        <h3>Map Settings</h3>
+		<div>Size</div>
+		<form id='search-map-imhwpb'>
+			<div>
+				<select name="select-size-imhwpb" class="small-text">
+					<option value="" data-height='300' data-width='400'>Small</option>
+					<option selected="selected" data-height='450' data-width='600'>Medium</option>
+					<option value="" data-height='800' data-width='600'>Large</option>
+					<option value="custom">Custom</option>
+				</select> <span id='map-dimensions-imhwpb' class='hidden'> <input
+					type="text" name='custom-width-imhwpb' value="800"
+					class="small-text" /> X <input type="text"
+					name='custom-height-imhwpb' value="600" class="small-text" />
+				</span>
+			</div>
+			<div class="form-element-imhwpb">
+				<label>Location Search</label> <input type="text" value=""
+					name='map-search-imhwpb' class="googlesearch-imhwpb"
+					placeholder="Search" />
+				<button class="searchbutton button-secondary" aria-label="Search">Search</button>
+			</div>
+			<div class="form-element-imhwpb hidden">
+				<input id='search-imhwpb' class="button-primary" type="submit"
+					value="Search" />
+			</div>
+		</form>
+	</div>
+</div>

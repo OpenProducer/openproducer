@@ -1,0 +1,49 @@
+.bg-editor-button {
+	font-family: 'Josefin Sans';
+	text-transform: uppercase;
+	font-weight: 300;
+	font-size: 13px;
+	padding: 10px 35px;
+	line-height: 2em;
+
+	&.bg-primary-color {
+		background-color: #2271b1;
+		color: white;
+
+		&:hover {
+			background-color: darken(#2271b1, 8%);
+		}
+
+		&[disabled] {
+			background-color: lighten(#2271b1, 30%);
+		}
+	}
+
+	&.bg-secondary-color {
+		background-color: #ececec;
+		color: #000;
+
+		&:hover {
+			background-color: lighten(#ececec, 5%);
+		}
+	}
+}
+
+.button.boldgrid-color {
+	background-color: $boldgrid-color;
+	color: white;
+	text-shadow: none;
+	border-color: $darkened-boldgrid-color $darkened-boldgrid-color $darkened-boldgrid-color;
+	box-shadow: 0 1px 0 $darkened-boldgrid-color;
+
+	&:hover, &:focus, &:active {
+		background-color: lighten( $boldgrid-color, 3% );
+		border-color: $darkened-boldgrid-color;
+		color: white;
+	}
+
+	&:active {
+		background-color: $darkened-boldgrid-color;
+		box-shadow: inset 0 2px 0 $darkened-boldgrid-color;
+	}
+}

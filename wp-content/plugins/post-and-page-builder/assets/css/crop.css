@@ -1,0 +1,81 @@
+.container-crop {
+	padding: 0px;
+	width: 100%;
+	box-sizing: border-box;
+	height: 100%;
+}
+
+#crop.media-frame .media-frame-content {
+	top: 50px;
+}
+
+/* When the crop window is open, remove the tabs, "Upload Files / Media Library". */
+#crop.media-frame .media-frame-router {
+	display: none;
+}
+
+/**
+ * Left side, crop side.
+ */
+.container-crop .left {
+	overflow: auto;
+	width: calc(100% - 350px);
+	padding: 0 16px 24px;
+	box-sizing: border-box;
+	float: none;
+	height: inherit;
+}
+
+img.suggest-crop {
+	max-width: 100%;
+	max-height: calc(100% - 5px);
+}
+
+.comparing {
+	padding: 18px;
+	font-size: 13px;
+}
+
+/*
+ * Media Sidebar.
+ */
+.container-crop .media-sidebar {
+	width: 350px;
+	box-sizing: border-box;
+}
+
+.container-crop .media-sidebar img {
+	float: left;
+	max-width: 45%;
+	border: 1px solid #ddd;
+	padding: 1px;
+}
+
+.container-crop .media-sidebar img:nth-of-type(2) {
+	float: right;
+}
+
+.container-crop .media-sidebar span#toggle-force {
+	cursor: pointer;
+}
+
+/* Make a spinner inline. */
+.spinner.inline {
+	visibility: visible;
+	display: inline-block;
+	float: none;
+}
+
+/**
+* Error cropping image
+*/
+p.crop-invalid {
+	padding-left: 18px;
+	padding-right: 18px;
+	text-align: right;
+}
+
+/* When you click the button, the surrounding text moves up. Prevent this. */
+p.crop-invalid button.crop-fail:active {
+	vertical-align: baseline;
+}

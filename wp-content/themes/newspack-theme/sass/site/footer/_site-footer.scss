@@ -1,0 +1,229 @@
+/* Site footer */
+
+.site-footer {
+	margin: #{2 * $size__spacing-unit} 0 0;
+
+	a {
+		color: $color__text-light;
+		transition: opacity $link_transition ease-in-out;
+	}
+
+	.footer-widgets {
+		padding: $size__spacing-unit 0 #{2 * $size__spacing-unit};
+
+		.wrapper {
+			flex-wrap: wrap;
+			justify-content: space-between;
+		}
+	}
+
+	.footer-widgets .widget {
+		width: 100%;
+
+		@include media( mobile ) {
+			flex: 1 0 0;
+			margin-right: #{2 * $size__spacing-unit};
+			min-width: calc( 50% - #{2 * $size__spacing-unit} );
+		}
+
+		@include media( tablet ) {
+			min-width: calc( 25% - #{2 * $size__spacing-unit} );
+		}
+
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+
+	.widget-title,
+	.widgettitle {
+		color: $color__text-light;
+		font-size: inherit;
+	}
+}
+
+.af-widget .site-footer {
+	margin-top: 0;
+}
+
+/* When the Customizer option is enabled, override the footer columns layout */
+.fw-stacked .footer-widgets .wrapper {
+	display: block;
+}
+
+.footer-branding {
+	.wrapper {
+		padding-top: $size__spacing-unit;
+	}
+
+	.custom-logo-link,
+	.footer-logo-link {
+		margin-bottom: $size__spacing-unit;
+		max-height: 76px;
+		max-width: 200px;
+
+		img {
+			max-height: inherit;
+			width: auto;
+		}
+
+		/* stylelint-disable selector-type-no-unknown  */
+		amp-img.amp-wp-enforced-sizes[layout='intrinsic'] > img {
+			object-position: left center;
+		}
+		/* stylelint-enable */
+	}
+
+	.footer-logo-small & {
+		.custom-logo-link,
+		.footer-logo-link {
+			max-height: 48px;
+			max-width: 160px;
+		}
+	}
+
+	.footer-logo-large & {
+		@include media( tablet ) {
+			.custom-logo-link,
+			.footer-logo-link {
+				max-height: 120px;
+				max-width: 304px;
+			}
+		}
+	}
+
+	.footer-logo-xlarge & {
+		@include media( tablet ) {
+			.custom-logo-link,
+			.footer-logo-link {
+				max-height: 160px;
+				max-width: 368px;
+			}
+		}
+	}
+}
+
+.site-info {
+	color: $color__text-light;
+	padding-bottom: $size__spacing-unit;
+
+	.wrapper {
+		display: block;
+
+		@include media( tablet ) {
+			display: flex;
+
+			&.site-info-contain {
+				justify-content: flex-start;
+
+				> *:not( :first-child ) {
+					margin-left: $size__spacing-unit;
+				}
+
+				> *:last-child {
+					margin-left: auto;
+				}
+			}
+		}
+	}
+
+	a {
+		color: inherit;
+		display: block;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	a,
+	.copyright {
+		margin: #{0.25 * $size__spacing-unit} 0;
+	}
+
+	.site-info-contain:first-child {
+		border-top: 1px solid $color__border;
+		padding-top: $size__spacing-unit;
+	}
+
+	.widget-area {
+		.wrapper {
+			border-top: 1px solid $color__border;
+			justify-content: space-between;
+			padding: $size__spacing-unit 0 #{0.5 * $size__spacing-unit};
+		}
+
+		.widget {
+			font-size: inherit;
+
+			@include media( mobile ) {
+				margin: 0 $size__spacing-unit 0 0;
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+
+		.widget-title,
+		.widgettitle {
+			display: inline-block;
+			margin: 0 $size__spacing-unit 0 0;
+		}
+
+		a {
+			display: inline;
+			margin: 0;
+		}
+
+		ul,
+		li {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		ul {
+			@include media( mobile ) {
+				display: inline;
+			}
+
+			li {
+				margin: #{0.3 * $size__spacing-unit} 0;
+
+				@include media( mobile ) {
+					display: inline-block;
+					margin: 0 $size__spacing-unit 0 0;
+
+					ul {
+						display: inline-block;
+						margin-left: $size__spacing-unit;
+					}
+
+					&:last-child {
+						margin-right: 0;
+					}
+				}
+			}
+
+			a {
+				display: inline-block;
+				padding: #{0.25 * $size__spacing-unit} 0;
+
+				@include media( mobile ) {
+					padding: #{0.125 * $size__spacing-unit} 0;
+				}
+			}
+		}
+
+		p {
+			margin: 0;
+		}
+	}
+}
+
+#colophon .site-info .widget-title,
+#colophon .site-info .widgettitle {
+	color: inherit;
+	font-size: 1em;
+}

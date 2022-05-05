@@ -1,0 +1,80 @@
+.bg-loading-spinner {
+	display: none;
+	position: relative;
+
+	&.enabled {
+		display: inline-block !important;
+
+		&:before {
+			content: ' ';
+			background-image: url(../image/boldgrid-logo.svg);
+			display: block;
+			width: 50px;
+			height: 50px;
+			background-repeat: no-repeat;
+		}
+
+		&:after {
+			content: ' ';
+			width: 50px;
+			height: 50px;
+			background-color: #000;
+			display: block;
+			border-radius: 100%;
+			animation: sk-scaleout 1s infinite ease-in-out;
+			position: absolute;
+			top: 0;
+		}
+	}
+}
+
+.bg-editor-loading {
+	display: none;
+
+	&.enabled {
+		display: block !important;
+	}
+
+	&:after {
+		content: ' ';
+		width: 50px;
+		height: 50px;
+		background-color: #fff;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		top: calc(50% - 25px);
+		z-index: 99999999;
+		border-radius: 100%;
+		animation: sk-scaleout 1s infinite ease-in-out;
+	}
+
+	&:before {
+		content: ' ';
+		background-image: url(../image/boldgrid-logo.svg);
+		width: 50px;
+		height: 50px;
+		z-index: 99999999;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		background-repeat: no-repeat;
+		transform: translateY(-50%);
+	}
+
+	&.absolute:after,
+	&.absolute:before {
+		position: absolute;
+	}
+}
+
+@keyframes sk-scaleout {
+	0% {
+		transform: scale(0);
+	}
+
+	100% {
+		transform: scale(1);
+		opacity: 0;
+	}
+}

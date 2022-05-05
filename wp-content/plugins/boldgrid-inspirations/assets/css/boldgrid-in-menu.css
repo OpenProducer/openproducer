@@ -1,0 +1,39 @@
+/**
+* This file should not be auto formatted.
+*/
+
+
+.boldgrid-auto-add-to-menu:before {
+	content: "\f203";
+	font: 400 20px/1 dashicons;
+	speak: none;
+	display: inline-block;
+	padding: 0 2px 0 0;
+	top: 0;
+	left: -1px;
+	position: relative;
+	vertical-align: top;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+	color: #82878c;
+}
+
+#boldgrid-auto-add-to-menu-menu-listing {
+	margin-top: 3px;
+}
+
+#boldgrid-auto-add-to-menu-menu-listing ul{
+	font-size: 12px;
+	list-style: disc outside none !important;
+	margin: 0px;
+	padding-left: 30px;
+}
+
+.hide-boldgrid-auto-add-to-menu.button {
+	margin-top: 8px;
+}
+
+#selected-menu-names {
+	font-weight: bold;
+}

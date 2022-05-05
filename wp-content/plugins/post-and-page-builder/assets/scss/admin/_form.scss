@@ -1,0 +1,50 @@
+.bg-editor-radio {
+	input {
+		padding: 15px;
+		background: #ececec;
+		border-radius: 5px;
+		margin: 7px 0;
+		display: block;
+		font-size: 15px;
+		position: relative;
+		width: 100%;
+		border: 0;
+		height: 40px;
+		box-shadow: none;
+		text-align: left;
+		transition: background-color, color .5s;
+
+		&:after {
+			content: attr(text);
+			top: 50%;
+			position: absolute;
+			transform: translateY(-50%);
+			margin-left: 20px;
+		}
+
+		&:hover {
+			background-color: lighten($panel-color, 65%);
+		}
+	}
+
+	input:checked {
+		color: white;
+		background: $panel-color;
+
+		&:before {
+			color: $panel-color;
+			content: '\f058';
+			display: block;
+			position: absolute;
+			left: -20px;
+			font: normal normal normal 16px/1 FontAwesome;
+			transform: translateY(-50%);
+			top: 50%;
+			height: initial;
+			margin: initial;
+			line-height: initial;
+			background-color: initial;
+			text-indent: initial;
+		}
+	}
+}

@@ -1,0 +1,7 @@
+<div class="customize-navigation">
+	<% _.each( controls, function ( control, index ) { %>
+	<div class="item" data-tooltip-inline="<%=control.label %>" data-control-name="<%=control.name %>">
+		<a href="#"><%=control.icon %></a>
+	</div>
+	<% } ); %>
+</div>

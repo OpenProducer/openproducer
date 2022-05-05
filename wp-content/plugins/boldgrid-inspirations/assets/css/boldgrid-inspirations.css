@@ -1,0 +1,932 @@
+/**
+ * #.# Make Inspirations full screen.
+ *
+ * These styles allow the Inspirations process to be full screen.
+ */
+
+body.bginsp-full-screen {
+	margin-top: 16px;
+} 
+
+.bginsp-full-screen #adminmenumain,
+
+.bginsp-full-screen #wpadminbar {
+	display: none;
+}
+
+.bginsp-full-screen #wpcontent {
+	margin: 0;
+}
+
+.bginsp-full-screen #wpfooter {
+	margin: 0;
+}
+
+.bginsp-full-screen .top-menu { 
+	position: fixed;
+	margin-top: 0;
+	margin-left: 0;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 999;
+}
+
+@media (min-width: 1423px) {
+	.bginsp-full-screen #screen-welcome,
+	.bginsp-full-screen #screen-content,
+	.bginsp-full-screen #screen-contact,
+	.bginsp-full-screen #screen-install {
+		padding-top: 0;
+	}
+}
+
+
+/**
+ * #.# Section: Under top menu alignment.
+ *
+ * Ensure all elements are properly aligned under the top menu.
+ */
+
+#post_deploy,	/* The form on the Inspirations page. */
+#deploy_status { /* The container on the deploy page. */
+	margin-top: 35px;
+}
+
+#post_deploy > div > h1 { /* Content Check Warning header. */
+	padding-top: 0;
+}
+
+/* Page layout */
+#screen-design  .left,
+#screen-content .left {
+	border: 0 solid #000;
+	width: 200px;
+	box-sizing: border-box;
+}
+
+.left .sub-category,
+.left .pageset-option,
+.left .feature-option {
+	background: #fff;
+}
+
+/* Page layout */
+#screen-design  .right,
+#screen-content .right {
+	border: 0 solid #000;
+	width: calc( 100% - 215px );
+	box-sizing: border-box;
+	position: relative;
+}
+
+/* The heading, "Category filter" */
+.category-filter,
+.feature-filter,
+.page-set-filter {
+	background: #e6e6e6;
+	padding: 3px 0 3px 10px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.pageset-option,
+.sub-category {
+	cursor: pointer;
+}
+
+/* Radio Buttons */
+input[type="radio"][name="pageset"],
+.feature-option input[type="checkbox"],
+input[type="radio"][name="sub-category"] {
+	visibility: hidden;
+}
+
+.pageset-option,
+.feature-option,
+.sub-category {
+	padding: .5em 0;
+	-webkit-transition: background-color .3s linear, color .3s linear;
+	-moz-transition: background-color .3s linear, color .3s linear;
+	-o-transition: background-color .3s linear, color .3s linear;
+	-ms-transition: background-color .3s linear, color .3s linear;
+	transition: background-color .3s linear, color .3s linear;
+}
+
+/* Override WordPress' default cursor when hovering over a theme. */
+.theme-browser .theme,
+.theme-browser .theme:hover,
+.theme-browser .theme:focus {
+	cursor: auto;
+}
+
+/* Theme name */
+.theme-name,
+#theme-title {
+	text-transform: capitalize;
+}
+
+#theme-title {
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.theme-name .name,
+.summary-subheading {
+	color: #aaa;
+	font-size: 12px;
+	font-style: italic;
+	font-weight: normal;
+}
+
+/* Theme */
+.theme {
+	-webkit-transition-property:		-webkit-box-shadow;
+	-webkit-transition-duration:		.05s;
+	-webkit-transition-timing-function:	ease-in-out;
+	transition-property:		box-shadow;
+	transition-duration:		.05s;
+	transition-timing-function:	ease-in-out;
+}
+
+/* Theme hover */
+.theme:hover {
+	-webkit-box-shadow: 0 0 7px 0 rgba(0, 141, 194, 1.0);
+	-moz-box-shadow:	0px 0 7px 0 rgba(0, 141, 194, 1.0);
+	box-shadow:		 0 0 7px 0 rgba(0, 141, 194, 1.0);
+}
+
+.info-icon:before {
+	content: "\f223";
+	font: normal 16px/1 dashicons;
+}
+
+.top-menu {
+	margin: -10px -20px 0 -22px; /* Required to make the top menu flush with the top and left menus. */
+	padding-left: 22px;
+	background-image: url(../images/inspirations/header-bg.png);
+	background-color: #ff4000;
+	background-position: center;
+	height: 4.4em;
+	overflow: hidden;
+	padding-left: 0;
+}
+
+.top-menu > div {
+	margin-left: auto;
+	margin-right: auto;
+	width: fit-content;
+	width: -moz-fit-content;
+}
+
+/* On the design screen, the top menu is fixed. */
+body:not(.bginsp-full-screen) .top-menu.design,
+body:not(.bginsp-full-screen) .top-menu.content {
+	right: 0;
+	left: 160px;
+	margin-left: 0;
+	margin-right: 0;
+	position: fixed;
+	top: 42px;
+	z-index: 1;
+}
+
+.top-menu a {
+	padding: 1.53em 1.54em 1.53em 2.38em;
+	display: inline-block;
+	cursor: pointer;
+	color: #fff;
+	margin-right: -1px;
+}
+
+
+/**
+ * #.# Top Menu / Triangles
+ *
+ * These styles for the top menu in the Inspirations process and the triangles between steps.
+ */
+
+.top-menu a:not(:first-of-type):not(.next):not(.active) {
+	background: url( '../images/inspirations/arrow.png' ) no-repeat;
+	background-size: contain;
+}
+
+.top-menu a.active:not(:first-of-type) {
+	background: url(../images/inspirations/arrow-right-filled.png) no-repeat, url(../images/inspirations/fill.png) no-repeat;
+	background-position: left, 1em;
+	background-size: contain, cover;
+	box-shadow: inset 0 -1px #ebebeb;
+}
+
+.top-menu a.active:first-of-type {
+	background: url(../images/inspirations/fill.png) repeat;
+}
+
+.top-menu a.next {
+	background: url( '../images/inspirations/arrow-left-filled.png' ), url( '../images/inspirations/arrow.png' );
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+.top-menu a:first-of-type {
+	border-left: 1px solid #676767;
+}
+
+.top-menu a:last-of-type {
+	border-right: 1px solid #676767;
+}
+
+.top-menu a.disabled {
+	cursor: not-allowed;
+}
+
+/* The dismiss button in the menu. */
+.top-menu .notice-dismiss {
+	position: static;
+	float: right;
+	margin: 10px 10px 0 0;
+}
+
+.top-menu .notice-dismiss:focus,
+.top-menu .notice-dismiss:active:before,
+.top-menu .notice-dismiss:focus:before {
+	box-shadow: none;
+}
+
+.top-menu .notice-dismiss:before {
+	content: "\f211"; /* When in standard view, the collapse icon should become an expand icon. */
+	font: normal 2.5em/20px dashicons;
+	color: #fff;
+}
+
+.bginsp-full-screen .top-menu .notice-dismiss:before {
+	content: "\f506"; /* When in full screen mode, the expand icon should become a collapse icon. */
+}
+
+body.waiting .devices button,
+body.waiting .pageset-option,
+body.waiting .feature-option,
+body.waiting .toggle-inner,
+body.waiting .sub-category,
+body.waiting .pointer {
+	cursor: wait;
+}
+
+.boldgrid-loading {
+	position: absolute;
+	top: 69px;
+	left: 0;
+	right: 0;
+	background-color: #f1f1f1;
+}
+
+/* When hovering over a theme screenshot, show a zoom in icon. */
+.theme-screenshot a {
+	cursor: zoom-in;
+}
+
+.theme-screenshot .img {
+	width: 290px;
+	height: 217px;
+}
+
+/* Filter Toggle Styles. */
+.wp-filter .drawer-toggle {
+	border-radius: 4px;
+	padding: 4px 10px 6px 6px;
+	margin-left: 6px;
+}
+.wp-filter .drawer-toggle.open {
+	border-radius: 4px;
+	color: white;
+	background: #72777c;
+}
+.wp-filter .drawer-toggle.open:hover {
+	color: white;
+}
+.wp-filter .drawer-toggle.open:before {
+	color: white;
+}
+
+.pageset-option.active,
+.sub-category.active,
+.pageset-option.blue,
+.blue {
+	color: white;
+}
+
+/* Back/Install Buttons */
+.inspirations.button {
+	padding: 0 3em;
+	margin-top: .5em;
+}
+
+/* Device/preview size toggles */
+.devices {
+	margin-left: 2.5em;
+}
+
+.devices button {
+	display: inline-flex;
+	cursor: pointer;
+	background: transparent;
+	border: none;
+	height: 45px;
+	padding: 0 3px;
+	margin: 0 0 0 -4px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border-top: 1px solid transparent;
+	border-bottom: 4px solid transparent;
+	-webkit-transition: background .1s ease-in-out;
+	transition: background .1s ease-in-out;
+}
+
+.devices button:focus {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	outline: none;
+}
+
+.devices button:before {
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	font: normal 20px/30px "dashicons";
+	vertical-align: top;
+	margin: 3px 0;
+	padding: 4px 8px;
+	color: #656a6f;
+}
+
+.devices button.active {
+	border-bottom-color: #191e23;
+}
+
+.devices button.active:before,
+.devices button:hover:before,
+.devices button:focus:before {
+	color: #191e23;
+}
+
+.devices .preview-desktop:before {
+	content: "\f472";
+}
+
+.devices .preview-tablet:before {
+	content: "\f471";
+}
+
+.devices .preview-mobile:before {
+	content: "\f470";
+}
+
+/* Highlight a button blue. This means the current preview size represents this dimension. */
+.devices button.highlight:before {
+	color: #00a0d2;
+}
+
+/* Allow a button to be rotated to represent a landscape preview. */
+.devices button.landscape:before {
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-o-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	transform: rotate(90deg);
+}
+
+
+/**
+ * #.# Theme preview and iframe.
+ */
+
+#preview-container {
+	margin:0px;
+	padding:0px;
+	max-width: 100%;
+	height: 800px;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+#theme-preview {
+	width: 100%;
+	height: 100%;
+	transition: width .3s;
+}
+
+
+/**
+ * Features.
+ *
+ * For example, "Blog" and "Invoice".
+ */
+
+.feature-option .help p {
+	padding: 0 10px;
+	margin-bottom: 0;
+	font-size: 12px;
+}
+
+.feature-option [data-bginsp-id="bginsp-invoice"] img {
+	width: calc(100% - 10px);
+	background: linear-gradient( #fff, #b9e4eb );
+	padding: 0 5px;
+	border-bottom: 1px solid #bbb;
+}
+
+.feature-option [data-bginsp-id="bginsp-cache"] img {
+	width: calc(100% - 20px);
+	padding: 10px 10px 0 10px;
+	display: block;
+	background: linear-gradient( #fff 70%, #ccc );
+	border-bottom: 1px solid #bbb;
+	margin-bottom: -0.5em;
+}
+
+/**
+ * #.# Toggles
+ *
+ * For example, the toggle for "Blog".
+ */
+
+.feature-option .toggle {
+	float: right;
+	margin: 2px 10px 0 0;
+}
+
+
+/* ****************************************************************************
+Desktop view.
+**************************************************************************** */
+
+#preview-container.preview-desktop #theme-preview {
+	min-width: 992px;
+	height: 100%;
+}
+
+
+/* ****************************************************************************
+Mobile view.
+
+Based off of iPhone 4
+http://www.kylejlarson.com/blog/iphone-6-screen-size-web-design-tips/
+**************************************************************************** */
+
+#preview-container.preview-mobile {
+	height: 480px;
+}
+
+#preview-container.preview-mobile #theme-preview {
+	width: 320px;
+	height: 480px;
+}
+
+#preview-container.preview-mobile.landscape {
+	height: 320px;
+}
+
+#preview-container.preview-mobile.landscape #theme-preview {
+	width: 480px;
+	height: 320px;
+}
+
+
+/* ****************************************************************************
+Tablet view.
+
+Based off of iPad (1st and 2nd Generation)
+http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
+**************************************************************************** */
+
+#preview-container.preview-tablet {
+	height: 1024px;
+}
+
+#preview-container.preview-tablet #theme-preview {
+	width: 768px;
+	height: 1024px;
+}
+
+#preview-container.preview-tablet.landscape {
+	height: 768px;
+}
+
+#preview-container.preview-tablet.landscape #theme-preview {
+	width: 1024px;
+	height: 768px;
+}
+
+.wp-filter {
+	display: none;
+}
+
+/* Set a width for the plugin cards in Inpsirations, and center them. */
+.boldgrid-plugin-card,
+.screen-contained {
+	max-width: 570px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.boldgrid-plugin-card.full-width {
+	max-width: none;
+}
+
+/**
+ * #.# Welcome screen.
+ *
+ * This section handles the styles of the welcome screen.
+ */
+
+#screen-welcome .boldgrid-plugin-card {
+	margin-bottom: 15px;
+}
+
+/* Use in conjunction with a style which adds a border. */
+.circled-text {
+	border-radius: 50%;
+	width: 45px;
+	height: 45px;
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.circled-text.circled-text-left {
+	float: left;
+	line-height: 45px;
+	margin-top: 0;
+	margin-right: 15px;
+	margin-bottom: 35px;
+}
+
+#screen-welcome .step-screenshot {
+	float:right;
+	margin: 0 0 0 15px;
+	max-width: 170px;
+}
+
+
+/**
+ * #.# Content Check Warning.
+ *
+ * This section handles the styles on the content check warning section.
+ */
+
+#bginsp_confirm_overwrite span {
+	color: red;
+	display: none;
+}
+
+
+/**
+ * #.# Contact
+ *
+ * Begin code for the Contact section.
+ */
+
+.survey-field {
+	margin-bottom: 14px;
+}
+
+.survey-field .title {
+	font-weight: bold;
+}
+
+.survey-field .option {
+	font-style: italic;
+}
+
+.survey-field .option {
+	float: right;
+}
+
+.survey-field .option input {
+	margin-right: 0;
+	margin-left: 8px;
+	border: 1px solid #ddd;
+}
+
+.survey-field .main-input {
+	width: 100%;
+	margin: 6px 0;
+}
+
+.survey-field .social-media {
+	margin: 5px 0;
+}
+
+.survey-field .social-media span {
+	width: 20px;
+	display: inline-block;
+}
+
+.survey-field .social-media input {
+	width: calc(100% - 50px);
+	margin-right: 10px;
+}
+
+#social-media-index span {
+	font-size: 14px;
+	background: #f6f6f6;
+	width: 25px;
+	height: 25px;
+	display: inline-block;
+	text-align: center;
+	padding: 5px;
+	margin: 0 10px 10px 0;
+	line-height: 23px;
+	cursor: pointer;
+}
+
+#social-media-index .hidden {
+	display: none;
+}
+
+#social-media-index span[data-icon="plus"] {
+	background: none;
+	margin-left: -5px;
+	color: #666;
+}
+
+/**
+* There are different reasons why icons in the social media index are disabled. The
+* disabled-via-toggle class signifies that the user checked "Do not display".
+*/
+#social-media-index .disabled-via-toggle,
+#social-media-index span.disabled {
+	color: #ddd;
+	cursor: auto;
+}
+
+.survey-field .fa-times {
+	color: red;
+	cursor: pointer;
+}
+
+.invalid {
+	color: red;
+}
+
+
+/**
+ * #.# BoldGrid Connect Key notice.
+ *
+ * Apply custom styles to the BoldGrid Connect Key notice.
+ */
+
+#container_boldgrid_api_key_notice {
+	border: 0;
+	box-shadow: none;
+	background: none;
+	padding-top: 0;
+	margin-top: 0;
+}
+
+.new-api-key h2 {
+	margin-top: 0;
+}
+
+.bg-key-saved .notice-dismiss {
+	display: none;
+}
+
+
+/**
+ * #.# Miscellaneous.
+ */
+
+/* Hide all notices except the Connect Key prompt. */
+.notice:not( #container_boldgrid_api_key_notice ):not( .bginsp-deploy-notice ) {
+	display: none;
+}
+
+/* By default, toggleable help content is hidden. */
+.help[data-bginsp-id] {
+	display: none;
+}
+
+/**
+ * #.# Deployment.
+ *
+ * Styles used on the deployment page.
+ */
+
+.installed-item {
+	background: #fff;
+	display: inline-block;
+	padding: 15px;
+	text-align: center;
+	width: 100px;
+	min-height: 100px;
+	border: 1px solid #ddd;
+	vertical-align: top;
+}
+
+p.heading:not(:first-of-type),
+.notice.inline {
+	clear: both;
+	margin-top: 35px;
+}
+
+.installed-item.installed-image {
+	padding: 5px;
+	width: calc( 25% - 13px );
+	box-sizing: border-box;
+	margin: 0 10px 10px 0;
+}
+
+.installed-image img {
+	max-width: 100%;
+}
+
+.installed-item p {
+	margin-bottom: 0;
+}
+
+.installed-theme img,
+.installed-plugin img {
+	max-width: 75px;
+}
+
+.installed-page .dashicons,
+.installed-plugin .dashicons {
+	display: block;
+	font-size: 75px;
+	width: 75px;
+	height: 75px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.bginsp-deploy-notice {
+	text-align: left;
+}
+
+/**
+* Media queries appear in this order:
+*
+* For average size displays.
+* @media (min-width: 782px) and (max-width: 1423px) {
+*
+* Small screens, everything is pretty much made full width.
+* @media screen and (max-width: 782px) {
+*
+* Force left menu to be open on desktop if it was previously collapsed in mobile.
+* @media (min-width: 783px) {
+*
+* For large displays, show
+* @media (min-width: 1423px) {
+*/
+
+@media (min-width: 782px) and (max-width: 1423px) {
+	#screen-design .left,
+	#screen-content .left {
+		display: none;
+	}
+	#screen-content .left {
+		width: 100%;
+		background-color: transparent;
+		margin-bottom: 2em;
+	}
+	.pageset-option {
+		background-color: #fff;
+	}
+
+	#screen-content .right {
+		width: 100%;
+	}
+	#screen-content .wp-filter {
+		display: block;
+		padding: .8em 0;
+	}
+	.content-menu-section {
+		float: left;
+		width: 25%;
+		padding-right: 1em;
+	}
+}
+
+/* iPhone 5: 640 x 1136 */
+@media (max-width: 640px) {
+	.top-menu {
+		text-align: left;
+		height: 3.5em;
+	}
+	
+	.top-menu > div {
+		margin-left: 0;
+	}
+	
+	.top-menu a {
+		font-size: 0.7em;
+		text-align: left;
+		padding-left: 1.8em;
+		padding-right: 0.2em;
+	}
+	
+	.bginsp-full-screen .top-menu a:first-of-type {
+		padding-left: 0.8em;
+	}
+	
+	.top-menu a:last-of-type {
+		padding-right: 0.8em;
+	}
+	
+	.top-menu .notice-dismiss {
+		margin: 0 10px 0 0;
+	}
+}
+
+/* Point in which menus are adjusted in the dashboard. */
+@media screen and (max-width: 782px) {
+	#screen-content .left,
+	#screen-design .left {
+		width: 100%;
+		display: none;
+		margin-bottom: 2em;
+	}
+	#screen-content .wp-filter {
+		padding: .8em 0;
+	}
+	.wp-filter {
+		display: block;
+	}
+	#screen-design .right,
+	#screen-content .right {
+		width: 100%;
+	}
+	.inspirations.button {
+		padding: .3em 1em;
+		margin-top: -0.8em;
+		margin-bottom: 1em;
+	}
+	
+	body:not(.bginsp-full-screen) .top-menu.design,
+	body:not(.bginsp-full-screen) .top-menu.content {
+		top: 56px;
+	}
+	
+	body:not(.bginsp-full-screen) .top-menu.design,
+	body:not(.bginsp-full-screen) .top-menu.content {
+		left: 0;
+	}
+	
+	.top-menu a.active:not(:first-of-type) {
+		background-position: left, 0.95em;
+	}
+	
+	body:not(.bginsp-full-screen) #screen-design,
+	body:not(.bginsp-full-screen) #screen-content {
+		padding-top: 3em;
+	}
+
+	/* Ensure the preview button is always visible. The proceding rule is needed as well.  */
+	.theme-browser .theme div.theme-actions {
+		opacity: 1;
+	}
+
+	/* These are required to override values in wp-admin/css/theme.css */
+	div.theme:not(.active):hover .theme-actions,
+	div.theme:not(.active):focus .theme-actions {
+		display: block;
+	}
+}
+
+/* Force left menu to be open on desktop if it was previously collapsed in mobile. */
+@media (min-width: 783px) {
+	#screen-design .left {
+		display: block !important;
+	}
+	
+	#screen-design,
+	#screen-content {
+		padding-top: 5em;
+	}
+	
+	.bginsp-full-screen #screen-design,
+	.bginsp-full-screen #screen-content {
+		padding-top: 0;
+	} 
+
+	#screen-design .left {
+		position: fixed;
+	}
+	
+	/* On the design screen, when the left WP nav is showing only icons. */
+	body.auto-fold:not(.bginsp-full-screen) .top-menu.design {
+			left: 36px;
+	}
+}
+
+@media (min-width: 1423px) {
+	#screen-content .left {
+		display: block !important; /* Show left menu on large screens. */
+	}
+
+	#screen-content .left {
+		position: fixed;
+	}
+	html {
+		overflow-y: scroll; /** Force to prevent previews from jumping around between loads. **/
+	}
+}

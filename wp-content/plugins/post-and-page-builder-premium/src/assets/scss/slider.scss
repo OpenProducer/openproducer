@@ -1,0 +1,177 @@
+.row .boldgrid-wrap-row .row {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.boldgrid-slider {
+	// Base Arrow.
+	.slick-arrow {
+		z-index: 1;
+		height: auto;
+		width: auto;
+		padding: 10px;
+		font-size: 25px;
+		border-radius: 2px;
+		cursor: pointer;
+		transform: none;
+
+		&:hover {
+			opacity: 0.7;
+		}
+
+		&::before {
+			display: none;
+		}
+	}
+
+	// Base Arrow Locations.
+	&[arrow-location] .slick-prev {
+		left: 0;
+	}
+
+	&[arrow-location] .slick-next {
+		right: 0;
+	}
+
+	&[arrow-location='standard'] {
+		.slick-arrow {
+			transform: translate(0, -50%) !important;
+		}
+
+		.slick-next {
+			right: -40px;
+		}
+
+		.slick-prev {
+			left: -40px;
+		}
+	}
+
+	&[arrow-location^='bottom'] .slick-arrow {
+		bottom: 0;
+		top: auto;
+		transform: translateY(100%);
+	}
+
+	&:not(.slick-arrow-overlay).slick-slider[arrow-location^='top'] {
+		margin-top: 45px;
+	}
+
+	&:not(.slick-arrow-overlay).slick-slider[arrow-location^='bottom'] {
+		margin-bottom: 45px;
+	}
+
+	&[arrow-location^='top'] .slick-arrow {
+		top: 0;
+		transform: translateY(-100%);
+	}
+
+	&[arrow-location$='left'] .slick-next {
+		left: 15px;
+		right: auto;
+		transform: translateX(100%);
+	}
+
+	&[arrow-location$='left'] .slick-prev {
+		left: 0;
+	}
+
+	&[arrow-location$='right'] .slick-prev {
+		right: 50px;
+		left: auto;
+	}
+
+	&[arrow-location$='right'] .slick-next {
+		right: 0;
+	}
+
+	&[arrow-location='top-left'] .slick-next {
+		transform: translateX(100%) translateY(-100%);
+	}
+
+	&[arrow-location='bottom-left'] .slick-next {
+		transform: translateX(100%) translateY(100%);
+	}
+
+	// Overlay Arrows.
+	&.slick-arrow-overlay {
+		.slick-arrow {
+			transform: none;
+		}
+
+		.slick-prev {
+			left: 0;
+		}
+
+		.slick-next {
+			right: 0;
+		}
+
+		&[arrow-location^='bottom'] .slick-arrow {
+			bottom: 0;
+			top: auto;
+		}
+
+		&[arrow-location^='top'] .slick-arrow {
+			top: 0;
+		}
+
+		&[arrow-location$='left'] .slick-next {
+			right: auto;
+			transform: translateX(100%);
+		}
+
+		&[arrow-location$='right'] .slick-prev {
+			right: 15px;
+			transform: translateX(-100%);
+			left: auto;
+		}
+	}
+
+	.slick-dots {
+		line-height: 50px;
+		bottom: -50px;
+		left: 50%;
+		width: auto;
+		transform: translateX(-50%);
+
+		li {
+			margin: 0 0.2em;
+			vertical-align: super;
+		}
+	}
+
+	// Dots.
+	.slick-dots li button,
+	.slick-dots li button::before {
+		font-size: inherit;
+		color: currentColor;
+	}
+
+	&[dots-location='top'] {
+		margin-top: 50px;
+		margin-bottom: 0;
+
+		.slick-dots {
+			top: -50px;
+			bottom: auto;
+		}
+	}
+
+	&[dots-location='bottom'] {
+		margin-bottom: 50px;
+	}
+
+	&.slick-dots-overlay {
+		margin-bottom: 0;
+		margin-top: 0;
+
+		&[dots-location='bottom'] .slick-dots {
+			bottom: 0;
+		}
+
+		&[dots-location='top'] .slick-dots {
+			top: 0;
+		}
+	}
+}

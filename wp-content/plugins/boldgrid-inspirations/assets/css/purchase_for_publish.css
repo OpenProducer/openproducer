@@ -1,0 +1,56 @@
+#wpadminbar #wp-admin-bar-pfp .ab-icon:before {
+	content: "\f174";
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	font: normal 20px/1 'dashicons';
+	vertical-align: top;
+}
+
+li#wp-admin-bar-pfp {
+	float: right;
+}
+
+#coin_balance_container {
+	float: right;
+	margin: 15px 15px 0px 0px;
+}
+
+table.receipt .thumbnail img {
+	max-width: 60px;
+}
+
+table.receipt .redownload a {
+	visibility: hidden;
+}
+
+table.receipt tr:hover .redownload a {
+	visibility: visible;
+}
+
+/* receipts - pagination */
+.tablenav .tablenav-pages a.pagination-go-to-page {
+	border: 0px;
+	background-color: transparent;
+	font-size: inherit;
+}
+
+/* receipts - pagination */
+.tablenav .tablenav-pages a.pagination-go-to-page:hover {
+	background-color: #0073aa;
+}
+
+/* receipts - pagination */
+.tablenav .tablenav-pages a.pagination-go-to-page.current {
+	font-weight: bold;
+	border-bottom: 1px solid #ccc;
+}
+
+/* receipts - pagination */
+.pagination-links {
+	margin-left: 50px;
+}
+
+/* purchase coins */
+div#boldgrid-transaction-tabs + .plugin-card {
+	margin-top: 10px;
+}

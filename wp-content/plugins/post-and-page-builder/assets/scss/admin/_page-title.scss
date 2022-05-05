@@ -1,0 +1,29 @@
+#boldgrid-hide-post-title.boldgrid-controls {
+	margin: 10px 10px 0;
+	display: none;
+
+	.dashicons-editor-help:hover {
+		cursor: help;
+
+		+ .boldgrid-tooltip {
+			display: inline-block;
+			left: 33px;
+			margin-top: 20px;
+		}
+	}
+}
+
+.post-php.post-type-page.boldgrid-editor-template #boldgrid-hide-post-title.boldgrid-controls {
+	display: block;
+}
+
+.php-error #adminmenuback, .php-error #adminmenuwrap {
+	margin-top: 0 !important;
+}
+
+.wp-admin.post-php {
+	h1, h2, h3, h4, h5, h6 {
+		font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+		text-transform: none;
+	}
+}

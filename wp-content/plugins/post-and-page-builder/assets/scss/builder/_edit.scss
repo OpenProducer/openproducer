@@ -1,0 +1,50 @@
+/***
+* In Page styles while in the editor
+***/
+
+#tinymce {
+	.bg-control-element {
+		outline: 2px dashed #f95b26;
+	}
+
+	a, hr, i, .bg-hr {
+		&.bg-control-element {
+			outline-offset: 15px;
+		}
+	}
+
+	.fa:hover {
+		color: #f95b26 !important;
+	}
+
+	img,
+	.fa {
+		cursor: pointer;
+	}
+
+	.background-fixed {
+		background-attachment: scroll !important;
+	}
+
+	.hover-background-fixed:hover {
+		background-attachment: scroll !important;
+	}
+}
+
+.wpview {
+	margin: 0;
+}
+
+.draggable-inactive {
+	.color-panel,
+	.editor-panel,
+	#boldgrid-instance-menu,
+	.bg-drag-popover,
+	.resize-handle {
+		display: none !important;
+	}
+
+	.boldgrid-section:hover {
+		outline: none !important;
+	}
+}

@@ -1,0 +1,51 @@
+select.easy-attachment-preview-size option {
+	background: #fff;
+	color: #000;
+}
+
+select.easy-attachment-preview-size option:hover {
+	background: #1e90ff;
+	color: #fff;
+}
+
+select#image_size option.recommended_image_size:hover {
+	background: #009E00;
+}
+
+div#easy_attachment_preview_size {
+	position: fixed;
+	top: 30px;
+	left: 30px;
+	background-color: rgba(51, 204, 255, 0.75);
+	font-size: 20px;
+	padding: 0px;
+	border: 3px solid #33CCFF;
+	z-index: 200000;
+	font-weight: bold;
+	text-shadow: rgb(221, 221, 221) 1px 1px;
+}
+
+div#easy_attachment_preview_size.easy_attachment_preview_size_iframed {
+	top: 0px;
+	left: 0px;
+}
+
+div#easy_attachment_preview_size.easy_attachment_preview_size_100 {
+	font-size: 12px;
+	line-height: 14px;
+}
+
+select#image_size, select.easy-attachment-preview-size {
+	position: absolute;
+	z-index: 300001;
+	width: 90%;
+	max-width: 100%;
+}
+
+.easy-attachment-preview-size-hidden {
+	visibility: hidden;
+}
+
+label.setting {
+	min-height: 45px;
+}

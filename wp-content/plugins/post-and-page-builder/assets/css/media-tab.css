@@ -1,0 +1,256 @@
+html {
+    background: none;
+}
+
+body {
+	background-color: white !important;
+	background-image: none;
+}
+
+/**
+* Align iframe under top nav tabs
+*/
+.attachments-browser .attachments, .attachments-browser .uploader-inline
+	{
+	top: 0px;
+	background-color: white;
+}
+
+/**
+* Set side bar to wordpress' compressed version. Do not modify for screen sizes
+*/
+.attachments-browser .attachments, .attachments-browser .media-toolbar,
+	.attachments-browser .uploader-inline {
+	right: 300px;
+}
+
+.media-sidebar {
+	padding: 0 16px 24px;
+	width: 300px;
+}
+
+.media-sidebar .boldgrid-loading-graphic {
+	position: absolute;
+    bottom: 80px;
+    left: 26px;
+    display: none;
+}
+
+.loading-gridblocks .media-sidebar .boldgrid-loading-graphic {
+	display: block;
+}
+
+.media-sidebar .loading-help-text {
+	color: #ADADAD;
+    margin-bottom: -10px;
+}
+
+img {
+	max-width: 100%;
+}
+
+/**
+Google Mpas
+*/
+.fullwidth-imhwpb {
+	width: 100%;
+}
+
+.form-element-imhwpb {
+	padding-top: 7px;
+}
+
+.googlesearch-imhwpb {
+	width: 71%;
+	height: 33px;
+}
+
+.searchbutton {
+	height: 34px !important;
+}
+.bg-info {
+    font-style: italic;
+    margin-top: 0;
+}
+
+/**
+ * Media queries for iframe media replica
+ */
+@media screen and (max-width: 600px) {
+	.media-sidebar {
+		display: none !important;
+	}
+	.attachments-browser .attachments, .attachments-browser .media-toolbar,
+		.attachments-browser .uploader-inline, .existing-layouts {
+		right: 0px !important;
+	}
+	.attachment {
+		width: 50% !important;
+	}
+}
+
+@media screen and (min-width: 1100px) {
+	.attachment {
+		width: 350px !important;
+	}
+}
+
+@media screen and (max-width: 1099px) {
+	.attachment {
+		width: 50% !important;
+	}
+}
+@media screen and (max-width: 899px) {
+	.attachment {
+		width: 100% !important;
+	}
+}
+
+@media screen and (max-width: 450px) {
+	.attachment {
+		width: 100% !important;
+	}
+}
+
+@media screen and (max-width: 225px) {
+	.attachment {
+		width: 100% !important;
+	}
+}
+
+/** Layout Media Tab Styles **/
+.centered-content-boldgrid {
+    height: 100%;
+    padding-top: 4px;
+    width: 1189px;
+}
+
+.attachment .centered-content-boldgrid {
+    overflow: hidden;
+    height: 546px;
+}
+
+.attachment {
+	cursor: pointer !important;
+}
+
+.thumbnail-container {
+    width: 470px !important;
+    height: 275px !important;
+    margin: 10px !important;
+    overflow: hidden;
+    box-shadow: 0 0 0 5px #fff inset, 0 0 0 6px #ccc inset;
+}
+
+.wp-core-ui .translate-container.attachment-preview {
+    transform: translate(-81%, -27%);
+    background-color: transparent;
+	box-shadow: none !important;
+}
+
+.boldgrid-markup-container {
+	background-color: white;
+}
+
+.centered-content-boldgrid {
+    transform: scale(0.38);
+    padding: 0px 22px;
+}
+
+.boldgrid-markup-container .centered-content-boldgrid {
+    transform: translate(-38.5%, -37%) scale(0.21);
+}
+
+.boldgrid-markup-container {
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.thumbnail {
+    margin-bottom: 0px;
+    border-radius: 0px;
+    border: medium none;
+}
+
+.wp-core-ui .thumbnail-container.attachment {
+    color: inherit;
+    cursor: inherit;
+    list-style: inherit;
+    text-align: inherit;
+}
+
+.wp-core-ui .translate-container.attachment-preview::before {
+    padding: inherit;
+}
+
+[data-tabname="map-view"] .attachment {
+	height: 327px !important;
+	width: 326px !important;
+}
+
+[data-tabname="map-view"].attachments {
+	right: 333px;
+}
+
+#media-upload .boldgrid-loading-graphic-wrapper {
+	position: fixed;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	z-index:99999;
+	background-color: rgba(255,255,255,.9);
+	display: none;
+}
+
+#media-upload .boldgrid-loading-graphic-wrapper .boldgrid-loading-graphic {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+}
+
+
+#media-upload .boldgrid-loading-graphic {
+    text-align: center;
+    width: 240px;
+    margin: 0 auto;
+}
+
+#media-upload .boldgrid-loading-graphic img {
+	width: 115px;
+	height: 115px;
+}
+
+#media-upload .boldgrid-loading-graphic .loading-bar-wrap {
+	position: relative;
+}
+
+#media-upload .boldgrid-loading-graphic .loading-bar {
+    background-color: #f95b26;
+    border-radius: 5px;
+    height: 9px;
+    margin-top: 20px;
+    position: absolute;
+    width: 9px;
+    -webkit-animation: swipe ease-in-out 2s infinite; /* Chrome, Safari, Opera */
+    animation: swipe ease-in-out 2s infinite; /* Standard Syntax */
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes swipe {
+    0%   {left:0px; opacity:0;}
+    25%  {left:0px; opacity:1;}
+    50%  {width: 240px; left:0px;}
+    75%  {width: 9px; height:9px; left:231px; margin-top:20px; opacity:1;}
+    100% {width: 1px; height:1px; left:235px; margin-top:25px; opacity:0;}
+}
+
+/* Standard syntax */
+@keyframes swipe {
+    0%   {left:0px; opacity:0;}
+    25%  {left:0px; opacity:1;}
+    50%  {width: 240px; left:0px;}
+    75%  {width: 9px; height:9px; left:231px; margin-top:20px; opacity:1;}
+    100% {width: 1px; height:1px; left:235px; margin-top:25px; opacity:0;}
+}

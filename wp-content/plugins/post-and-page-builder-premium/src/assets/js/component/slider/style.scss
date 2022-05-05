@@ -1,0 +1,29 @@
+.boldgrid-instance-menu {
+	[data-action='menu-slider'] .dashicons {
+		height: 24px;
+		position: relative;
+		top: -2px;
+	}
+}
+
+.editor-panel[data-type='slider'] {
+	.panel-body {
+		padding: 0 25px;
+	}
+}
+
+.mce-content-body [contentEditable='false'][data-mce-selected] {
+	&.slick-arrow,
+	&.slick-dots {
+		outline: none;
+	}
+}
+
+.boldgrid-control .font-color-control .bg-color-picker-control {
+	display: none !important;
+}
+
+.mce-content-body .boldgrid-slider {
+	display: block;
+	user-select: auto;
+}

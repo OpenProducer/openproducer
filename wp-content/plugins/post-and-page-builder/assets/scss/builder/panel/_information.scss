@@ -1,0 +1,35 @@
+.editor-panel[data-type="information"] {
+	user-select: initial;
+
+	.info-wrap {
+		display: flex;
+		padding: 0 25px;
+	}
+
+	ul {
+		list-style: none;
+	}
+
+	.control-name {
+		font-weight: bold;
+		margin-bottom: 5px;
+	}
+
+	.intro {
+		padding: 10px 20px 0;
+		margin: 0;
+	}
+
+	.help-text {
+		position: relative;
+		text-align: left;
+		margin: 20px 0 20px 30px;
+		padding: 0;
+	}
+
+	.help-text > *:first-child {
+		position: absolute;
+		left: -25px;
+		font-size: 20px;
+	}
+}

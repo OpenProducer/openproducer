@@ -1,0 +1,4 @@
+.boldgrid-wpforms[data-title="0"] .wpforms-title,
+.boldgrid-wpforms[data-description="0"] .wpforms-description {
+	display: none !important;
+}

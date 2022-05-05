@@ -1,0 +1,30 @@
+/*************** Change Image Border Panel ********************/
+.editor-panel[data-type='image'] {
+	.panel-selection {
+		width: calc(50% - 2px);
+		height: auto;
+		background-color: white;
+		padding: 9px 0;
+		margin: 0;
+	}
+
+	.presets {
+		font-size: 7px;
+	}
+
+	img {
+		max-width: 100px;
+		max-height: 100px;
+	}
+
+	.presets .selected {
+		position: relative;
+
+		@include selected-preset();
+
+		&:after {
+			top: 5px;
+			right: 5px;
+		}
+	}
+}

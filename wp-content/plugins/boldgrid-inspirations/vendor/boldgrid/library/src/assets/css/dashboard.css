@@ -1,0 +1,257 @@
+/**
+ * 1 Card Container.
+ */
+
+.bglib-card-container {
+	display: grid;
+	grid-gap: 2em;
+	grid-template-columns: 1fr 1fr 1fr;
+	margin: 2em 0;
+}
+
+.bglib-card-container.bglib-smaller {
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+
+/**
+ * 1.1 Card Container media queries.
+ */
+
+/* Left nav hides, admin bar gets big. */
+@media screen and (max-width: 782px) {
+	.bglib-card-container {
+		grid-template-columns: 1fr;
+	}
+	
+	.bglib-card-container.bglib-smaller {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media screen and (min-width: 700px) and (max-width: 1199px) {
+	.bglib-card-container {
+		grid-template-columns: 1fr 1fr;
+	}
+	
+	.bglib-card-container.bglib-smaller {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+}
+
+
+/**
+ * 2 Cards.
+ */
+.bglib-card {
+	border: 1px solid #ddd;
+	background: #fff;
+	position: relative;
+}
+
+.bglib-card-title,
+.bglib-card-footer {
+	padding: 10px 10px 15px 10px;
+}
+
+.bglib-card-title > p:first-child {
+	font-size: 1.3em;
+	margin: 0;
+}
+
+.bglib-card-subtitle {
+	font-size: .95em;
+}
+
+.bglib-card-icon {
+	padding: 20px 0;
+	text-align: center;
+	border-top: 3px solid #000;
+	border-bottom: 1px solid #ddd;
+}
+
+.bglib-card-icon .dashicons {
+	font-size: 60px;
+	width: 60px;
+	height: 60px;
+}
+
+/* Card icons do not need to be dashicons, they can be images. */
+.bglib-card-icon img {
+	max-height: 60px;
+}
+
+.bglib-card-footer > p:last-of-type {
+	margin-bottom: 0;
+}
+
+
+/**
+ * 2.1 Cards within postbox.
+ *
+ * When cards are within a postbox, such as within a widget on the WordPress dashboard, adjust the style.
+ */
+
+.postbox-container .bglib-card {
+	border: 0;
+}
+
+.postbox-container .bglib-card-footer {
+	padding: 0;
+}
+
+
+/**
+ * 2.2 Ribbons.
+ *
+ * Yes, cards can have a pretty ribbon.
+ */
+.bglib-card .card-ribbon {
+	position: absolute;
+	right: -5px; top: -5px;
+	z-index: 1;
+	overflow: hidden;
+	width: 75px; height: 75px;
+	text-align: right;
+}
+
+.bglib-card .card-ribbon span {
+	font-size: 10px;
+	font-weight: bold;
+	color: #FFF;
+	text-transform: uppercase;
+	text-align: center;
+	line-height: 20px;
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	width: 100px;
+	display: block;
+	background: #79A70A;
+	background: linear-gradient(#006400 0%, #006400 100%);
+	box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+	position: absolute;
+	top: 19px; right: -21px;
+}
+
+.bglib-card .card-ribbon span::before {
+	content: "";
+	position: absolute; left: 0px; top: 100%;
+	z-index: -1;
+	border-left: 3px solid #006400;
+	border-right: 3px solid transparent;
+	border-bottom: 3px solid transparent;
+	border-top: 3px solid #006400;
+}
+
+.bglib-card .card-ribbon span::after {
+	content: "";
+	position: absolute; right: 0px; top: 100%;
+	z-index: -1;
+	border-left: 3px solid transparent;
+	border-right: 3px solid #006400;
+	border-bottom: 3px solid transparent;
+	border-top: 3px solid #006400;
+}
+
+
+/**
+ * 3 Features
+ */
+.bglib-card .bglib-feature {
+	display: grid;
+	grid-gap: 10px;
+	grid-template-columns: 40px 1fr;
+}
+
+.bglib-card-footer > .bglib-feature:not(:first-of-type) > div {
+	margin-top: 15px;
+	padding-top: 15px;
+	border-top: 1px solid #ddd;
+}
+.bglib-card-footer > .bglib-feature:not(:first-of-type) .bglib-feature-icon {
+	border-top-color: #fff;
+}
+
+.bglib-card .bglib-feature .dashicons,
+.bglib-card .bglib-feature .boldgrid-icon:before {
+	font-size: 35px;
+	width: 35px;
+	height: 35px;
+	color: #aaa;
+}
+
+.bglib-card .bglib-feature img {
+	width: 35px;
+}
+
+.bglib-card .bglib-feature .bglib-feature-title {
+	font-size: 1.1em;
+	font-weight: 600;
+}
+
+.bglib-feature-content > p:first-of-type {
+	margin-top: .1em;
+}
+
+.bglib-feature-content > *:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.bglib-feature-content .notice {
+	background-color: #f8f8ff;
+}
+
+.bglib-feature-content .notice p {
+	margin: 0;
+}
+
+.bglib-feature-value {
+	padding-left: 15px;
+    color: #aaa;
+}
+
+/**
+ * 1.6 Notice Count Indicators
+ */
+
+/* Style Notice Count Indicators. */
+
+.bglib-unread-notice-count {
+	display: inline-block;
+	vertical-align: top;
+	box-sizing: border-box;
+	margin: 1px 0 -1px 5px;
+	padding: 0 5px;
+	min-width: 18px;
+	height: 18px;
+	border-radius: 9px;
+	background-color: #ca4a1f;
+	color: #fff;
+	font-size: 11px;
+	line-height: 1.6;
+	text-align: center;
+	z-index: 26;
+}
+a.wp-menu-open .bglib-unread-notice-count {
+	display: none;
+}
+.bglib-unread-notice-count.hidden {
+	display: none;
+}
+
+/**
+ * 1.7 Footer Links
+ */
+
+/* Links below Footer . */
+
+.bglib-card-links {
+	display: flex;
+	justify-content: flex-end;
+	align-items: baseline;
+	padding: 10px 10px 15px 10px;
+}
+.bglib-smaller .bglib-card-links a {
+	margin: 0;
+}

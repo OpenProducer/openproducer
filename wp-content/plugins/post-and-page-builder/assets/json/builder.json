@@ -1,0 +1,164 @@
+{
+    "boxes": [
+        "bg-box bg-box-square bg-box-cover",
+        "bg-box bg-box-edged bg-box-cover",
+        "bg-box bg-box-rounded bg-box-cover",
+        "bg-box bg-box-pill",
+
+        "bg-box bg-box-rounded-bottom-left bg-box-rounded-top-left bg-box-cover",
+        "bg-box bg-box-rounded-bottom-left bg-box-rounded-bottom-right bg-box-cover",
+        "bg-box bg-box-rounded-top-left bg-box-rounded-top-right bg-box-cover",
+        "bg-box bg-box-rounded-bottom-right bg-box-rounded-top-right",
+
+        "bg-box bg-box-rounded-bottom-right bg-box-rounded-top-left bg-box-cover",
+        "bg-box bg-box-rounded-bottom-left bg-box-rounded-top-right bg-box-cover",
+
+        "bg-box bg-box-square bg-box-shadow-bottom-left bg-box-cover ",
+        "bg-box bg-box-edged bg-box-shadow-bottom-right bg-box-cover",
+        "bg-box bg-box-pill bg-box-shadow-bottom-right",
+
+        "bg-box bg-box-square bg-box-border-thin",
+        "bg-box bg-box-rounded bg-box-border-thin bg-box-cover",
+        "bg-box bg-box-pill bg-box-border-thin",
+
+        "bg-box bg-box-pill bg-box-border-normal bg-box-cover",
+        "bg-box bg-box-rounded bg-box-border-normal bg-box-cover",
+        "bg-box bg-box-square bg-box-border-normal",
+
+        "bg-box bg-box-rounded bg-box-border-thick bg-box-cover",
+        "bg-box bg-box-square bg-box-border-thick bg-box-cover",
+        "bg-box bg-box-pill bg-box-border-thick",
+
+        "bg-box bg-box-rounded bg-box-border-dashed bg-box-cover",
+        "bg-box bg-box-square bg-box-border-dashed bg-box-cover",
+        "bg-box bg-box-pill bg-box-border-dashed",
+
+        "bg-box bg-box-rounded bg-box-border-dashed-thick",
+        "bg-box bg-box-square bg-box-border-dashed-thick bg-box-cover",
+        "bg-box bg-box-pill bg-box-border-dashed-thick",
+
+        "bg-box bg-box-rounded bg-box-border-double bg-box-cover",
+        "bg-box bg-box-square bg-box-border-double bg-box-cover",
+        "bg-box bg-box-pill bg-box-border-double",
+
+        "bg-box bg-box-rounded bg-box-border-double-thick bg-box-cover",
+        "bg-box bg-box-pill bg-box-border-double-thick",
+        "bg-box bg-box-square bg-box-border-double-thick bg-box-cover"
+    ],
+    "image": [
+
+        "bg-img bg-img-1",
+        "bg-img bg-img-2",
+        "bg-img bg-img-3",
+
+        "bg-img bg-img-square",
+        "bg-img bg-img-edged",
+        "bg-img bg-img-rounded",
+        "bg-img bg-img-circle",
+
+        "bg-img bg-img-triangle",
+        "bg-img bg-img-circle",
+        "bg-img bg-img-pentagon",
+        "bg-img bg-img-bevel",
+        "bg-img bg-img-hexagon",
+        "bg-img bg-img-rabbet",
+        "bg-img bg-img-rhombus",
+        "bg-img bg-img-parallelogram",
+
+        "bg-img bg-img-rounded-bottom-left bg-img-rounded-top-left",
+        "bg-img bg-img-rounded-bottom-left bg-img-rounded-bottom-right",
+        "bg-img bg-img-rounded-top-left bg-img-rounded-top-right",
+        "bg-img bg-img-rounded-bottom-right bg-img-rounded-top-right",
+
+        "bg-img bg-img-rounded-bottom-right bg-img-rounded-top-left",
+        "bg-img bg-img-rounded-bottom-left bg-img-rounded-top-right",
+
+
+        "bg-img bg-img-square bg-img-shadow-bottom-left",
+        "bg-img bg-img-edged bg-img-shadow-bottom-right",
+        "bg-img bg-img-circle bg-img-shadow-bottom-right",
+
+        "bg-img bg-img-square bg-img-border-thin",
+        "bg-img bg-img-rounded bg-img-border-thin",
+        "bg-img bg-img-pill bg-img-border-thin",
+
+        "bg-img bg-img-circle bg-img-border-normal",
+        "bg-img bg-img-rounded bg-img-border-normal",
+        "bg-img bg-img-square bg-img-border-normal",
+
+        "bg-img bg-img-rounded bg-img-border-thick",
+        "bg-img bg-img-square bg-img-border-thick",
+        "bg-img bg-img-circle bg-img-border-thick",
+
+        "bg-img bg-img-rounded bg-img-border-dashed",
+        "bg-img bg-img-square bg-img-border-dashed",
+        "bg-img bg-img-circle bg-img-border-dashed",
+
+        "bg-img bg-img-rounded bg-img-border-dashed-thick",
+        "bg-img bg-img-square bg-img-border-dashed-thick",
+        "bg-img bg-img-circle bg-img-border-dashed-thick",
+
+        "bg-img bg-img-rounded bg-img-border-double bg-img-pad-sm",
+        "bg-img bg-img-square bg-img-border-double bg-img-pad-sm",
+        "bg-img bg-img-circle bg-img-border-double bg-img-pad-sm",
+
+        "bg-img bg-img-rounded bg-img-border-double-thick bg-img-pad-lg",
+        "bg-img bg-img-circle bg-img-border-double-thick bg-img-pad-lg",
+        "bg-img bg-img-square bg-img-border-double-thick bg-img-pad-lg"
+    ],
+    "textEffectClasses": [
+        { "name": "bg-text-fx bg-text-fx-inset-text" },
+        { "name": "bg-text-fx bg-text-fx-shadows" },
+        { "name": "bg-text-fx bg-text-fx-glow" },
+        { "name": "bg-text-fx bg-text-fx-closeheavy" },
+        { "name": "bg-text-fx bg-text-fx-enjoy-css" },
+        { "name": "bg-text-fx bg-text-fx-retro" },
+        { "name": "bg-text-fx bg-text-fx-stroke" }
+    ],
+    "pointers": [
+        "bg-box-pointer bg-box-pointer-left",
+        "bg-box-pointer bg-box-pointer-right",
+        "bg-box-pointer bg-box-pointer-top",
+        "bg-box-pointer bg-box-pointer-bottom"
+    ],
+    "gridblock": {
+        "disabledUnsplashImages": false,
+        "filters": [
+            {
+                "slug": "all",
+                "title": "All Types"
+            },
+            {
+                "slug": "library",
+                "title": "Block Library"
+            },
+            {
+                "slug": "saved",
+                "title": "Used Blocks"
+            }
+        ]
+    },
+     "templateContainers": {
+         "template/page/fullwidth.php": "container",
+         "template/page/content-only.php": "container",
+         "template/page/left-sidebar.php": "container",
+         "template/page/right-sidebar.php": "container"
+    },
+    "helpTooltip": {
+        "[data-tooltip-id='layouts']": "Add a grid structure that you can design from the ground up.",
+        "[data-tooltip-id='color-saved']": "Add colors to this section to reuse them. Upon updating your page, these colors will be saved.",
+        "[data-tooltip-id='color-theme']": "These colors are determined by your theme. You can change these colors by customizing your theme.",
+        "[data-tooltip-id='background-size']": "The cover area background size is recomended for images that should span the full width of an area. Tiled background size is ideal for patterns and small images.",
+        "[data-tooltip-id='background-scroll-effects']": "Control the way your background image moves as a visiter scrolls down the page. To preview these effects visit your site outside of the Page & Post Editor.",
+        "[data-tooltip-id='text-effect']": "Use Effects to add shadows and make text more pronounced.",
+        "[data-tooltip-id='horizontal-block-alignment']": "Note: This control will have no effect if your element is full width.",
+        "[data-tooltip-id='width']": "Change the width of this element proportionally to it's container.",
+        "[data-tooltip-id='full-width-rows']": "Note: This should only be used with pages utilizing the Max Full Width layout option in Crio.",
+        "[data-tooltip-id='box-padding']": "Padding is used to create space around your content, inside your text background.",
+        "[data-tooltip-id='custom-classes']": "These class names must be defined in your theme or through the Customizer.",
+        "[data-tooltip-id='box-margin']": "Margin is used to create space around your background, outside your text background.",
+        "[data-tooltip-id='css-id']": "An ID is unique per element. You can use an ID to add styles to an element or to add a link directly to the element.",
+        "[data-tooltip-id='spacing']": "Letter Spacing will change the distance between characters. Line Spacing changes the distances between lines.",
+        "[data-tooltip-id='vertical-position']": "Vertical Position will move your background images up and down. Note: If your image already spans the full height of a section, no changes will occur."
+    }
+}

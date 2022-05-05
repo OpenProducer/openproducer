@@ -1,0 +1,108 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2019-04-10T08:21:36-04:00\n"
+"PO-Revision-Date: 2019-04-10T08:21:36-04:00\n"
+"X-Generator: WP-CLI 2.0.1\n"
+"X-Domain: boldgrid-plugin-installer\n"
+
+#. translators: 1 the name of the plguin.
+#: Plugin/Views/PluginInstaller.php:5
+msgid "%1$s Plugin Logo"
+msgstr ""
+
+#. translators: 1 the name of the plguin.
+#: Plugin/Views/PluginInstaller.php:6
+msgid "More information about %1$s"
+msgstr ""
+
+#: Plugin/Views/PluginInstaller.php:7
+msgid "More Details"
+msgstr ""
+
+#. translators: The name of the plugin's author.
+#: Plugin/Views/PluginInstaller.php:17
+msgid "By %1$s"
+msgstr ""
+
+#. translators: The name of the plugin to install.
+#: Plugin/Views/PluginInstaller.php:23
+msgid "Install %1$s now"
+msgstr ""
+
+#: Plugin/Installer.php:309
+#: Plugin/Installer.php:575
+msgid "Install Now"
+msgstr ""
+
+#: Plugin/Installer.php:316
+#: Plugin/Installer.php:577
+msgid "Activated"
+msgstr ""
+
+#: Plugin/Installer.php:321
+#: Plugin/Installer.php:578
+msgid "Activate"
+msgstr ""
+
+#. translators: 1 The plugin's name.
+#: Plugin/Installer.php:363
+msgid "Upgrade %s to premium"
+msgstr ""
+
+#. translators: 1 The plugin's name.
+#: Plugin/Installer.php:364
+msgid "Get Premium!"
+msgstr ""
+
+#. translators: 1 The name of the plugin to update.
+#: Plugin/Installer.php:389
+msgid "Update %s now"
+msgstr ""
+
+#: Plugin/Installer.php:393
+msgid "Update now"
+msgstr ""
+
+#. translators: 1 The link to update the plugin.
+#: Plugin/Installer.php:397
+msgid "New version available. %s"
+msgstr ""
+
+#: Plugin/Installer.php:576
+msgid "Installing"
+msgstr ""
+
+#: Plugin/Installer.php:579
+msgid "Activating"
+msgstr ""
+
+#: Plugin/Installer/Activate.php:79
+msgid "Sorry, you are not allowed to activate plugins on this site."
+msgstr ""
+
+#: Plugin/Installer/Activate.php:87
+msgid "Error - unable to verify nonce, please try again."
+msgstr ""
+
+#. translators: 1 the name of the plugin the user was trying to activate.
+#: Plugin/Installer/Activate.php:139
+msgid "There was an error activating %1$s."
+msgstr ""
+
+#. translators: 1 the name of the plugin the user was trying to activate.
+#: Plugin/Installer/Activate.php:148
+msgid "%1$s successfully activated."
+msgstr ""
+
+#. translators: 1 the name of the plugin the user was trying to activate.
+#: Plugin/Installer/Activate.php:159
+msgid "There was an error activating %s."
+msgstr ""

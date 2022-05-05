@@ -1,0 +1,55 @@
+.editor-panel[data-type='Library'] {
+	.save-gridblock {
+		text-align: center;
+		margin-top: 15%;
+		padding: 0 40px;
+
+		.save-state {
+			display: none;
+		}
+
+		&[state='save-prompt'] .save-prompt,
+		&[state='save-failed'] .save-failed,
+		&[state='save-success'] .save-success {
+			display: block;
+		}
+
+		.save-failed,
+		.save-success {
+			button {
+				margin-top: 30px;
+			}
+		}
+
+		h2 {
+			font-size: 2.5em;
+			font-weight: 300;
+		}
+
+		h4 {
+			font-size: 1.2em;
+			color: #9c9c9c;
+			font-weight: normal;
+			line-height: 1.5em;
+		}
+
+		form {
+			margin-top: 25px;
+		}
+
+		input {
+			padding: 14px;
+			width: 50%;
+			font-size: 1.3em;
+			border: 1px solid #ececec;
+		}
+
+		.save.bg-editor-button {
+			line-height: 4px;
+			border-radius: 0 5px 5px 0;
+			margin-left: -5px;
+			padding-top: 26px;
+			padding-bottom: 26px;
+		}
+	}
+}

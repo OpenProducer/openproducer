@@ -1,0 +1,45 @@
+body.login {
+	background: #F1F1F1;
+}
+.login h1 a {
+	background-size: 318px 158px;
+	background-position: center top;
+	background-repeat: no-repeat;
+	color: #999;
+	height: 159px;
+	font-size: 20px;
+	font-weight: normal;
+	line-height: 1.3em;
+	margin: 0 auto 25px;
+	padding: 0;
+	text-decoration: none;
+	width: 318px;
+	text-indent: -9999px;
+	outline: none;
+	overflow: hidden;
+	display: block;
+}
+.login #login_error {
+	border-left: 4px solid firebrick;
+	background: #fff;
+}
+.login .message {
+	border-left: 4px solid #00a0d2;
+	background-color: #fff;
+}
+.login .button-primary:active,
+.login .button-primary {
+	border: none !important;
+	box-shadow: none;
+	background-color:#FF6600 !important;
+	text-shadow: none;
+}
+input, textarea, select, a {
+	border: 1px solid transparent;
+}
+.boldgrid-login-bottom-text {
+	text-align:center;
+}
+.login center > img {
+	max-height: 60px;
+}

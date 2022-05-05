@@ -1,0 +1,40 @@
+/*************** Icon Panel ********************/
+.editor-panel[data-type='icon'] {
+	width: 335px;
+
+	.back {
+		margin-bottom: 0;
+	}
+
+	.panel-selection {
+		width: 123px;
+		height: 42px;
+		text-align: left;
+	}
+
+	.panel-body .presets .fa {
+		font-size: 26px;
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+		color: #525252;
+	}
+
+	.panel-selection .name {
+		margin-left: 6px;
+		vertical-align: middle;
+	}
+
+	.panel-selection.selected .fa {
+		color: white;
+	}
+
+	.ui-slider-horizontal {
+		width: 65%;
+	}
+	&.customize-open {
+		.slimScrollBar {
+			display: none !important;
+		}
+	}
+}

@@ -1,0 +1,384 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2019-11-14T14:38:41-05:00\n"
+"PO-Revision-Date: 2019-11-14T14:38:41-05:00\n"
+"X-Generator: WP-CLI 2.0.1\n"
+"X-Domain: boldgrid-library\n"
+
+#: Library/NewsWidget.php:76
+msgid "There are no updates to show right now."
+msgstr ""
+
+#: Library/NewsWidget.php:219
+msgid "BoldGrid News"
+msgstr ""
+
+#: Library/Page/Connect.php:121
+msgid "Settings saved."
+msgstr ""
+
+#: Library/Page/Connect.php:122
+msgid "Unknown error."
+msgstr ""
+
+#: Library/Page/Connect.php:123
+msgid "Could not reach the AJAX URL address. HTTP error: "
+msgstr ""
+
+#: Library/Page/Connect.php:189
+msgid "User access violation!"
+msgstr ""
+
+#: Library/Page/Connect.php:196
+msgid "Security violation! Please try again."
+msgstr ""
+
+#: Library/RatingPrompt.php:144
+msgid "Permission denied."
+msgstr ""
+
+#: Library/RatingPrompt.php:148
+msgid "Invalid nonce."
+msgstr ""
+
+#: Library/RatingPrompt.php:158
+msgid "Error dismissing prompt"
+msgstr ""
+
+#: Library/RatingPrompt.php:163
+msgid "Error snoozing prompt"
+msgstr ""
+
+#: Library/RatingPrompt.php:166
+msgid "Unknown action."
+msgstr ""
+
+#: Library/Notifications/DashboardWidget.php:101
+msgid "Please install your Connect Key"
+msgstr ""
+
+#: Library/Notifications/DashboardWidget.php:111
+msgid "Learn about the advanced features of a Premium Key."
+msgstr ""
+
+#: Library/Notifications/DashboardWidget.php:118
+msgid "Premium Connect Key Installed!"
+msgstr ""
+
+#: Library/Notifications/DashboardWidget.php:190
+msgid "No issues to report!"
+msgstr ""
+
+#: Library/Notifications/DashboardWidget.php:207
+msgid "BoldGrid Notifications"
+msgstr ""
+
+#: Library/Views/KeyPromptMini.php:44
+#: Library/Views/KeyPrompt.php:82
+msgid "Submit"
+msgstr ""
+
+#: Library/Views/EnvatoFreeKey.php:4
+msgid "Thank you for your Envato Market purchase. You currently have a Free Connect Key entered, but your Envato purchase entitles you to a Premium Connect Key."
+msgstr ""
+
+#. translators: 1 The opening anchor tag linking to BoldGrid Central's Envato page, 2 its closing anchor tag.
+#: Library/Views/EnvatoFreeKey.php:9
+#: Library/Views/Envato.php:6
+msgid "Please visit %1$sBoldGrid Central%2$s to link your accounts and claim your Premium Connect Key."
+msgstr ""
+
+#: Library/Views/Connect.php:16
+msgid "BoldGrid Connect Key"
+msgstr ""
+
+#: Library/Views/Connect.php:32
+msgid "Update Channels"
+msgstr ""
+
+#: Library/Views/Connect.php:55
+msgid "Unable to display settings page. Unknown BoldGrid Library error."
+msgstr ""
+
+#: Library/Views/KeyPrompt.php:14
+msgid "Premium BoldGrid Connect Key"
+msgstr ""
+
+#: Library/Views/KeyPrompt.php:17
+msgid "Awesome! You have a Premium Connect Key saved on this site."
+msgstr ""
+
+#. translators: 1 The opening anchor tag linking to the the "WordPress Plugins" page on Boldgrid.com, 2 its closing anchor tag, 3 the opening anchor tag to BoldGrid Central, 4 its closing anchor tag.
+#: Library/Views/KeyPrompt.php:22
+msgid "Make sure you're getting the most out of your premium subscription by installing our other %1$sBoldGrid plugins%2$s. As a Premium user, you also have access to %3$sCloud WordPress%4$s where you can create new WordPress sites for free. If you need any help, our support team is eager to serve!"
+msgstr ""
+
+#: Library/Views/KeyPrompt.php:27
+#: Library/Views/KeyPrompt.php:45
+msgid "Click here to change your Connect Key"
+msgstr ""
+
+#: Library/Views/KeyPrompt.php:32
+msgid "Free BoldGrid Connect Key"
+msgstr ""
+
+#: Library/Views/KeyPrompt.php:37
+msgid "Thank you for adding your Connect Key. Try upgrading to a Premium subscription for full access to BoldGrid!"
+msgstr ""
+
+#: Library/Views/KeyPrompt.php:40
+msgid "Upgrade"
+msgstr ""
+
+#: Library/Views/KeyPrompt.php:61
+msgid "Enter your BoldGrid Connect Key to use BoldGrid"
+msgstr ""
+
+#: Library/Views/KeyPrompt.php:64
+msgid "Already have your Key? Enter it below and click Submit:"
+msgstr ""
+
+#. translators: 1 The opening anchor tag to BoldGrid's TOS page, 2 its closing anchor tag.
+#: Library/Views/KeyPrompt.php:73
+msgid "I agree to the %1$sTerms of Use and Privacy Policy%2$s."
+msgstr ""
+
+#: Library/Views/KeyPrompt.php:97
+msgid "Don't have a Key or lost your Key?"
+msgstr ""
+
+#: Library/Views/KeyPrompt.php:99
+msgid "Get a BoldGrid Connect Key"
+msgstr ""
+
+#: Library/Views/KeyPrompt.php:111
+msgid "Request or Reset a BoldGrid Connect Key"
+msgstr ""
+
+#. translators: 1 An opening strong tag, 2 its closing strong tag, 3 the opening anchor tag linking to BoldGrid's "Connect Key" pages, 4 its closing anchor tag.
+#: Library/Views/KeyPrompt.php:117
+msgid ""
+"You may obtain two different types of Connect Keys: A Free Key or a Premium Connect Key (%3$sclick here%4$s for the benefits of a Premium Key).\n"
+"\t\t\t\t\t\t%1$sA Premium Connect Key is highly recommended and may already come with your hosting account.%2$s"
+msgstr ""
+
+#: Library/Views/KeyPrompt.php:130
+msgid "Check with your host or visit BoldGrid Central to sign up and get your Connect Key."
+msgstr ""
+
+#: Library/Views/KeyPrompt.php:137
+msgid "Have a Connect Key to enter?"
+msgstr ""
+
+#: Library/Views/ConnectionIssue.php:3
+msgid "BoldGrid Connection Issue"
+msgstr ""
+
+#: Library/Views/ConnectionIssue.php:6
+msgid "There was an issue reaching the BoldGrid Connect server. Some BoldGrid features may be temporarily unavailable. Please try again in a moment."
+msgstr ""
+
+#. translators: 1 The opening anchor tag to BoldGrid's status page, 2 its closing anchor tag.
+#: Library/Views/ConnectionIssue.php:11
+msgid "If the issue persists, then please feel free to check our %1$sBoldGrid Status%2$s page."
+msgstr ""
+
+#: Library/Views/Connect/AutoUpdates.php:34
+msgid "Active"
+msgstr ""
+
+#: Library/Views/Connect/AutoUpdates.php:35
+msgid "Inactive"
+msgstr ""
+
+#: Library/Views/Connect/AutoUpdates.php:36
+msgid "Parent"
+msgstr ""
+
+#. translators: 1: HTML anchor open tag, 2: HTML anchor close tag, 3: HTML em open tag, 4: HTML em close tag, 5: Plugin Title.
+#: Library/Views/Connect/AutoUpdates.php:62
+msgid "You have %3$sAuto Backup Before Update%4$s disabled in the %1$s%5$s Backup and Restore Settings%2$s.  Please consider enabling the setting."
+msgstr ""
+
+#: Library/Views/Connect/AutoUpdates.php:78
+msgid "WordPress Core"
+msgstr ""
+
+#: Library/Views/Connect/AutoUpdates.php:91
+msgid "All Update Types"
+msgstr ""
+
+#: Library/Views/Connect/AutoUpdates.php:102
+msgid "Major Updates"
+msgstr ""
+
+#: Library/Views/Connect/AutoUpdates.php:112
+msgid "Minor Updates"
+msgstr ""
+
+#: Library/Views/Connect/AutoUpdates.php:122
+msgid "Development Updates"
+msgstr ""
+
+#: Library/Views/Connect/AutoUpdates.php:132
+msgid "Translation Updates"
+msgstr ""
+
+#: Library/Views/Connect/AutoUpdates.php:151
+#: Library/Views/Connect/UpdateChannels.php:46
+msgid "Plugins"
+msgstr ""
+
+#: Library/Views/Connect/AutoUpdates.php:165
+msgid "Default for New Plugins"
+msgstr ""
+
+#: Library/Views/Connect/AutoUpdates.php:177
+msgid "All Plugins"
+msgstr ""
+
+#: Library/Views/Connect/AutoUpdates.php:251
+#: Library/Views/Connect/UpdateChannels.php:106
+msgid "Themes"
+msgstr ""
+
+#: Library/Views/Connect/AutoUpdates.php:265
+msgid "Default for New Themes"
+msgstr ""
+
+#: Library/Views/Connect/AutoUpdates.php:277
+msgid "All Themes"
+msgstr ""
+
+#: Library/Views/Connect/UpdateChannels.php:38
+msgid "Update release channels determine which versions are retrieved from the BoldGrid Connect system."
+msgstr ""
+
+#: Library/Views/Connect/UpdateChannels.php:66
+#: Library/Views/Connect/UpdateChannels.php:126
+msgid "Stable"
+msgstr ""
+
+#: Library/Views/Connect/UpdateChannels.php:75
+#: Library/Views/Connect/UpdateChannels.php:135
+msgid "Edge"
+msgstr ""
+
+#: Library/Views/Connect/UpdateChannels.php:88
+#: Library/Views/Connect/UpdateChannels.php:148
+msgid "Candidate"
+msgstr ""
+
+#: Library/Views/Envato.php:3
+msgid "Thank you for your Envato Market purchase"
+msgstr ""
+
+#: Library/Api/Call.php:72
+msgid "The API was not able to be reached from this server!"
+msgstr ""
+
+#: Library/Api/Call.php:176
+msgid "An invalid response was returned."
+msgstr ""
+
+#: Library/License.php:75
+msgid "Unknown plugin."
+msgstr ""
+
+#: Library/License.php:79
+msgid "Access denied."
+msgstr ""
+
+#. translators: 1 The name of a transient that we were unable to delete.
+#: Library/License.php:87
+msgid "Failed to clear license data. Unable to delete site transient \"%1$s\"."
+msgstr ""
+
+#: Library/License.php:120
+msgid "Unknown error"
+msgstr ""
+
+#: Library/License.php:400
+msgid "Free"
+msgstr ""
+
+#. translators: The Url to the BoldGrid Connect settings page.
+#: Library/Notice/KeyPrompt.php:106
+msgid "Your api key has been saved. To change, see <strong>Settings &#187; <a href=\"%1$s\">BoldGrid Connect</a></strong>."
+msgstr ""
+
+#. translators: 1 A br / break tag.
+#: Library/Notice/KeyPrompt.php:113
+msgid "Your API key appears to be invalid!%sPlease try to enter your BoldGrid Connect Key again."
+msgstr ""
+
+#: Library/Notice/KeyPrompt.php:116
+msgid "Security violation!  An invalid nonce was detected."
+msgstr ""
+
+#: Library/Notice/KeyPrompt.php:117
+msgid "Connection timed out. Please try again."
+msgstr ""
+
+#: Library/Notice/KeyPrompt.php:144
+msgid "Click here to enter your BoldGrid Connect Key."
+msgstr ""
+
+#: Library/Notice/KeyPrompt.php:145
+msgid "Please enter a valid e-mail address."
+msgstr ""
+
+#: Library/Notice/KeyPrompt.php:146
+msgid "There was an error communicating with the BoldGrid Connect Key server.  Please try again."
+msgstr ""
+
+#: Library/Notice/KeyPrompt.php:147
+msgid "First name is required."
+msgstr ""
+
+#: Library/Notice/KeyPrompt.php:148
+msgid "You must enter a valid BoldGrid Connect Key."
+msgstr ""
+
+#: Library/Notice/KeyPrompt.php:149
+msgid "Last name is required."
+msgstr ""
+
+#: Library/Notice/KeyPrompt.php:150
+msgid "You must agree to the Terms of Service before continuing."
+msgstr ""
+
+#: Library/Notice/KeyPrompt.php:151
+msgid "An unexpected error occured. Please try again later."
+msgstr ""
+
+#: Library/Menu/External.php:77
+#: Library/Menu/External.php:82
+msgid "Documentation"
+msgstr ""
+
+#: Library/Menu/External.php:109
+#: Library/Menu/External.php:114
+msgid "Feedback"
+msgstr ""
+
+#: Library/Menu/Reseller.php:136
+#: Library/Menu/Reseller.php:141
+msgid "Support Center"
+msgstr ""
+
+#: Library/Menu/Reseller.php:147
+msgid "AMP Login"
+msgstr ""
+
+#: Library/Menu/Reseller.php:152
+msgid "Account Management"
+msgstr ""

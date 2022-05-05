@@ -1,0 +1,23 @@
+.media-placeholder {
+	background: #ccc;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	max-width: 100%;
+	overflow: hidden;
+	color: black !important;
+
+	> div {
+		flex: 1;
+	}
+
+	.dashicons-admin-media {
+		font-size: 28px;
+		position: relative;
+		left: -4px;
+
+		+ div {
+			font-variant: small-caps;
+		}
+	}
+}

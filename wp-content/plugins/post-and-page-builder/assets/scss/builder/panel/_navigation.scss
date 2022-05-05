@@ -1,0 +1,89 @@
+.editor-panel .panel-body .customize {
+	margin-left: 65px;
+}
+
+.customize-navigation {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	background-color: $panel-color;
+	width: 60px;
+	z-index: 999;
+	border-bottom-left-radius: 5px;
+	top: 48px;
+
+	.item {
+		height: 40px;
+		text-align: center;
+		align-items: center;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		display: none;
+
+		&.enabled {
+			display: flex;
+		}
+
+		&, &:after {
+			transition-property: background, border;
+			transition-duration: .25s;
+		}
+
+		.boldgrid-help-icon {
+			display: none;
+		}
+
+		a {
+			line-height: 0;
+			width: 100%;
+		}
+
+		svg {
+			padding-top: 10px;
+			fill: white;
+			height: 40px;
+			width: 100%;
+
+			path {
+				fill: white !important;
+			}
+		}
+
+		&.active {
+			background: $hover-color;
+
+			&:after {
+				content: '';
+				width: 0;
+				height: 0;
+				border-top: 10px solid transparent;
+				border-bottom: 10px solid transparent;
+				border-left: 10px solid #f95b26;
+				position: absolute;
+				right: -8px;
+			}
+		}
+
+		&:hover {
+			background: lighten( $boldgrid-color, 10% );
+
+			&:after {
+				border-left: 10px solid lighten( $boldgrid-color, 10% );
+			}
+
+			.boldgrid-tooltip {
+				display: block;
+				right: 40px !important;
+				top: 50% !important;
+				transform: translateY(-50%);
+			}
+		}
+	}
+}
+
+.editor-panel [data-control-name="Advanced"] .back{
+	display: none;
+}
+
+.customize [data-control-name] {
+	display: none;
+}

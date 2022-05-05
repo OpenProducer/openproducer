@@ -1,0 +1,77 @@
+<div class="connect-key-entry" data-journey="<%= journey %>">
+	<div class="column">
+		<span class="dashicons dashicons-admin-network"></span>
+	</div>
+	<div class="existing-key">
+		<h2><%= ( 'basic' === license ) ? 'Free' : 'Premium' %> BoldGrid Connect Key</h2>
+		<% if ( 'basic' === license ) { %>
+			<p>Thank you for adding your Connect Key. Try upgrading to a Premium subscription for full access to BoldGrid!</p>
+		<% } else if ( 'premium' === license ) { %>
+			<p>Awesome! You have Premium Connect Key saved on this site.</p>
+			<p>Make sure you're getting the most out of your premium subscription
+			by installing our other <a href="https://www.boldgrid.com/wordpress-plugins/"
+			target="_blank">BoldGrid plugins</a>. As a Premium user, you also
+			have unlimited access to <a href="https://www.boldgrid.com/central/get-it-now"
+			target="_blank">Cloud WordPress</a> where you can create new WordPress sites
+			for free. If you need any help, our support team is eager to serve!</p>
+		<% } %>
+		<% if ( 'basic' === license ) { %>
+			<p><a class="button button-primary upgrade-key" target="_blank" href="<%=premiumKeyLink %>">Upgrade</a></p>
+		<% } %>
+		<p>
+			<a class="change-connect-key" href="#">Click here to change your Connect Key</a>
+		</p>
+	</div>
+	<div class="upgrade-key-section">
+		<h2>Upgrade Your Connect Key</h2>
+		<p>You were taken to <a target="_blank"
+			href="https://www.boldgrid.com/central">BoldGrid Central</a> to upgrade your Connect Key.
+			Once you've finished you'll be able to install Premium Blocks.
+		</p>
+		<p>
+			<a class="button button-primary">Okay, Got It!</a>
+		</p>
+	</div>
+	<div class="key-entry">
+		<form>
+			<h2>Enter Your BoldGrid Connect Key</h2>
+			<p>A <a target="_blank" href="<%=newKeyLink %>">Connect Key</a> allows you to fully explore BoldGrid features.
+				Please enter your <strong>32 digit BoldGrid Connect Key</strong> below and click submit.</p>
+			<p class="error">You must enter a valid BoldGrid Connect Key.</p>
+			<label><input type="checkbox" required name="tos"> I agree to the <a href="https://www.boldgrid.com/software-privacy-policy/"
+				target="_blank">Terms of Use and Privacy Policy</a></label>
+			<p>
+				<input type="text" name="boldgrid-connect-key" required
+					placeholder="XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX">
+				<button class="button button-primary">Submit</button>
+			</p>
+			<% if ( ! claimEnvato ) { %>
+				<p><a target="_blank" href="<%=newKeyLink %>">Don't have a Connect Key yet?</a></p>
+			<% } else { %>
+				<div class="envato-purchase">
+					<div>Thank you for your Envato Market purchase.</div>
+					<div>Please visit <a target="_blank" href="https://www.boldgrid.com/central/code/envato"
+						>BoldGrid Central</a> to link your accounts and claim your Premium Connect Key.</div>
+				</div>
+			<% } %>
+		</form>
+	</div>
+	<div class="success" data-key-type="">
+		<h2>Successfully Saved Your Connect Key!</h2>
+		<p>
+			<span class="post-add-message basic-key">
+				Thank you for adding your Connect Key.
+				Try upgrading to a Premium subscription for full access to BoldGrid! To find out more, please see:
+				<a target="_blank" href="<%=newKeyLink %>">BoldGrid Connect Keys</a>
+			</span>
+			<span class="post-add-message premium-key">
+				Congratulations on your new BoldGrid Connect Key. You now have access to Premium Blocks
+				as well as any other premium <a target="_blank" href="https://www.boldgrid.com/wordpress-plugins/"
+					>BoldGrid plugins</a> and features.
+			</span>
+		</p>
+		<p>
+			<button class="button button-primary">Okay, Got It!</button>
+		</p>
+	</div>
+</div>

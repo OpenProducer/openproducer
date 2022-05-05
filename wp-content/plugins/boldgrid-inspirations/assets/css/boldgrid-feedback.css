@@ -1,0 +1,80 @@
+/**
+* This file should not be auto formatted.
+*/
+
+/* feedback-notice-1-1 . */
+
+.feedback-form-label {
+	float: left;
+	font-weight: bold;
+	margin-top: 11px;
+	width: 170px;
+}
+
+.feedback-form-field {
+	margin-top: 7px;
+	margin-bottom: 7px;
+}
+
+#feedback-comment-area, 
+#feedback-email-address, 
+#feedback-diagnostic-report,
+#feedback-submit {
+	display: none;
+}
+
+#feedback-notice-1-1 .boldgrid-icon:before {
+	color: #f95b26;
+	font-size: 41px;
+	overflow: hidden;
+	padding-right: 15px !important;
+}
+
+#feedback-notice-1-1-header .boldgrid-icon {
+	float: left;
+	margin-top: 21px;
+}
+
+#feedback-notice-1-1-intro h2 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#boldgrid_feedback_widget #feedback-notice-1-1-intro p {
+	margin: 0;
+}
+
+#feedback-notice-1-1-intro p {
+	margin-top: -5px;
+	margin-bottom: -5px;
+	margin-left: 56px;
+	overflow: hidden;
+}
+
+#feedback-notice-1-1-content {
+	margin-top: 15px;
+}
+
+#feedback-email {
+	margin-top: 7px;
+}
+
+#feedback-diagnostic-text {
+	margin-top: 7px;
+}
+
+.feedback-form-field #feedback-submit {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#feedback-error-message {
+	color: #ff0000;
+	display: none;
+	font-weight: bold;
+}
+
+#boldgrid-feedback-form .spinner {
+	float: none;
+	margin-top: 14px;
+}

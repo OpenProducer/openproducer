@@ -1,0 +1,153 @@
+/** Analysis suggestions **/
+.bgseo-recommendations {
+	display: flex;
+	margin-left: -12px;
+}
+.analysis-suggestion::before {
+	display: inline-block;
+	float: left;
+	margin: 3px 10px 3px -22px;
+	width: 13px;
+	height: 13px;
+	content: '';
+	vertical-align: middle;
+	border-radius: 100%;
+}
+.analysis-suggestion {
+	float: left;
+	margin-left: 32px;
+}
+
+/** Analysis suggestions in metabox sidebar **/
+#side-sortables .bgseo-recommendations {
+	display: flex;
+	margin-left: -12px;
+	margin-bottom: 8px;
+}
+#side-sortables .bgseo-recommendations:last-of-type {
+	margin-bottom : 0;
+}
+
+/** Overview Status **/
+.overview-status::before {
+	display: inline-block;
+	margin: 3px 10px 3px 0;
+	width: 13px;
+	height: 13px;
+	content: '';
+	vertical-align: middle;
+	border-radius: 100%;
+}
+
+/** Status Indicator Colors **/
+.overview-status.red::before,
+.analysis-suggestion.red::before {
+	background: #EA4335;
+}
+.overview-status.green::before,
+.analysis-suggestion.green::before {
+	background: #34A853;
+}
+.overview-status.yellow::before,
+.analysis-suggestion.yellow::before {
+	background: #FBBC05;
+}
+
+/** Nofollow/Noindex styles **/
+#butterbean-control-bgseo_robots_index .butterbean-radio-list li,
+#butterbean-control-bgseo_robots_follow .butterbean-radio-list li {
+	display: inline-block;
+	padding-right: 1em;
+}
+
+/** Tooltip Styles **/
+.bgseo-tooltip {
+	padding-left: 0.3em;
+	font-size: 18px;
+	vertical-align: bottom;
+	cursor: pointer;
+}
+
+/** Nav Styles **/
+.butterbean-manager-default .butterbean-nav {
+	background-color: #eee;
+}
+.butterbean-nav li[aria-selected="false"] a {
+	background-color: #fafafa;
+}
+.butterbean-manager-default .butterbean-nav li.green a {
+	border-right: 5px solid #34A853;
+	border-bottom: none;
+	margin-bottom: 1px;
+}
+.butterbean-manager-default .butterbean-nav li.yellow a {
+	border-right: 5px solid #FBBC05;
+	border-bottom: none;
+	margin-bottom: 1px;
+}
+.butterbean-manager-default .butterbean-nav li.red a {
+	border-right: 5px solid #EA4335;
+	border-bottom: none;
+	margin-bottom: 1px;
+}
+
+/** Nav in metabox sidebar **/
+#side-sortables .butterbean-manager-default .butterbean-nav li.green a {
+	border-right: none;
+	border-bottom: 4px solid #34A853;
+	margin-bottom: 0;
+}
+#side-sortables .butterbean-manager-default .butterbean-nav li.yellow a {
+	border-right: none;
+	border-bottom: 4px solid #FBBC05;
+	margin-bottom: 0;
+}
+#side-sortables .butterbean-manager-default .butterbean-nav li.red a {
+	border-right: none;
+	border-bottom: 4px solid #EA4335;
+	margin-bottom: 0;
+}
+/** General Control Style **/
+.bgseo-keywords:last-of-type {
+	margin-bottom: 10px;
+}
+
+/** In metabox sidebar **/
+#side-sortables .butterbean-manager-default .butterbean-control {
+	margin-bottom: 0;
+}
+#side-sortables .butterbean-manager-default #butterbean-control-bgseo_dash_html.butterbean-control {
+	margin-bottom: 20px;
+}
+#side-sortables .butterbean-manager-default #butterbean-control-bgseo_description.butterbean-control {
+	margin-bottom: 20px;
+}
+#side-sortables .butterbean-manager-default #butterbean-control-bgseo_canonical.butterbean-control {
+	margin-bottom: 20px;
+}
+#side-sortables .butterbean-manager-default #butterbean-control-bgseo_custom_keyword.butterbean-control {
+	margin-bottom: 20px;
+}
+#side-sortables .butterbean-manager-default #butterbean-control-bgseo_meta_analaysis.butterbean-control {
+	margin-bottom: 10px;
+}
+#side-sortables .bgseo-keywords {
+	margin-bottom: 10px;
+}
+
+/** Keywords Section Styles **/
+.butterbean-manager-default #butterbean-control-bgseo_keywords_html.butterbean-control {
+	margin-bottom: 0;
+}
+.butterbean-manager-default #butterbean-control-bgseo_keyword_analaysis.butterbean-control {
+	margin-bottom: 11px;
+}
+
+#butterbean-ui-boldgrid_seo .butterbean-manager-default .butterbean-content {
+	width: calc( 100% - 181px );
+}
+@media only screen and ( max-width: 782px ), ( max-width: 980px ) and ( min-width: 851px ) {
+	#butterbean-ui-boldgrid_seo .butterbean-manager-default .butterbean-content {
+		width: calc( 100% - 48px );
+	}
+}

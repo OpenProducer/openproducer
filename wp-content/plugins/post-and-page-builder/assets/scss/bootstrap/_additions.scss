@@ -1,0 +1,74 @@
+* {
+	@include box-sizing(border-box);
+}
+
+*:before,
+*:after {
+	@include box-sizing(border-box);
+}
+
+.text-center {
+	text-align: center;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-left {
+	text-align: left;
+}
+
+/*
+ * http://getbootstrap.com/docs/3.3/css/#type-headings
+ */
+.h1 {
+	font-size: $font-size-h1;
+}
+
+.h2 {
+	font-size: $font-size-h2;
+}
+
+.h3 {
+	font-size: $font-size-h3;
+}
+
+.h4 {
+	font-size: $font-size-h4;
+}
+
+.h5 {
+	font-size: $font-size-h5;
+}
+
+.h6 {
+	font-size: $font-size-h6;
+}
+
+/**
+ * Flex Box.
+ */
+.row,
+.row > [class*="col-md"] {
+	min-height: 30px;
+}
+
+.row .row,
+.row .row > [class*="col-md"] {
+	min-height: 15px;
+}
+
+.row > * {
+	max-width: 100%;
+}
+
+.row {
+	display:flex;
+	flex-wrap: wrap;
+
+	&:before,
+	&:after {
+		width: 0;
+	}
+}

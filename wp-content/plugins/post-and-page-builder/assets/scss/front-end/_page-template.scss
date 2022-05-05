@@ -1,0 +1,85 @@
+.boldgrid-editor-template,
+.bg_block-template-default,
+.page-template-templatepagefullwidth-php.page-template-fullwidth {
+	#content.site-content {
+		margin-top: 0;
+		margin-bottom: 0;
+		padding: 0;
+	}
+
+	.site-footer {
+		margin-top: 0;
+	}
+
+	.entry-header .entry-title {
+		padding: 10px 5px;
+	}
+
+	header:not(.entry-header) {
+		margin-bottom: 0;
+	}
+}
+
+/** common class resets **/
+.page-template.boldgrid-editor-template {
+	#site-content.container {
+		width: 100%;
+		padding: 0;
+	}
+
+	.entry-header {
+		padding-bottom: 20px;
+		padding-top: 20px;
+		margin-top: 0;
+		margin-bottom: 0;
+
+		.entry-title {
+			margin: 0;
+		}
+	}
+
+	.bge-entry-content,
+	.bge-entry-content .the-content {
+		width: 100%;
+		max-width: 100%;
+		padding: 0;
+	}
+
+	.bg-page-article {
+		width: 100%;
+		max-width: 100%;
+		padding: 0;
+		margin: 0;
+	}
+}
+
+.bg-custom-template {
+	padding: 0;
+
+	.bge-content-main {
+		padding: 0;
+	}
+
+	.bge-sidebar {
+		padding: 20px;
+	}
+}
+
+.bg-custom-template.sidebar-left {
+	flex-direction: row-reverse;
+}
+
+@media only screen and (min-width: 992px) {
+	.bg-custom-template.sidebar-right,
+	.bg-custom-template.sidebar-left {
+		display: flex;
+
+		.bge-content-main {
+			width: 75%;
+		}
+
+		.bge-sidebar {
+			width: 25%;
+		}
+	}
+}

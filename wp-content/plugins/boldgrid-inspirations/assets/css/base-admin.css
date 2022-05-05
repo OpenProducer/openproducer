@@ -1,0 +1,430 @@
+/**
+* This file should not be auto formatted.
+*/
+
+.loading_message {
+	clear: both;
+	background: #F3F3F3;
+	padding: 10px;
+	margin: 10px 0px;
+	border: 1px solid #ddd;
+}
+
+#toggle_view_deploy_log{
+	cursor: pointer;
+}
+
+.white-bg {
+	background: #fff;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.w50 {
+	width: 49%;
+}
+
+.w40 {
+	width: 39%;
+}
+
+.clear {
+	clear: both;
+}
+
+.bottom-0 {
+	bottom: 0px;
+}
+
+.visible {
+	visibility: visible;
+}
+
+
+/* *****************************************************************
+Resize youtube vidoes
+@thanks http://stackoverflow.com/questions/7737557/how-can-i-make-the-youtube-player-scale-to-the-width-of-the-page-but-also-keep-t
+***************************************************************** */
+
+.auto-resizable-iframe {
+	max-width: 420px;
+	margin: 0px auto;
+}
+
+.auto-resizable-iframe>div {
+	position: relative;
+	padding-bottom: 75%;
+	height: 0px;
+}
+
+.auto-resizable-iframe iframe {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+
+/* *****************************************************************
+Pointers
+***************************************************************** */
+.wp-pointer {
+	z-index: 1000000 !important;
+}
+
+
+/* *****************************************************************
+Inspiration
+***************************************************************** */
+.boldgrid-loading.enabled {
+	font-size: 31px;
+	line-height: unset;
+	-webkit-animation: rotate-loader 2s infinite;
+	animation: rotate-loader .8s infinite;
+	-ms-transform: rotate(45deg); /* IE 9 */
+	-ms-transform-origin: 20% 40%; /* IE 9 */
+	-webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+	-webkit-transform-origin: 20% 40%; /* Chrome, Safari, Opera */
+	transform-origin: 80% 9px -11px;
+	animation-timing-function: linear;
+}
+
+@-webkit-keyframes rotate-loader {
+	from {transform: rotateZ(0deg);}
+	to {transform: rotateZ(360deg);}
+}
+
+@keyframes rotate-loader {
+	from {transform: rotateZ(0deg);}
+	to {transform: rotateZ(360deg);}
+}
+
+@font-face {
+	font-family: "Josefin Sans";
+	font-style: normal;
+	font-weight: 300;
+	src: local("Josefin Sans Light"), local("JosefinSans-Light"),
+		url("//fonts.gstatic.com/s/josefinsans/v9/C6HYlRF50SGJq1XyXj04z04GofcKVZz6wtzX_QUIqsI.woff2")
+		format("woff2"),
+		url("//fonts.gstatic.com/s/josefinsans/v9/C6HYlRF50SGJq1XyXj04z2Fp2sMiApZm5Dx7NpSTOZk.woff")
+		format("woff");
+}
+
+.lrg-boldgrid-loading {
+	margin: auto;
+	display: table;
+	padding-top: 60px;
+}
+
+.loading-text {
+	font-size: 100px;
+	text-align: center;
+	color: #444;
+	font-family: "Josefin Sans";
+	font-weight: 600;
+	letter-spacing: 0.17em;
+}
+
+.lrg-boldgrid-loading>i::before {
+	font-size: 170px;
+}
+
+.loading-wrapper, .branding-wrapper {
+	color: #ff6600;
+}
+
+.branding-wrapper a {
+	color: inherit; /* blue colors for links too */
+	text-decoration: inherit; /* no underline */
+}
+
+.a-bit-less-bold {
+	font-weight: 300;
+}
+
+
+/* *****************************************************************
+plugin-card
+***************************************************************** */
+
+.row .plugin-card {
+	margin: 0px;
+	padding: 0px;
+}
+
+.boldgrid-plugin-card-full-width {
+	width: 100%;
+}
+
+.boldgrid-plugin-card {
+	border: 1px solid #dfdfdf;
+}
+
+.boldgrid-plugin-card .top {
+	background:#fff; padding:15px;
+}
+
+.boldgrid-plugin-card .bottom {
+	background: #fafafa;
+	padding: 15px;
+	text-align: right;
+	border-top: 1px solid #dfdfdf;
+}
+
+
+/* *****************************************************************
+Misc
+***************************************************************** */
+
+.inactive-link {
+	pointer-events: none;
+	cursor: default;
+}
+
+.boldgrid-loading {
+	float: none !important;
+	position: relative;
+	margin: 0 auto;
+	text-align: center;
+	width: 240px;
+	height: 170px;
+	max-width: 240px;
+	background: url('../images/bg-logo.svg') no-repeat top center;
+	margin-bottom: 45px;
+}
+
+.boldgrid-loading:after {
+	content: ' ';
+	background-color: #f95b26;
+	border-radius: 5px;
+	height: 9px;
+	width: 9px;
+	bottom: -25px;
+	position: absolute;
+	-webkit-animation: swipe ease-in-out 2s infinite;
+	/* Chrome, Safari, Opera */
+	animation: swipe ease-in-out 2s infinite; /* Standard Syntax */
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes swipe {
+	0% {left:0px; opacity: 0;}
+	25% {left:0px; opacity: 1;}
+	50% {width:240px; left:0px;}
+	75% {width:9px; height:9px; left:231px; margin-top:20px; opacity:1;}
+	100% {width:1px; height:1px; left:235px; margin-top:25px; opacity:0;}
+}
+
+/* Standard syntax */
+@keyframes swipe {
+	0% {left: 0px; opacity: 0;}
+	25% {left:0px; opacity:1;}
+	50% {width:240px; left:0px;}
+	75% {width:9px; height:9px; left:231px; margin-top:20px; opacity:1;}
+	100% {width:1px; height:1px; left:235px; margin-top:25px; opacity:0;}
+}
+
+.boldgrid-loading.max-width-as-width {
+	width: 240px;
+}
+
+.no-float {
+	float: none;
+}
+
+.clear {
+	clear: both;
+}
+
+.not-allowed {
+	cursor: not-allowed;
+}
+
+/* Match the Dashboard's "Customize" icon to the Front end's */
+.dashicons-admin-customize:before {
+	content: '\f540';
+}
+
+/* If a link is disabled, prevent any clicks. */
+a[disabled="disabled"] {
+	pointer-events: none;
+}
+
+/* Mimic fa icon using BoldGrid icon. */
+.fa-boldgrid {
+	height: 19px;
+	width: 19px;
+	background: url(../images/bg-coin-toolbar-graphic.png) center 3px no-repeat;
+	filter: brightness(0.4);
+	min-height: 22px;
+}
+
+
+/* *****************************************************************
+Coins
+***************************************************************** */
+
+.coin-bg-s {
+	background: url("../images/bg-coin-toolbar-graphic.png") no-repeat left
+		top;
+	padding-left: 24px;
+	min-height: 21px;
+}
+
+
+/* *****************************************************************
+Inline dashicons
+***************************************************************** */
+
+.dashicons-inline {
+	display: inline;
+}
+
+.dashicons-inline:before {
+	padding: 0px 3px;
+}
+
+
+/**
+ * #.# Spinners.
+ */
+
+/* Create an inline spinner floated next to a button. */
+.spinner.inline.left-of-button {
+	float: right;
+	margin: 20px 5px 0px 15px;
+	visibility: visible;
+}
+
+/* Create an inline spinner floated next to an anchor. */
+.spinner.inline.left-of-anchor {
+	float: right;
+	margin-right: 5px;
+}
+
+
+/* *****************************************************************
+BoldGrid Connect Search
+***************************************************************** */
+.media-frame-content iframe#boldgrid_connect_search {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+/* Allow a font to be a little smaller than its surrounding fonts. */
+.small {
+	font-size: 0.8em;
+}
+
+
+/*
+ * #.# Dashicons.
+ *
+ * Custom styles for dashicons.
+ */
+ 
+a.button.dashicons-before:before {
+	vertical-align: text-top;
+	padding-right: 5px;
+}
+
+a:not(.button).dashicons-before:before {
+	text-decoration: none;
+	font-size: 1.2em;
+	vertical-align: sub;
+}
+
+
+/**
+ * #.# BoldGrid Plugin Card My Inspirations
+ *
+ * Handle the display / usage of boldgrid plugin cards as used on the "My Inspiration" page.
+ */
+ 
+.boldgrid-plugin-card-boxy > h1 {
+	margin-bottom: 8px;
+}
+
+/* The boxes may be stacked on top of each other. Give them some space. */
+.boldgrid-plugin-card-boxy .boldgrid-plugin-card {
+	margin-bottom: 15px;
+}
+
+/* If the plugin cards are nested, don't give bottom margin. */
+.boldgrid-plugin-card-boxy .boldgrid-plugin-card .boldgrid-plugin-card {
+	margin-bottom: 0px;
+}
+
+/* Keep the first elements flush to the top of the top / bottom boxes. */
+.boldgrid-plugin-card-boxy .top > :first-child {
+	margin-top: 0px;
+}
+
+/* Keep the last elements flush to the bottom of the top / bottom boxes. */
+.boldgrid-plugin-card-boxy .top > :nth-last-child(-n + 1),
+.boldgrid-plugin-card-boxy .bottom > :nth-last-child(-n + 1) {
+	margin-bottom: 0px;
+}
+
+.boldgrid-plugin-card-boxy .top, 
+.boldgrid-plugin-card-boxy .bottom {
+	padding: 7.5px;
+}
+
+.boldgrid-plugin-card-boxy h2 {
+	font-size: 1.1em;
+}
+
+.boldgrid-plugin-card-boxy h3 {
+	font-size: 1.05em;
+}
+
+.boldgrid-plugin-card-boxy .top.header h2 {
+	margin: 0px;
+}
+
+.boldgrid-plugin-card-boxy .bottom .top {
+	text-align: left;
+}
+
+.boldgrid-plugin-card-boxy .top .header {
+	border-bottom: 1px solid #bbb;
+	margin-left: -3px;
+	margin-right: -3px;
+	padding-bottom: 2px;
+}
+
+
+/**
+ * #.# BoldGrid Inspirations logo.
+ *
+ * The element should contain the text "BoldGrid Inspirations" and the logo will appear to the left.
+ */
+
+.wrap h1.bginsp-logo {
+	font-family: 'Josefin Sans';
+	font-weight: 300;
+	background: url( ../images/boldgrid-login-logo.png ) no-repeat;
+	background-size: 4.4em;
+	display: inline-block;
+	padding-left: 1.7em;
+	padding-top: 0.1em;
+	background-position: -1.6em .04em;
+	max-height: 1.2em;
+	letter-spacing: 0.1em;
+}

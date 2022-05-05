@@ -1,0 +1,71 @@
+.wp-caption {
+	margin-bottom: calc( 1.5 * #{$size__spacing-unit} );
+}
+
+.wp-caption img[class*='wp-image-'] {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+figcaption,
+.wp-caption-text {
+	color: $color__text-light;
+	margin: 0 auto;
+	padding: 0;
+	text-align: left;
+}
+
+.has-text-color {
+	figcaption,
+	.wp-caption-text {
+		color: inherit;
+	}
+}
+
+figcaption,
+.wp-caption-text,
+.amp-image-lightbox-caption {
+	font-size: $font__size-xs;
+	font-family: $font__heading;
+	line-height: $font__line-height-pre;
+}
+
+/* Hack to address a bug that affects caption positioning in Safari only. Targets Safari 9+ only. */
+@supports ( -webkit-hyphens: none ) {
+	.wp-block-image [class^='align'] > figcaption {
+		display: block;
+	}
+}
+
+.entry-content {
+	.wp-caption-text,
+	figcaption {
+		max-width: 780px;
+	}
+
+	.alignfull,
+	.alignwide {
+		> figcaption {
+			width: min( 90vw, 780px );
+		}
+	}
+}
+
+.newspack-front-page,
+.post-template-single-wide,
+.page-template-single-wide {
+	.entry-content {
+		.wp-caption-text,
+		figcaption {
+			max-width: 1200px;
+		}
+	}
+
+	.alignfull,
+	.alignwide {
+		> figcaption {
+			width: min( 90vw, 1200px );
+		}
+	}
+}
