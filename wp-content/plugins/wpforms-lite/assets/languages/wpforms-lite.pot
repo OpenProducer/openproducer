@@ -1,13 +1,13 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WPForms Lite 1.7.4\n"
+"Project-Id-Version: WPForms Lite 1.7.4.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpforms-lite\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-04-26T09:45:23+00:00\n"
+"POT-Creation-Date: 2022-05-05T12:49:49+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: wpforms-lite\n"
@@ -112,7 +112,7 @@ msgstr ""
 #: includes/admin/builder/class-builder.php:530
 #: includes/admin/class-editor.php:105
 #: src/Admin/Education/Core.php:92
-#: src/Forms/Locator.php:332
+#: src/Forms/Locator.php:340
 #: src/Lite/Admin/Education/LiteConnect.php:234
 #: templates/builder/help.php:33
 msgid "Close"
@@ -2756,7 +2756,7 @@ msgid "As a valued WPForms Lite user you receive <strong>50% off</strong>, autom
 msgstr ""
 
 #: includes/admin/settings-api.php:140
-msgid "Already purchased?  Simply enter your license key below to connect with WPForms PRO!"
+msgid "Already purchased? Simply enter your license key below to enable WPForms PRO!"
 msgstr ""
 
 #: includes/admin/settings-api.php:142
@@ -2764,10 +2764,6 @@ msgid "Paste license key here"
 msgstr ""
 
 #: includes/admin/settings-api.php:143
-#: includes/providers/class-constant-contact.php:535
-msgid "Connect"
-msgstr ""
-
 #: includes/admin/settings-api.php:160
 msgid "Verify Key"
 msgstr ""
@@ -5075,6 +5071,10 @@ msgstr ""
 msgid "Account Nickname"
 msgstr ""
 
+#: includes/providers/class-constant-contact.php:535
+msgid "Connect"
+msgstr ""
+
 #: includes/providers/class-constant-contact.php:577
 #: includes/providers/class-constant-contact.php:694
 msgid "Try Constant Contact for Free"
@@ -5119,7 +5119,7 @@ msgstr ""
 
 #: lite/templates/education/admin/did-you-know.php:42
 #: lite/templates/education/admin/did-you-know.php:56
-#: lite/templates/education/admin/notice-bar.php:34
+#: lite/templates/education/admin/notice-bar.php:35
 #: lite/templates/education/builder/did-you-know.php:31
 #: lite/templates/education/builder/lite-connect/top-bar.php:26
 #: lite/wpforms-lite.php:98
@@ -5146,7 +5146,7 @@ msgstr ""
 
 #. translators: %s - WPForms.com Upgrade page URL.
 #: lite/templates/education/admin/notice-bar.php:21
-msgid "You're using WPForms Lite. To unlock more features consider <a href=\"%s\" target=\"_blank\" rel=\"noopener noreferrer\">upgrading to Pro</a>."
+msgid "<strong>You're using WPForms Lite.</strong> To unlock more features consider <a href=\"%s\" target=\"_blank\" rel=\"noopener noreferrer\">upgrading to Pro</a>."
 msgstr ""
 
 #: lite/templates/education/builder/did-you-know.php:21
@@ -6117,7 +6117,7 @@ msgid "Used by 2+ million websites."
 msgstr ""
 
 #: src/Admin/Pages/SMTP.php:245
-msgid "Free mailers: SMTP.com, Sendinblue, Google Workspace / Gmail, Mailgun, Postmark, SendGrid."
+msgid "Free mailers: SendLayer, SMTP.com, Sendinblue, Google Workspace / Gmail, Mailgun, Postmark, SendGrid."
 msgstr ""
 
 #: src/Admin/Pages/SMTP.php:246
@@ -6668,45 +6668,45 @@ msgstr ""
 msgid "WPForms honeypot field triggered."
 msgstr ""
 
-#: src/Forms/Locator.php:168
+#: src/Forms/Locator.php:175
 msgid "WPForms Widget"
 msgstr ""
 
-#: src/Forms/Locator.php:169
+#: src/Forms/Locator.php:176
 msgid "Text Widget"
 msgstr ""
 
-#: src/Forms/Locator.php:170
+#: src/Forms/Locator.php:177
 msgid "Block Widget"
 msgstr ""
 
-#: src/Forms/Locator.php:219
-#: src/Forms/Locator.php:294
+#: src/Forms/Locator.php:227
+#: src/Forms/Locator.php:302
 msgid "Locations"
 msgstr ""
 
-#: src/Forms/Locator.php:220
+#: src/Forms/Locator.php:228
 msgid "Form locations"
 msgstr ""
 
-#: src/Forms/Locator.php:263
-#: src/Forms/Locator.php:293
+#: src/Forms/Locator.php:271
+#: src/Forms/Locator.php:301
 msgid "View form locations"
 msgstr ""
 
-#: src/Forms/Locator.php:331
+#: src/Forms/Locator.php:339
 msgid "Form Locations"
 msgstr ""
 
-#: src/Forms/Locator.php:415
+#: src/Forms/Locator.php:423
 msgid "Inactive widgets"
 msgstr ""
 
-#: src/Forms/Locator.php:439
+#: src/Forms/Locator.php:444
 msgid "Site editor template"
 msgstr ""
 
-#: src/Forms/Locator.php:553
+#: src/Forms/Locator.php:576
 msgid "(no title)"
 msgstr ""
 
@@ -6833,7 +6833,7 @@ msgstr ""
 msgid "The form cannot be displayed."
 msgstr ""
 
-#: src/Integrations/LiteConnect/LiteConnect.php:229
+#: src/Integrations/LiteConnect/LiteConnect.php:234
 msgid "This is the Lite Connect endpoint page."
 msgstr ""
 

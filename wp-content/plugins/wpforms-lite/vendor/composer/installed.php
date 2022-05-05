@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '79086d75fa8b32074f61b383bc4fee30ea62361e',
+        'reference' => '55c85b802c0855e8ef87aa4b20f444c4336da80a',
         'name' => 'awesomemotive/wpforms',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '79086d75fa8b32074f61b383bc4fee30ea62361e',
+            'reference' => '55c85b802c0855e8ef87aa4b20f444c4336da80a',
             'dev_requirement' => false,
         ),
         'mk-j/php_xlsxwriter' => array(

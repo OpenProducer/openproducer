@@ -2,8 +2,8 @@
 Contributors: wpforms, jaredatch, smub, slaFFik
 Tags: contact form, contact form plugin, forms, form builder, custom form, contact button, contact me, custom contact form, form manager, form, forms builder, forms creator, captcha, recaptcha, Akismet, email form, web form, feedback form, payment form, survey form, donation form, email submit form, message form, mailchimp, mailchimp form, aweber, aweber form, paypal, paypal form, stripe, stripe form, getresponse, getresponse form, email subscription, contact form widget, user registration form, wordpress registration, wordpress login form, feedback
 Requires at least: 5.2
-Tested up to: 5.9
-Stable tag: 1.7.4
+Tested up to: 6.0
+Stable tag: 1.7.4.1
 Requires PHP: 5.6
 License: GNU General Public License v2.0 or later
 
@@ -426,6 +426,10 @@ Thank you
 Syed Balkhi
 
 == Changelog ==
+
+= 1.7.4.1 =
+- Fixed: LiteConnect auth key request didn't work with plain permalinks and with subdirectory install.
+- Fixed: Form Locations compatibility with the Full Site Editor template parts.
 
 = 1.7.4 =
 - Added: Form Locations! On the Forms Overview page easily check all places where each form is currently embedded.

@@ -21,6 +21,15 @@ abstract class LiteConnect implements IntegrationInterface {
 	const SETTINGS_SLUG = 'lite-connect-enabled';
 
 	/**
+	 * The $_GET argument to trigger the auth key endpoint.
+	 *
+	 * @since 1.7.4.1
+	 *
+	 * @var string
+	 */
+	const AUTH_KEY_ARG = 'wpforms-liteconnect-auth-key';
+
+	/**
 	 * Indicate if current integration is allowed to load.
 	 *
 	 * @since 1.7.4
@@ -148,17 +157,13 @@ abstract class LiteConnect implements IntegrationInterface {
 	 */
 	private function endpoints() {
 
-		if ( ! isset( $_SERVER['REQUEST_URI'] ) ) {
+		// We check nonce in the endpoint_key().
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! isset( $_GET[ self::AUTH_KEY_ARG ] ) ) {
 			return;
 		}
 
-		$uri = filter_var( wp_unslash( $_SERVER['REQUEST_URI'] ), FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-
-		$path = rtrim( wp_parse_url( $uri, PHP_URL_PATH ), '/' );
-
-		if ( preg_match( '#/wpforms/auth/key/nonce$#', $path ) ) {
-			$this->endpoint_key();
-		}
+		$this->endpoint_key();
 	}
 
 	/**
@@ -172,7 +177,7 @@ abstract class LiteConnect implements IntegrationInterface {
 		$response = json_decode( $json, true );
 
 		if ( ! $response ) {
-			$this->endpoint_die();
+			$this->endpoint_die( 'Lite Connect: No response' );
 		}
 
 		if ( isset( $response['error'] ) ) {

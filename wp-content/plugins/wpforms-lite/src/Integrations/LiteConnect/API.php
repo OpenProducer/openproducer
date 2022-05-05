@@ -108,7 +108,7 @@ class API {
 
 		// Get the domain name.
 		// Strip protocol `http(s)://` and `www.` from the site URL.
-		$this->domain = preg_replace( '/(https?:\/\/)?(www\.)?(.*)\/?/', '$3', get_site_url() );
+		$this->domain = preg_replace( '/(https?:\/\/)?(www\.)?(.*)\/?/', '$3', home_url() );
 
 		$this->api_url = self::API_URL;
 
@@ -142,6 +142,7 @@ class API {
 			'first_name'  => ! empty( $user->first_name ) ? $user->first_name : '',
 			'last_name'   => ! empty( $user->last_name ) ? $user->last_name : '',
 			'nonce'       => $this->create_not_logged_in_nonce(),
+			'callback'    => add_query_arg( [ LiteConnect::AUTH_KEY_ARG => '' ], trailingslashit( home_url() ) ),
 		];
 
 		$response = $this->request(
@@ -237,7 +238,7 @@ class API {
 	protected function request( $uri, $body, $headers = [] ) {
 
 		$url        = $this->api_url . $uri;
-		$user_agent = 'WPForms/' . WPFORMS_VERSION . '; ' . get_bloginfo( 'url' );
+		$user_agent = 'WPForms/' . WPFORMS_VERSION . '; ' . home_url();
 
 		$response = wp_remote_post(
 			$url,

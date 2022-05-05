@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 1.7.4.1 =
+- Fixed: LiteConnect auth key request didn't work with plain permalinks and with subdirectory install.
+- Fixed: Form Locations compatibility with the Full Site Editor template parts.
+
 = 1.7.4 =
 - Added: Form Locations! On the Forms Overview page easily check all places where each form is currently embedded.
 - Added: Back up form submissions into the cloud and restore them to your database as Entries after upgrading to a paid plan.

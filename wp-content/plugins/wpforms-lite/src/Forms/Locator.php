@@ -109,6 +109,13 @@ class Locator {
 	const WP_TEMPLATE = 'wp_template';
 
 	/**
+	 * WP template post type.
+	 *
+	 * @since 1.7.4.1
+	 */
+	const WP_TEMPLATE_PART = 'wp_template_part';
+
+	/**
 	 * Default title for WPForms widget.
 	 * For WPForms widget, we extract title from the widget. If it is empty, we use the default one.
 	 *
@@ -190,6 +197,7 @@ class Locator {
 		add_action( 'post_updated', [ $this, 'post_updated' ], 10, 3 );
 		add_action( 'wp_trash_post', [ $this, 'trash_post' ] );
 		add_action( 'untrash_post', [ $this, 'untrash_post' ] );
+		add_action( 'delete_post', [ $this, 'trash_post' ] );
 		add_action( 'permalink_structure_changed', [ $this, 'permalink_structure_changed' ], 10, 2 );
 
 		$wpforms_widget_option = self::WPFORMS_WIDGET_OPTION;
@@ -432,11 +440,26 @@ class Locator {
 
 		$title = $form_location['title'];
 
-		if ( $form_location['type'] !== self::WP_TEMPLATE ) {
-			return $title;
+		if ( $this->is_wp_template( $form_location['type'] ) ) {
+			return __( 'Site editor template', 'wpforms-lite' ) . ': ' . $title;
 		}
 
-		return __( 'Site editor template', 'wpforms-lite' ) . ': ' . $title;
+		return $title;
+
+	}
+
+	/**
+	 * Whether locations type is WP Template.
+	 *
+	 * @since 1.7.4.1
+	 *
+	 * @param string $location_type Location type.
+	 *
+	 * @return bool
+	 */
+	private function is_wp_template( $location_type ) {
+
+		return in_array( $location_type, [ self::WP_TEMPLATE, self::WP_TEMPLATE_PART ], true );
 	}
 
 	/**
@@ -488,7 +511,7 @@ class Locator {
 	private function get_location_url( $form_location ) {
 
 		// Get widget or wp_template url.
-		if ( $form_location['type'] === self::WIDGET || $form_location['type'] === self::WP_TEMPLATE ) {
+		if ( $form_location['type'] === self::WIDGET || $this->is_wp_template( $form_location['type'] ) ) {
 			return '';
 		}
 
@@ -521,10 +544,10 @@ class Locator {
 			return '';
 		}
 
-		if ( $form_location['type'] === self::WP_TEMPLATE ) {
+		if ( $this->is_wp_template( $form_location['type'] ) ) {
 			return add_query_arg(
 				[
-					'postType' => self::WP_TEMPLATE,
+					'postType' => $form_location['type'],
 					'postId'   => get_stylesheet() . '//' . str_replace( '/', '', $form_location['url'] ),
 				],
 				admin_url( 'site-editor.php' )
@@ -1055,6 +1078,7 @@ class Locator {
 		unset( $post_types['attachment'] );
 
 		$post_types[] = self::WP_TEMPLATE;
+		$post_types[] = self::WP_TEMPLATE_PART;
 
 		return $post_types;
 	}
