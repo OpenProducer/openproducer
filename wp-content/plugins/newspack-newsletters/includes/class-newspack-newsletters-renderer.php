@@ -280,6 +280,10 @@ final class Newspack_Newsletters_Renderer {
 		$href_params = $matches[0];
 		$urls        = $matches[1];
 		foreach ( $urls as $index => $url ) {
+			/** Link href content can be invalid (placeholder) so we must skip it. */
+			if ( ! wp_http_validate_url( $url ) ) {
+				continue;
+			}
 			$url_with_params = apply_filters(
 				'newspack_newsletters_process_link',
 				add_query_arg(
@@ -325,13 +329,15 @@ final class Newspack_Newsletters_Renderer {
 	 * @param bool     $is_in_column Whether the component is a child of a column component.
 	 * @param bool     $is_in_group Whether the component is a child of a group component.
 	 * @param array    $default_attrs Default attributes for the component.
+	 * @param bool     $is_in_list_or_quote Whether the component is a child of a list or quote block.
 	 * @return string MJML component.
 	 */
-	public static function render_mjml_component( $block, $is_in_column = false, $is_in_group = false, $default_attrs = [] ) {
-		$block_name   = $block['blockName'];
-		$attrs        = $block['attrs'];
-		$inner_blocks = $block['innerBlocks'];
-		$inner_html   = $block['innerHTML'];
+	public static function render_mjml_component( $block, $is_in_column = false, $is_in_group = false, $default_attrs = [], $is_in_list_or_quote = false ) {
+		$block_name    = $block['blockName'];
+		$attrs         = $block['attrs'];
+		$inner_blocks  = $block['innerBlocks'];
+		$inner_html    = $block['innerHTML'];
+		$inner_content = isset( $block['innerContent'] ) ? $block['innerContent'] : [ $inner_html ];
 
 		if ( ! isset( $attrs['innerBlocksToInsert'] ) && self::is_empty_block( $block ) ) {
 			return '';
@@ -372,9 +378,7 @@ final class Newspack_Newsletters_Renderer {
 			 * Text-based blocks.
 			 */
 			case 'core/paragraph':
-			case 'core/list':
 			case 'core/heading':
-			case 'core/quote':
 			case 'core/site-title':
 			case 'core/site-tagline':
 			case 'newspack-newsletters/share':
@@ -421,7 +425,8 @@ final class Newspack_Newsletters_Renderer {
 					unset( $text_attrs['background-color'] );
 				}
 
-				$block_mjml_markup = '<mj-text ' . self::array_to_attributes( $text_attrs ) . '>' . $inner_html . '</mj-text>';
+				// Avoid wrapping markup in `mj-text` if the block is an inner block.
+				$block_mjml_markup = $is_in_list_or_quote ? $inner_html : '<mj-text ' . self::array_to_attributes( $text_attrs ) . '>' . $inner_html . '</mj-text>';
 				break;
 
 			/**
@@ -581,15 +586,20 @@ final class Newspack_Newsletters_Renderer {
 			 * Separator block.
 			 */
 			case 'core/separator':
-				$is_style_default   = isset( $attrs['className'] ) ? 'is-style-default' == $attrs['className'] : true;
-				$divider_attrs      = array_merge(
-					array(
-						'padding'      => '0',
-						'border-width' => '1px',
-						'width'        => $is_style_default ? '128px' : '100%',
-					),
-					self::get_colors( $attrs )
+				$is_wide       = isset( $block['attrs']['className'] ) && 'is-style-wide' === $block['attrs']['className'];
+				$divider_attrs = array(
+					'padding'      => '0',
+					'border-width' => '1px',
+					'width'        => $is_wide ? '100%' : '128px',
 				);
+				// Remove colors from section attrs.
+				unset( $section_attrs['background-color'] );
+				if ( $block['attrs']['backgroundColor'] && isset( self::$color_palette[ $block['attrs']['backgroundColor'] ] ) ) {
+					$divider_attrs['border-color'] = self::$color_palette[ $block['attrs']['backgroundColor'] ];
+				}
+				if ( isset( $block['attrs']['style']['color']['background'] ) ) {
+					$divider_attrs['border-color'] = $block['attrs']['style']['color']['background'];
+				}
 				$block_mjml_markup .= '<mj-divider ' . self::array_to_attributes( $divider_attrs ) . '/>';
 
 				break;
@@ -706,6 +716,42 @@ final class Newspack_Newsletters_Renderer {
 				break;
 
 			/**
+			 * List, list item, and quote blocks.
+			 * These blocks may or may not contain innerBlocks with their actual content.
+			 */
+			case 'core/list':
+			case 'core/list-item':
+			case 'core/quote':
+				$text_attrs = array_merge(
+					array(
+						'padding'     => '0',
+						'line-height' => '1.5',
+						'font-size'   => '16px',
+						'font-family' => $font_family,
+					),
+					$attrs
+				);
+
+				// If a wrapper block, wrap in mj-text.
+				if ( ! $is_in_list_or_quote ) {
+					$block_mjml_markup .= '<mj-text ' . self::array_to_attributes( $text_attrs ) . '>';
+				}
+
+				$block_mjml_markup .= $inner_content[0];
+				if ( ! empty( $inner_blocks ) && 1 < count( $inner_content ) ) {
+					foreach ( $inner_blocks as $inner_block ) {
+						$block_mjml_markup .= self::render_mjml_component( $inner_block, false, false, [], true );
+					}
+					$block_mjml_markup .= $inner_content[ count( $inner_content ) - 1 ];
+				}
+
+				if ( ! $is_in_list_or_quote ) {
+					$block_mjml_markup .= '</mj-text>';
+				}
+
+				break;
+
+			/**
 			 * Group block.
 			 */
 			case 'core/group':
@@ -817,20 +863,22 @@ final class Newspack_Newsletters_Renderer {
 		}
 
 		$is_posts_inserter_block = 'newspack-newsletters/posts-inserter' == $block_name;
-		$is_group_block          = 'core/group' == $block_name;
+		$is_grouped_block        = in_array( $block_name, [ 'core/group', 'core/list', 'core/list-item', 'core/quote' ], true );
 
 		if (
 			! $is_in_column &&
-			! $is_group_block &&
+			! $is_in_list_or_quote &&
+			! $is_grouped_block &&
 			'core/columns' != $block_name &&
 			'core/column' != $block_name &&
 			'core/buttons' != $block_name &&
+			'core/separator' != $block_name &&
 			! $is_posts_inserter_block
 		) {
 			$column_attrs['width'] = '100%';
 			$block_mjml_markup     = '<mj-column ' . self::array_to_attributes( $column_attrs ) . '>' . $block_mjml_markup . '</mj-column>';
 		}
-		if ( $is_in_column || $is_group_block || $is_posts_inserter_block ) {
+		if ( $is_in_column || $is_in_list_or_quote || $is_posts_inserter_block ) {
 			// Render a nested block without a wrapping section.
 			return $block_mjml_markup;
 		} else {
@@ -1184,6 +1232,7 @@ final class Newspack_Newsletters_Renderer {
 		if ( ! $background_color ) {
 			$background_color = '#ffffff';
 		}
+
 		ob_start();
 		include dirname( __FILE__ ) . '/email-template.mjml.php';
 		return ob_get_clean();

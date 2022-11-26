@@ -160,7 +160,7 @@ class Tools {
 
 				echo '<ul class="wpforms-admin-tabs">';
 				foreach ( $this->views as $slug => $view ) {
-					if ( $view->hide_from_nav() ) {
+					if ( $view->hide_from_nav() || ! $view->check_capability() ) {
 						continue;
 					}
 

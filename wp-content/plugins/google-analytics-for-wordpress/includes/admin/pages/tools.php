@@ -1,16 +1,16 @@
 <?php
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 /**
  * MonsterInsights settings export.
  *
+ * @return void
  * @since 6.0.0
  * @access public
  *
- * @return void
  */
 function monsterinsights_process_export_settings() {
 	if ( ! isset( $_POST['monsterinsights_action'] ) || empty( $_POST['monsterinsights_action'] ) ) {

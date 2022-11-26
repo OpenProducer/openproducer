@@ -6,6 +6,7 @@
  */
 
 use Automattic\Jetpack\Connection\Client;
+use Automattic\Jetpack\Stats\WPCOM_Stats;
 
 /**
  * This is the endpoint class for `/site` endpoints.
@@ -150,10 +151,11 @@ class Jetpack_Core_API_Site_Endpoint {
 		 * - Sharing counts (not currently supported in Jetpack -- https://github.com/Automattic/jetpack/issues/844 )
 		 */
 		$stats = null;
-		if ( function_exists( 'stats_get_from_restapi' ) ) {
-			$stats = stats_get_from_restapi( array( 'fields' => 'stats' ) );
+		if ( function_exists( 'convert_stats_array_to_object' ) ) {
+				$stats = convert_stats_array_to_object(
+					( new WPCOM_Stats() )->get_stats( array( 'fields' => 'stats' ) )
+				);
 		}
-
 		$has_stats = null !== $stats && ! is_wp_error( $stats );
 
 		// Yearly visitors.
@@ -265,7 +267,7 @@ class Jetpack_Core_API_Site_Endpoint {
 			if ( $number_of_connections > 0 ) {
 				$benefits[] = array(
 					'name'        => 'publicize',
-					'title'       => esc_html__( 'Publicize', 'jetpack' ),
+					'title'       => esc_html__( 'Jetpack Social', 'jetpack' ),
 					'description' => esc_html__( 'Live social media site connections, powered by Jetpack', 'jetpack' ),
 					'value'       => absint( $number_of_connections ),
 				);

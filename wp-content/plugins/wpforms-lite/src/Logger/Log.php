@@ -14,7 +14,7 @@ class Log {
 	 *
 	 * @since 1.6.3
 	 *
-	 * @var \WPForms\Logger\Repository
+	 * @var Repository
 	 */
 	private $repository;
 
@@ -23,7 +23,7 @@ class Log {
 	 *
 	 * @since 1.6.3
 	 *
-	 * @var \WPForms\Logger\ListTable
+	 * @var ListTable
 	 */
 	private $list_table;
 
@@ -35,6 +35,7 @@ class Log {
 	public function hooks() {
 
 		$this->repository = new Repository( new RecordQuery() );
+
 		add_action( 'shutdown', [ $this->repository, 'save' ] );
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_styles' ] );
@@ -52,7 +53,9 @@ class Log {
 		if ( ! $this->is_logger_page() ) {
 			return;
 		}
+
 		$min = wpforms_get_min_suffix();
+
 		wp_enqueue_style(
 			'wpforms-tools-logger',
 			WPFORMS_PLUGIN_URL . "assets/css/logger{$min}.css",
@@ -72,7 +75,9 @@ class Log {
 		if ( ! $this->is_logger_page() ) {
 			return;
 		}
+
 		$min = wpforms_get_min_suffix();
+
 		wp_enqueue_script(
 			'wpforms-tools-logger',
 			WPFORMS_PLUGIN_URL . "assets/js/components/admin/logger/logger{$min}.js",
@@ -112,8 +117,7 @@ class Log {
 	 */
 	private function is_logger_page() {
 
-		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		return isset( $_GET['page'] ) && 'wpforms-tools' === $_GET['page'] && isset( $_GET['view'] ) && 'logs' === $_GET['view'];
+		return wpforms_is_admin_page( 'tools', 'logs' );
 	}
 
 	/**
@@ -148,9 +152,9 @@ class Log {
 	 *
 	 * @since 1.6.3
 	 *
-	 * @return \WPForms\Logger\ListTable
+	 * @return ListTable
 	 */
-	public function get_list_table() {
+	public function get_list_table() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
 
 		if ( ! $this->list_table ) {
 			$this->list_table = new ListTable( $this->repository );
@@ -178,10 +182,14 @@ class Log {
 		$id = filter_input( INPUT_GET, 'recordId', FILTER_VALIDATE_INT );
 
 		if ( ! $id ) {
-			wp_send_json_error( esc_html__( 'Record ID doesn\'t found', 'wpforms-lite' ), 404 );
+			wp_send_json_error( esc_html__( 'Record ID not found', 'wpforms-lite' ), 404 );
 		}
 
 		$item = $this->repository->record( $id );
+
+		if ( $item === null ) {
+			wp_send_json_error( esc_html__( 'No such record.', 'wpforms-lite' ), 404 );
+		}
 
 		wp_send_json_success(
 			[

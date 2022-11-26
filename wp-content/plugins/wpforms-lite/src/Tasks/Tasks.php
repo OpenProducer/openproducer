@@ -2,10 +2,12 @@
 
 namespace WPForms\Tasks;
 
+use ActionScheduler_Action;
 use WPForms\Helpers\Transient;
 use WPForms\Tasks\Actions\EntryEmailsMetaCleanupTask;
 use WPForms\Tasks\Actions\EntryEmailsTask;
 use WPForms\Tasks\Actions\FormsLocatorScanTask;
+use WPForms\Tasks\Actions\AsyncRequestTask;
 
 /**
  * Class Tasks manages the tasks queue and provides API to work with it.
@@ -57,8 +59,17 @@ class Tasks {
 			new $task();
 		}
 
-		add_action( 'delete_expired_transients', [ Transient::class, 'delete_all_expired' ], 11 );
+		$this->hooks();
+	}
 
+	/**
+	 * Hooks.
+	 *
+	 * @since 1.7.5
+	 */
+	public function hooks() {
+
+		add_action( 'delete_expired_transients', [ Transient::class, 'delete_all_expired' ], 11 );
 		add_action( 'admin_menu', [ $this, 'admin_hide_as_menu' ], PHP_INT_MAX );
 
 		/*
@@ -74,6 +85,7 @@ class Tasks {
 		}
 
 		add_action( EntryEmailsTask::ACTION, [ EntryEmailsTask::class, 'process' ] );
+		add_action( 'action_scheduler_after_execute', [ $this, 'clear_action_meta' ], PHP_INT_MAX, 2 );
 	}
 
 	/**
@@ -95,8 +107,16 @@ class Tasks {
 		$tasks = [
 			EntryEmailsMetaCleanupTask::class,
 			FormsLocatorScanTask::class,
+			AsyncRequestTask::class,
 		];
 
+		/**
+		 * Filters the task class list to initialize.
+		 *
+		 * @since 1.5.9
+		 *
+		 * @param array $tasks Task class list.
+		 */
 		return apply_filters( 'wpforms_tasks_get_tasks', $tasks );
 	}
 
@@ -161,6 +181,7 @@ class Tasks {
 
 		if ( class_exists( 'ActionScheduler_DBStore' ) ) {
 			\ActionScheduler_DBStore::instance()->cancel_actions_by_group( $group );
+			$this->active_actions = $this->get_active_actions();
 		}
 	}
 
@@ -225,5 +246,39 @@ class Tasks {
 		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
 		return $results ? array_merge( ...$results ) : [];
+	}
+
+	/**
+	 * Clear the meta after action complete.
+	 * Fired before an action is marked as completed.
+	 *
+	 * @since 1.7.5
+	 *
+	 * @param integer                $action_id Action ID.
+	 * @param ActionScheduler_Action $action    Action name.
+	 */
+	public function clear_action_meta( $action_id, $action ) {
+
+		$action_schedule = $action->get_schedule();
+
+		if ( $action_schedule === null || $action_schedule->is_recurring() ) {
+			return;
+		}
+
+		$hook_name = $action->get_hook();
+
+		if ( ! $this->is_scheduled( $hook_name ) ) {
+			return;
+		}
+
+		$hook_args = $action->get_args();
+
+		if ( ! isset( $hook_args['tasks_meta_id'] ) ) {
+			return;
+		}
+
+		$meta = new Meta();
+
+		$meta->delete( $hook_args['tasks_meta_id'] );
 	}
 }

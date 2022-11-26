@@ -30,6 +30,37 @@ if (!class_exists('DHWPSettings')) :
 			}
 		}
 
+		public function getOptions($options = array()) {
+			$result = array();
+
+			foreach ($options as $option)
+				$result[$option] = $this->getOption($option);
+
+			return $result;
+		}
+
+		public function updateOptions($args) {
+			$result = array();
+
+			foreach ($args as $option => $value) {
+				$this->updateOption($option, $value);
+				$result[$option] = $this->getOption($option);
+			}
+
+			return $result;
+		}
+
+		public function deleteOptions($options) {
+			$result = array();
+
+			foreach ($options as $option) {
+				$this->deleteOption($option);
+				$result[$option] = !$this->getOption($option);
+			}
+
+			return $result;
+		}
+
 		public function setTransient($name, $value, $time) {
 			if (function_exists('set_site_transient')) {
 				return set_site_transient($name, $value, $time);

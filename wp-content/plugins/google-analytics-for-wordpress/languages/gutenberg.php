@@ -41,23 +41,23 @@ $generated_i18n_strings = array(
 	__( 'Label Settings', 'google-analytics-for-wordpress' ),
 
 	// Reference: src/blocks/popular-posts-inline/index.js:259
-	// Reference: src/blocks/popular-posts-widget/index.js:512
+	// Reference: src/blocks/popular-posts-widget/index.js:513
 	__( 'Bottom Border Color', 'google-analytics-for-wordpress' ),
 
 	// Reference: src/blocks/popular-posts-inline/index.js:262
-	// Reference: src/blocks/popular-posts-widget/index.js:515
+	// Reference: src/blocks/popular-posts-widget/index.js:516
 	__( 'Border Color', 'google-analytics-for-wordpress' ),
 
 	// Reference: src/blocks/popular-posts-inline/index.js:270
-	// Reference: src/blocks/popular-posts-widget/index.js:523
+	// Reference: src/blocks/popular-posts-widget/index.js:524
 	__( 'Border Settings', 'google-analytics-for-wordpress' ),
 
 	// Reference: src/blocks/popular-posts-inline/index.js:282
-	// Reference: src/blocks/popular-posts-widget/index.js:535
+	// Reference: src/blocks/popular-posts-widget/index.js:536
 	__( 'Background Color', 'google-analytics-for-wordpress' ),
 
 	// Reference: src/blocks/popular-posts-inline/index.js:287
-	// Reference: src/blocks/popular-posts-widget/index.js:540
+	// Reference: src/blocks/popular-posts-widget/index.js:541
 	__( 'Background Settings', 'google-analytics-for-wordpress' ),
 
 	// Reference: src/blocks/popular-posts-inline/index.js:299
@@ -70,7 +70,7 @@ $generated_i18n_strings = array(
 	__( 'Icon Settings', 'google-analytics-for-wordpress' ),
 
 	// Reference: src/blocks/popular-posts-inline/index.js:439
-	// Reference: src/blocks/popular-posts-widget/index.js:721
+	// Reference: src/blocks/popular-posts-widget/index.js:722
 	__( 'Theme', 'google-analytics-for-wordpress' ),
 
 	// Reference: src/blocks/popular-posts-inline/index.js:98
@@ -133,37 +133,37 @@ $generated_i18n_strings = array(
 	// Reference: src/blocks/popular-posts-widget/index.js:432
 	__( 'Only Show Posts From These Categories', 'google-analytics-for-wordpress' ),
 
-	// Reference: src/blocks/popular-posts-widget/index.js:452
+	// Reference: src/blocks/popular-posts-widget/index.js:453
 	__( 'Display Author', 'google-analytics-for-wordpress' ),
 
-	// Reference: src/blocks/popular-posts-widget/index.js:464
+	// Reference: src/blocks/popular-posts-widget/index.js:465
 	__( 'Display Date', 'google-analytics-for-wordpress' ),
 
-	// Reference: src/blocks/popular-posts-widget/index.js:476
+	// Reference: src/blocks/popular-posts-widget/index.js:477
 	__( 'Display Comments', 'google-analytics-for-wordpress' ),
 
-	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:20
+	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:21
 	__( 'Last 30 days', 'google-analytics-for-wordpress' ),
 
-	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:21
+	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:22
 	__( 'Yesterday', 'google-analytics-for-wordpress' ),
 
-	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:22
+	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:23
 	__( 'Bounce Rate', 'google-analytics-for-wordpress' ),
 
-	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:23
+	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:24
 	__( 'Time On Page', 'google-analytics-for-wordpress' ),
 
-	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:24
+	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:25
 	__( 'Load Time', 'google-analytics-for-wordpress' ),
 
-	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:25
+	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:26
 	__( 'Entrances', 'google-analytics-for-wordpress' ),
 
-	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:26
+	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:27
 	__( 'Page Views', 'google-analytics-for-wordpress' ),
 
-	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:27
+	// Reference: src/plugins/exclude-page-tracking/components/page-insights-Lite.js:28
 	__( 'Exits', 'google-analytics-for-wordpress' ),
 
 	// Reference: src/plugins/exclude-page-tracking/components/page-insights-hide-btn.js:8
@@ -262,7 +262,7 @@ $generated_i18n_strings = array(
 	// Reference: src/plugins/monsterinsights-Headline-Analyzer/components/HeadlinePanelStartEndWords.js:8
 	__( 'Most readers only look at the first and last 3 words of a headline before deciding whether to click.', 'google-analytics-for-wordpress' ),
 
-	// Reference: src/plugins/monsterinsights-Headline-Analyzer/components/HeadlinePanelType.js:12
+	// Reference: src/plugins/monsterinsights-Headline-Analyzer/components/HeadlinePanelType.js:13
 	__( 'Headlines that are lists and how-to get more engagement on average than other types of headlines. %1sRead more about %2sdifferent types of headlines here.%3s', 'google-analytics-for-wordpress' ),
 
 	// Reference: src/plugins/monsterinsights-Headline-Analyzer/components/HeadlinePanelType.js:7
@@ -350,13 +350,13 @@ $generated_i18n_strings = array(
 	// Reference: src/plugins/monsterinsights-Headline-Analyzer/components/HeadlineWordsBlock.js:6
 	__( 'Goal: ', 'google-analytics-for-wordpress' ),
 
-	// Reference: src/plugins/monsterinsights-Headline-Analyzer/index.js:21
+	// Reference: src/plugins/monsterinsights-Headline-Analyzer/index.js:24
 	__( 'Headline Analyzer', 'google-analytics-for-wordpress' ),
 
-	// Reference: src/plugins/monsterinsights-Headline-Analyzer/index.js:22
+	// Reference: src/plugins/monsterinsights-Headline-Analyzer/index.js:25
 	__( 'Write your post title to see the analyzer data. This Headline Analyzer tool enables you to write irresistible SEO headlines that drive traffic, shares, and rank better in search results.', 'google-analytics-for-wordpress' ),
 
-	// Reference: src/plugins/monsterinsights-Headline-Analyzer/index.js:27
+	// Reference: src/plugins/monsterinsights-Headline-Analyzer/index.js:30
 	__( 'This headline analyzer is part of MonsterInsights to help you increase your traffic. See your %1swebsite traffic reports%2s.', 'google-analytics-for-wordpress' )
 );
 /* THIS IS THE END OF THE GENERATED FILE */

@@ -100,14 +100,14 @@ class Analytics {
 		// Lity.
 		wp_enqueue_style(
 			'wpforms-lity',
-			WPFORMS_PLUGIN_URL . 'assets/css/lity.min.css',
+			WPFORMS_PLUGIN_URL . 'assets/lib/lity/lity.min.css',
 			null,
 			'3.0.0'
 		);
 
 		wp_enqueue_script(
 			'wpforms-lity',
-			WPFORMS_PLUGIN_URL . 'assets/js/lity.min.js',
+			WPFORMS_PLUGIN_URL . 'assets/lib/lity/lity.min.js',
 			array( 'jquery' ),
 			'3.0.0',
 			true

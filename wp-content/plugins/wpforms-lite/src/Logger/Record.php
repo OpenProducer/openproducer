@@ -196,6 +196,13 @@ class Record {
 				$date = gmdate( 'Y-m-d H:i:s', $this->create_at );
 				break;
 
+			case 'sql-local':
+				$date = date_i18n(
+					'Y-m-d H:i:s',
+					$this->create_at + ( get_option( 'gmt_offset' ) * 3600 )
+				);
+				break;
+
 			default:
 				$date = '';
 				break;

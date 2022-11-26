@@ -2,6 +2,8 @@
 
 namespace WPForms\Admin\Tools\Views;
 
+use ActionScheduler_AdminView;
+
 /**
  * Class ActionScheduler view.
  *
@@ -26,7 +28,7 @@ class ActionScheduler extends View {
 	public function init() {
 
 		if ( $this->admin_view_exists() ) {
-			\ActionScheduler_AdminView::instance()->process_admin_ui();
+			ActionScheduler_AdminView::instance()->process_admin_ui();
 		}
 	}
 
@@ -81,53 +83,8 @@ class ActionScheduler extends View {
 		if ( ! $this->admin_view_exists() ) {
 			return;
 		}
-		?>
-		<h1><?php echo esc_html__( 'Scheduled Actions', 'wpforms-lite' ); ?></h1>
 
-		<p>
-			<?php
-			echo sprintf(
-				wp_kses( /* translators: %s - Action Scheduler website URL. */
-					__( 'WPForms is using the <a href="%s" target="_blank" rel="noopener noreferrer">Action Scheduler</a> library, which allows it to queue and process bigger tasks in the background without making your site slower for your visitors. Below you can see the list of all tasks and their status. This table can be very useful when debugging certain issues.', 'wpforms-lite' ),
-					[
-						'a' => [
-							'href'   => [],
-							'rel'    => [],
-							'target' => [],
-						],
-					]
-				),
-				'https://actionscheduler.org/'
-			);
-			?>
-		</p>
-
-		<p>
-			<?php echo esc_html__( 'Action Scheduler library is also used by other plugins, like WP Mail SMTP and WooCommerce, so you might see tasks that are not related to our plugin in the table below.', 'wpforms-lite' ); ?>
-		</p>
-
-		<?php if ( ! empty( $_GET['s'] ) ) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
-			<div id="wpforms-reset-filter">
-				<?php
-				echo wp_kses(
-					sprintf( /* translators: %s - search term. */
-						__( 'Search results for <strong>%s</strong>', 'wpforms-lite' ),
-						sanitize_text_field( wp_unslash( $_GET['s'] ) ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-					),
-					[
-						'strong' => [],
-					]
-				);
-				?>
-				<a href="<?php echo esc_url( remove_query_arg( 's' ) ); ?>">
-					<i class="reset fa fa-times-circle"></i>
-				</a>
-			</div>
-		<?php endif; ?>
-
-		<?php
-
-		\ActionScheduler_AdminView::instance()->render_admin_ui();
+		( new ActionSchedulerList() )->display_page();
 	}
 
 	/**

@@ -108,7 +108,7 @@ class Geolocation extends AddonsItemBase {
 				[
 					'data'  => [
 						'action' => 'activate',
-						'name'   => sprintf( /* translators: %s - Addon name */
+						'name'   => sprintf( /* translators: %s - Addon name. */
 							esc_html__( '%s addon', 'wpforms-lite' ),
 							$addon['title']
 						),

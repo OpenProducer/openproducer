@@ -1123,7 +1123,7 @@ abstract class WPForms_Provider {
 			<?php
 
 			FormBuilder::display_content_default_screen(
-				Status::init( $this->slug )->is_connected( $form_id ),
+				Status::init( $this->slug )->is_ready( $form_id ),
 				$this->slug,
 				$this->name,
 				$this->icon

@@ -1,4 +1,4 @@
-/* global wpforms_builder */
+/* global wpforms_builder, WPFormsUtils */
 
 ;
 var wpf = {
@@ -8,7 +8,7 @@ var wpf = {
 	initialSave: true,
 	orders:  {
 		fields: [],
-		choices: {}
+		choices: {},
 	},
 
 	// This file contains a collection of utility functions.
@@ -78,9 +78,9 @@ var wpf = {
 
 		wpf.orders.fields = [];
 
-		jQuery( '.wpforms-field-option' ).each(function() {
+		jQuery( '.wpforms-field-option' ).each( function() {
 			wpf.orders.fields.push( jQuery( this ).data( 'field-id' ) );
-		});
+		} );
 	},
 
 	/**
@@ -92,13 +92,13 @@ var wpf = {
 
 		wpf.orders.choices = {};
 
-		jQuery( '.choices-list' ).each(function() {
+		jQuery( '.choices-list' ).each( function() {
 			var fieldID = jQuery( this ).data( 'field-id' );
-			wpf.orders.choices[ 'field_'+ fieldID ] = [];
+			wpf.orders.choices[ 'field_' + fieldID ] = [];
 			jQuery( this ).find( 'li' ).each( function() {
 				wpf.orders.choices[ 'field_' + fieldID ].push( jQuery( this ).data( 'key' ) );
-			});
-		});
+			} );
+		} );
 	},
 
 	/**
@@ -114,11 +114,44 @@ var wpf = {
 
 		var choices = [];
 
-		jQuery( '#wpforms-field-option-'+id ).find( '.choices-list li' ).each( function() {
+		jQuery( '#wpforms-field-option-' + id ).find( '.choices-list li' ).each( function() {
 			choices.push( jQuery( this ).data( 'key' ) );
-		});
+		} );
 
 		return choices;
+	},
+
+	/**
+	 * Maintain multiselect dropdown with search.
+	 * If a multiple select has selected choices - hide a placeholder text.
+	 * In case if select is empty - we return placeholder text back.
+	 *
+	 * @since 1.7.6
+	 *
+	 * @param {object} self Current object.
+	 */
+	initMultipleSelectWithSearch: function( self ) {
+
+		const $element = jQuery( self.passedElement.element ),
+			$input   = jQuery( self.input.element );
+
+		if ( $element.prop( 'multiple' ) ) {
+
+			// On init event.
+			$input.data( 'placeholder', $input.attr( 'placeholder' ) );
+
+			if ( self.getValue( true ).length ) {
+				$input.removeAttr( 'placeholder' );
+			}
+
+			// On change event.
+			$element.on( 'change', function() {
+
+				self.getValue( true ).length ?
+					$input.removeAttr( 'placeholder' ) :
+					$input.attr( 'placeholder', $input.data( 'placeholder' ) );
+			} );
+		}
 	},
 
 	/**
@@ -147,41 +180,40 @@ var wpf = {
 
 		useCache = useCache || false;
 
-		if ( useCache && ! jQuery.isEmptyObject(wpf.cachedFields) ) {
+		if ( useCache && ! jQuery.isEmptyObject( wpf.cachedFields ) ) {
 
 			// Use cache if told and cache is primed.
-			var fields = jQuery.extend({}, wpf.cachedFields);
+			var fields = jQuery.extend( {}, wpf.cachedFields );
 
-			wpf.debug('getFields triggered (cached)');
+			wpf.debug( 'getFields triggered (cached)' );
 
 		} else {
 
 			// Normal processing, get fields from builder and prime cache.
 			var formData       = wpf.formObject( '#wpforms-field-options' ),
 				fields         = formData.fields,
-				fieldBlacklist = [ 'entry-preview', 'html', 'pagebreak' ];
+				fieldBlacklist = [ 'entry-preview', 'html', 'content', 'pagebreak', 'internal-information', 'layout' ];
 
-			if (!fields) {
+			if ( ! fields ) {
 				return false;
 			}
 
-			for( var key in fields) {
-				if ( ! fields[key].type || jQuery.inArray(fields[key].type, fieldBlacklist) > -1 ){
+			for ( var key in fields ) {
+				if ( ! fields[key].type || jQuery.inArray( fields[key].type, fieldBlacklist ) > -1 ) {
 					delete fields[key];
 				}
 			}
 
-			// Cache the all the fields now that they have been ordered and initially
-			// processed.
-			wpf.cachedFields = jQuery.extend({}, fields);
+			// Cache the all the fields now that they have been ordered and initially processed.
+			wpf.cachedFields = jQuery.extend( {}, fields );
 
-			wpf.debug('getFields triggered');
+			wpf.debug( 'getFields triggered' );
 		}
 
-		// If we should only return specfic field types, remove the others.
+		// If we should only return specific field types, remove the others.
 		if ( allowedFields && allowedFields.constructor === Array ) {
-			for( var key in fields) {
-				if ( jQuery.inArray( fields[key].type, allowedFields ) === -1 ){
+			for ( var key in fields ) {
+				if ( jQuery.inArray( fields[key].type, allowedFields ) === -1 ) {
 					delete fields[key];
 				}
 			}
@@ -201,7 +233,7 @@ var wpf = {
 	 */
 	getField: function( id ) {
 
-		var field = wpf.formObject( '#wpforms-field-option-'+id );
+		var field = wpf.formObject( '#wpforms-field-option-' + id );
 
 		return field.fields[ Object.keys( field.fields )[0] ];
 	},
@@ -254,15 +286,18 @@ var wpf = {
 	 * @param mixed item index/key
 	 * @return array
 	 */
-	removeArrayItem: function(array, item) {
+	removeArrayItem: function( array, item ) {
+
 		var removeCounter = 0;
-		for (var index = 0; index < array.length; index++) {
-			if (array[index] === item) {
-				array.splice(index, 1);
+
+		for ( var index = 0; index < array.length; index++ ) {
+			if ( array[index] === item ) {
+				array.splice( index, 1 );
 				removeCounter++;
-			index--;
+				index--;
 			}
 		}
+
 		return removeCounter;
 	},
 
@@ -289,28 +324,31 @@ var wpf = {
 	 *
 	 * @since 1.0.0
 	 */
-	updateQueryString: function(key, value, url) {
+	updateQueryString: function( key, value, url ) {
 
-		if (!url) url = window.location.href;
-		var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi"),
+		if ( ! url ) {
+			url = window.location.href;
+		}
+
+		var re = new RegExp( '([?&])' + key + '=.*?(&|#|$)(.*)', 'gi' ),
 			hash;
 
-		if (re.test(url)) {
-			if (typeof value !== 'undefined' && value !== null)
-				return url.replace(re, '$1' + key + "=" + value + '$2$3');
+		if ( re.test( url ) ) {
+			if ( typeof value !== 'undefined' && value !== null )
+				return url.replace( re, '$1' + key + '=' + value + '$2$3' );
 			else {
-				hash = url.split('#');
-				url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
-				if (typeof hash[1] !== 'undefined' && hash[1] !== null)
+				hash = url.split( '#' );
+				url = hash[0].replace( re, '$1$3' ).replace( /(&|\?)$/, '' );
+				if ( typeof hash[1] !== 'undefined' && hash[1] !== null )
 					url += '#' + hash[1];
 				return url;
 			}
 		} else {
-			if (typeof value !== 'undefined' && value !== null) {
-				var separator = url.indexOf('?') !== -1 ? '&' : '?';
-				hash = url.split('#');
+			if ( typeof value !== 'undefined' && value !== null ) {
+				var separator = url.indexOf( '?' ) !== -1 ? '&' : '?';
+				hash = url.split( '#' );
 				url = hash[0] + separator + key + '=' + value;
-				if (typeof hash[1] !== 'undefined' && hash[1] !== null)
+				if ( typeof hash[1] !== 'undefined' && hash[1] !== null )
 					url += '#' + hash[1];
 				return url;
 			}
@@ -324,10 +362,10 @@ var wpf = {
 	 *
 	 * @since 1.0.0
 	 */
-	getQueryString: function(name) {
+	getQueryString: function( name ) {
 
-		var match = new RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-		return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+		var match = new RegExp( '[?&]' + name + '=([^&]*)' ).exec( window.location.search );
+		return match && decodeURIComponent( match[1].replace( /\+/g, ' ' ) );
 	},
 
 	/**
@@ -412,7 +450,7 @@ var wpf = {
 			amount = amount.substr( 0, sepFound ) + '.' + amount.substr( sepFound + 1, amount.length - 1 );
 		}
 
-		// Strip , from the amount (if set as the thousands separator)
+		// Strip , from the amount (if set as the thousand separator)
 		if ( wpforms_builder.currency_thousands === ',' && ( amount.indexOf( wpforms_builder.currency_thousands ) !== -1 ) ) {
 			amount = amount.replace( /,/g, '' );
 		}
@@ -458,7 +496,7 @@ var wpf = {
 	 * @param {string} number       Number to format.
 	 * @param {number} decimals     How many decimals should be there.
 	 * @param {string} decimalSep   What is the decimal separator.
-	 * @param {string} thousandsSep What is the thousands separator.
+	 * @param {string} thousandsSep What is the thousand separator.
 	 *
 	 * @returns {string} Formatted number.
 	 */
@@ -495,16 +533,16 @@ var wpf = {
 	 * @link http://locutus.io/php/empty/
 	 * @since 1.2.6
 	 */
-	empty: function(mixedVar) {
+	empty: function( mixedVar ) {
 
 		var undef;
 		var key;
 		var i;
 		var len;
-		var emptyValues = [undef, null, false, 0, '', '0'];
+		var emptyValues = [ undef, null, false, 0, '', '0' ];
 
 		for ( i = 0, len = emptyValues.length; i < len; i++ ) {
-			if (mixedVar === emptyValues[i]) {
+			if ( mixedVar === emptyValues[i] ) {
 				return true;
 			}
 		}
@@ -525,18 +563,16 @@ var wpf = {
 	 * Debug output helper.
 	 *
 	 * @since 1.3.8
-	 * @param msg
+	 *
+	 * @param {string|integer|boolean|Array|object} msg Debug message (any data).
 	 */
-	debug: function( msg ) {
+	debug: function( ...msg ) {
 
-		if ( wpf.isDebug() ) {
-			if ( typeof msg === 'object' || msg.constructor === Array ) {
-				console.log( 'WPForms Debug:' );
-				console.log( msg )
-			} else {
-				console.log( 'WPForms Debug: '+msg );
-			}
+		if ( ! wpf.isDebug() ) {
+			return;
 		}
+
+		console.log( '%cWPForms Debug: ', 'color: #cd6622;', ...msg );
 	},
 
 	/**
@@ -554,9 +590,9 @@ var wpf = {
 	 * @since 1.4.1
 	 */
 	focusCaretToEnd: function( el ) {
-		el.focus();
+		el.trigger( 'focus' );
 		var $thisVal = el.val();
-		el.val('').val($thisVal);
+		el.val( '' ).val( $thisVal );
 	},
 
 	/**
@@ -571,57 +607,57 @@ var wpf = {
 			json         = {},
 			arraynames   = {};
 
-		for ( var v = 0; v < fields.length; v++ ){
+		for ( var v = 0; v < fields.length; v++ ) {
 
 			var field     = jQuery( fields[v] ),
-				name      = field.prop( 'name' ).replace( /\]/gi,'' ).split( '[' ),
+				name      = field.prop( 'name' ).replace( /\]/gi, '' ).split( '[' ),
 				value     = field.val(),
 				lineconf  = {};
 
 			if ( ( field.is( ':radio' ) || field.is( ':checkbox' ) ) && ! field.is( ':checked' ) ) {
 				continue;
 			}
-			for ( var i = name.length-1; i >= 0; i-- ) {
+			for ( var i = name.length - 1; i >= 0; i-- ) {
 				var nestname = name[i];
 				if ( typeof nestname === 'undefined' ) {
 					nestname = '';
 				}
 				if ( nestname.length === 0 ){
 					lineconf = [];
-					if ( typeof arraynames[name[i-1]] === 'undefined' )  {
-						arraynames[name[i-1]] = 0;
+					if ( typeof arraynames[name[i - 1]] === 'undefined' )  {
+						arraynames[name[i - 1]] = 0;
 					} else {
-						arraynames[name[i-1]] += 1;
+						arraynames[name[i - 1]] += 1;
 					}
-					nestname = arraynames[name[i-1]];
+					nestname = arraynames[name[i - 1]];
 				}
-				if ( i === name.length-1 ){
+				if ( i === name.length - 1 ) {
 					if ( value ) {
 						if ( value === 'true' ) {
 							value = true;
 						} else if ( value === 'false' ) {
 							value = false;
-						}else if ( ! isNaN( parseFloat( value ) ) && parseFloat( value ).toString() === value ) {
+						} else if ( ! isNaN( parseFloat( value ) ) && parseFloat( value ).toString() === value ) {
 							value = parseFloat( value );
-						} else if ( typeof value === 'string' && ( value.substr( 0,1 ) === '{' || value.substr( 0,1 ) === '[' ) ) {
+						} else if ( typeof value === 'string' && ( value.substr( 0, 1 ) === '{' || value.substr( 0, 1 ) === '[' ) ) {
 							try {
 								value = JSON.parse( value );
-							} catch (e) {}
-						} else if ( typeof value === 'object' && value.length && field.is( 'select' ) ){
-				 			var new_val = {};
-							for ( var i = 0; i < value.length; i++ ){
-								new_val[ 'n' + i ] = value[ i ];
+							} catch ( e ) {}
+						} else if ( typeof value === 'object' && value.length && field.is( 'select' ) ) {
+							var newValue = {};
+							for ( var i = 0; i < value.length; i++ ) {
+								newValue[ 'n' + i ] = value[ i ];
 							}
-				 		 	value = new_val;
+							value = newValue;
 						}
-			 	 	}
-			  		lineconf[nestname] = value;
+					}
+					lineconf[nestname] = value;
 				} else {
 					var newobj = lineconf;
 					lineconf = {};
 					lineconf[nestname] = newobj;
 				}
-		  	}
+			}
 			jQuery.extend( true, json, lineconf );
 		}
 
@@ -717,16 +753,18 @@ var wpf = {
 	 * Uses: `https://github.com/cure53/DOMPurify`
 	 *
 	 * @since 1.5.9
+	 * @since 1.7.8 Introduced optional allowed parameter.
 	 *
-	 * @param {string} string HTML to sanitize.
+	 * @param {string}           string  HTML to sanitize.
+	 * @param {undefined|Array}  allowed Array of allowed HTML tags.
 	 *
 	 * @returns {string} Sanitized HTML.
 	 */
-	sanitizeHTML: function( string ) {
+	sanitizeHTML: function( string, allowed ) {
 
 		var purify = window.DOMPurify;
 
-		if ( typeof purify === 'undefined' ) {
+		if ( typeof purify === 'undefined' || typeof string === 'undefined' ) {
 			return string;
 		}
 
@@ -734,7 +772,11 @@ var wpf = {
 			string = string.toString();
 		}
 
-		return purify.sanitize( string );
+		if ( typeof allowed === 'undefined' ) {
+			return purify.sanitize( string );
+		}
+
+		return purify.sanitize( string, { ALLOWED_TAGS: allowed, ADD_ATTR: [ 'target' ] } ).trim();
 	},
 
 	/**
@@ -813,6 +855,169 @@ var wpf = {
 
 			return x;
 		} );
+	},
+
+	/**
+	 * Wrapper to trigger a native or custom event and return the event object.
+	 *
+	 * @since 1.7.5
+	 * @since 1.7.6 Deprecated.
+	 *
+	 * @deprecated Use `WPFormsUtils.triggerEvent` instead.
+	 *
+	 * @param {jQuery} $element  Element to trigger event on.
+	 * @param {string} eventName Event name to trigger (custom or native).
+	 *
+	 * @returns {Event} Event object.
+	 */
+	triggerEvent: function( $element, eventName ) {
+
+		console.warn( 'WARNING! Function "wpf.triggerEvent( $element, eventName )" has been deprecated, please use the new "WPFormsUtils.triggerEvent( $element, eventName, args )" function instead!' );
+
+		return WPFormsUtils.triggerEvent( $element, eventName );
+	},
+
+	/**
+	 * Automatically add paragraphs to the text.
+	 *
+	 * JS implementation of the `wpautop()`.
+	 *
+	 * @see https://github.com/andymantell/node-wpautop/blob/master/lib/wpautop.js
+	 *
+	 * @since 1.7.7
+	 *
+	 * @param {string} pee Text to be replaced.
+	 * @param {boolean} br Whether remaining \n characters should be replaced with <br />.
+	 *
+	 * @returns {string} Text with replaced paragraphs.
+	 */
+	wpautop: function( pee, br = true ) { // eslint-disable-line max-lines-per-function, complexity
+
+		let preTags = new Map();
+		let _autopNewlinePreservationHelper = function( matches ) {
+
+			return matches[0].replace( '\n', '<WPPreserveNewline />' );
+		};
+
+		if ( ( typeof pee ) !== 'string' && ! ( pee instanceof String ) ) {
+			return pee;
+		}
+
+		if ( pee.trim() === '' ) {
+			return '';
+		}
+
+		pee = pee + '\n'; // Just to make things a little easier, pad the end.
+
+		if ( pee.indexOf( '<pre' ) > -1 ) {
+			let peeParts = pee.split( '</pre>' ),
+				lastPee  = peeParts.pop();
+
+			pee = '';
+
+			peeParts.forEach(
+				function( peePart, index ) {
+
+					const start = peePart.indexOf( '<pre' );
+
+					// Malformed html?
+					if ( start === -1 ) {
+						pee += peePart;
+						return;
+					}
+
+					let name      = '<pre wp-pre-tag-' + index + '></pre>';
+					preTags[name] = peePart.substring( start ) + '</pre>';
+					pee          += peePart.substring( 0, start ) + name;
+
+				}
+			);
+
+			pee += lastPee;
+		}
+
+		pee = pee.replace( /<br \/>\s*<br \/>/, '\n\n' );
+
+		// Space things out a little.
+		let allblocks = '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|legend|section|article|aside|hgroup|header|footer|nav|figure|figcaption|details|menu|summary)';
+
+		pee = pee.replace( new RegExp( '(<' + allblocks + '[^>]*>)', 'gmi' ), '\n$1' );
+		pee = pee.replace( new RegExp( '(</' + allblocks + '>)', 'gmi' ), '$1\n\n' );
+		pee = pee.replace( /\r\n|\r/, '\n' ); // cross-platform newlines.
+
+		if ( pee.indexOf( '\n' ) === 0 ) {
+			pee = pee.substring( 1 );
+		}
+
+		if ( pee.indexOf( '<option' ) > -1 ) {
+
+			// no P/BR around option.
+			pee = pee.replace( /(?=(\s*))\2<option'/gmi, '<option' );
+			pee = pee.replace( /<\/option>\s*/gmi, '</option>' );
+		}
+
+		if ( pee.indexOf( '</object>' ) > -1 ) {
+
+			// no P/BR around param and embed.
+			pee = pee.replace( /(<object[^>]*>)\s*/gmi, '$1' );
+			pee = pee.replace( /(?=(\s*))\2<\/object>/gmi, '</object>' );
+			pee = pee.replace( /(?=(\s*))\2(<\/?(?:param|embed)[^>]*>)((?=(\s*))\2)/gmi, '$1' );
+		}
+
+		/* eslint-disable no-useless-escape */
+
+		if ( pee.indexOf( '<source' ) > -1 || pee.indexOf( '<track' ) > -1 ) {
+
+			// no P/BR around source and track.
+			pee = pee.replace( /([<\[](?:audio|video)[^>\]]*[>\]])\s*/gmi, '$1' );
+			pee = pee.replace( /(?=(\s*))\2([<\[]\/(?:audio|video)[>\]])/gmi, '$1' );
+			pee = pee.replace( /(?=(\s*))\2(<(?:source|track)[^>]*>)(?=(\s*))\2/gmi, '$1' );
+		}
+
+		pee = pee.replace( /\n\n+/gmi, '\n\n' ); // take care of duplicates.
+
+		// make paragraphs, including one at the end.
+		let pees = pee.split( /\n\s*\n/ );
+
+		pee = '';
+
+		pees.forEach(
+			function( tinkle ) {
+				pee += '<p>' + tinkle.replace( /^(?:\s+|\s+)$/g, '' ) + '</p>\n';
+			}
+		);
+
+		pee = pee.replace( /<p>\s*<\/p>/gmi, '' ); // under certain strange conditions it could create a P of entirely whitespace.
+		pee = pee.replace( /<p>([^<]+)<\/(div|address|form)>/gmi, '<p>$1</p></$2>' );
+		pee = pee.replace( new RegExp( '<p>\s*(</?' + allblocks + '[^>]*>)\s*</p>', 'gmi' ), '$1', pee ); // don't pee all over a tag.
+		pee = pee.replace( /<p>(<li.+?)<\/p>/gmi, '$1' ); // problem with nested lists.
+		pee = pee.replace( /<p><blockquote([^>]*)>/gmi, '<blockquote$1><p>' );
+		pee = pee.replace( /<\/blockquote><\/p>/gmi, '</p></blockquote>' );
+		pee = pee.replace( new RegExp( '<p>\s*(</?' + allblocks + '[^>]*>)', 'gmi' ), '$1' );
+		pee = pee.replace( new RegExp( '(</?' + allblocks + '[^>]*>)\s*</p>', 'gmi' ), '$1' );
+
+		if ( br ) {
+			pee = pee.replace( /<(script|style)(?:.|\n)*?<\/\\1>/gmi, _autopNewlinePreservationHelper ); // /s modifier from php PCRE regexp replaced with (?:.|\n).
+			pee = pee.replace( /(<br \/>)?((?=(\s*))\2)\n/gmi, '<br />\n' ); // optionally make line breaks.
+			pee = pee.replace( '<WPPreserveNewline />', '\n' );
+		}
+
+		pee = pee.replace( new RegExp( '(</?' + allblocks + '[^>]*>)\s*<br />', 'gmi' ), '$1' );
+		pee = pee.replace( /<br \/>(\s*<\/?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)[^>]*>)/gmi, '$1' );
+		pee = pee.replace( /\n<\/p>$/gmi, '</p>' );
+
+		/* esline-enable */
+
+		if ( Object.keys( preTags ).length ) {
+			pee = pee.replace(
+				new RegExp( Object.keys( preTags ).join( '|' ), 'gi' ),
+				function( matched ) {
+					return preTags[matched];
+				}
+			);
+		}
+
+		return pee;
 	},
 };
 

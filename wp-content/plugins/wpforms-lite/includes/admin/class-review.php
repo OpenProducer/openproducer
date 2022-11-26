@@ -131,7 +131,7 @@ class WPForms_Review {
 		$activated = get_option( 'wpforms_activated', [] );
 
 		if ( ! empty( $activated['lite'] ) ) {
-			// Only continue if plugin has been installed for at least 7 days.
+			// Only continue if plugin has been installed for at least 14 days.
 			if ( ( $activated['lite'] + ( DAY_IN_SECONDS * 14 ) ) > time() ) {
 				return;
 			}

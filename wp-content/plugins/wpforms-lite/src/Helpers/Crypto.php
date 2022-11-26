@@ -2,12 +2,6 @@
 
 namespace WPForms\Helpers;
 
-// WP 5.2+ already loads Sodium Compat polyfill if `libsodium` PHP extension is not available.
-// We need to do the same for earlier WordPress versions (4.9-5.1).
-if ( ! version_compare( get_bloginfo( 'version' ), '5.2', '>=' ) && ! function_exists( 'sodium_crypto_box' ) ) {
-	require_once WPFORMS_PLUGIN_DIR . 'libs/sodium_compat/autoload.php';
-}
-
 /**
  * Class for encryption functionality.
  *

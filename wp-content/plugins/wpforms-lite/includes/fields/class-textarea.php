@@ -191,9 +191,10 @@ class WPForms_Field_Textarea extends WPForms_Field {
 		$this->field_preview_option( 'label', $field );
 
 		// Primary input.
-		$placeholder = ! empty( $field['placeholder'] ) ? $field['placeholder'] : '';
+		$placeholder   = ! empty( $field['placeholder'] ) ? $field['placeholder'] : '';
+		$default_value = ! empty( $field['default_value'] ) ? $field['default_value'] : '';
 
-		echo '<textarea placeholder="' . esc_attr( $placeholder ) . '" class="primary-input" readonly></textarea>';
+		echo '<textarea placeholder="' . esc_attr( $placeholder ) . '" class="primary-input" readonly>' . wpforms_sanitize_textarea_field( $default_value ) . '</textarea>';
 
 		// Description.
 		$this->field_preview_option( 'description', $field );

@@ -6,11 +6,39 @@ class BVAccountCallback extends BVCallbackBase {
 	public $account;
 	public $settings;
 	
-	const ACCOUNT_WING_VERSION = 1.0;
+	const ACCOUNT_WING_VERSION = 1.1;
 
 	public function __construct($callback_handler) {
 		$this->account = $callback_handler->account;
 		$this->settings = $callback_handler->settings;
+	}
+
+	function updateInfo($args) {
+		$result = array();
+
+		if (array_key_exists('update_info', $args)) {
+			$this->account->updateInfo($args['update_info']);
+			$result['update_info'] = array(
+				"status" => DHAccount::exists($this->settings, $args['update_info']['pubkey'])
+			);
+		}
+	
+		if (array_key_exists('update_api_key', $args)) {
+			DHAccount::updateApiPublicKey($this->settings, $args['update_api_key']['pubkey']);
+			$result['update_api_key'] = array(
+				"status" => $this->settings->getOption(DHAccount::$api_public_key)
+			);
+		}
+
+		if (array_key_exists('update_options', $args))
+			$result['update_options'] = $this->settings->updateOptions($args['update_options']);
+
+		if (array_key_exists('delete_options', $args))
+			$result['delete_options'] = $this->settings->deleteOptions($args['delete_options']);
+
+		$result['status'] = true;
+
+		return $result;
 	}
 
 	function process($request) {
@@ -47,6 +75,9 @@ class BVAccountCallback extends BVCallbackBase {
 			break;
 		case "fetch":
 			$resp = array("status" => DHAccount::allAccounts($this->settings));
+			break;
+		case "updtinfo":
+			$resp = $this->updateInfo($params);
 			break;
 		default:
 			$resp = false;

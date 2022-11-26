@@ -400,7 +400,7 @@ abstract class FormBuilder implements FormBuilderInterface {
 			$form_id = ! empty( $this->form_data['id'] ) ? $this->form_data['id'] : '';
 
 			self::display_content_default_screen(
-				Status::init( $this->core->slug )->is_connected( $form_id ),
+				Status::init( $this->core->slug )->is_ready( $form_id ),
 				$this->core->slug,
 				$this->core->name,
 				$this->core->icon

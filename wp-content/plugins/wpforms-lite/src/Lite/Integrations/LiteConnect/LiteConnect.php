@@ -113,6 +113,7 @@ class LiteConnect extends \WPForms\Integrations\LiteConnect\LiteConnect {
 				'type'          => 'toggle',
 				'is-important'  => true,
 				'control-class' => 'wpforms-setting-lite-connect-auto-save-toggle',
+				'input-attr'    => 'disabled',
 				'desc-on'       => sprintf(
 					wp_kses( /* translators: %s - Upgrade to WPForms PRO landing page URL. */
 						__( '<strong>Your form entries are not being stored locally, but are backed up remotely.</strong> If you <a href="%s" target="_blank" rel="noopener noreferrer" class="wpforms-upgrade-modal">upgrade to WPForms PRO</a>, you can restore your entries and they’ll be available in the WordPress dashboard.', 'wpforms-lite' ),

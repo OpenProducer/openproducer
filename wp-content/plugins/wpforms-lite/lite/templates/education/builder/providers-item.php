@@ -11,6 +11,7 @@
  * @var string $icon          Addon icon.
  * @var string $video         Video URL.
  * @var string $utm_content   UTM content.
+ * @var bool   $recommended   Flag for recommended providers.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -27,5 +28,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	data-utm-content="<?php echo esc_attr( $utm_content ); ?>">
 	<img src="<?php echo esc_url( WPFORMS_PLUGIN_URL . 'assets/images/' . $icon ); ?>" alt="<?php echo esc_attr( $modal_name ); ?>">
 	<?php echo esc_html( $name ); ?>
+	<?php if ( ! empty( $recommended ) ) : ?>
+		<span class="wpforms-panel-sidebar-recommended">
+			<i class="fa fa-star" aria-hidden="true"></i>
+			<?php esc_html_e( 'Recommended', 'wpforms-lite' ); ?>
+		</span>
+	<?php endif; ?>
 	<i class="fa fa-angle-right wpforms-toggle-arrow"></i>
 </a>

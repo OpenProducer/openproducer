@@ -76,6 +76,10 @@ if ( ! class_exists( 'UAGB_Lottie' ) ) {
 							'type'    => 'string',
 							'default' => '',
 						),
+						'lottieSource'     => array(
+							'type'    => 'string',
+							'default' => 'library',
+						),
 						'jsonLottie'       => array(
 							'type' => 'object',
 						),
@@ -127,9 +131,9 @@ if ( ! class_exists( 'UAGB_Lottie' ) ) {
 							'type'    => 'string',
 							'default' => '',
 						),
-						'deviceType'       => array(
-							'type'    => 'string',
-							'default' => 'Desktop',
+						'isPreview'        => array(
+							'type'    => 'boolean',
+							'default' => false,
 						),
 					),
 					'render_callback' => array( $this, 'render_html' ),
@@ -152,16 +156,58 @@ if ( ! class_exists( 'UAGB_Lottie' ) ) {
 				$block_id = $attributes['block_id'];
 			}
 
+			$desktop_class = '';
+			$tab_class     = '';
+			$mob_class     = '';
+
+			if ( array_key_exists( 'UAGHideDesktop', $attributes ) || array_key_exists( 'UAGHideTab', $attributes ) || array_key_exists( 'UAGHideMob', $attributes ) ) {
+
+				$desktop_class = ( isset( $attributes['UAGHideDesktop'] ) ) ? 'uag-hide-desktop' : '';
+
+				$tab_class = ( isset( $attributes['UAGHideTab'] ) ) ? 'uag-hide-tab' : '';
+
+				$mob_class = ( isset( $attributes['UAGHideMob'] ) ) ? 'uag-hide-mob' : '';
+			}
+
+			$zindex_desktop           = '';
+			$zindex_tablet            = '';
+			$zindex_mobile            = '';
+			$zindex_wrap              = array();
+			$zindex_extention_enabled = ( isset( $attributes['zIndex'] ) || isset( $attributes['zIndexTablet'] ) || isset( $attributes['zIndexMobile'] ) );
+
+			if ( $zindex_extention_enabled ) {
+				$zindex_desktop = ( isset( $attributes['zIndex'] ) ) ? '--z-index-desktop:' . $attributes['zIndex'] . ';' : false;
+				$zindex_tablet  = ( isset( $attributes['zIndexTablet'] ) ) ? '--z-index-tablet:' . $attributes['zIndexTablet'] . ';' : false;
+				$zindex_mobile  = ( isset( $attributes['zIndexMobile'] ) ) ? '--z-index-mobile:' . $attributes['zIndexMobile'] . ';' : false;
+
+				if ( $zindex_desktop ) {
+					array_push( $zindex_wrap, $zindex_desktop );
+				}
+
+				if ( $zindex_tablet ) {
+					array_push( $zindex_wrap, $zindex_tablet );
+				}
+
+				if ( $zindex_mobile ) {
+					array_push( $zindex_wrap, $zindex_mobile );
+				}
+			}
+
 			$main_classes = array(
+				'wp-block-uagb-lottie',
 				'uagb-block-' . $block_id,
 				'uagb-lottie__outer-wrap',
 				'uagb-lottie__' . $attributes['align'],
+				$desktop_class,
+				$tab_class,
+				$mob_class,
+				$zindex_extention_enabled ? 'uag-blocks-common-selector' : '',
 			);
 
 			ob_start();
 
 			?>
-				<div class = "<?php echo esc_attr( implode( ' ', $main_classes ) ); ?>" ></div>
+				<div class = "<?php echo esc_attr( implode( ' ', $main_classes ) ); ?>" style="<?php echo esc_html( implode( '', $zindex_wrap ) ); ?>"></div>
 			<?php
 				return ob_get_clean();
 		}

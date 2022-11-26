@@ -123,7 +123,6 @@ namespace WPForms {
 					require_once WPFORMS_PLUGIN_DIR . 'lite/wpforms-lite.php';
 				}
 
-				add_action( 'init', [ self::$instance, 'load_textdomain' ], 10 );
 				add_action( 'plugins_loaded', [ self::$instance, 'objects' ], 10 );
 			}
 
@@ -152,24 +151,6 @@ namespace WPForms {
 		}
 
 		/**
-		 * Load the plugin language files.
-		 *
-		 * @since 1.0.0
-		 * @since 1.5.0 Load only the lite translation.
-		 */
-		public function load_textdomain() {
-
-			// If the user is logged in, unset the current text-domains before loading our text domain.
-			// This feels hacky, but this way a user's set language in their profile will be used,
-			// rather than the site-specific language.
-			if ( is_user_logged_in() ) {
-				unload_textdomain( 'wpforms-lite' );
-			}
-
-			load_plugin_textdomain( 'wpforms-lite', false, dirname( plugin_basename( WPFORMS_PLUGIN_FILE ) ) . '/assets/languages/' );
-		}
-
-		/**
 		 * Include files.
 		 *
 		 * @since 1.0.0
@@ -177,11 +158,12 @@ namespace WPForms {
 		private function includes() {
 
 			require_once WPFORMS_PLUGIN_DIR . 'includes/class-db.php';
+			require_once WPFORMS_PLUGIN_DIR . 'includes/functions.php';
+			require_once WPFORMS_PLUGIN_DIR . 'includes/compat.php';
 
 			$this->includes_magic();
 
 			// Global includes.
-			require_once WPFORMS_PLUGIN_DIR . 'includes/functions.php';
 			require_once WPFORMS_PLUGIN_DIR . 'includes/functions-list.php';
 			require_once WPFORMS_PLUGIN_DIR . 'includes/class-install.php';
 			require_once WPFORMS_PLUGIN_DIR . 'includes/class-form.php';
@@ -235,12 +217,10 @@ namespace WPForms {
 				]
 			);
 
-			if ( version_compare( phpversion(), '5.5', '>=' ) ) {
-				/*
-				 * Load PHP 5.5 email subsystem.
-				 */
-				add_action( 'wpforms_loaded', [ '\WPForms\Emails\Summaries', 'get_instance' ] );
-			}
+			/*
+			 * Load email subsystem.
+			 */
+			add_action( 'wpforms_loaded', [ '\WPForms\Emails\Summaries', 'get_instance' ] );
 
 			/*
 			 * Load admin components. Exclude from frontend.

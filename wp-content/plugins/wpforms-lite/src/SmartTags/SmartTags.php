@@ -46,8 +46,8 @@ class SmartTags {
 	 */
 	public function get( $return = 'array' ) {
 
-		_deprecated_argument( __METHOD__, '1.6.7' );
-		_deprecated_function( __METHOD__, '1.6.7', __CLASS__ . '::get_smart_tags()' );
+		_deprecated_argument( __METHOD__, '1.6.7 of the WPForms plugin' );
+		_deprecated_function( __METHOD__, '1.6.7 of the WPForms plugin', __CLASS__ . '::get_smart_tags()' );
 
 		$tags = $this->get_smart_tags();
 
@@ -131,6 +131,7 @@ class SmartTags {
 			'url_logout'        => esc_html__( 'Logout URL', 'wpforms-lite' ),
 			'url_register'      => esc_html__( 'Register URL', 'wpforms-lite' ),
 			'url_lost_password' => esc_html__( 'Lost Password URL', 'wpforms-lite' ),
+			'unique_value'      => esc_html__( 'Unique Value', 'wpforms-lite' ),
 		];
 	}
 
@@ -395,7 +396,7 @@ class SmartTags {
 	 */
 	public function parse( $tag, $value, $content ) {
 
-		_deprecated_function( __METHOD__, '1.6.7' );
+		_deprecated_function( __METHOD__, '1.6.7 of the WPForms plugin' );
 
 		return $this->replace( $tag, $value, $content );
 	}

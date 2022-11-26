@@ -98,13 +98,14 @@ class WPForms_Field_Number extends WPForms_Field {
 	public function field_preview( $field ) {
 
 		// Define data.
-		$placeholder = ! empty( $field['placeholder'] ) ? $field['placeholder'] : '';
+		$placeholder   = ! empty( $field['placeholder'] ) ? $field['placeholder'] : '';
+		$default_value = ! empty( $field['default_value'] ) ? $field['default_value'] : '';
 
 		// Label.
 		$this->field_preview_option( 'label', $field );
 
 		// Primary input.
-		echo '<input type="text" placeholder="' . esc_attr( $placeholder ) . '" class="primary-input" readonly>';
+		echo '<input type="text" placeholder="' . esc_attr( $placeholder ) . '" value="' . esc_attr( $default_value ) . '" class="primary-input" readonly>';
 
 		// Description.
 		$this->field_preview_option( 'description', $field );

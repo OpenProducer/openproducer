@@ -1,6 +1,7 @@
 <?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 
 use Automattic\Jetpack\Assets;
+use Automattic\Jetpack\Stats\Tracking_Pixel as Stats_Tracking_Pixel;
 use Automattic\Jetpack\Sync\Functions;
 
 /**
@@ -139,7 +140,6 @@ class Jetpack_AMP_Support {
 	 */
 	public static function amp_disable_the_content_filters() {
 		if ( defined( 'IS_WPCOM' ) && IS_WPCOM ) {
-			add_filter( 'videopress_show_2015_player', '__return_true' );
 			add_filter( 'protected_embeds_use_form_post', '__return_false' );
 			remove_filter( 'the_title', 'widont' );
 		}
@@ -178,10 +178,12 @@ class Jetpack_AMP_Support {
 	 * @since 6.2.1
 	 */
 	public static function add_stats_pixel() {
-		if ( ! has_action( 'wp_footer', 'stats_footer' ) ) {
+		if ( ! has_action( 'wp_footer', array( Stats_Tracking_Pixel::class, 'add_to_footer' ) ) ) {
 			return;
 		}
-		stats_render_amp_footer( stats_build_view_data() );
+
+		$stats_data = Stats_Tracking_Pixel::build_view_data();
+		Stats_Tracking_Pixel::render_amp_footer( $stats_data );
 	}
 
 	/**

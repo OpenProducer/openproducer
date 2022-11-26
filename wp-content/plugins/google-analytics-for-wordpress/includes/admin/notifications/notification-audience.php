@@ -41,9 +41,9 @@ final class MonsterInsights_Notification_Audience extends MonsterInsights_Notifi
 				'text' => __( 'View Report', 'google-analytics-for-wordpress' )
 			),
 			"learn_more"  => array(
-				'url'           => $this->build_external_link( 'https://www.wpbeginner.com/showcase/9-best-translation-plugins-for-wordpress-websites/' ),
-				'text'          => __( 'Learn More', 'google-analytics-for-wordpress' ),
-				'is_external'   => true,
+				'url'         => $this->build_external_link( 'https://www.wpbeginner.com/showcase/9-best-translation-plugins-for-wordpress-websites/' ),
+				'text'        => __( 'Learn More', 'google-analytics-for-wordpress' ),
+				'is_external' => true,
 			),
 		);
 

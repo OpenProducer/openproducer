@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class MonsterInsights_Auth {
 
-	private $profile  = array();
+	private $profile = array();
 	private $network = array();
 
 	/**
@@ -28,8 +28,8 @@ final class MonsterInsights_Auth {
 	 * @since 7.0.0
 	 */
 	public function __construct() {
-		$this->profile       = $this->get_analytics_profile();
-		$this->network       = $this->get_network_analytics_profile();
+		$this->profile = $this->get_analytics_profile();
+		$this->network = $this->get_network_analytics_profile();
 	}
 
 	public function is_manual( $type = false ) {
@@ -80,8 +80,9 @@ final class MonsterInsights_Auth {
 		if ( ! empty( $this->profile ) && ! $force ) {
 			return $this->profile;
 		} else {
-			$profile = get_option( 'monsterinsights_site_profile', array() );
+			$profile       = get_option( 'monsterinsights_site_profile', array() );
 			$this->profile = $profile;
+
 			return $profile;
 		}
 	}
@@ -90,15 +91,16 @@ final class MonsterInsights_Auth {
 		if ( ! empty( $this->network ) && ! $force ) {
 			return $this->network;
 		} else {
-			$profile = get_site_option( 'monsterinsights_network_profile', array() );
+			$profile       = get_site_option( 'monsterinsights_network_profile', array() );
 			$this->network = $profile;
+
 			return $profile;
 		}
 	}
 
-	public function set_analytics_profile( $data = array() ){
+	public function set_analytics_profile( $data = array() ) {
 		update_option( 'monsterinsights_site_profile', $data );
-		$this->profile      = $data;
+		$this->profile = $data;
 
 		// If this is the first time, save the date when they connected.
 		$over_time    = get_option( 'monsterinsights_over_time', array() );
@@ -116,12 +118,12 @@ final class MonsterInsights_Auth {
 		}
 	}
 
-	public function set_network_analytics_profile( $data = array() ){
+	public function set_network_analytics_profile( $data = array() ) {
 		update_site_option( 'monsterinsights_network_profile', $data );
-		$this->network      = $data;
+		$this->network = $data;
 	}
 
-	public function delete_analytics_profile( $migrate = true ){
+	public function delete_analytics_profile( $migrate = true ) {
 		if ( $migrate ) {
 			$newdata = array();
 			if ( isset( $this->profile['ua'] ) ) {
@@ -130,15 +132,15 @@ final class MonsterInsights_Auth {
 			if ( isset( $this->profile['v4'] ) ) {
 				$newdata['manual_v4'] = $this->profile['v4'];
 			}
-			$this->profile      = $newdata;
+			$this->profile = $newdata;
 			$this->set_analytics_profile( $newdata );
 		} else {
-			$this->profile      = array();
+			$this->profile = array();
 			delete_option( 'monsterinsights_site_profile' );
 		}
 	}
 
-	public function delete_network_analytics_profile( $migrate = true ){
+	public function delete_network_analytics_profile( $migrate = true ) {
 		if ( $migrate ) {
 			$newdata = array();
 			if ( isset( $this->network['ua'] ) ) {
@@ -147,10 +149,10 @@ final class MonsterInsights_Auth {
 			if ( isset( $this->network['v4'] ) ) {
 				$newdata['manual_v4'] = $this->network['v4'];
 			}
-			$this->network      = $newdata;
+			$this->network = $newdata;
 			$this->set_network_analytics_profile( $newdata );
 		} else {
-			$this->network      = array();
+			$this->network = array();
 			delete_site_option( 'monsterinsights_network_profile' );
 		}
 	}
@@ -174,17 +176,17 @@ final class MonsterInsights_Auth {
 
 		do_action( 'monsterinsights_reports_delete_aggregate_data' );
 
-		$this->profile      = $data;
+		$this->profile = $data;
 		$this->set_analytics_profile( $data );
 	}
 
 	/**
 	 * @param string $id
-	 * @param array  $data
-	 * @param bool   $is_manual_ua
-	 * @param bool   $is_manual_v4
-	 * @param bool   $is_authed_ua
-	 * @param bool   $is_authed_v4
+	 * @param array $data
+	 * @param bool $is_manual_ua
+	 * @param bool $is_manual_v4
+	 * @param bool $is_authed_ua
+	 * @param bool $is_authed_v4
 	 *
 	 * @return false|array
 	 */
@@ -224,7 +226,7 @@ final class MonsterInsights_Auth {
 		return $data;
 	}
 
-	public function set_dual_tracking_id ( $id = '' ) {
+	public function set_dual_tracking_id( $id = '' ) {
 		$data = empty( $this->profile ) ? array() : $this->profile;
 
 		$is_manual_ua = $this->is_manual( 'ua' );
@@ -241,7 +243,7 @@ final class MonsterInsights_Auth {
 		$this->set_analytics_profile( $prepared_data );
 	}
 
-	public function set_network_dual_tracking_id ( $id = '' ) {
+	public function set_network_dual_tracking_id( $id = '' ) {
 		$data = empty( $this->network ) ? array() : $this->network;
 
 		$is_manual_ua = $this->is_network_manual( 'ua' );
@@ -271,13 +273,13 @@ final class MonsterInsights_Auth {
 		if ( empty( $this->profile ) ) {
 			$data['manual_v4'] = $v4;
 		} else {
-			$data           = $this->profile;
+			$data              = $this->profile;
 			$data['manual_v4'] = $v4;
 		}
 
 		do_action( 'monsterinsights_reports_delete_aggregate_data' );
 
-		$this->profile      = $data;
+		$this->profile = $data;
 		$this->set_analytics_profile( $data );
 	}
 
@@ -294,8 +296,8 @@ final class MonsterInsights_Auth {
 		if ( empty( $this->network ) ) {
 			$data['manual'] = $ua;
 		} else {
-			$data           = $this->network;
-			$data['manual'] = $ua;
+			$data                      = $this->network;
+			$data['manual']            = $ua;
 			$data['network_manual_ua'] = $ua;
 		}
 
@@ -318,8 +320,8 @@ final class MonsterInsights_Auth {
 		if ( empty( $this->network ) ) {
 			$data['manual_v4'] = $v4;
 		} else {
-			$data           = $this->network;
-			$data['manual_v4'] = $v4;
+			$data                      = $this->network;
+			$data['manual_v4']         = $v4;
 			$data['network_manual_v4'] = $v4;
 		}
 
@@ -427,51 +429,51 @@ final class MonsterInsights_Auth {
 		return ! empty( $this->network['v4'] ) ? monsterinsights_is_valid_v4_id( $this->network['v4'] ) : '';
 	}
 
-	public function get_viewname(){
+	public function get_viewname() {
 		return ! empty( $this->profile['viewname'] ) ? $this->profile['viewname'] : '';
 	}
 
-	public function get_network_viewname(){
+	public function get_network_viewname() {
 		return ! empty( $this->network['viewname'] ) ? $this->network['viewname'] : '';
 	}
 
-	public function get_accountid(){
+	public function get_accountid() {
 		return ! empty( $this->profile['a'] ) ? $this->profile['a'] : '';
 	}
 
-	public function get_network_accountid(){
+	public function get_network_accountid() {
 		return ! empty( $this->network['a'] ) ? $this->network['a'] : '';
 	}
 
-	public function get_propertyid(){
+	public function get_propertyid() {
 		return ! empty( $this->profile['w'] ) ? $this->profile['w'] : '';
 	}
 
-	public function get_network_propertyid(){
+	public function get_network_propertyid() {
 		return ! empty( $this->network['w'] ) ? $this->network['w'] : '';
 	}
 
-	public function get_viewid(){ // also known as profileID
+	public function get_viewid() { // also known as profileID
 		return ! empty( $this->profile['p'] ) ? $this->profile['p'] : '';
 	}
 
-	public function get_network_viewid(){ // also known as profileID
+	public function get_network_viewid() { // also known as profileID
 		return ! empty( $this->network['p'] ) ? $this->network['p'] : '';
 	}
 
-	public function get_key(){
+	public function get_key() {
 		return ! empty( $this->profile['key'] ) ? $this->profile['key'] : '';
 	}
 
-	public function get_network_key(){
+	public function get_network_key() {
 		return ! empty( $this->network['key'] ) ? $this->network['key'] : '';
 	}
 
-	public function get_token(){
+	public function get_token() {
 		return ! empty( $this->profile['token'] ) ? $this->profile['token'] : '';
 	}
 
-	public function get_network_token(){
+	public function get_network_token() {
 		return ! empty( $this->network['token'] ) ? $this->network['token'] : '';
 	}
 
@@ -492,6 +494,7 @@ final class MonsterInsights_Auth {
 			$format = $auth->get_connected_type() === 'ua'
 				? 'a%sw%sp%s/'
 				: 'p%2$s';
+
 			return sprintf( $format, $acc_id, $property_id, $view_id );
 		}
 

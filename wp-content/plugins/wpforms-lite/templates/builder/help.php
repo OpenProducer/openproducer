@@ -22,6 +22,8 @@ $url_parameters = add_query_arg(
 	''
 );
 
+$links_utm_medium = 'Builder Help Modal';
+
 ?>
 <div id="wpforms-builder-help" style="display: none; opacity: 0;" class="wpforms-admin-page">
 
@@ -59,7 +61,7 @@ $url_parameters = add_query_arg(
 				<i class="fa fa-file-text-o"></i>
 				<h3><?php esc_html_e( 'View Documentation', 'wpforms-lite' ); ?></h3>
 				<p><?php esc_html_e( 'Browse documentation, reference material, and tutorials for WPForms.', 'wpforms-lite' ); ?></p>
-				<a href="<?php echo esc_url( $settings['docs_url'] ); ?>"
+				<a href="<?php echo esc_url( wpforms_utm_link( $settings['docs_url'], $links_utm_medium, 'View Documentation' ) ); ?>"
 					class="wpforms-btn wpforms-btn-md wpforms-btn-light-grey"
 					rel="noopener noreferrer"
 					target="_blank">
@@ -73,7 +75,7 @@ $url_parameters = add_query_arg(
 
 				<?php if ( wpforms()->is_pro() ) { ?>
 					<p><?php esc_html_e( 'Submit a ticket and our world class support team will be in touch soon.', 'wpforms-lite' ); ?></p>
-					<a href="<?php echo esc_url( $settings['support_ticket_url'] ); ?>"
+					<a href="<?php echo esc_url( wpforms_utm_link( $settings['support_ticket_url'], $links_utm_medium, 'Contact Support' ) ); ?>"
 						class="wpforms-btn wpforms-btn-md wpforms-btn-light-grey"
 						rel="noopener noreferrer"
 						target="_blank">
@@ -82,7 +84,7 @@ $url_parameters = add_query_arg(
 
 				<?php } else { ?>
 					<p><?php esc_html_e( 'Upgrade to WPForms Pro to access our world class customer support.', 'wpforms-lite' ); ?></p>
-					<a href="<?php echo esc_url( $settings['upgrade_url'] ); ?>"
+					<a href="<?php echo esc_url( wpforms_utm_link( $settings['upgrade_url'], $links_utm_medium, 'Upgrade For Support' ) ); ?>"
 						class="wpforms-btn wpforms-btn-md wpforms-btn-orange"
 						rel="noopener noreferrer"
 						target="_blank">

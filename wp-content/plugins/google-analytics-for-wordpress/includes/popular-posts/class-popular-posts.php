@@ -495,7 +495,7 @@ class MonsterInsights_Popular_Posts {
 	 *
 	 * @param string $theme The theme for which  we're building the style.
 	 * @param string $object Object we're styling like title, label, background, etc.
-	 * @param array  $atts Attributes passed from shortcode/block.
+	 * @param array $atts Attributes passed from shortcode/block.
 	 * @param string $key The key of the style we're going to output.
 	 *
 	 * @return string
@@ -702,6 +702,7 @@ class MonsterInsights_Popular_Posts {
 
 		if ( apply_filters( 'monsterinsights_popular_posts_show_duplicates', true ) && count( $posts ) > 0 && count( $this->shown_posts ) > 0 && count( $returned_posts ) === 0 ) {
 			$this->shown_posts = array(); // Reset shown posts.
+
 			return $this->get_posts_to_display(); // Run the function to grab the same posts again.
 		}
 

@@ -95,7 +95,7 @@ class MonsterInsights_Popular_Posts_Ajax {
 	 * Helper to get themes by type.
 	 *
 	 * @param string $type The widget type: inline/widget/products.
-	 * @param bool   $styled Whether to style the selected theme or not.
+	 * @param bool $styled Whether to style the selected theme or not.
 	 *
 	 * @return array
 	 */

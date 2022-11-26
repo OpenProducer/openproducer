@@ -331,24 +331,59 @@ class WPForms_Constant_Contact extends WPForms_Provider {
 	 *
 	 * @since 1.3.6
 	 *
-	 * @param array $data
-	 * @param string $form_id
+	 * @param array  $data    Contact data.
+	 * @param string $form_id Form ID.
 	 *
-	 * @return mixed id or error object
+	 * @return WP_Error|string Unique ID or error object
 	 */
-	public function api_auth( $data = array(), $form_id = '' ) {
+	public function api_auth( $data = [], $form_id = '' ) {
 
-		$id        = uniqid();
-		$providers = wpforms_get_providers_options();
+		$this->access_token = isset( $data['authcode'] ) ? $data['authcode'] : '';
+		$user               = $this->get_account_information();
 
-		$providers[ $this->slug ][ $id ] = array(
-			'access_token' => sanitize_text_field( $data['authcode'] ),
-			'label'        => sanitize_text_field( $data['label'] ),
-			'date'         => time(),
+		if ( is_wp_error( $user ) ) {
+			return $user;
+		}
+
+		$id = uniqid();
+
+		wpforms_update_providers_options(
+			$this->slug,
+			[
+				'access_token' => sanitize_text_field( $data['authcode'] ),
+				'label'        => sanitize_text_field( $data['label'] ),
+				'date'         => time(),
+			],
+			$id
 		);
-		update_option( 'wpforms_providers', $providers );
 
 		return $id;
+	}
+
+	/**
+	 * Get account information.
+	 *
+	 * @since 1.7.6
+	 *
+	 * @return array|WP_Error
+	 */
+	public function get_account_information() {
+
+		$response = wp_remote_get( 'https://api.constantcontact.com/v2/account/info?api_key=' . $this->api_key . '&access_token=' . $this->access_token );
+
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		$user = json_decode( wp_remote_retrieve_body( $response ), true );
+
+		if ( ! empty( $user[0]['error_key'] ) ) {
+			$message = ! empty( $user[0]['error_message'] ) ? $user[0]['error_message'] : '';
+
+			return new WP_Error( $this->slug . '_error', $message );
+		}
+
+		return $response;
 	}
 
 	/**
@@ -518,13 +553,13 @@ class WPForms_Constant_Contact extends WPForms_Provider {
 
 			<?php
 			printf(
-				'<input type="text" data-name="authcode" placeholder="%s %s" class="wpforms-required">',
+				'<input type="text" data-name="authcode" placeholder="%s %s *" class="wpforms-required">',
 				esc_attr( $this->name ),
 				esc_attr__( 'Authorization Code', 'wpforms-lite' )
 			);
 
 			printf(
-				'<input type="text" data-name="label" placeholder="%s %s" class="wpforms-required">',
+				'<input type="text" data-name="label" placeholder="%s %s *" class="wpforms-required">',
 				esc_attr( $this->name ),
 				esc_attr__( 'Account Nickname', 'wpforms-lite' )
 			);
@@ -596,6 +631,40 @@ class WPForms_Constant_Contact extends WPForms_Provider {
 	 *************************************************************************/
 
 	/**
+	 * AJAX to add a provider from the settings integrations tab.
+	 *
+	 * @since 1.7.6
+	 */
+	public function integrations_tab_add() {
+
+		// phpcs:ignore WordPress.Security.NonceVerification, WordPress.Security.ValidatedSanitizedInput
+		if ( $_POST['provider'] !== $this->slug ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification, WordPress.Security.ValidatedSanitizedInput
+		$data = ! empty( $_POST['data'] ) ? wp_parse_args( wp_unslash( $_POST['data'] ), [] ) : [];
+
+		if ( empty( $data['authcode'] ) ) {
+			wp_send_json_error(
+				[
+					'error_msg' => esc_html__( 'The "Authorization Code" is required.', 'wpforms-lite' ),
+				]
+			);
+		}
+
+		if ( empty( $data['label'] ) ) {
+			wp_send_json_error(
+				[
+					'error_msg' => esc_html__( 'The "Account Nickname" is required.', 'wpforms-lite' ),
+				]
+			);
+		}
+
+		parent::integrations_tab_add();
+	}
+
+	/**
 	 * Form fields to add a new provider account.
 	 *
 	 * @since 1.3.6
@@ -623,13 +692,13 @@ class WPForms_Constant_Contact extends WPForms_Provider {
 
 		<?php
 		printf(
-			'<input type="text" name="authcode" placeholder="%s %s" class="wpforms-required">',
+			'<input type="text" name="authcode" placeholder="%s %s *" class="wpforms-required">',
 			esc_attr( $this->name ),
 			esc_attr__( 'Authorization Code', 'wpforms-lite' )
 		);
 
 		printf(
-			'<input type="text" name="label" placeholder="%s %s" class="wpforms-required">',
+			'<input type="text" name="label" placeholder="%s %s *" class="wpforms-required">',
 			esc_attr( $this->name ),
 			esc_attr__( 'Account Nickname', 'wpforms-lite' )
 		);

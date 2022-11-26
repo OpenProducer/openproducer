@@ -199,7 +199,7 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 			// Set focus to the field that is currently displayed.
 			$.each( [ el.$selectPage, el.$newPageTitle ], function() {
 				if ( this.is( ':visible' ) ) {
-					this.focus();
+					this.trigger( 'focus' );
 				}
 			} );
 
@@ -434,7 +434,7 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 		 *
 		 * @since 1.6.2
 		 *
-		 * @param {numeric} openFormId Form ID to embed. Used only if called outside of the form builder.
+		 * @param {numeric} openFormId Form ID to embed. Used only if called outside the form builder.
 		 */
 		openPopup: function( openFormId ) {
 

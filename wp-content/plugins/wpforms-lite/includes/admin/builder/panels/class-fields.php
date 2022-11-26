@@ -38,7 +38,18 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 	 * @since 1.0.0
 	 * @since 1.6.8 All the builder stylesheets enqueues moved to the `\WPForms_Builder::enqueues()`.
 	 */
-	public function enqueues() {}
+	public function enqueues() {
+
+		$min = wpforms_get_min_suffix();
+
+		wp_enqueue_script(
+			'wpforms-builder-drag-fields',
+			WPFORMS_PLUGIN_URL . "assets/js/components/admin/builder/drag-fields{$min}.js",
+			[ 'wpforms-builder' ],
+			WPFORMS_VERSION,
+			true
+		);
+	}
 
 	/**
 	 * Output the Field panel sidebar.
@@ -149,7 +160,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 							<p class="wpforms-field-hcaptcha-title"><?php esc_html_e( 'hCaptcha', 'wpforms-lite' ); ?></p>
 							<p class="wpforms-field-recaptcha-title"><?php esc_html_e( 'reCAPTCHA', 'wpforms-lite' ); ?></p>
 							<p class="wpforms-field-recaptcha-desc">
-								<span class="wpforms-field-recaptcha-desc-txt"><?php esc_html_e( 'Enabled', 'wpforms-lite' ); ?></span>&nbsp;<svg class="wpforms-field-recaptcha-desc-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M512 256c0-37.7-23.7-69.9-57.1-82.4 14.7-32.4 8.8-71.9-17.9-98.6-26.7-26.7-66.2-32.6-98.6-17.9C325.9 23.7 293.7 0 256 0s-69.9 23.7-82.4 57.1c-32.4-14.7-72-8.8-98.6 17.9-26.7 26.7-32.6 66.2-17.9 98.6C23.7 186.1 0 218.3 0 256s23.7 69.9 57.1 82.4c-14.7 32.4-8.8 72 17.9 98.6 26.6 26.6 66.1 32.7 98.6 17.9 12.5 33.3 44.7 57.1 82.4 57.1s69.9-23.7 82.4-57.1c32.6 14.8 72 8.7 98.6-17.9 26.7-26.7 32.6-66.2 17.9-98.6 33.4-12.5 57.1-44.7 57.1-82.4zm-144.8-44.25L236.16 341.74c-4.31 4.28-11.28 4.25-15.55-.06l-75.72-76.33c-4.28-4.31-4.25-11.28.06-15.56l26.03-25.82c4.31-4.28 11.28-4.25 15.56.06l42.15 42.49 97.2-96.42c4.31-4.28 11.28-4.25 15.55.06l25.82 26.03c4.28 4.32 4.26 11.29-.06 15.56z"></path></svg>
+								<span class="wpforms-field-recaptcha-desc-txt"><?php esc_html_e( 'Enabled', 'wpforms-lite' ); ?></span><svg class="wpforms-field-recaptcha-desc-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M512 256c0-37.7-23.7-69.9-57.1-82.4 14.7-32.4 8.8-71.9-17.9-98.6-26.7-26.7-66.2-32.6-98.6-17.9C325.9 23.7 293.7 0 256 0s-69.9 23.7-82.4 57.1c-32.4-14.7-72-8.8-98.6 17.9-26.7 26.7-32.6 66.2-17.9 98.6C23.7 186.1 0 218.3 0 256s23.7 69.9 57.1 82.4c-14.7 32.4-8.8 72 17.9 98.6 26.6 26.6 66.1 32.7 98.6 17.9 12.5 33.3 44.7 57.1 82.4 57.1s69.9-23.7 82.4-57.1c32.6 14.8 72 8.7 98.6-17.9 26.7-26.7 32.6-66.2 17.9-98.6 33.4-12.5 57.1-44.7 57.1-82.4zm-144.8-44.25L236.16 341.74c-4.31 4.28-11.28 4.25-15.55-.06l-75.72-76.33c-4.28-4.31-4.25-11.28.06-15.56l26.03-25.82c4.31-4.28 11.28-4.25 15.56.06l42.15 42.49 97.2-96.42c4.31-4.28 11.28-4.25 15.55.06l25.82 26.03c4.28 4.32 4.26 11.29-.06 15.56z"></path></svg>
 							</p>
 						</div>
 					</div>
@@ -162,7 +173,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 				printf( '<p class="wpforms-field-submit" style="%1$s"><input type="submit" value="%2$s" class="wpforms-field-submit-button"></p>', esc_attr( $submit_style ), esc_attr( $submit ) );
 
 				/** This action is documented in includes/class-frontend.php. */
-				do_action( 'wpforms_display_submit_after', $this->form_data );
+				do_action( 'wpforms_display_submit_after', $this->form_data, 'submit' ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 				?>
 
 				<?php wpforms_debug_data( $this->form_data ); ?>
@@ -194,6 +205,30 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 				'fields'     => [],
 			],
 		];
+
+		/**
+		 * Allows developers to modify content of the the Add Field tab.
+		 *
+		 * With this filter developers can add their own fields or even fields groups.
+		 *
+		 * @since 1.4.0
+		 *
+		 * @param array $fields {
+		 *     Fields data multidimensional array.
+		 *
+		 *     @param array $standard Standard fields group.
+		 *         @param string $group_name Group name.
+		 *         @param array  $fields     Fields array.
+		 *
+		 *     @param array $fancy    Fancy fields group.
+		 *         @param string $group_name Group name.
+		 *         @param array  $fields     Fields array.
+		 *
+		 *     @param array $payment  Payment fields group.
+		 *         @param string $group_name Group name.
+		 *         @param array  $fields     Fields array.
+		 * }
+		 */
 		$fields = apply_filters( 'wpforms_builder_fields_buttons', $fields );
 
 		// Output the buttons.
@@ -214,7 +249,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 			echo '<div class="wpforms-add-fields-buttons">';
 
 			foreach ( $group['fields'] as $field ) {
-				/*
+				/**
 				 * Attributes of the form field button on the Add Fields tab in the Form Builder.
 				 *
 				 * @since 1.5.1
@@ -301,62 +336,117 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 			return;
 		}
 
-		$fields            = $this->form_data['fields'];
-		$field_helper_hide = ! empty( $_COOKIE['wpforms_field_helper_hide'] );
+		/**
+		 * Filters the fields which must be displayed on the base level on the preview panel in the Form Builder.
+		 *
+		 * @since 1.7.7
+		 *
+		 * @param array $fields Form fields data.
+		 */
+		$fields = (array) apply_filters( 'wpforms_builder_panel_fields_preview_fields', $this->form_data['fields'] );
 
 		foreach ( $fields as $field ) {
 
-			$css  = ! empty( $field['size'] ) ? 'size-' . esc_attr( $field['size'] ) : '';
-			$css .= ! empty( $field['label_hide'] ) ? ' label_hide' : '';
-			$css .= isset( $field['label'] ) && empty( $field['label'] ) && $field['type'] !== 'html' ? ' label_empty' : '';
-			$css .= ! empty( $field['sublabel_hide'] ) ? ' sublabel_hide' : '';
-			$css .= ! empty( $field['required'] ) ? ' required' : '';
-			$css .= ! empty( $field['input_columns'] ) && $field['input_columns'] === '2' ? ' wpforms-list-2-columns' : '';
-			$css .= ! empty( $field['input_columns'] ) && $field['input_columns'] === '3' ? ' wpforms-list-3-columns' : '';
-			$css .= ! empty( $field['input_columns'] ) && $field['input_columns'] === 'inline' ? ' wpforms-list-inline' : '';
-			$css .= isset( $field['meta']['delete'] ) && $field['meta']['delete'] === false ? ' no-delete' : '';
-			$css .= isset( $field['meta']['duplicate'] ) && $field['meta']['duplicate'] === false ? ' no-duplicate' : '';
-
-			$css = apply_filters( 'wpforms_field_preview_class', $css, $field );
-
-			if ( ! has_action( "wpforms_display_field_{$field['type']}" ) ) {
-				$this->unavailable_fields_preview( $field );
-
-				continue;
-			}
-
-			printf(
-				'<div class="wpforms-field wpforms-field-%1$s %2$s" id="wpforms-field-%3$d" data-field-id="%3$d" data-field-type="%1$s">',
-				esc_attr( $field['type'] ),
-				esc_attr( $css ),
-				esc_attr( $field['id'] )
+			$this->preview_single_field(
+				$field,
+				[]
 			);
+		}
+	}
 
-			if ( apply_filters( 'wpforms_field_preview_display_duplicate_button', true, $field, $this->form_data ) ) {
-				printf( '<a href="#" class="wpforms-field-duplicate" title="%s"><i class="fa fa-files-o" aria-hidden="true"></i></a>', esc_html__( 'Duplicate Field', 'wpforms-lite' ) );
-			}
+	/**
+	 * Preview single field.
+	 *
+	 * @since 1.7.7
+	 *
+	 * @param array $field Field data.
+	 * @param array $args  Additional arguments.
+	 */
+	public function preview_single_field( $field, $args ) {
 
-			printf( '<a href="#" class="wpforms-field-delete" title="%s"><i class="fa fa-trash-o" aria-hidden="true"></i></a>', esc_html__( 'Delete Field', 'wpforms-lite' ) );
+		$class  = ! empty( $field['size'] ) ? 'size-' . esc_attr( $field['size'] ) : '';
+		$class .= ! empty( $field['label_hide'] ) ? ' label_hide' : '';
+		$class .= isset( $field['label'] ) && empty( $field['label'] ) && $field['type'] !== 'html' ? ' label_empty' : '';
+		$class .= ! empty( $field['sublabel_hide'] ) ? ' sublabel_hide' : '';
+		$class .= ! empty( $field['required'] ) ? ' required' : '';
+		$class .= isset( $field['meta']['delete'] ) && $field['meta']['delete'] === false ? ' no-delete' : '';
+		$class .= isset( $field['meta']['duplicate'] ) && $field['meta']['duplicate'] === false ? ' no-duplicate' : '';
 
-			if ( ! $field_helper_hide ) {
-				printf(
-					'<div class="wpforms-field-helper">
+		if ( ! empty( $field['input_columns'] ) ) {
+			$class .= $field['input_columns'] === '2' ? ' wpforms-list-2-columns' : '';
+			$class .= $field['input_columns'] === '3' ? ' wpforms-list-3-columns' : '';
+			$class .= $field['input_columns'] === 'inline' ? ' wpforms-list-inline' : '';
+		}
+
+		/**
+		 * Filters class attribute of the field preview container in the Form Builder.
+		 *
+		 * @since 1.4.0
+		 *
+		 * @param string $css   Field preview class.
+		 * @param array  $field Field data.
+		 */
+		$class = apply_filters( 'wpforms_field_preview_class', $class, $field ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+
+		if ( ! has_action( "wpforms_display_field_{$field['type']}" ) ) {
+			$this->unavailable_fields_preview( $field );
+
+			return;
+		}
+
+		printf(
+			'<div class="wpforms-field wpforms-field-%1$s %2$s" id="wpforms-field-%3$d" data-field-id="%3$d" data-field-type="%1$s">',
+			esc_attr( $field['type'] ),
+			esc_attr( $class ),
+			absint( $field['id'] )
+		);
+
+		/**
+		 * Filters display field duplicate button flag.
+		 *
+		 * @since 1.5.6.2
+		 *
+		 * @param bool  $display_duplicate_button Display field duplicate button flag.
+		 * @param array $field                    Field data.
+		 * @param array $form_data                Form data.
+		 */
+		if ( apply_filters( 'wpforms_field_preview_display_duplicate_button', true, $field, $this->form_data ) ) { // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+			printf(
+				'<a href="#" class="wpforms-field-duplicate" title="%s"><i class="fa fa-files-o" aria-hidden="true"></i></a>',
+				esc_attr__( 'Duplicate Field', 'wpforms-lite' )
+			);
+		}
+
+		printf(
+			'<a href="#" class="wpforms-field-delete" title="%s"><i class="fa fa-trash-o" aria-hidden="true"></i></a>',
+			esc_attr__( 'Delete Field', 'wpforms-lite' )
+		);
+
+		if ( empty( $_COOKIE['wpforms_field_helper_hide'] ) ) {
+			printf(
+				'<div class="wpforms-field-helper">
 						<span class="wpforms-field-helper-edit">%s</span>
 						<span class="wpforms-field-helper-drag">%s</span>
 						<span class="wpforms-field-helper-hide" title="%s">
 							<i class="fa fa-times-circle" aria-hidden="true"></i>
 						</span>
 					</div>',
-					esc_html__( 'Click to Edit', 'wpforms-lite' ),
-					esc_html__( 'Drag to Reorder', 'wpforms-lite' ),
-					esc_html__( 'Hide Helper', 'wpforms-lite' )
-				);
-			}
-
-			do_action( "wpforms_builder_fields_previews_{$field['type']}", $field );
-
-			echo '</div>';
+				esc_html__( 'Click to Edit', 'wpforms-lite' ),
+				esc_html__( 'Drag to Reorder', 'wpforms-lite' ),
+				esc_attr__( 'Hide Helper', 'wpforms-lite' )
+			);
 		}
+
+		/**
+		 * Fires after the field preview output in the Form Builder.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $field Field data.
+		 */
+		do_action( "wpforms_builder_fields_previews_{$field['type']}", $field ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+
+		echo '</div>';
 	}
 
 	/**
@@ -424,7 +514,7 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 			'<b>' . $field_type . '</b>'
 		);
 
-		echo '<div class="wpforms-alert wpforms-alert-warning wpforms-alert-dismissible">';
+		echo '<div class="wpforms-alert wpforms-alert-warning wpforms-alert-dismissible wpforms-alert-field-not-available">';
 
 		printf(
 			'<div class="wpforms-alert-message">
@@ -499,7 +589,6 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 	 */
 	public function field_preview_templates() {
 
-		// phpcs:disable WordPress.WP.I18n
 		// Checkbox, Radio, and Payment Multiple/Checkbox field choices.
 		?>
 		<script type="text/html" id="tmpl-wpforms-field-preview-checkbox-radio-payment-multiple">
@@ -540,7 +629,6 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 			<# } #>
 		</script>
 		<?php
-		// phpcs:enable
 	}
 
 	/**

@@ -8,14 +8,16 @@ class BVInfoCallback extends BVCallbackBase {
 	public $settings;
 	public $siteinfo;
 	public $bvinfo;
+	public $bvapi;
 	
-	const INFO_WING_VERSION = 1.1;
+	const INFO_WING_VERSION = 1.5;
 
 	public function __construct($callback_handler) {
 		$this->db = $callback_handler->db;
 		$this->siteinfo = $callback_handler->siteinfo;
 		$this->settings = $callback_handler->settings;
 		$this->bvinfo = new DHInfo($this->settings);
+		$this->bvapi = new DHWPAPI($this->settings);
 	}
 
 	public function getPosts($post_type, $count = 5) {
@@ -155,7 +157,7 @@ class BVInfoCallback extends BVCallbackBase {
 			'wp_local_string' => $wp_local_package,
 			'charset_collate' => $db->getCharsetCollate()
 		);
-		return array("wp" => $wp_info);
+		return $wp_info;
 	}
 
 	public function getUsers($full, $args = array()) {
@@ -223,21 +225,21 @@ class BVInfoCallback extends BVCallbackBase {
 	}
 
 	public function cookieInfo() {
-		$resp = array();
+		$info = array();
 		if (defined('COOKIEPATH'))
-			$resp['cookiepath'] = COOKIEPATH;
+			$info['cookiepath'] = COOKIEPATH;
 		if (defined('COOKIE_DOMAIN'))
-			$resp['cookiedomain'] = COOKIE_DOMAIN;
-		return array('cookieinfo' => $resp);
+			$info['cookiedomain'] = COOKIE_DOMAIN;
+		return $info;
 	}
 	
 	public function activate() {
-		$resp = array();
-		$this->siteinfo->basic($resp);
-		$this->servicesInfo($resp);
-		$this->dbconf($resp);
-		$this->availableFunctions($resp);
-		return array('actinfo' => $resp);
+		$info = array();
+		$this->siteinfo->basic($info);
+		$this->servicesInfo($info);
+		$this->dbconf($info);
+		$this->availableFunctions($info);
+		return $info;
 	}
 
 	public function getHostInfo() {
@@ -255,7 +257,19 @@ class BVInfoCallback extends BVCallbackBase {
 			$host_info['WPE_APIKEY'] = WPE_APIKEY;
 		}
 
-		return array('host_info' => $host_info);
+		return $host_info;
+	}
+
+	public function serverConfig() {
+		return array(
+			'software' => $_SERVER['SERVER_SOFTWARE'],
+			'sapi' => (function_exists('php_sapi_name')) ? php_sapi_name() : false,
+			'has_apache_get_modules' => function_exists('apache_get_modules'),
+			'posix_getuid' => (function_exists('posix_getuid')) ? posix_getuid() : null,
+			'uid' => (function_exists('getmyuid')) ? getmyuid() : null,
+			'user_ini' => ini_get('user_ini.filename'),
+			'php_major_version' => PHP_MAJOR_VERSION
+		);
 	}
 
 	function refreshUpdatesInfo() {
@@ -320,16 +334,42 @@ class BVInfoCallback extends BVCallbackBase {
 		return array("transient" => $transient);
 	}
 
-	function getPluginsHandler() {
-		return array_merge($this->getPlugins(), $this->getTransient('update_plugins'));
+	function getPluginsHandler($args = array()) {
+		$result = array_merge($this->getPlugins(), $this->getTransient('update_plugins'));
+
+		if (array_key_exists('clear_filters', $args)) {
+			$filters = $args['clear_filters'];
+			foreach ($filters as $filter)
+				remove_all_filters($filter);
+			$transient_without_filters = $this->getTransient('update_plugins');
+			$result['transient_without_filters'] = $transient_without_filters['transient'];
+		}
+
+		return $result;
 	}
 
-	function getThemesHandler() {
-		return array_merge($this->getThemes(), $this->getTransient('update_themes'));
+	function getThemesHandler($args = array()) {
+		$result = array_merge($this->getThemes(), $this->getTransient('update_themes'));
+
+		if (array_key_exists('clear_filters', $args)) {
+			$filters = $args['clear_filters'];
+			foreach ($filters as $filter)
+				remove_all_filters($filter);
+			$transient_without_filters = $this->getTransient('update_themes');
+			$result['transient_without_filters'] = $transient_without_filters['transient'];
+		}
+
+		return $result;
 	}
 
-	public function getSiteInfo($args) {
+	function getSiteInfo($args) {
 		$result = array();
+
+		if (array_key_exists('pre_refresh_get_options', $args)) {
+			$result['pre_refresh_get_options'] = $this->settings->getOptions(
+					$args['pre_refresh_get_options']
+			);
+		}
 
 		if (array_key_exists('refresh', $args))
 			$result['refreshed'] = $this->refreshUpdatesInfo();
@@ -338,16 +378,70 @@ class BVInfoCallback extends BVCallbackBase {
 			$result['users'] = $this->getUsersHandler($args['users']);
 
 		if (array_key_exists('plugins', $args))
-			$result['plugins'] = $this->getPluginsHandler();
+			$result['plugins'] = $this->getPluginsHandler($args['plugins']);
 
 		if (array_key_exists('themes', $args))
-			$result['themes'] = $this->getThemesHandler();
+			$result['themes'] = $this->getThemesHandler($args['themes']);
 
 		if (array_key_exists('core', $args))
 			$result['core'] = $this->getTransient('update_core');
 
 		if (array_key_exists('sys', $args))
 			$result['sys'] = $this->getSystemInfo();
+
+		if (array_key_exists('get_options', $args))
+			$result['get_options'] = $this->settings->getOptions($args['get_options']);
+
+		return $result;
+	}
+
+	function pingBV() {
+		$info = array();
+		$this->siteinfo->basic($info);
+		$this->bvapi->pingbv('/bvapi/pingbv', $info);
+		return true;
+	}
+
+	function getPostActivateInfo($args) {
+		$result = array();
+
+		if (array_key_exists('pingbv', $args))
+			$result['pingbv'] = array('status' => $this->pingBV());
+
+		if (array_key_exists('activate_info', $args))
+			$result['activate_info'] = $this->activate();
+
+		if (array_key_exists('cookie_info', $args))
+			$result['cookie_info'] = $this->cookieInfo();
+
+		if (array_key_exists('get_host', $args))
+			$result['get_host'] = $this->getHostInfo();
+
+		if (array_key_exists('get_wp', $args))
+			$result['get_wp'] = $this->getWpInfo();
+
+		if (array_key_exists('get_options', $args))
+			$result['get_options'] = $this->settings->getOptions($args['get_options']);
+
+		if (array_key_exists('get_tables', $args))
+			$result['get_tables'] = $this->db->showTables();
+
+		$result['status'] = true;
+
+		return $result;
+	}
+
+	function getPluginServicesInfo($args) {
+		$result = array();
+
+		if (array_key_exists('get_options', $args))
+			$result['get_options'] = $this->settings->getOptions($args['get_options']);
+
+		if (array_key_exists('pingbv', $args))
+			$result['pingbv'] = array('status' => $this->pingBV());
+
+		if (array_key_exists('server_config', $args))
+			$result['server_config'] = $this->serverConfig();
 
 		return $result;
 	}
@@ -357,10 +451,10 @@ class BVInfoCallback extends BVCallbackBase {
 		$params = $request->params;
 		switch ($request->method) {
 		case "activateinfo":
-			$resp = $this->activate();
+			$resp = array('actinfo' => $this->activate());
 			break;
 		case "ckeyinfo":
-			$resp = $this->cookieInfo();
+			$resp = array('cookieinfo' => $this->cookieInfo());
 			break;
 		case "gtpsts":
 			$count = 5;
@@ -381,7 +475,7 @@ class BVInfoCallback extends BVCallbackBase {
 			$resp = array('sys' => $this->getSystemInfo());
 			break;
 		case "gtwp":
-			$resp = $this->getWpInfo();
+			$resp = array('wp' => $this->getWpInfo());
 			break;
 		case "gtallhdrs":
 			$data = (function_exists('getallheaders')) ? getallheaders() : false;
@@ -403,8 +497,8 @@ class BVInfoCallback extends BVCallbackBase {
 			$resp = $this->getTransient($params['name'], array_key_exists('asarray', $params));
 			break;
 		case "gthost":
-			$resp = $this->getHostInfo();
-			break;	
+			$resp = array('host_info' => $this->getHostInfo());
+			break;
 		case "gtplinfo":
 			$args = array(
 				'slug' => wp_unslash($params['slug'])
@@ -415,8 +509,14 @@ class BVInfoCallback extends BVCallbackBase {
 			$data = apply_filters('plugins_api', false, $action, $args);
 			$resp = array("plugins_info" => $data);
 			break;
+		case "gtpostactinfo":
+			$resp = $this->getPostActivateInfo($params);
+			break;
 		case "gtsteinfo":
 			$resp = $this->getSiteInfo($params);
+			break;
+		case "psinfo":
+			$resp = $this->getPluginServicesInfo($params);
 			break;
 		default:
 			$resp = false;

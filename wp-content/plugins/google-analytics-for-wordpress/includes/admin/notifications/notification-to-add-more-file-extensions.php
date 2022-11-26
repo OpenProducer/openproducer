@@ -11,8 +11,8 @@ final class MonsterInsights_Notification_To_Add_More_File_Extensions extends Mon
 	public $notification_id = 'monsterinsights_notification_to_add_more_file_extensions';
 	public $notification_interval = 20; // in days
 	public $notification_type = array( 'basic', 'lite', 'master', 'plus', 'pro' );
-    public $notification_category = 'insight';
-    public $notification_priority = 2;
+	public $notification_category = 'insight';
+	public $notification_priority = 2;
 
 	/**
 	 * Build Notification

@@ -55,14 +55,16 @@ class Challenge {
 	public function is_challenge_page() {
 
 		return wpforms_is_admin_page() ||
-		       $this->is_builder_page() ||
-		       $this->is_form_embed_page();
+			   $this->is_builder_page() ||
+			   $this->is_form_embed_page();
 	}
 
 	/**
 	 * Check if the current page is a forms builder page related to Challenge.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @return bool
 	 */
 	public function is_builder_page() {
 
@@ -110,40 +112,43 @@ class Challenge {
 	 * Check if the current page is a form embed page edit related to Challenge.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @return bool
 	 */
-	public function is_form_embed_page() {
+	public function is_form_embed_page() { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
-		if ( ! is_admin() || ! is_user_logged_in() ) {
+		if ( ! function_exists( 'get_current_screen' ) || ! is_admin() || ! is_user_logged_in() ) {
 			return false;
 		}
 
 		$screen = get_current_screen();
 
-		if ( ! isset( $screen->id ) || 'page' !== $screen->id ) {
-			return false;
-		}
-
-		if ( ! $this->challenge_active() ) {
+		if ( ! isset( $screen->id ) || $screen->id !== 'page' || ! $this->challenge_active() ) {
 			return false;
 		}
 
 		$step = $this->get_challenge_option( 'step' );
 
-		if ( ! in_array( $step, [ 4, 5 ], true ) ) {
+		if ( ! in_array( $step, [ 3, 4, 5 ], true ) ) {
 			return false;
 		}
 
-		$embed_page = $this->get_challenge_option( 'embed_page' );
+		$embed_page    = $this->get_challenge_option( 'embed_page' );
+		$is_embed_page = false;
 
-		if ( isset( $screen->action ) && 'add' === $screen->action && 0 === $embed_page ) {
-			return true;
+		if ( isset( $screen->action ) && $screen->action === 'add' && $embed_page === 0 ) {
+			$is_embed_page = true;
 		}
 
 		if ( isset( $_GET['post'] ) && $embed_page === (int) $_GET['post'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			return true;
+			$is_embed_page = true;
 		}
 
-		return false;
+		if ( $is_embed_page && $step < 4 ) {
+			$this->set_challenge_option( [ 'step' => 4 ] );
+		}
+
+		return $is_embed_page;
 	}
 
 	/**
@@ -191,14 +196,14 @@ class Challenge {
 
 			wp_enqueue_style(
 				'tooltipster',
-				WPFORMS_PLUGIN_URL . 'assets/css/tooltipster.css',
+				WPFORMS_PLUGIN_URL . 'assets/lib/jquery.tooltipster/jquery.tooltipster.min.css',
 				null,
 				'4.2.6'
 			);
 
 			wp_enqueue_script(
 				'tooltipster',
-				WPFORMS_PLUGIN_URL . 'assets/js/jquery.tooltipster.min.js',
+				WPFORMS_PLUGIN_URL . 'assets/lib/jquery.tooltipster/jquery.tooltipster.min.js',
 				[ 'jquery' ],
 				'4.2.6',
 				true
@@ -228,7 +233,7 @@ class Challenge {
 
 			wp_enqueue_style(
 				'wpforms-font-awesome',
-				WPFORMS_PLUGIN_URL . 'assets/css/font-awesome.min.css',
+				WPFORMS_PLUGIN_URL . 'assets/lib/font-awesome/font-awesome.min.css',
 				null,
 				'4.7.0'
 			);
@@ -247,6 +252,8 @@ class Challenge {
 	 * Get 'wpforms_challenge' option schema.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @return array
 	 */
 	public function get_challenge_option_schema() {
 
@@ -330,10 +337,12 @@ class Challenge {
 		foreach ( $replace as $key => $value ) {
 			if ( in_array( $key, [ 'step', 'user_id', 'form_id', 'embed_page', 'seconds_spent', 'seconds_left' ], true ) ) {
 				$replace[ $key ] = absint( $value );
+
 				continue;
 			}
 			if ( in_array( $key, [ 'feedback_sent', 'feedback_contact_me' ], true ) ) {
 				$replace[ $key ] = wp_validate_boolean( $value );
+
 				continue;
 			}
 			$replace[ $key ] = sanitize_text_field( $value );
@@ -349,18 +358,21 @@ class Challenge {
 	 * Check if any forms are present on a site.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @retun bool
 	 */
 	public function website_has_forms() {
 
-		return (bool) wpforms()->form->get(
+		return (bool) wpforms()->get( 'form' )->get(
 			'',
 			[
 				'numberposts'            => 1,
 				'nopaging'               => false,
-				'fields'                 => 'id',
+				'fields'                 => 'ids',
 				'no_found_rows'          => true,
 				'update_post_meta_cache' => false,
 				'update_post_term_cache' => false,
+				'suppress_filters'       => true,
 			]
 		);
 	}
@@ -369,36 +381,44 @@ class Challenge {
 	 * Check if Challenge was started.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @return bool
 	 */
 	public function challenge_started() {
 
-		return 'started' === $this->get_challenge_option( 'status' );
+		return $this->get_challenge_option( 'status' ) === 'started';
 	}
 
 	/**
-	 * Check if Challenge was inited.
+	 * Check if Challenge was initialized.
 	 *
 	 * @since 1.6.2
+	 *
+	 * @return bool
 	 */
 	public function challenge_inited() {
 
-		return 'inited' === $this->get_challenge_option( 'status' );
+		return $this->get_challenge_option( 'status' ) === 'inited';
 	}
 
 	/**
 	 * Check if Challenge was paused.
 	 *
 	 * @since 1.6.2
+	 *
+	 * @return bool
 	 */
 	public function challenge_paused() {
 
-		return 'paused' === $this->get_challenge_option( 'status' );
+		return $this->get_challenge_option( 'status' ) === 'paused';
 	}
 
 	/**
 	 * Check if Challenge was finished.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @return bool
 	 */
 	public function challenge_finished() {
 
@@ -411,6 +431,8 @@ class Challenge {
 	 * Check if Challenge is in progress.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @return bool
 	 */
 	public function challenge_active() {
 
@@ -421,18 +443,29 @@ class Challenge {
 	 * Force Challenge to start.
 	 *
 	 * @since 1.6.2
+	 *
+	 * @return bool
 	 */
 	public function challenge_force_start() {
 
-		return apply_filters( 'wpforms_admin_challenge_force_start', false );
+		/**
+		 * Allow force start Challenge for testing purposes.
+		 *
+		 * @since 1.6.2.2
+		 *
+		 * @param bool $is_forced True if Challenge should be started. False by default.
+		 */
+		return (bool) apply_filters( 'wpforms_admin_challenge_force_start', false );
 	}
 
 	/**
 	 * Check if Challenge can be started.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @return bool
 	 */
-	public function challenge_can_start() {
+	public function challenge_can_start() { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 		static $can_start = null;
 
@@ -440,7 +473,11 @@ class Challenge {
 			return $can_start;
 		}
 
-		if ( $this->challenge_force_start() ) {
+		if ( $this->challenge_force_skip() ) {
+			$can_start = false;
+		}
+
+		if ( $this->challenge_force_start() && ! $this->is_builder_page() && ! $this->is_form_embed_page() ) {
 			$can_start = true;
 
 			// No need to check something else in this case.
@@ -469,10 +506,6 @@ class Challenge {
 	 */
 	public function init_challenge() {
 
-		if ( ! isset( $_GET['challenge'] ) || 'init' !== $_GET['challenge'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			return;
-		}
-
 		if ( ! $this->challenge_can_start() ) {
 			return;
 		}
@@ -483,8 +516,6 @@ class Challenge {
 				$this->get_challenge_option_schema()
 			)
 		);
-
-		wp_safe_redirect( remove_query_arg( 'challenge' ) );
 	}
 
 	/**
@@ -494,11 +525,15 @@ class Challenge {
 	 */
 	public function challenge_html() {
 
-		if ( $this->challenge_finished() && ! $this->challenge_force_start() ) {
+		if ( $this->challenge_force_skip() || ( $this->challenge_finished() && ! $this->challenge_force_start() ) ) {
 			return;
 		}
 
 		if ( wpforms_is_admin_page() && ! wpforms_is_admin_page( 'getting-started' ) && $this->challenge_can_start() ) {
+
+			// Before showing the Challenge in the `start` state we should reset the option.
+			// In this way we ensure the Challenge will not appear somewhere in the builder where it is not should be.
+			$this->set_challenge_option( [ 'status' => '' ] );
 			$this->challenge_modal_html( 'start' );
 		}
 
@@ -587,7 +622,7 @@ class Challenge {
 	 *
 	 * @since 1.5.0
 	 */
-	public function save_challenge_option_ajax() {
+	public function save_challenge_option_ajax() { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 		check_admin_referer( 'wpforms_challenge_ajax_nonce' );
 
@@ -596,6 +631,7 @@ class Challenge {
 		}
 
 		$schema = $this->get_challenge_option_schema();
+		$query  = [];
 
 		foreach ( $schema as $key => $value ) {
 			if ( isset( $_POST['option_data'][ $key ] ) ) {
@@ -607,7 +643,7 @@ class Challenge {
 			wp_send_json_error();
 		}
 
-		if ( ! empty( $query['status'] ) && 'started' === $query['status'] ) {
+		if ( ! empty( $query['status'] ) && $query['status'] === 'started' ) {
 			$query['started_date_gmt'] = current_time( 'mysql', true );
 		}
 
@@ -615,7 +651,7 @@ class Challenge {
 			$query['finished_date_gmt'] = current_time( 'mysql', true );
 		}
 
-		if ( ! empty( $query['status'] ) && 'skipped' === $query['status'] ) {
+		if ( ! empty( $query['status'] ) && $query['status'] === 'skipped' ) {
 			$query['started_date_gmt']  = current_time( 'mysql', true );
 			$query['finished_date_gmt'] = $query['started_date_gmt'];
 		}
@@ -638,7 +674,7 @@ class Challenge {
 		$message = ! empty( $_POST['contact_data']['message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['contact_data']['message'] ) ) : '';
 		$email   = '';
 
-		if ( ! empty( $_POST['contact_data']['contact_me'] ) && 'true' === $_POST['contact_data']['contact_me'] ) {
+		if ( ! empty( $_POST['contact_data']['contact_me'] ) && $_POST['contact_data']['contact_me'] === 'true' ) {
 			$current_user = wp_get_current_user();
 			$email        = $current_user->user_email;
 			$this->set_challenge_option( [ 'feedback_contact_me' => true ] );
@@ -671,5 +707,17 @@ class Challenge {
 
 		$this->set_challenge_option( [ 'feedback_sent' => true ] );
 		wp_send_json_success();
+	}
+
+	/**
+	 * Force WPForms Challenge to skip.
+	 *
+	 * @since 1.7.6
+	 *
+	 * @return bool
+	 */
+	private function challenge_force_skip() {
+
+		return defined( 'WPFORMS_SKIP_CHALLENGE' ) && WPFORMS_SKIP_CHALLENGE;
 	}
 }

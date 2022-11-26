@@ -7,10 +7,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class MonsterInsights_Lite_Report_YearInReview extends MonsterInsights_Report {
 
 	public $title;
-	public $class   = 'MonsterInsights_Lite_Report_YearInReview';
-	public $name    = 'yearinreview';
+	public $class = 'MonsterInsights_Lite_Report_YearInReview';
+	public $name = 'yearinreview';
 	public $version = '1.0.0';
-	public $level   = 'lite';
+	public $level = 'lite';
 
 	/**
 	 * Primary class constructor.
@@ -50,7 +50,7 @@ final class MonsterInsights_Lite_Report_YearInReview extends MonsterInsights_Rep
 		}
 
 		// Add logged in user name
-		$user_info = wp_get_current_user();
+		$user_info                 = wp_get_current_user();
 		$data['data']['user_name'] = '';
 
 		if ( ! empty( $user_info->user_firstname ) ) {

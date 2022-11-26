@@ -15,6 +15,8 @@
  * @var string $education_attributes Education attributes.
  * @var string $addons_attributes    Required addons attributes.
  * @var array  $template             Template data.
+ * @var string $action_text          Template action button text.
+ * @var string $badge_class          Badge class in case if there is any badge text exists.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,16 +24,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
-<div class="wpforms-template<?php echo esc_attr( $selected_class ); ?><?php echo esc_attr( $license_class ); ?>"
+<div class="wpforms-template<?php echo esc_attr( $selected_class ); ?><?php echo esc_attr( $license_class ); ?><?php echo esc_attr( $badge_class ); ?>"
 	id="wpforms-template-<?php echo sanitize_html_class( $template['slug'] ); ?>">
 
-	<h3 class="wpforms-template-name categories" data-categories="<?php echo esc_attr( $categories ); ?>">
+	<!-- As requirment for Lists.js library data attribute slug is used in classes list. -->
+	<h3 class="wpforms-template-name categories has-access favorite slug" data-categories="<?php echo esc_attr( $categories ); ?>" data-has-access="<?php echo esc_attr( $template['has_access'] ); ?>" data-favorite="<?php echo esc_attr( $template['favorite'] ); ?>" data-slug="<?php echo esc_attr( $template['slug'] ); ?>">
 		<?php echo esc_html( $template['name'] ); ?>
 	</h3>
 
-	<?php if ( ! empty( $badge_text ) ) { ?>
+	<span class="wpforms-template-favorite">
+		<i class="fa fa-heart <?php echo $template['favorite'] ? '' : 'wpforms-hidden'; ?>" title="<?php esc_attr_e( 'Remove from Favorites', 'wpforms-lite' ); ?>"></i>
+		<i class="fa fa-heart-o <?php echo $template['favorite'] ? 'wpforms-hidden' : ''; ?>" title="<?php esc_attr_e( 'Mark as Favorite', 'wpforms-lite' ); ?>"></i>
+	</span>
+
+	<?php if ( ! empty( $badge_text ) ) : ?>
 		<span class="wpforms-template-badge"><?php echo esc_html( $badge_text ); ?></span>
-	<?php } ?>
+	<?php endif; ?>
 
 	<?php if ( ! empty( $template['description'] ) ) : ?>
 		<p class="wpforms-template-desc"><?php echo esc_html( $template['description'] ); ?></p>
@@ -44,11 +52,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			data-slug="<?php echo esc_attr( $template['slug'] ); ?>"
 			<?php echo $education_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<?php echo $addons_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-			<?php
-			$template['slug'] !== 'blank'
-				? esc_html_e( 'Use Template', 'wpforms-lite' )
-				: esc_html_e( 'Create Blank Form', 'wpforms-lite' );
-			?>
+			<?php echo esc_html( $action_text ); ?>
 		</a>
 		<?php if ( $template['url'] !== '' ) : ?>
 			<a class="wpforms-template-demo wpforms-btn wpforms-btn-md wpforms-btn-light-grey"

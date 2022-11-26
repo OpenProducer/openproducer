@@ -233,13 +233,51 @@ body {
   transition: transform 0.15s ease-out;
 }
 
+.jp-banner-cta-button {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0;
+  outline: 0;
+  overflow: hidden;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  box-sizing: border-box;
+  padding: 0.625rem 1.5rem;
+  transition: all 150ms ease-in-out;
+  text-decoration: none;
+}
+@media (max-width: 480px) {
+  .jp-banner-cta-button {
+    width: 100%;
+    text-align: center;
+  }
+}
+.jp-banner-cta-button:hover, .jp-banner-cta-button:active {
+  background: var(--jp-gray-80);
+  border-color: var(--jp-gray-80);
+  color: var(--jp-white);
+}
+.jp-banner-cta-button:focus {
+  box-shadow: none;
+  outline: solid 1px var(--jp-black);
+  outline-offset: 1px;
+}
+
 .jp-recommendations-banner-main {
   position: relative;
   display: grid;
   grid-template-columns: 55% 45%;
   min-height: 480px;
   margin: 3rem 0 1.25rem 1.25rem;
-  background: linear-gradient(-120deg, white 0%, white 60%, #f9f9f6 60%);
+  background: #fff;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.03), 0px 1px 2px rgba(0, 0, 0, 0.03);
   border: 1px solid #d5d5d5;
 }
@@ -335,16 +373,9 @@ body {
 }
 
 .jp-recommendations-banner__checkboxes {
-  display: grid;
-  gap: 1rem;
-  grid-template-rows: auto auto;
-  grid-template-columns: auto auto;
-}
-@media (max-width: 480px) {
-  .jp-recommendations-banner__checkboxes {
-    grid-template-rows: auto auto auto auto;
-    grid-template-columns: auto;
-  }
+  display: flex;
+  flex-direction: column;
+  text-align: right;
 }
 
 .jp-recommendations-answer__checkbox-label {
@@ -355,6 +386,7 @@ body {
   border-radius: 2px;
   cursor: pointer;
   background: #fff;
+  margin-bottom: 1rem;
 }
 .jp-recommendations-answer__checkbox-label.checked {
   background: #f6f7f7;
@@ -387,42 +419,6 @@ body {
   margin-bottom: 2rem;
 }
 
-.jp-recommendations-banner__continue-button {
-  background: #000;
-  border-color: #000;
-  color: #fff;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 4px;
-  cursor: pointer;
-  display: inline-block;
-  margin: 0;
-  outline: 0;
-  overflow: hidden;
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-overflow: ellipsis;
-  vertical-align: top;
-  box-sizing: border-box;
-  padding: 0.625rem 1.5rem;
-  transition: all 150ms ease-in-out;
-}
-@media (max-width: 480px) {
-  .jp-recommendations-banner__continue-button {
-    width: 100%;
-  }
-}
-.jp-recommendations-banner__continue-button:hover, .jp-recommendations-banner__continue-button:active {
-  background: var(--jp-gray-80);
-  border-color: var(--jp-gray-80);
-  color: var(--jp-white);
-}
-.jp-recommendations-banner__continue-button:focus {
-  box-shadow: none;
-  outline: solid 1px var(--jp-black);
-  outline-offset: 1px;
-}
-
 .jp-recommendations-banner__continue-description {
   color: #646970;
   margin: 0.875rem auto 0 auto;
@@ -435,12 +431,13 @@ body {
 }
 
 .jp-recommendations-banner__illustration-container {
+  background: radial-gradient(circle at 60%, rgba(6, 158, 8, 0.15) 0%, rgba(255, 255, 255, 0) 75%), radial-gradient(circle at 30% 80%, rgba(206, 217, 242, 0.5) 5%, rgba(255, 255, 255, 0) 25%), radial-gradient(circle at 50% 15%, rgba(245, 230, 179, 0.5) 0%, rgba(255, 255, 255, 0) 35%);
   width: 100%;
   position: relative;
 }
 .jp-recommendations-banner__illustration-container img {
   position: absolute;
-  bottom: 0;
+  top: 15px;
   left: 0;
 }
 @media (min-width: 1152px) {
@@ -459,35 +456,42 @@ body {
   }
 }
 
-.jp-recommendations-banner__illustration-background {
-  width: 100%;
-  max-height: 480px;
-}
-
 .jp-recommendations-banner__illustration-foreground {
-  width: 75%;
-  margin: 10%;
+  width: 100%;
+  max-width: 495px;
 }
 
 .jp-recommendations-banner__notice-dismiss {
-  background: 100% 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 1rem 1rem;
+  padding: 1rem;
+  background: none;
   border: none;
   color: #646970;
+  font-size: 1rem;
+  line-height: 1;
   cursor: pointer;
-  display: flex;
-  font-size: 16px;
-  line-height: 1.5;
-  margin: 0;
-  padding: 2rem 0 2rem 2rem;
-  float: left;
+}
+@media (max-width: 480px) {
+  .jp-recommendations-banner__notice-dismiss {
+    margin-top: 0;
+  }
 }
 .jp-recommendations-banner__notice-dismiss:hover, .jp-recommendations-banner__notice-dismiss:active {
   color: #101517;
 }
 .jp-recommendations-banner__notice-dismiss:hover .jp-recommendations-banner__svg-dismiss, .jp-recommendations-banner__notice-dismiss:active .jp-recommendations-banner__svg-dismiss {
-  fill: #101517;
+  fill: currentColor;
+}
+.jp-recommendations-banner__notice-dismiss:focus {
+  outline-color: #101517;
 }
 .jp-recommendations-banner__notice-dismiss .jp-recommendations-banner__svg-dismiss {
-  fill: #646970;
-  margin-left: 0.25rem;
+  margin-inline-end: 0.25rem;
+  fill: currentColor;
 }

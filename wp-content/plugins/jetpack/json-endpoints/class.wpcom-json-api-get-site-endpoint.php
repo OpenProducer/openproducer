@@ -62,6 +62,7 @@ class WPCOM_JSON_API_GET_Site_Endpoint extends WPCOM_JSON_API_Endpoint {
 		'is_following'                => '(bool) If the current user is subscribed to this site in the reader',
 		'organization_id'             => '(int) P2 Organization identifier.',
 		'options'                     => '(array) An array of options/settings for the blog. Only viewable by users with post editing rights to the site. Note: Post formats is deprecated, please see /sites/$id/post-formats/',
+		'p2_thumbnail_elements'       => '(array) Details used to render a thumbnail of the site. P2020 themed sites only.',
 		'plan'                        => '(array) Details of the current plan for this site.',
 		'updates'                     => '(array) An array of available updates for plugins, themes, wordpress, and languages.',
 		'jetpack_modules'             => '(array) A list of active Jetpack modules.',
@@ -73,6 +74,7 @@ class WPCOM_JSON_API_GET_Site_Endpoint extends WPCOM_JSON_API_Endpoint {
 		'is_fse_eligible'             => '(bool) If the site is capable of Full Site Editing or not',
 		'is_core_site_editor_enabled' => '(bool) If the site has the core site editor enabled.',
 		'is_wpcom_atomic'             => '(bool) If the site is a WP.com Atomic one.',
+		'user_interactions'           => '(array) An array of user interactions with a site.',
 	);
 
 	/**
@@ -147,6 +149,7 @@ class WPCOM_JSON_API_GET_Site_Endpoint extends WPCOM_JSON_API_Endpoint {
 		'default_ping_status',
 		'software_version',
 		'created_at',
+		'updated_at',
 		'wordads',
 		'publicize_permanently_disabled',
 		'frame_nonce',
@@ -178,7 +181,19 @@ class WPCOM_JSON_API_GET_Site_Endpoint extends WPCOM_JSON_API_Endpoint {
 		'selected_features',
 		'anchor_podcast',
 		'is_difm_lite_in_progress',
+		'difm_lite_site_options',
 		'site_intent',
+	);
+
+	/**
+	 * List of DIFM Lite options to be displayed
+	 *
+	 * @var array $displayed_difm_lite_site_options
+	 */
+	protected static $displayed_difm_lite_site_options = array(
+		'site_category',
+		'is_website_content_submitted',
+		'selected_page_titles',
 	);
 
 	/**
@@ -189,6 +204,7 @@ class WPCOM_JSON_API_GET_Site_Endpoint extends WPCOM_JSON_API_Endpoint {
 	protected static $jetpack_response_field_additions = array(
 		'subscribers_count',
 		'site_migration',
+		'site_owner',
 	);
 
 	/**
@@ -223,6 +239,7 @@ class WPCOM_JSON_API_GET_Site_Endpoint extends WPCOM_JSON_API_Endpoint {
 		// and defaults to `0000-00-00T00:00:00+00:00` from the Jetpack site.
 		// See https://github.com/Automattic/jetpack/blob/58638f46094b36f5df9cbc4570006544f0ad300c/sal/class.json-api-site-base.php#L387.
 		'created_at',
+		'updated_at',
 	);
 
 	/**
@@ -518,6 +535,11 @@ class WPCOM_JSON_API_GET_Site_Endpoint extends WPCOM_JSON_API_Endpoint {
 			case 'is_wpcom_atomic':
 				$response[ $key ] = $this->site->is_wpcom_atomic();
 				break;
+			case 'user_interactions':
+				$response[ $key ] = $this->site->get_user_interactions();
+				break;
+			case 'p2_thumbnail_elements':
+				$response[ $key ] = $this->site->get_p2_thumbnail_elements();
 		}
 
 		do_action( 'post_render_site_response_key', $key );
@@ -636,6 +658,9 @@ class WPCOM_JSON_API_GET_Site_Endpoint extends WPCOM_JSON_API_Endpoint {
 				case 'created_at':
 					$options[ $key ] = $site->get_registered_date();
 					break;
+				case 'updated_at':
+					$options[ $key ] = $site->get_last_update_date();
+					break;
 				case 'wordads':
 					$options[ $key ] = $site->has_wordads();
 					break;
@@ -753,6 +778,21 @@ class WPCOM_JSON_API_GET_Site_Endpoint extends WPCOM_JSON_API_Endpoint {
 					break;
 				case 'is_difm_lite_in_progress':
 					$options[ $key ] = $site->is_difm_lite_in_progress();
+					break;
+				case 'difm_lite_site_options':
+					$difm_lite_options          = $site->get_difm_lite_site_options();
+					$visible_options            = self::$displayed_difm_lite_site_options;
+					$filtered_difm_lite_options = new stdClass();
+					if ( $difm_lite_options ) {
+						$filtered_difm_lite_options = array_filter(
+							$difm_lite_options,
+							function ( $key ) use ( $visible_options ) {
+								return in_array( $key, $visible_options, true );
+							},
+							ARRAY_FILTER_USE_KEY
+						);
+					}
+					$options[ $key ] = $filtered_difm_lite_options;
 					break;
 				case 'site_intent':
 					$options[ $key ] = $site->get_site_intent();
@@ -890,7 +930,9 @@ class WPCOM_JSON_API_List_Post_Formats_Endpoint extends WPCOM_JSON_API_Endpoint 
 		$all_formats = get_post_format_strings();
 		$supported   = get_theme_support( 'post-formats' );
 
-		$response          = array();
+		$response          = array(
+			'formats' => array(),
+		);
 		$supported_formats = $response['formats'];
 
 		if ( isset( $supported[0] ) ) {

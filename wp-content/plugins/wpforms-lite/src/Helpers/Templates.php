@@ -127,4 +127,99 @@ class Templates {
 		self::include_html( $template_name, $args, $extract );
 		return \ob_get_clean();
 	}
+
+	/**
+	 * Validate that a file path is safe and within the expected path(s).
+	 *
+	 * Author Scott Kingsley Clark, Pods Framework.
+	 * Refactored to reduce cyclomatic complexity.
+	 *
+	 * @since 1.7.5.5
+	 *
+	 * @link https://github.com/pods-framework/pods/commit/ea53471e58e638dec06957edc38f9fa86607652c
+	 *
+	 * @param string            $path           The file path.
+	 * @param null|array|string $paths_to_check The list of path types to check, defaults to just checking 'wpforms'.
+	 *                                          Available: 'wpforms', 'plugins', 'theme',
+	 *                                          or 'all' to check all supported paths.
+	 *
+	 * @return false|string False if the path was not allowed or did not exist, otherwise it returns the normalized path.
+	 */
+	public static function validate_safe_path( $path, $paths_to_check = null ) {
+
+		static $available_checks;
+
+		if ( ! $available_checks ) {
+			$available_checks = [
+				'wpforms' => realpath( WPFORMS_PLUGIN_DIR ),
+				'plugins' => [
+					realpath( WP_PLUGIN_DIR ),
+					realpath( WPMU_PLUGIN_DIR ),
+				],
+				'theme'   => [
+					realpath( get_stylesheet_directory() ),
+					realpath( get_template_directory() ),
+				],
+			];
+
+			$available_checks['plugins'] = array_unique( array_filter( $available_checks['plugins'] ) );
+			$available_checks['theme']   = array_unique( array_filter( $available_checks['theme'] ) );
+			$available_checks            = array_filter( $available_checks );
+		}
+
+		$paths_to_check = $paths_to_check === null ? [ 'wpforms' ] : $paths_to_check;
+		$paths_to_check = $paths_to_check === 'all' ? array_keys( $available_checks ) : $paths_to_check;
+		$paths_to_check = (array) $paths_to_check;
+
+		if ( empty( $paths_to_check ) ) {
+			return false;
+		}
+
+		$path = wp_normalize_path( trim( (string) $path ) );
+
+		$match_count = 1;
+
+		// Replace the ../ usage as many times as it may need to be replaced.
+		while ( $match_count ) {
+			$path = str_replace( '../', '', $path, $match_count );
+		}
+
+		$path = realpath( $path );
+
+		foreach ( $paths_to_check as $check_type ) {
+			if ( self::has_match( $path, $available_checks, $check_type ) ) {
+				return $path;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Whether path matches.
+	 *
+	 * @since 1.7.5.5
+	 *
+	 * @param string|bool $path             Path.
+	 * @param array       $available_checks Available checks.
+	 * @param string      $check_type       Check type.
+	 *
+	 * @return bool
+	 */
+	private static function has_match( $path, $available_checks, $check_type ) {
+
+		if ( ! $path || ! isset( $available_checks[ $check_type ] ) ) {
+			return false;
+		}
+
+		$check_type_paths = (array) $available_checks[ $check_type ];
+
+		foreach ( $check_type_paths as $path_to_check ) {
+			if ( 0 === strpos( $path, $path_to_check ) && file_exists( $path ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

@@ -11,11 +11,11 @@ if (!class_exists('DHWPAPI')) :
 
 		public function pingbv($method, $body, $public = false) {
 			if ($public) {
-				$this->do_request($method, $body, $public);
+				return $this->do_request($method, $body, $public);
 			} else {
 				$api_public_key = $this->settings->getOption('bvApiPublic');
 				if (!empty($api_public_key) && (strlen($api_public_key) >= 32)) {
-					$this->do_request($method, $body, $api_public_key);
+					return $this->do_request($method, $body, $api_public_key);
 				}
 			}
 		}
@@ -24,7 +24,7 @@ if (!class_exists('DHWPAPI')) :
 			$account = DHAccount::find($this->settings, $pubkey);
 			if (isset($account)) {
 				$url = $account->authenticatedUrl($method);
-				$this->http_request($url, $body);
+				return $this->http_request($url, $body);
 			}
 		}
 

@@ -10,10 +10,10 @@ final class MonsterInsights_Notification_Install_WPForms extends MonsterInsights
 
 	public $notification_id = 'monsterinsights_notification_install_wpforms';
 	public $notification_interval = 30; // in days
-    public $notification_type = array( 'basic', 'lite', 'master', 'plus', 'pro' );
+	public $notification_type = array( 'basic', 'lite', 'master', 'plus', 'pro' );
 	public $notification_icon = 'star';
-    public $notification_category = 'insight';
-    public $notification_priority = 2;
+	public $notification_category = 'insight';
+	public $notification_priority = 2;
 
 	/**
 	 * Build Notification
@@ -24,16 +24,16 @@ final class MonsterInsights_Notification_Install_WPForms extends MonsterInsights
 	 */
 	public function prepare_notification_data( $notification ) {
 
-        $form_plugin_active = class_exists('GFAPI') || function_exists( 'frm_forms_autoloader' ) || function_exists( 'wpforms' );
+		$form_plugin_active = class_exists( 'GFAPI' ) || function_exists( 'frm_forms_autoloader' ) || function_exists( 'wpforms' );
 
-        if ( !$form_plugin_active ) {
-            $notification['title'] = __( 'Create a Contact Form in Only Minutes', 'google-analytics-for-wordpress' );
-            $notification['content'] = __( 'Install WPForms and create contact forms in a matter of minutes.', 'google-analytics-for-wordpress' );
+		if ( ! $form_plugin_active ) {
+			$notification['title']   = __( 'Create a Contact Form in Only Minutes', 'google-analytics-for-wordpress' );
+			$notification['content'] = __( 'Install WPForms and create contact forms in a matter of minutes.', 'google-analytics-for-wordpress' );
 
-            return $notification;
-        }
+			return $notification;
+		}
 
-        return false;
+		return false;
 	}
 
 }

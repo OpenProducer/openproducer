@@ -94,7 +94,7 @@ class WPForms_Field_Select extends WPForms_Field {
 		$choices  = $field['choices'];
 		$dynamic  = wpforms_get_field_dynamic_choices( $field, $form_id, $form_data );
 
-		if ( $dynamic ) {
+		if ( $dynamic !== false ) {
 			$choices              = $dynamic;
 			$field['show_values'] = true;
 		}
@@ -255,7 +255,7 @@ class WPForms_Field_Select extends WPForms_Field {
 				'tooltip' => esc_html__( 'Allow users to select multiple choices in this field.', 'wpforms-lite' ) . '<br>' .
 							sprintf(
 								wp_kses( /* translators: %s - URL to WPForms.com doc article. */
-									esc_html__( 'For details, including how this looks and works for your site\'s visitors, please check out <a href="%s" target="_blank" rel="noopener noreferrer">our doc</a>. ', 'wpforms-lite' ),
+									esc_html__( 'For details, including how this looks and works for your site\'s visitors, please check out <a href="%s" target="_blank" rel="noopener noreferrer">our doc</a>.', 'wpforms-lite' ),
 									[
 										'a' => [
 											'href'   => [],
@@ -394,6 +394,10 @@ class WPForms_Field_Select extends WPForms_Field {
 		$is_modern         = ! empty( $field['style'] ) && self::STYLE_MODERN === $field['style'];
 		$choices           = $field['properties']['inputs'];
 
+		if ( ! $choices ) {
+			return;
+		}
+
 		if ( ! empty( $field['required'] ) ) {
 			$container['attr']['required'] = 'required';
 		}
@@ -511,7 +515,7 @@ class WPForms_Field_Select extends WPForms_Field {
 				$post = get_post( $id );
 
 				if ( ! is_wp_error( $post ) && ! empty( $post ) && $data['dynamic_post_type'] === $post->post_type ) {
-					$posts[] = esc_html( $post->post_title );
+					$posts[] = esc_html( wpforms_get_post_title( $post ) );
 				}
 			}
 
@@ -531,7 +535,7 @@ class WPForms_Field_Select extends WPForms_Field {
 				$term = get_term( $id, $field['dynamic_taxonomy'] );
 
 				if ( ! is_wp_error( $term ) && ! empty( $term ) ) {
-					$terms[] = esc_html( $term->name );
+					$terms[] = esc_html( wpforms_get_term_name( $term ) );
 				}
 			}
 

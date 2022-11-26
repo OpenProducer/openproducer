@@ -16,13 +16,6 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 class ListTable extends WP_List_Table {
 
 	/**
-	 * Number of items to display on a single page.
-	 *
-	 * @since 1.6.3
-	 */
-	const PER_PAGE = 10;
-
-	/**
 	 * Record Query.
 	 *
 	 * @since 1.6.3
@@ -48,6 +41,46 @@ class ListTable extends WP_List_Table {
 				'singular' => esc_html__( 'Log', 'wpforms-lite' ),
 			]
 		);
+
+		$this->hooks();
+
+		add_screen_option(
+			'per_page',
+			[ 'default' => $this->get_items_per_page( $this->get_per_page_option_name() ) ]
+		);
+		set_screen_options();
+	}
+
+	/**
+	 * Hooks.
+	 *
+	 * @since 1.7.5
+	 */
+	private function hooks() {
+
+		add_filter(
+			'set_screen_option_' . $this->get_per_page_option_name(),
+			[ $this, 'set_items_per_page_option' ],
+			10,
+			3
+		);
+	}
+
+	/**
+	 * Handles setting the items_per_page option for this screen.
+	 *
+	 * @since 1.7.5
+	 *
+	 * @param mixed  $status Default false (to skip saving the current option).
+	 * @param string $option Screen option name.
+	 * @param int    $value  Screen option value.
+	 *
+	 * @return int
+	 * @noinspection PhpUnusedParameterInspection
+	 */
+	public function set_items_per_page_option( $status, $option, $value ) {
+
+		return $value;
 	}
 
 	/**
@@ -73,14 +106,15 @@ class ListTable extends WP_List_Table {
 		$offset      = $this->get_items_offset();
 		$search      = $this->get_request_search_query();
 		$types       = $this->get_items_type();
-		$this->items = $this->repository->records( self::PER_PAGE, $offset, $search, $types );
+		$per_page    = $this->get_items_per_page( $this->get_per_page_option_name() );
+		$this->items = $this->repository->records( $per_page, $offset, $search, $types );
 		$total_items = $this->get_total();
 
 		$this->set_pagination_args(
 			[
 				'total_items' => $total_items,
-				'per_page'    => self::PER_PAGE,
-				'total_pages' => ceil( $total_items / self::PER_PAGE ),
+				'per_page'    => $per_page,
+				'total_pages' => ceil( $total_items / $per_page ),
 			]
 		);
 	}
@@ -106,9 +140,7 @@ class ListTable extends WP_List_Table {
 	 */
 	private function get_items_offset() {
 
-		$current_page = $this->get_pagenum();
-
-		return 1 < $current_page ? self::PER_PAGE * ( $current_page - 1 ) : 0;
+		return $this->get_items_per_page( $this->get_per_page_option_name() ) * ( $this->get_pagenum() - 1 );
 	}
 
 	/**
@@ -131,6 +163,7 @@ class ListTable extends WP_List_Table {
 	 * @param Record $item List table item.
 	 *
 	 * @return string
+	 * @noinspection PhpUnused
 	 */
 	public function column_log_title( $item ) {
 
@@ -149,6 +182,7 @@ class ListTable extends WP_List_Table {
 	 * @param Record $item List table item.
 	 *
 	 * @return string
+	 * @noinspection PhpUnused
 	 */
 	public function column_message( $item ) {
 
@@ -173,6 +207,7 @@ class ListTable extends WP_List_Table {
 	 * @param Record $item List table item.
 	 *
 	 * @return int
+	 * @noinspection PhpUnused
 	 */
 	public function column_form_id( $item ) {
 
@@ -187,6 +222,7 @@ class ListTable extends WP_List_Table {
 	 * @param Record $item List table item.
 	 *
 	 * @return string
+	 * @noinspection PhpUnused
 	 */
 	public function column_types( $item ) {
 
@@ -201,10 +237,11 @@ class ListTable extends WP_List_Table {
 	 * @param Record $item List table item.
 	 *
 	 * @return string
+	 * @noinspection PhpUnused
 	 */
 	public function column_date( $item ) {
 
-		return esc_html( $item->get_date( 'sql' ) );
+		return esc_html( $item->get_date( 'sql-local' ) );
 	}
 
 	/**
@@ -231,7 +268,7 @@ class ListTable extends WP_List_Table {
 
 		$this->_column_headers = [
 			$this->get_columns(),
-			[],
+			get_hidden_columns( $this->screen ),
 			[],
 		];
 	}
@@ -504,7 +541,7 @@ class ListTable extends WP_List_Table {
 		echo '<div class="wpforms-list-table wpforms-list-table--logs">';
 		echo '<form id="' . esc_attr( $this->_args['plural'] ) . '-filter" method="get">';
 		$this->header();
-		parent::display();
+		$this->display();
 		echo '</form>';
 		echo '</div>';
 	}
@@ -531,5 +568,17 @@ class ListTable extends WP_List_Table {
 	public function get_total() {
 
 		return $this->repository->get_total();
+	}
+
+	/**
+	 * Gets the screen per_page option name.
+	 *
+	 * @since 1.7.5
+	 *
+	 * @return string
+	 */
+	private function get_per_page_option_name() {
+
+		return str_replace( '-', '_', $this->screen->id ) . '_per_page';
 	}
 }

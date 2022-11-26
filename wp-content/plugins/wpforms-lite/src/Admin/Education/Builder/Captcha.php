@@ -166,7 +166,7 @@ class Captcha implements EducationInterface {
 							]
 						),
 						esc_url( admin_url( 'admin.php?page=wpforms-settings&view=captcha' ) ),
-						'https://wpforms.com/docs/setup-captcha-wpforms/',
+						esc_url( wpforms_utm_link( 'https://wpforms.com/docs/setup-captcha-wpforms/', 'builder-modal', 'Captcha Documentation' ) ),
 						$captcha_name
 					),
 				],

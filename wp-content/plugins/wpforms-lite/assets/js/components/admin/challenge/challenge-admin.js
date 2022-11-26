@@ -105,8 +105,10 @@ WPFormsChallenge.admin = window.WPFormsChallenge.admin || ( function( document, 
 
 			$( '.wpforms-challenge' ).remove();
 
-			app.saveChallengeOption( optionData )
-				.done( location.reload.bind( location ) ); // Reload the page to remove WPForms Challenge JS.
+			// In the Form Builder, we must also make the Embed button clickable.
+			$( '#wpforms-embed' ).removeClass( 'wpforms-disabled' );
+
+			app.saveChallengeOption( optionData );
 		},
 
 		/**
@@ -134,8 +136,14 @@ WPFormsChallenge.admin = window.WPFormsChallenge.admin || ( function( document, 
 
 			if ( typeof WPFormsBuilder !== 'undefined' ) {
 				WPFormsChallenge.admin.saveChallengeOption( optionData )
-					.done( WPFormsBuilder.formSave ) // Save the form before reloading if we're in a WPForms Builder.
-					.done( location.reload.bind( location ) ); // Reload the page to remove WPForms Challenge JS.
+					.done( function() { // Save the form before removing scripts if we're in a WPForms Builder.
+						if ( localStorage.getItem( 'wpformsChallengeStep' ) !==  null ) {
+							WPFormsBuilder.formSave( false );
+						}
+					} ).done( // Remove scripts related to challenge.
+						$( '#wpforms-challenge-admin-js, #wpforms-challenge-core-js, #wpforms-challenge-admin-js-extra, #wpforms-challenge-builder-js' )
+							.remove()
+					);
 			} else {
 				WPFormsChallenge.admin.saveChallengeOption( optionData )
 					.done( app.triggerPageSave ); // Assume we're on form embed page.

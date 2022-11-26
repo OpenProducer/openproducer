@@ -11,7 +11,7 @@ class BVMiscCallback extends BVCallbackBase {
 	public $bvapi;
 	public $db;
 
-	const MISC_WING_VERSION = 1.1;
+	const MISC_WING_VERSION = 1.2;
 
 	public function __construct($callback_handler) {
 		$this->settings = $callback_handler->settings;
@@ -154,6 +154,19 @@ class BVMiscCallback extends BVCallbackBase {
 			break;
 		case "dlttrsnt":
 			$resp = array("dlttrsnt" => $settings->deleteTransient($params['key']));
+			break;
+		case "optns":
+			$resp = array();
+
+			if (array_key_exists("get_options", $params))
+				$resp["get_options"] = $settings->getOptions($params["get_options"]);
+
+			if (array_key_exists("update_options", $params))
+				$resp["update_options"] = $settings->updateOptions($params["update_options"]);
+
+			if (array_key_exists("delete_options", $params))
+				$resp["delete_options"] = $settings->deleteOptions($params["delete_options"]);
+
 			break;
 		case "setbvss":
 			$resp = array("status" => $settings->updateOption('bv_site_settings', $params['bv_site_settings']));

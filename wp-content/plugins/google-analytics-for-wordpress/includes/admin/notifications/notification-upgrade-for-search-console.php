@@ -12,8 +12,8 @@ final class MonsterInsights_Notification_Upgrade_For_Search_Console extends Mons
 	public $notification_interval = 30; // in days
 	public $notification_type = array( 'lite' );
 	public $notification_icon = 'warning';
-    public $notification_category = 'insight';
-    public $notification_priority = 3;
+	public $notification_category = 'insight';
+	public $notification_priority = 3;
 
 	/**
 	 * Build Notification
@@ -28,9 +28,9 @@ final class MonsterInsights_Notification_Upgrade_For_Search_Console extends Mons
 		$notification['content'] = sprintf( __( '%sUpgrade to MonsterInsights Pro%s to see which keywords are driving traffic to your website so you can focus on what\'s working.', 'google-analytics-for-wordpress' ), '<a href="' . $this->get_upgrade_url() . '" target="_blank">', '</a>' );
 		$notification['btns']    = array(
 			"get_monsterinsights_pro" => array(
-				'url'           => $this->get_upgrade_url(),
-				'text'          => __( 'Upgrade Now', 'google-analytics-for-wordpress' ),
-				'is_external'   => true,
+				'url'         => $this->get_upgrade_url(),
+				'text'        => __( 'Upgrade Now', 'google-analytics-for-wordpress' ),
+				'is_external' => true,
 			),
 		);
 

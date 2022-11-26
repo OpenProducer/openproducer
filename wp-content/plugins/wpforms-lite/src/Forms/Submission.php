@@ -111,7 +111,7 @@ class Submission {
 		$user_id    = is_user_logged_in() ? get_current_user_id() : 0;
 		$user_ip    = wpforms_get_ip();
 		$user_agent = ! empty( $_SERVER['HTTP_USER_AGENT'] ) ? substr( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 0, 256 ) : '';
-		$user_uuid  = ! empty( $_COOKIE['_wpfuuid'] ) ? sanitize_key( $_COOKIE['_wpfuuid'] ) : '';
+		$user_uuid  = wpforms_is_collecting_cookies_allowed() && ! empty( $_COOKIE['_wpfuuid'] ) ? sanitize_key( $_COOKIE['_wpfuuid'] ) : '';
 
 		/**
 		 * Allow developers disable saving user IP and User Agent within the entry.

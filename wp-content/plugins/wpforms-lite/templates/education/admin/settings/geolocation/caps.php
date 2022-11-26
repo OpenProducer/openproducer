@@ -22,7 +22,7 @@ $lists = [
 	],
 	[
 		esc_html__( 'Google Places API', 'wpforms-lite' ),
-		esc_html__( 'Algolia Places API', 'wpforms-lite' ),
+		esc_html__( 'Mapbox API', 'wpforms-lite' ),
 	],
 ];
 

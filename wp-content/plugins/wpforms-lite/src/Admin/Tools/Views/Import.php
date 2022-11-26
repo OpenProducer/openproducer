@@ -5,6 +5,7 @@ namespace WPForms\Admin\Tools\Views;
 use WPForms\Helpers\File;
 use WPForms\Admin\Tools\Importers;
 use WPForms\Admin\Tools\Tools;
+use WPForms_Form_Handler;
 
 /**
  * Class Import.
@@ -280,10 +281,17 @@ class Import extends View {
 					]
 				);
 			}
+
+			if ( ! empty( $form['settings']['form_tags'] ) ) {
+				wp_set_post_terms(
+					$new_id,
+					implode( ',', (array) $form['settings']['form_tags'] ),
+					WPForms_Form_Handler::TAGS_TAXONOMY
+				);
+			}
 		}
 
 		wp_safe_redirect( add_query_arg( [ 'wpforms_notice' => 'forms-imported' ] ) );
 		exit;
 	}
-
 }

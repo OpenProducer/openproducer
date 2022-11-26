@@ -5,7 +5,7 @@ Plugin URI: https://www.dreamhost.com
 Description: The easiest way to migrate your site to DreamHost.
 Author: DreamHost
 Author URI: https://www.dreamhost.com
-Version: 4.69
+Version: 4.78
 Network: True
  */
 
@@ -37,6 +37,7 @@ require_once dirname( __FILE__ ) . '/wp_api.php';
 require_once dirname( __FILE__ ) . '/wp_actions.php';
 require_once dirname( __FILE__ ) . '/info.php';
 require_once dirname( __FILE__ ) . '/account.php';
+##WPCACHEMODULE##
 
 
 $bvsettings = new DHWPSettings();
@@ -54,6 +55,7 @@ register_deactivation_hook(__FILE__, array($wp_action, 'deactivate'));
 
 add_action('wp_footer', array($wp_action, 'footerHandler'), 100);
 add_action('clear_bv_services_config', array($wp_action, 'clear_bv_services_config'));
+##SOADDUNINSTALLACTION##
 
 ##WPCLIMODULE##
 if (is_admin()) {
@@ -71,6 +73,7 @@ if (is_admin()) {
 	add_action('admin_head', array($wpadmin, 'removeAdminNotices'), 3);
 	##ACTIVATEWARNING##
 	add_action('admin_enqueue_scripts', array($wpadmin, 'dhsecAdminMenu'));
+	##SOADMINMENU##
 }
 
 

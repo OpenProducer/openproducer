@@ -4,7 +4,7 @@ var WPForms = window.WPForms || {};
 WPForms.Admin = WPForms.Admin || {};
 WPForms.Admin.Builder = WPForms.Admin.Builder || {};
 
-WPForms.Admin.Builder.Templates = WPForms.Admin.Builder.Templates || (function ( document, window, $ ) {
+WPForms.Admin.Builder.Templates = WPForms.Admin.Builder.Templates || ( function( document, window, $ ) {
 	'use strict';
 
 	/**
@@ -24,7 +24,7 @@ WPForms.Admin.Builder.Templates = WPForms.Admin.Builder.Templates || (function (
 		 *
 		 * @type {Map}
 		 */
-		previews: new Map()
+		previews: new Map(),
 	};
 
 	/**
@@ -41,7 +41,7 @@ WPForms.Admin.Builder.Templates = WPForms.Admin.Builder.Templates || (function (
 		 *
 		 * @since 1.4.8
 		 */
-		init: function () {
+		init: function() {
 
 			// Do that when DOM is ready.
 			$( app.ready );
@@ -52,7 +52,7 @@ WPForms.Admin.Builder.Templates = WPForms.Admin.Builder.Templates || (function (
 		 *
 		 * @since 1.4.8
 		 */
-		ready: function () {
+		ready: function() {
 
 			$( '#wpforms-panel-providers' ).trigger( 'WPForms.Admin.Builder.Templates.ready' );
 		},
@@ -65,9 +65,9 @@ WPForms.Admin.Builder.Templates = WPForms.Admin.Builder.Templates || (function (
 		 *
 		 * @param {string[]} templates Array of template names.
 		 */
-		add: function ( templates ) {
+		add: function( templates ) {
 
-			templates.forEach( function ( template ) {
+			templates.forEach( function( template ) {
 				if ( typeof template === 'string' ) {
 					__private.previews.set( template, wp.template( template ) );
 				}
@@ -83,7 +83,7 @@ WPForms.Admin.Builder.Templates = WPForms.Admin.Builder.Templates || (function (
 		 *
 		 * @returns {*} A callable that after compiling will always return a string.
 		 */
-		get: function ( template ) {
+		get: function( template ) {
 
 			var preview = __private.previews.get( template );
 
@@ -91,17 +91,17 @@ WPForms.Admin.Builder.Templates = WPForms.Admin.Builder.Templates || (function (
 				return preview;
 			}
 
-			return function () {
+			return function() {
 				return '';
 			};
-		}
+		},
 
 	};
 
 	// Provide access to public functions/properties.
 	return app;
 
-})( document, window, jQuery );
+} )( document, window, jQuery );
 
 // Initialize.
 WPForms.Admin.Builder.Templates.init();

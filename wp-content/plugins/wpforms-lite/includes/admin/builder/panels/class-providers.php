@@ -44,10 +44,11 @@ class WPForms_Builder_Panel_Providers extends WPForms_Builder_Panel {
 			'wpforms-builder-providers',
 			'wpforms_builder_providers',
 			[
-				'url'                => esc_url( add_query_arg( [ 'view' => 'providers' ] ) ),
+				'url'                => esc_url( remove_query_arg( 'newform', add_query_arg( [ 'view' => 'providers' ] ) ) ),
 				'confirm_save'       => esc_html__( 'We need to save your progress to continue to the Marketing panel. Is that OK?', 'wpforms-lite' ),
 				'confirm_connection' => esc_html__( 'Are you sure you want to delete this connection?', 'wpforms-lite' ),
-				'prompt_connection'  => esc_html__( 'Enter a %type% nickname', 'wpforms-lite' ),
+				/* translators: %s - connection type. */
+				'prompt_connection'  => esc_html( sprintf( __( 'Enter a %s nickname', 'wpforms-lite' ), '%type%' ) ),
 				'prompt_placeholder' => esc_html__( 'Eg: Newsletter Optin', 'wpforms-lite' ),
 				'error_name'         => esc_html__( 'You must provide a connection nickname.', 'wpforms-lite' ),
 				'required_field'     => esc_html__( 'Field required', 'wpforms-lite' ),

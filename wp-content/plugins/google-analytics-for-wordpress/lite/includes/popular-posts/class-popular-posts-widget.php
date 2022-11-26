@@ -38,7 +38,10 @@ class MonsterInsights_Popular_Posts_Widget extends MonsterInsights_Popular_Posts
 		add_action( 'wp', array( $this, 'maybe_auto_insert' ) );
 
 		add_action( 'widgets_init', array( $this, 'register_widget' ) );
-		add_filter( 'widget_types_to_hide_from_legacy_widget_block', array( $this, 'remove_widget_from_legacy_widgets' ) );
+		add_filter( 'widget_types_to_hide_from_legacy_widget_block', array(
+			$this,
+			'remove_widget_from_legacy_widgets'
+		) );
 	}
 
 
@@ -258,6 +261,7 @@ class MonsterInsights_Popular_Posts_Widget extends MonsterInsights_Popular_Posts
 	 */
 	public function remove_widget_from_legacy_widgets( $widgets ) {
 		$widgets[] = 'monsterinsights-popular-posts-widget';
+
 		return $widgets;
 	}
 

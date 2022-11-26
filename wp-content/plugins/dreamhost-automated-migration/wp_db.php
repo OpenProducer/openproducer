@@ -92,6 +92,14 @@ class DHWPDb {
 		return $this->isTablePresent($table);
 	}
 
+	public function createTables($tables, $usedbdelta = false) {
+		$result = array();
+		foreach ($tables as $table => $query) {
+			$result[$table] = $this->createTable($query, $table, $usedbdelta);
+		}
+		return $result;
+	}
+
 	public function alterBVTable($query, $name) {
 		$resp = false;
 		$table = $this->getBVTable($name);
@@ -99,6 +107,14 @@ class DHWPDb {
 			$resp = $this->query($query);
 		}
 		return $resp;
+	}
+
+	public function alterTables($tables) {
+		$result = array();
+		foreach ($tables as $table => $query) {
+			$result[$table] = $this->alterBVTable($query, $table);
+		}
+		return $result;
 	}
 
 	public function getTableContent($table, $fields = '*', $filter = '', $limit = 0, $offset = 0) {
@@ -152,6 +168,22 @@ class DHWPDb {
 			$this->query("DROP TABLE IF EXISTS $table;");
 		}
 		return !$this->isTablePresent($table);
+	}
+
+	public function dropTables($tables) {
+		$result = array();
+		foreach ($tables as $table) {
+			$result[$table] = $this->dropBVTable($table);
+		}
+		return $result;
+	}
+
+	public function truncateTables($tables) {
+		$result = array();
+		foreach ($tables as $table) {
+			$result[$table] = $this->truncateBVTable($table);
+		}
+		return $result;
 	}
 
 	public function deleteRowsFromtable($name, $count = 1) {

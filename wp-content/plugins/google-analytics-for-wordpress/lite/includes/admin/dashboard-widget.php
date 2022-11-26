@@ -65,7 +65,7 @@ class MonsterInsights_Dashboard_Widget {
 	 */
 	public function __construct() {
 		// Allow dashboard widget to be hidden on multisite installs
-		$show_widget         = is_multisite() ? apply_filters( 'monsterinsights_show_dashboard_widget', true ) : true;
+		$show_widget = is_multisite() ? apply_filters( 'monsterinsights_show_dashboard_widget', true ) : true;
 		if ( ! $show_widget ) {
 			return false;
 		}
@@ -83,7 +83,7 @@ class MonsterInsights_Dashboard_Widget {
 		add_action( 'wp_ajax_monsterinsights_save_widget_state', array( $this, 'save_widget_state' ) );
 
 		// Reminder notice.
-		add_action( 'admin_footer', array( $this, 'load_notice' ) );
+//		add_action( 'admin_footer', array( $this, 'load_notice' ) );
 
 		add_action( 'wp_ajax_monsterinsights_mark_notice_closed', array( $this, 'mark_notice_closed' ) );
 	}
@@ -135,12 +135,21 @@ class MonsterInsights_Dashboard_Widget {
 		}
 		?>
 		<div class="mi-dw-not-authed">
-			<h2><?php esc_html_e( 'Website Analytics is not Setup', 'google-analytics-for-wordpress' ); ?></h2>
+			<?php
+			// Translators: Wizrd Link tag starts with url and Wizard link tag ends.
+			$message = sprintf(
+				esc_html__( 'Your website analytics dashboard is not currently configured. Please use our %1$ssetup wizard%2$s to get started.', 'google-analytics-for-wordpress' ),
+				'<a href="' . esc_url( $url ) . '">',
+				'</a>'
+			);
+			?>
+			<h2><?php echo $message; ?></h2>
 			<?php if ( current_user_can( 'monsterinsights_save_settings' ) ) { ?>
 				<p><?php esc_html_e( 'To see your website stats, please connect MonsterInsights to Google Analytics.', 'google-analytics-for-wordpress' ); ?></p>
-				<a href="<?php echo esc_url( $url ); ?>" class="mi-dw-btn-large"><?php esc_html_e( 'Setup Website Analytics', 'google-analytics-for-wordpress' ); ?></a>
+				<a href="<?php echo esc_url( $url ); ?>"
+				   class="mi-dw-btn-large"><?php esc_html_e( 'Setup Website Analytics', 'google-analytics-for-wordpress' ); ?></a>
 			<?php } else { ?>
-				<p><?php esc_html_e( 'To see your website stats, please ask your webmaster to connect MonsterInsights to Google Analytics.', 'google-analytics-for-wordpress' ); ?></p>
+				<p><?php esc_html_e( 'To see your website stats, please ask your site administrator to connect MonsterInsights to Google Analytics.', 'google-analytics-for-wordpress' ); ?></p>
 			<?php } ?>
 		</div>
 		<?php
@@ -184,7 +193,7 @@ class MonsterInsights_Dashboard_Widget {
 			}
 
 			// We do not have a current auth.
-			$auth = MonsterInsights()->auth;
+			$auth      = MonsterInsights()->auth;
 			$is_authed = ( $auth->is_authed() || $auth->is_network_authed() );
 			wp_localize_script(
 				'monsterinsights-vue-widget',
@@ -250,10 +259,10 @@ class MonsterInsights_Dashboard_Widget {
 		}
 
 		$options = array(
-			'width'    => ! empty( $_POST['width'] ) ? sanitize_text_field( wp_unslash( $_POST['width'] ) ) : $default['width'],
-			'interval' => ! empty( $_POST['interval'] ) ? absint( wp_unslash( $_POST['interval'] ) ) : $default['interval'],
+			'width'       => ! empty( $_POST['width'] ) ? sanitize_text_field( wp_unslash( $_POST['width'] ) ) : $default['width'],
+			'interval'    => ! empty( $_POST['interval'] ) ? absint( wp_unslash( $_POST['interval'] ) ) : $default['interval'],
 			'compact'     => ! empty( $_POST['compact'] ) ? 'true' === sanitize_text_field( wp_unslash( $_POST['compact'] ) ) : $default['compact'],
-			'reports'  => $reports,
+			'reports'     => $reports,
 			'notice30day' => $current_options['notice30day'],
 		);
 
@@ -282,7 +291,7 @@ class MonsterInsights_Dashboard_Widget {
 	 * Recursive wp_parse_args.
 	 *
 	 * @param string|array|object $a Value to merge with $b.
-	 * @param array               $b The array with the default values.
+	 * @param array $b The array with the default values.
 	 *
 	 * @return array
 	 */

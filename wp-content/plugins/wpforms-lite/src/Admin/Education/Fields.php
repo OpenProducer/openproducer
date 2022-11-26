@@ -33,20 +33,12 @@ class Fields {
 
 		$this->fields = [
 			[
-				'icon'    => 'fa-pencil-square-o',
-				'name'    => esc_html__( 'Rich Text', 'wpforms-lite' ),
-				'name_en' => 'Rich Text',
-				'type'    => 'richtext',
-				'group'   => 'fancy',
-				'order'   => '300',
-			],
-			[
 				'icon'    => 'fa-phone',
 				'name'    => esc_html__( 'Phone', 'wpforms-lite' ),
 				'name_en' => 'Phone',
 				'type'    => 'phone',
 				'group'   => 'fancy',
-				'order'   => '1',
+				'order'   => '50',
 			],
 			[
 				'icon'    => 'fa-map-marker',
@@ -54,7 +46,7 @@ class Fields {
 				'name_en' => 'Address',
 				'type'    => 'address',
 				'group'   => 'fancy',
-				'order'   => '2',
+				'order'   => '70',
 			],
 			[
 				'icon'    => 'fa-calendar-o',
@@ -62,7 +54,7 @@ class Fields {
 				'name_en' => 'Date / Time',
 				'type'    => 'date-time',
 				'group'   => 'fancy',
-				'order'   => '3',
+				'order'   => '80',
 			],
 			[
 				'icon'    => 'fa-link',
@@ -70,7 +62,7 @@ class Fields {
 				'name_en' => 'Website / URL',
 				'type'    => 'url',
 				'group'   => 'fancy',
-				'order'   => '4',
+				'order'   => '90',
 			],
 			[
 				'icon'    => 'fa-upload',
@@ -78,7 +70,7 @@ class Fields {
 				'name_en' => 'File Upload',
 				'type'    => 'file-upload',
 				'group'   => 'fancy',
-				'order'   => '5',
+				'order'   => '100',
 			],
 			[
 				'icon'    => 'fa-lock',
@@ -86,7 +78,23 @@ class Fields {
 				'name_en' => 'Password',
 				'type'    => 'password',
 				'group'   => 'fancy',
-				'order'   => '6',
+				'order'   => '130',
+			],
+			[
+				'icon'    => 'fa-pencil-square-o',
+				'name'    => esc_html__( 'Rich Text', 'wpforms-lite' ),
+				'name_en' => 'Rich Text',
+				'type'    => 'richtext',
+				'group'   => 'fancy',
+				'order'   => '140',
+			],
+			[
+				'icon'    => 'fa-columns',
+				'name'    => esc_html__( 'Layout', 'wpforms-lite' ),
+				'name_en' => 'Layout',
+				'type'    => 'layout',
+				'group'   => 'fancy',
+				'order'   => '150',
 			],
 			[
 				'icon'    => 'fa-files-o',
@@ -94,7 +102,7 @@ class Fields {
 				'name_en' => 'Page Break',
 				'type'    => 'pagebreak',
 				'group'   => 'fancy',
-				'order'   => '7',
+				'order'   => '160',
 			],
 			[
 				'icon'    => 'fa-arrows-h',
@@ -102,23 +110,7 @@ class Fields {
 				'name_en' => 'Section Divider',
 				'type'    => 'divider',
 				'group'   => 'fancy',
-				'order'   => '8',
-			],
-			[
-				'icon'    => 'fa-file-text-o',
-				'name'    => esc_html__( 'Entry Preview', 'wpforms-lite' ),
-				'name_en' => 'Entry Preview',
-				'type'    => 'entry-preview',
-				'group'   => 'fancy',
-				'order'   => '9',
-			],
-			[
-				'icon'    => 'fa-eye-slash',
-				'name'    => esc_html__( 'Hidden Field', 'wpforms-lite' ),
-				'name_en' => 'Hidden Field',
-				'type'    => 'hidden',
-				'group'   => 'fancy',
-				'order'   => '10',
+				'order'   => '170',
 			],
 			[
 				'icon'    => 'fa-code',
@@ -126,7 +118,23 @@ class Fields {
 				'name_en' => 'HTML',
 				'type'    => 'html',
 				'group'   => 'fancy',
-				'order'   => '11',
+				'order'   => '180',
+			],
+			[
+				'icon'    => 'fa-file-image-o',
+				'name'    => esc_html__( 'Content', 'wpforms-lite' ),
+				'name_en' => 'Content',
+				'type'    => 'content',
+				'group'   => 'fancy',
+				'order'   => '181',
+			],
+			[
+				'icon'    => 'fa-file-text-o',
+				'name'    => esc_html__( 'Entry Preview', 'wpforms-lite' ),
+				'name_en' => 'Entry Preview',
+				'type'    => 'entry-preview',
+				'group'   => 'fancy',
+				'order'   => '190',
 			],
 			[
 				'icon'    => 'fa-star',
@@ -134,7 +142,15 @@ class Fields {
 				'name_en' => 'Rating',
 				'type'    => 'rating',
 				'group'   => 'fancy',
-				'order'   => '12',
+				'order'   => '200',
+			],
+			[
+				'icon'    => 'fa-eye-slash',
+				'name'    => esc_html__( 'Hidden Field', 'wpforms-lite' ),
+				'name_en' => 'Hidden Field',
+				'type'    => 'hidden',
+				'group'   => 'fancy',
+				'order'   => '210',
 			],
 			[
 				'icon'    => 'fa-question-circle',
@@ -143,7 +159,7 @@ class Fields {
 				'type'    => 'captcha',
 				'group'   => 'fancy',
 				'addon'   => 'wpforms-captcha',
-				'order'   => '3000',
+				'order'   => '300',
 			],
 			[
 				'icon'    => 'fa-pencil',
@@ -161,7 +177,7 @@ class Fields {
 				'type'    => 'likert_scale',
 				'group'   => 'fancy',
 				'addon'   => 'wpforms-surveys-polls',
-				'order'   => '4000',
+				'order'   => '400',
 			],
 			[
 				'icon'    => 'fa-tachometer',
@@ -170,7 +186,7 @@ class Fields {
 				'type'    => 'net_promoter_score',
 				'group'   => 'fancy',
 				'addon'   => 'wpforms-surveys-polls',
-				'order'   => '4100',
+				'order'   => '410',
 			],
 			[
 				'icon'    => 'fa-file-o',
@@ -211,7 +227,16 @@ class Fields {
 				'type'    => 'stripe-credit-card',
 				'group'   => 'payment',
 				'addon'   => 'wpforms-stripe',
-				'order'   => '90',
+				'order'   => '88',
+			],
+			[
+				'icon'    => 'fa-credit-card',
+				'name'    => esc_html__( 'PayPal Commerce', 'wpforms-lite' ),
+				'name_en' => 'PayPal Commerce',
+				'type'    => 'paypal-commerce',
+				'group'   => 'payment',
+				'addon'   => 'wpforms-paypal-commerce',
+				'order'   => '89',
 			],
 			[
 				'icon'    => 'fa-credit-card',

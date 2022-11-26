@@ -125,9 +125,10 @@ final class Newspack_Newsletters_Campaign_Monitor extends \Newspack_Newsletters_
 
 		return array_map(
 			function ( $item ) {
-				$item->id   = $item->ListID; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				$item->name = $item->Name; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				return $item;
+				return [
+					'id'   => $item->ListID, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+					'name' => $item->Name, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				];
 			},
 			$lists->response
 		);
@@ -343,10 +344,16 @@ final class Newspack_Newsletters_Campaign_Monitor extends \Newspack_Newsletters_
 				__( 'No Campaign Monitor API key available.', 'newspack-newsletters' )
 			);
 		}
+		if ( empty( $post->post_title ) ) {
+			return new WP_Error(
+				'newspack_newsletter_error',
+				__( 'The newsletter subject cannot be empty.', 'newspack-newsletters' )
+			);
+		}
 		if ( ! $client_id ) {
 			return new WP_Error(
 				'newspack_newsletter_error',
-				__( 'No Campaign Monitor Client ID available.', 'newspack-newsletters' ) 
+				__( 'No Campaign Monitor Client ID available.', 'newspack-newsletters' )
 			);
 		}
 
@@ -556,10 +563,21 @@ final class Newspack_Newsletters_Campaign_Monitor extends \Newspack_Newsletters_
 	/**
 	 * Add contact to a list.
 	 *
-	 * @param array  $contact Contact data.
-	 * @param strine $list_id List ID.
+	 * @param array  $contact      {
+	 *    Contact data.
+	 *
+	 *    @type string   $email    Contact email address.
+	 *    @type string   $name     Contact name. Optional.
+	 *    @type string[] $metadata Contact additional metadata. Optional.
+	 * }
+	 * @param string $list_id      List to add the contact to.
+	 *
+	 * @return array|WP_Error Contact data if it was added, or error otherwise.
 	 */
-	public function add_contact( $contact, $list_id ) {
+	public function add_contact( $contact, $list_id = false ) {
+		if ( false === $list_id ) {
+			return new WP_Error( 'newspack_newsletters_constant_contact_list_id', __( 'Missing list id.' ) );
+		}
 		try {
 			$api_key   = $this->api_key();
 			$client_id = $this->client_id();
@@ -569,11 +587,14 @@ final class Newspack_Newsletters_Campaign_Monitor extends \Newspack_Newsletters_
 				$found_subscriber = $cm_subscribers->get( $email_address, true );
 				$update_payload   = [
 					'EmailAddress'   => $email_address,
-					'Name'           => $contact['name'],
 					'CustomFields'   => [],
 					'ConsentToTrack' => 'yes',
 					'Resubscribe'    => true,
 				];
+
+				if ( isset( $contact['name'] ) ) {
+					$update_payload['Name'] = $contact['name'];
+				}
 
 				// Get custom fields (metadata) to create them if needed.
 				$cm_list            = new CS_REST_Lists( $list_id, [ 'api_key' => $api_key ] );
@@ -583,18 +604,20 @@ final class Newspack_Newsletters_Campaign_Monitor extends \Newspack_Newsletters_
 					},
 					$cm_list->get_custom_fields()->response
 				);
-				foreach ( $contact['metadata'] as $key => $value ) {
-					$update_payload['CustomFields'][] = [
-						'Key'   => $key,
-						'Value' => (string) $value,
-					];
-					if ( ! in_array( $key, $custom_fields_keys ) ) {
-						$cm_list->create_custom_field(
-							[
-								'FieldName' => $key,
-								'DataType'  => CS_REST_CUSTOM_FIELD_TYPE_TEXT,
-							]
-						);
+				if ( isset( $contact['metadata'] ) && is_array( $contact['metadata'] && ! empty( $contact['metadata'] ) ) ) {
+					foreach ( $contact['metadata'] as $key => $value ) {
+						$update_payload['CustomFields'][] = [
+							'Key'   => $key,
+							'Value' => (string) $value,
+						];
+						if ( ! in_array( $key, $custom_fields_keys ) ) {
+							$cm_list->create_custom_field(
+								[
+									'FieldName' => $key,
+									'DataType'  => CS_REST_CUSTOM_FIELD_TYPE_TEXT,
+								]
+							);
+						}
 					}
 				}
 
@@ -603,6 +626,7 @@ final class Newspack_Newsletters_Campaign_Monitor extends \Newspack_Newsletters_
 				} else {
 					$result = $cm_subscribers->add( $update_payload );
 				};
+				return $result;
 			}
 		} catch ( \Exception $e ) {
 			return new \WP_Error(

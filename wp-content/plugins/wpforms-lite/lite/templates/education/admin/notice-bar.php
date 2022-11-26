@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		printf(
 			wp_kses(
 				/* translators: %s - WPForms.com Upgrade page URL. */
-				__( '<strong>You\'re using WPForms Lite.</strong> To unlock more features consider <a href="%s" target="_blank" rel="noopener noreferrer">upgrading to Pro</a>.', 'wpforms-lite' ),
+				__( '<strong>You\'re using WPForms Lite.</strong> To unlock more features consider <a href="%s" target="_blank" rel="noopener noreferrer">upgrading to Pro</a> for 50%% off.', 'wpforms-lite' ),
 				[
 					'a'      => [
 						'href'   => [],

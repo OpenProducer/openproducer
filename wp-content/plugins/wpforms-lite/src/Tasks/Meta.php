@@ -106,7 +106,7 @@ class Meta extends \WPForms_DB {
 			$charset_collate .= " COLLATE {$wpdb->collate}";
 		}
 
-		$sql = "CREATE TABLE {$this->table_name} (
+		$sql = "CREATE TABLE IF NOT EXISTS {$this->table_name} (
 			id bigint(20) NOT NULL AUTO_INCREMENT,
 			action varchar(255) NOT NULL,
 			data longtext NOT NULL,

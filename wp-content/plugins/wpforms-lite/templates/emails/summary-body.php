@@ -10,6 +10,8 @@
  * @var array $info_block
  */
 
+use WPForms\Integrations\LiteConnect\LiteConnect;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -26,32 +28,78 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php else : ?>
 				<p class="large"><?php esc_html_e( 'Let’s see how your forms performed.', 'wpforms-lite' ); ?></p>
 				<p class="lite-disclaimer">
-					<?php
-					echo wp_kses(
-						__( 'Below is the total number of submissions for each form, <strong>however actual entries are not stored by WPForms Lite</strong>.', 'wpforms-lite' ),
-						[
-							'strong' => [],
-						]
-					);
-					?>
+					<?php esc_html_e( 'Below is the total number of submissions for each form. However, form entries are not stored by WPForms Lite.', 'wpforms-lite' ); ?>
 				</p>
-				<p class="lite-disclaimer">
-					<?php
-					printf(
-						wp_kses( /* translators: %s - WPForms.com Upgrade page URL. */
-							__( 'To view future entries inside your WordPress dashboard, and get more detailed reports, consider <a href="%s" target="_blank" rel="noopener noreferrer">upgrading to Pro</a>', 'wpforms-lite' ),
-							[
-								'a' => [
-									'href'   => [],
-									'rel'    => [],
-									'target' => [],
-								],
-							]
-						),
-						'https://wpforms.com/lite-upgrade/?utm_source=WordPress&utm_medium=Weekly%20Summary%20Email&utm_campaign=liteplugin&utm_content=Upgrade'
-					);
-					?>
-				</p>
+
+				<?php if ( LiteConnect::is_enabled() ) : ?>
+					<p class="lite-disclaimer">
+						<strong><?php esc_html_e( 'We’ve got you covered!', 'wpforms-lite' ); ?></strong><br/>
+						<?php
+						printf(
+							wp_kses( /* translators: %s - WPForms.com Upgrade page URL. */
+								__( 'Your entries are being backed up securely in the cloud. When you’re ready to manage your entries inside WordPress, just <a href="%s" target="_blank" rel="noopener noreferrer">upgrade to Pro</a> and we’ll automatically import them in seconds!', 'wpforms-lite' ),
+								[
+									'a' => [
+										'href'   => [],
+										'rel'    => [],
+										'target' => [],
+									],
+								]
+							),
+							'https://wpforms.com/lite-upgrade/?utm_source=WordPress&utm_medium=Weekly%20Summary%20Email&utm_campaign=liteplugin&utm_content=Upgrade'
+						);
+						?>
+					</p>
+					<p class="lite-disclaimer">
+						<?php
+							printf(
+								'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
+								'https://wpforms.com/lite-upgrade/?utm_source=WordPress&utm_medium=Weekly%20Summary%20Email&utm_campaign=liteplugin&utm_content=Upgrade',
+								esc_html__( 'Check out what else you’ll get with your Pro license.', 'wpforms-lite' )
+							);
+						?>
+					</p>
+				<?php else : ?>
+						<p class="lite-disclaimer">
+							<strong><?php esc_html_e( 'Note: Entry backups are not enabled.', 'wpforms-lite' ); ?></strong><br/>
+							<?php esc_html_e( 'We recommend that you enable entry backups to guard against lost entries.', 'wpforms-lite' ); ?>
+						</p>
+						<p class="lite-disclaimer">
+							<?php
+							printf(
+								wp_kses( /* translators: %s - WPForms.com Documentation page URL. */
+									__( 'Backups are completely free, 100%% secure, and you can turn them on in a few clicks! <a href="%s" target="_blank" rel="noopener noreferrer">Enable entry backups now.</a>', 'wpforms-lite' ),
+									[
+										'a' => [
+											'href'   => [],
+											'rel'    => [],
+											'target' => [],
+										],
+									]
+								),
+								'https://wpforms.com/docs/how-to-use-lite-connect-for-wpforms/#backup-with-lite-connect/?utm_source=WordPress&utm_medium=Weekly%20Summary%20Email&utm_campaign=liteplugin&utm_content=Documentation'
+							);
+							?>
+						</p>
+						<p class="lite-disclaimer">
+							<?php
+							printf(
+								wp_kses( /* translators: %s - WPForms.com Upgrade page URL. */
+									__( 'When you’re ready to manage your entries inside WordPress, <a href="%s" target="_blank" rel="noopener noreferrer">upgrade to Pro</a> to import your entries.', 'wpforms-lite' ),
+									[
+										'a' => [
+											'href'   => [],
+											'rel'    => [],
+											'target' => [],
+										],
+									]
+								),
+								'https://wpforms.com/lite-upgrade/?utm_source=WordPress&utm_medium=Weekly%20Summary%20Email&utm_campaign=liteplugin&utm_content=Upgrade'
+							);
+							?>
+						</p>
+				<?php endif; ?>
+
 			<?php endif; ?>
 			<table class="email-summaries">
 				<thead>

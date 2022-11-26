@@ -113,7 +113,7 @@ class WPForms_Field_Checkbox extends WPForms_Field {
 		$choices  = $field['choices'];
 		$dynamic  = wpforms_get_field_dynamic_choices( $field, $form_id, $form_data );
 
-		if ( $dynamic ) {
+		if ( $dynamic !== false ) {
 			$choices              = $dynamic;
 			$field['show_values'] = true;
 		}
@@ -139,10 +139,12 @@ class WPForms_Field_Checkbox extends WPForms_Field {
 
 			// Used for dynamic choices.
 			$depth = isset( $choice['depth'] ) ? absint( $choice['depth'] ) : 1;
+			$label = isset( $choice['label'] ) ? $choice['label'] : '';
 
 			// Choice labels should not be left blank, but if they are we
 			// provide a basic value.
-			$value = isset( $field['show_values'] ) ? $choice['value'] : $choice['label'];
+			$value = isset( $field['show_values'] ) ? $choice['value'] : $label;
+
 			if ( '' === $value ) {
 				if ( 1 === count( $choices ) ) {
 					$value = esc_html__( 'Checked', 'wpforms-lite' );
@@ -166,7 +168,7 @@ class WPForms_Field_Checkbox extends WPForms_Field {
 					'class' => array( 'wpforms-field-label-inline' ),
 					'data'  => array(),
 					'id'    => '',
-					'text'  => $choice['label'],
+					'text'  => $label,
 				),
 				'attr'      => array(
 					'name'  => "wpforms[fields][{$field_id}][]",
@@ -648,7 +650,7 @@ class WPForms_Field_Checkbox extends WPForms_Field {
 				$post = get_post( $id );
 
 				if ( ! is_wp_error( $post ) && ! empty( $post ) && $data['dynamic_post_type'] === $post->post_type ) {
-					$posts[] = esc_html( $post->post_title );
+					$posts[] = esc_html( wpforms_get_post_title( $post ) );
 				}
 			}
 
@@ -669,7 +671,7 @@ class WPForms_Field_Checkbox extends WPForms_Field {
 				$term = get_term( $id, $field['dynamic_taxonomy'] );
 
 				if ( ! is_wp_error( $term ) && ! empty( $term ) ) {
-					$terms[] = esc_html( $term->name );
+					$terms[] = esc_html( wpforms_get_term_name( $term ) );
 				}
 			}
 

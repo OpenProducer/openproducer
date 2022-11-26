@@ -35,6 +35,34 @@ class Payments extends Education\Builder\Panel {
 	}
 
 	/**
+	 * Get addons for the Payments panel.
+	 *
+	 * @since 1.7.7.2
+	 *
+	 * @return array
+	 */
+	protected function get_addons() {
+
+		$addons = $this->addons->get_by_category( $this->get_name() );
+
+		// Make Stripe at the top of the list.
+		foreach ( $addons as $key => $addon ) {
+
+			if ( $addon['slug'] !== 'wpforms-stripe' ) {
+				continue;
+			}
+
+			$addon['recommended'] = true;
+
+			unset( $addons[ $key ] );
+			array_unshift( $addons, $addon );
+			break;
+		}
+
+		return $addons;
+	}
+
+	/**
 	 * Template name for rendering single addon item.
 	 *
 	 * @since 1.6.6

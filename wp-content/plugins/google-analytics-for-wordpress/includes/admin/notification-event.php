@@ -55,21 +55,21 @@ class MonsterInsights_Notification_Event {
 	 */
 	public $notification_type;
 
-    /**
-     * Category of this notification: alert or insight
-     *
-     * @var string
-     *
-     * @since 8.2.0
-     */
-    public $notification_category;
+	/**
+	 * Category of this notification: alert or insight
+	 *
+	 * @var string
+	 *
+	 * @since 8.2.0
+	 */
+	public $notification_category;
 
-    /**
-     * Priority of this notification: 1-3
-     *
-     * @var int
-     */
-    public $notification_priority;
+	/**
+	 * Priority of this notification: 1-3
+	 *
+	 * @var int
+	 */
+	public $notification_priority;
 
 	/**
 	 * Report start date if required e.g: "-15 day"(Readable Time)
@@ -176,7 +176,7 @@ class MonsterInsights_Notification_Event {
 	 *
 	 * @return string
 	 */
-	public function get_view_url( $scroll_to, $page, $tab='' ) {
+	public function get_view_url( $scroll_to, $page, $tab = '' ) {
 		return MonsterInsights()->notifications->get_view_url( $scroll_to, $page, $tab );
 	}
 

@@ -50,7 +50,10 @@ class Elementor implements IntegrationInterface {
 		add_action( 'elementor/frontend/after_enqueue_scripts', [ $this, 'preview_assets' ] );
 		add_action( 'elementor/frontend/after_enqueue_scripts', [ $this, 'frontend_assets' ] );
 		add_action( 'elementor/editor/after_enqueue_styles', [ $this, 'editor_assets' ] );
-		add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widget' ] );
+
+		version_compare( ELEMENTOR_VERSION, '3.5.0', '>=' ) ?
+			add_action( 'elementor/widgets/register', [ $this, 'register_widget' ] ) :
+			add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widget' ] );
 
 		add_action( 'wp_ajax_wpforms_admin_get_form_selector_options', [ $this, 'ajax_get_form_selector_options' ] );
 	}
@@ -181,10 +184,13 @@ class Elementor implements IntegrationInterface {
 	 * Register WPForms Widget.
 	 *
 	 * @since 1.6.2
+	 * @since 1.7.6 Added support for new registration method since 3.5.0.
 	 */
 	public function register_widget() {
 
-		ElementorPlugin::instance()->widgets_manager->register_widget_type( new Widget() );
+		version_compare( ELEMENTOR_VERSION, '3.5.0', '>=' ) ?
+			ElementorPlugin::instance()->widgets_manager->register( new Widget() ) :
+			ElementorPlugin::instance()->widgets_manager->register_widget_type( new Widget() );
 	}
 
 	/**

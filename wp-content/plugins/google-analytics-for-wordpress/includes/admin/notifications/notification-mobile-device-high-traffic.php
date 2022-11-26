@@ -11,8 +11,8 @@ final class MonsterInsights_Notification_Mobile_Device_High_Traffic extends Mons
 	public $notification_id = 'monsterinsights_notification_mobile_device_high_traffic';
 	public $notification_interval = 30; // in days
 	public $notification_type = array( 'basic', 'lite', 'master', 'plus', 'pro' );
-    public $notification_category = 'insight';
-    public $notification_priority = 2;
+	public $notification_category = 'insight';
+	public $notification_priority = 2;
 
 	/**
 	 * Prepare Notification
@@ -22,7 +22,7 @@ final class MonsterInsights_Notification_Mobile_Device_High_Traffic extends Mons
 	 * @since 7.12.3
 	 */
 	public function prepare_notification_data( $notification ) {
-		$report = $this->get_report( 'overview', $this->report_start_from, $this->report_end_to );
+		$report         = $this->get_report( 'overview', $this->report_start_from, $this->report_end_to );
 		$mobile_traffic = isset( $report['data']['devices']['mobile'] ) ? $report['data']['devices']['mobile'] : 0;
 		$tablet_traffic = isset( $report['data']['devices']['tablet'] ) ? $report['data']['devices']['tablet'] : 0;
 

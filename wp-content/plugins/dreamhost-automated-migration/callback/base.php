@@ -6,11 +6,11 @@ if (!class_exists('BVCallbackBase')) :
 class BVCallbackBase {
 
 	public static $wing_infos = array("BRAND_WING_VERSION" => '1.0',
-		"DB_WING_VERSION" => '1.0',
-		"ACCOUNT_WING_VERSION" => '1.0',
-		"MISC_WING_VERSION" => '1.1',
-		"FS_WING_VERSION" => '1.0',
-		"INFO_WING_VERSION" => '1.1',
+		"DB_WING_VERSION" => '1.1',
+		"ACCOUNT_WING_VERSION" => '1.1',
+		"MISC_WING_VERSION" => '1.2',
+		"FS_WING_VERSION" => '1.2',
+		"INFO_WING_VERSION" => '1.5',
 		);
 
 	public function objectToArray($obj) {

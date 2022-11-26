@@ -2,6 +2,7 @@
 
 namespace WPForms\Integrations\UsageTracking;
 
+use WPForms\Admin\Builder\Templates;
 use WPForms\Integrations\IntegrationInterface;
 
 /**
@@ -156,6 +157,7 @@ class UsageTracking implements IntegrationInterface {
 			'is_multisite'                   => is_multisite(),
 			'is_wpcom'                       => defined( 'IS_WPCOM' ) && IS_WPCOM,
 			'is_wpcom_vip'                   => ( defined( 'WPCOM_IS_VIP_ENV' ) && WPCOM_IS_VIP_ENV ) || ( function_exists( 'wpcom_is_vip' ) && wpcom_is_vip() ),
+			'is_wp_cache'                    => defined( 'WP_CACHE' ) && WP_CACHE,
 			'sites_count'                    => $this->get_sites_total(),
 			'active_plugins'                 => $this->get_active_plugins(),
 			'theme_name'                     => $theme_data->name,
@@ -249,6 +251,12 @@ class UsageTracking implements IntegrationInterface {
 					'authorize_net-test-transaction-key',
 					'authorize_net-live-api-login-id',
 					'authorize_net-live-transaction-key',
+					'square-location-id-sandbox',
+					'square-location-id-production',
+					'geolocation-google-places-api-key',
+					'geolocation-algolia-places-application-id',
+					'geolocation-algolia-places-search-only-api-key',
+					'geolocation-mapbox-search-access-token',
 					'recaptcha-site-key',
 					'recaptcha-secret-key',
 					'recaptcha-fail-msg',
@@ -270,7 +278,8 @@ class UsageTracking implements IntegrationInterface {
 			$data[ $key ] = $value;
 		}
 
-		return $data;
+		// Add favorite templates to the settings array.
+		return array_merge( $data, $this->get_favorite_templates() );
 	}
 
 	/**
@@ -600,5 +609,27 @@ class UsageTracking implements IntegrationInterface {
 			},
 			$forms
 		);
+	}
+
+	/**
+	 * Get the favorite templates.
+	 *
+	 * @since 1.7.7
+	 *
+	 * @return array
+	 */
+	private function get_favorite_templates() {
+
+		$settings  = [];
+		$templates = (array) get_option( Templates::FAVORITE_TEMPLATES_OPTION, [] );
+
+		foreach ( $templates as $user_templates ) {
+			foreach ( $user_templates as $template => $v ) {
+				$name              = 'fav_templates_' . str_replace( '-', '_', $template );
+				$settings[ $name ] = empty( $settings[ $name ] ) ? 1 : ++ $settings[ $name ];
+			}
+		}
+
+		return $settings;
 	}
 }

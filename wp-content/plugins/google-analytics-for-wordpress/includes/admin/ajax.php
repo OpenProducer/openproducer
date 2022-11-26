@@ -11,7 +11,7 @@
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 /**
@@ -22,21 +22,22 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function monsterinsights_ajax_set_user_setting() {
 
-    // Run a security check first.
-    check_ajax_referer( 'monsterinsights-set-user-setting', 'nonce' );
+	// Run a security check first.
+	check_ajax_referer( 'monsterinsights-set-user-setting', 'nonce' );
 
-    // Prepare variables.
-    $name    = stripslashes( $_POST['name'] );
-    $value   = stripslashes( $_POST['value'] );
+	// Prepare variables.
+	$name  = stripslashes( $_POST['name'] );
+	$value = stripslashes( $_POST['value'] );
 
-    // Set user setting.
-    set_user_setting( $name, $value );
+	// Set user setting.
+	set_user_setting( $name, $value );
 
-    // Send back the response.
-    wp_send_json_success();
-    wp_die();
+	// Send back the response.
+	wp_send_json_success();
+	wp_die();
 
 }
+
 add_action( 'wp_ajax_monsterinsights_install_addon', 'monsterinsights_ajax_install_addon' );
 
 /**
@@ -47,69 +48,69 @@ add_action( 'wp_ajax_monsterinsights_install_addon', 'monsterinsights_ajax_insta
  */
 function monsterinsights_ajax_install_addon() {
 
-    // Run a security check first.
-    check_ajax_referer( 'monsterinsights-install', 'nonce' );
+	// Run a security check first.
+	check_ajax_referer( 'monsterinsights-install', 'nonce' );
 
-    if ( ! monsterinsights_can_install_plugins() ) {
-	    wp_send_json( array(
-		    'error' => esc_html__( 'You are not allowed to install plugins', 'google-analytics-for-wordpress' ),
-	    ) );
-    }
+	if ( ! monsterinsights_can_install_plugins() ) {
+		wp_send_json( array(
+			'error' => esc_html__( 'You are not allowed to install plugins', 'google-analytics-for-wordpress' ),
+		) );
+	}
 
-    // Install the addon.
-    if ( isset( $_POST['plugin'] ) ) {
-        $download_url = $_POST['plugin'];
-        global $hook_suffix;
+	// Install the addon.
+	if ( isset( $_POST['plugin'] ) ) {
+		$download_url = $_POST['plugin'];
+		global $hook_suffix;
 
-        // Set the current screen to avoid undefined notices.
-        set_current_screen();
+		// Set the current screen to avoid undefined notices.
+		set_current_screen();
 
-        // Prepare variables.
-        $method = '';
-        $url    = add_query_arg(
-            array(
-                'page' => 'monsterinsights-settings'
-            ),
-            admin_url( 'admin.php' )
-        );
-        $url = esc_url( $url );
+		// Prepare variables.
+		$method = '';
+		$url    = add_query_arg(
+			array(
+				'page' => 'monsterinsights-settings'
+			),
+			admin_url( 'admin.php' )
+		);
+		$url    = esc_url( $url );
 
-        // Start output bufferring to catch the filesystem form if credentials are needed.
-        ob_start();
-        if ( false === ( $creds = request_filesystem_credentials( $url, $method, false, false, null ) ) ) {
-            $form = ob_get_clean();
-            echo json_encode( array( 'form' => $form ) );
-            wp_die();
-        }
+		// Start output bufferring to catch the filesystem form if credentials are needed.
+		ob_start();
+		if ( false === ( $creds = request_filesystem_credentials( $url, $method, false, false, null ) ) ) {
+			$form = ob_get_clean();
+			echo json_encode( array( 'form' => $form ) );
+			wp_die();
+		}
 
-        // If we are not authenticated, make it happen now.
-        if ( ! WP_Filesystem( $creds ) ) {
-            ob_start();
-            request_filesystem_credentials( $url, $method, true, false, null );
-            $form = ob_get_clean();
-            echo json_encode( array( 'form' => $form ) );
-            wp_die();
-        }
+		// If we are not authenticated, make it happen now.
+		if ( ! WP_Filesystem( $creds ) ) {
+			ob_start();
+			request_filesystem_credentials( $url, $method, true, false, null );
+			$form = ob_get_clean();
+			echo json_encode( array( 'form' => $form ) );
+			wp_die();
+		}
 
-        // We do not need any extra credentials if we have gotten this far, so let's install the plugin.
-	    monsterinsights_require_upgrader( false );
+		// We do not need any extra credentials if we have gotten this far, so let's install the plugin.
+		monsterinsights_require_upgrader( false );
 
-        // Create the plugin upgrader with our custom skin.
-        $installer = new Plugin_Upgrader( $skin = new MonsterInsights_Skin() );
-        $installer->install( $download_url );
+		// Create the plugin upgrader with our custom skin.
+		$installer = new Plugin_Upgrader( $skin = new MonsterInsights_Skin() );
+		$installer->install( $download_url );
 
-        // Flush the cache and return the newly installed plugin basename.
-        wp_cache_flush();
-        if ( $installer->plugin_info() ) {
-            $plugin_basename = $installer->plugin_info();
-            echo json_encode( array( 'plugin' => $plugin_basename ) );
-            wp_die();
-        }
-    }
+		// Flush the cache and return the newly installed plugin basename.
+		wp_cache_flush();
+		if ( $installer->plugin_info() ) {
+			$plugin_basename = $installer->plugin_info();
+			echo json_encode( array( 'plugin' => $plugin_basename ) );
+			wp_die();
+		}
+	}
 
-    // Send back a response.
-    echo json_encode( true );
-    wp_die();
+	// Send back a response.
+	echo json_encode( true );
+	wp_die();
 
 }
 
@@ -122,31 +123,33 @@ add_action( 'wp_ajax_monsterinsights_activate_addon', 'monsterinsights_ajax_acti
  */
 function monsterinsights_ajax_activate_addon() {
 
-    // Run a security check first.
-    check_ajax_referer( 'monsterinsights-activate', 'nonce' );
+	// Run a security check first.
+	check_ajax_referer( 'monsterinsights-activate', 'nonce' );
 
-    if ( ! current_user_can( 'activate_plugins' ) ) {
-	    wp_send_json( array(
-		    'error' => esc_html__( 'You are not allowed to activate plugins', 'google-analytics-for-wordpress' ),
-	    ) );
-    }
+	if ( ! current_user_can( 'activate_plugins' ) ) {
+		wp_send_json( array(
+			'error' => esc_html__( 'You are not allowed to activate plugins', 'google-analytics-for-wordpress' ),
+		) );
+	}
 
-    // Activate the addon.
-    if ( isset( $_POST['plugin'] ) ) {
-        if ( isset( $_POST['isnetwork'] ) &&  $_POST['isnetwork'] ) {
-            $activate = activate_plugin( $_POST['plugin'], NULL, true );
-        } else {
-            $activate = activate_plugin( $_POST['plugin'] );
-        }
+	// Activate the addon.
+	if ( isset( $_POST['plugin'] ) ) {
+		if ( isset( $_POST['isnetwork'] ) && $_POST['isnetwork'] ) {
+			$activate = activate_plugin( $_POST['plugin'], null, true );
+		} else {
+			$activate = activate_plugin( $_POST['plugin'] );
+		}
 
-        if ( is_wp_error( $activate ) ) {
-            echo json_encode( array( 'error' => $activate->get_error_message() ) );
-            wp_die();
-        }
-    }
+		if ( is_wp_error( $activate ) ) {
+			echo json_encode( array( 'error' => $activate->get_error_message() ) );
+			wp_die();
+		}
 
-    echo json_encode( true );
-    wp_die();
+		do_action( 'monsterinsights_after_ajax_activate_addon', sanitize_text_field( $_POST['plugin'] ) );
+	}
+
+	echo json_encode( true );
+	wp_die();
 
 }
 
@@ -159,26 +162,26 @@ add_action( 'wp_ajax_monsterinsights_deactivate_addon', 'monsterinsights_ajax_de
  */
 function monsterinsights_ajax_deactivate_addon() {
 
-    // Run a security check first.
-    check_ajax_referer( 'monsterinsights-deactivate', 'nonce' );
+	// Run a security check first.
+	check_ajax_referer( 'monsterinsights-deactivate', 'nonce' );
 
-    if ( ! current_user_can( 'deactivate_plugins' ) ) {
-	    wp_send_json( array(
-		    'error' => esc_html__( 'You are not allowed to deactivate plugins', 'google-analytics-for-wordpress' ),
-	    ) );
-    }
+	if ( ! current_user_can( 'deactivate_plugins' ) ) {
+		wp_send_json( array(
+			'error' => esc_html__( 'You are not allowed to deactivate plugins', 'google-analytics-for-wordpress' ),
+		) );
+	}
 
-    // Deactivate the addon.
-    if ( isset( $_POST['plugin'] ) ) {
-        if ( isset( $_POST['isnetwork'] ) && $_POST['isnetwork'] ) {
-            $deactivate = deactivate_plugins( $_POST['plugin'], false, true );
-        } else {
-            $deactivate = deactivate_plugins( $_POST['plugin'] );
-        }
-    }
+	// Deactivate the addon.
+	if ( isset( $_POST['plugin'] ) ) {
+		if ( isset( $_POST['isnetwork'] ) && $_POST['isnetwork'] ) {
+			$deactivate = deactivate_plugins( $_POST['plugin'], false, true );
+		} else {
+			$deactivate = deactivate_plugins( $_POST['plugin'] );
+		}
+	}
 
-    echo json_encode( true );
-    wp_die();
+	echo json_encode( true );
+	wp_die();
 }
 
 /**
@@ -192,24 +195,25 @@ function monsterinsights_ajax_deactivate_addon() {
  */
 function monsterinsights_ajax_dismiss_notice() {
 
-    // Run a security check first.
-    check_ajax_referer( 'monsterinsights-dismiss-notice', 'nonce' );
+	// Run a security check first.
+	check_ajax_referer( 'monsterinsights-dismiss-notice', 'nonce' );
 
-    // Deactivate the notice
-    if ( isset( $_POST['notice'] ) ) {
-        // Init the notice class and mark notice as deactivated
-        MonsterInsights()->notices->dismiss( $_POST['notice'] );
+	// Deactivate the notice
+	if ( isset( $_POST['notice'] ) ) {
+		// Init the notice class and mark notice as deactivated
+		MonsterInsights()->notices->dismiss( $_POST['notice'] );
 
-        // Return true
-        echo json_encode( true );
-        wp_die();
-    }
+		// Return true
+		echo json_encode( true );
+		wp_die();
+	}
 
-    // If here, an error occurred
-    echo json_encode( false );
-    wp_die();
+	// If here, an error occurred
+	echo json_encode( false );
+	wp_die();
 
 }
+
 add_action( 'wp_ajax_monsterinsights_ajax_dismiss_notice', 'monsterinsights_ajax_dismiss_notice' );
 
 /**
@@ -240,6 +244,7 @@ function monsterinsights_ajax_dismiss_semrush_cta() {
 	) );
 	wp_die();
 }
+
 add_action( 'wp_ajax_monsterinsights_vue_dismiss_semrush_cta', 'monsterinsights_ajax_dismiss_semrush_cta' );
 
 /**

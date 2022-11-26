@@ -10,13 +10,31 @@
 class WPForms_Form_Handler {
 
 	/**
+	 * Tags taxonomy.
+	 *
+	 * @since 1.7.5
+	 */
+	const TAGS_TAXONOMY = 'wpforms_form_tag';
+
+	/**
 	 * Primary class constructor.
 	 *
 	 * @since 1.0.0
 	 */
 	public function __construct() {
 
-		// Register wpforms custom post type.
+		$this->hooks();
+	}
+
+	/**
+	 * Hooks.
+	 *
+	 * @since 1.7.5
+	 */
+	private function hooks() {
+
+		// Register wpforms custom post type and taxonomy.
+		add_action( 'init', [ $this, 'register_taxonomy' ] );
 		add_action( 'init', [ $this, 'register_cpt' ] );
 
 		// Add wpforms to new-content admin bar menu.
@@ -31,7 +49,15 @@ class WPForms_Form_Handler {
 	 */
 	public function register_cpt() {
 
-		// Custom post type arguments, which can be filtered if needed.
+		// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
+
+		/**
+		 * Filters Custom Post Type arguments.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $args Arguments.
+		 */
 		$args = apply_filters(
 			'wpforms_post_type_args',
 			[
@@ -49,8 +75,36 @@ class WPForms_Form_Handler {
 			]
 		);
 
+		// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
+
 		// Register the post type.
 		register_post_type( 'wpforms', $args );
+	}
+
+	/**
+	 * Register the new taxonomy for tags.
+	 *
+	 * @since 1.7.5
+	 */
+	public function register_taxonomy() {
+
+		/**
+		 * Filters Tags taxonomy arguments.
+		 *
+		 * @since 1.7.5
+		 *
+		 * @param array $args Arguments.
+		 */
+		$args = apply_filters(
+			'wpforms_form_handler_register_taxonomy_args',
+			[
+				'hierarchical' => false,
+				'rewrite'      => false,
+				'public'       => false,
+			]
+		);
+
+		register_taxonomy( self::TAGS_TAXONOMY, 'wpforms', $args );
 	}
 
 	/**
@@ -399,7 +453,19 @@ class WPForms_Form_Handler {
 		// Add filter of the link rel attr to avoid JSON damage.
 		add_filter( 'wp_targeted_link_rel', '__return_empty_string', 50, 1 );
 
+		// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
+
+		/**
+		 * Filters form creation arguments.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $args Form creation arguments.
+		 * @param array $data Additional data.
+		 */
 		$args = apply_filters( 'wpforms_create_form_args', $args, $data );
+
+		// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
 
 		$form_content = [
 			'field_id' => '0',
@@ -409,11 +475,13 @@ class WPForms_Form_Handler {
 			],
 		];
 
+		$args_form_data = isset( $args['post_content'] ) ? json_decode( wp_unslash( $args['post_content'] ), true ) : null;
+
 		// Prevent $args['post_content'] from overwriting predefined $form_content.
 		// Typically, it happens if the form was created with a form template and a user was not redirected to a form editing screen afterwards.
 		// This is only possible if a user has 'wpforms_create_forms' and no 'wpforms_edit_own_forms' capability.
-		if ( isset( $args['post_content'] ) && is_array( json_decode( wp_unslash( $args['post_content'] ), true ) ) ) {
-			$args['post_content'] = wpforms_encode( array_replace_recursive( $form_content, json_decode( wp_unslash( $args['post_content'] ), true ) ) );
+		if ( is_array( $args_form_data ) ) {
+			$args['post_content'] = wpforms_encode( array_replace_recursive( $form_content, $args_form_data ) );
 		}
 
 		// Merge args and create the form.
@@ -428,6 +496,15 @@ class WPForms_Form_Handler {
 		);
 
 		$form_id = wp_insert_post( $form );
+
+		// Set form tags.
+		if ( ! empty( $form_id ) && ! empty( $args_form_data['settings']['form_tags'] ) ) {
+			wp_set_post_terms(
+				$form_id,
+				implode( ',', $args_form_data['settings']['form_tags'] ),
+				self::TAGS_TAXONOMY
+			);
+		}
 
 		// If user has no editing permissions the form considered to be created out of the WPForms form builder's context.
 		if ( ! wpforms_current_user_can( 'edit_form_single', $form_id ) ) {
@@ -445,6 +522,7 @@ class WPForms_Form_Handler {
 			$form_data['settings']['notifications']          = [
 				'1' => [
 					'email'          => '{admin_email}',
+					/* translators: %s - Form Title. */
 					'subject'        => sprintf( esc_html__( 'New Entry: %s', 'wpforms-lite' ), esc_html( $title ) ),
 					'sender_name'    => get_bloginfo( 'name' ),
 					'sender_address' => '{admin_email}',
@@ -463,7 +541,20 @@ class WPForms_Form_Handler {
 			$this->update( $form_id, $form_data, [ 'cap' => 'create_forms' ] );
 		}
 
+		// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
+
+		/**
+		 * Fires after the form was created.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param int   $form_id Form ID.
+		 * @param array $form    Form data.
+		 * @param array $data    Additional data.
+		 */
 		do_action( 'wpforms_create_form', $form_id, $form, $data );
+
+		// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
 
 		return $form_id;
 	}
@@ -673,6 +764,15 @@ class WPForms_Form_Handler {
 			if ( ! $new_form_id || is_wp_error( $new_form_id ) ) {
 				return false;
 			}
+
+			// Add tags to the new form.
+			if ( ! empty( $new_form_data['settings']['form_tags'] ) ) {
+				wp_set_post_terms(
+					$new_form_id,
+					implode( ',', (array) $new_form_data['settings']['form_tags'] ),
+					self::TAGS_TAXONOMY
+				);
+			}
 		}
 
 		return true;
@@ -688,7 +788,7 @@ class WPForms_Form_Handler {
 	 *
 	 * @return mixed int or false
 	 */
-	public function next_field_id( $form_id, $args = [] ) {
+	public function next_field_id( $form_id, $args = [] ) { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
 
 		if ( empty( $form_id ) ) {
 			return false;
@@ -708,20 +808,23 @@ class WPForms_Form_Handler {
 			return false;
 		}
 
-		if ( ! empty( $form['field_id'] ) ) {
+		$field_id     = 0;
+		$max_field_id = ! empty( $form['fields'] ) ? max( array_keys( $form['fields'] ) ) : 0;
+
+		// We pass the `field_id` after duplicating the Layout field that contains a bunch of fields.
+		// This is needed to avoid multiple AJAX calls after duplicating each field in the Layout.
+		if ( isset( $args['field_id'] ) ) {
+
+			$set_field_id = absint( $args['field_id'] ) - 1;
+			$field_id     = $set_field_id > $max_field_id ? $set_field_id : $max_field_id + 1;
+
+		} elseif ( ! empty( $form['field_id'] ) ) {
 
 			$field_id = absint( $form['field_id'] );
-
-			if ( ! empty( $form['fields'] ) && max( array_keys( $form['fields'] ) ) > $field_id ) {
-				$field_id = max( array_keys( $form['fields'] ) ) + 1;
-			}
-
-			$form['field_id'] = $field_id + 1;
-
-		} else {
-			$field_id         = '0';
-			$form['field_id'] = '1';
+			$field_id = $max_field_id > $field_id ? $max_field_id + 1 : $field_id;
 		}
+
+		$form['field_id'] = $field_id + 1;
 
 		// Skip creating a revision for this action.
 		remove_action( 'post_updated', 'wp_save_post_revision' );

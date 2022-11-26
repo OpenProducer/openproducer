@@ -7,7 +7,7 @@
  * Requires PHP:      5.6
  * Author:            WPForms
  * Author URI:        https://wpforms.com
- * Version:           1.7.4.1
+ * Version:           1.7.8
  * Text Domain:       wpforms-lite
  * Domain Path:       assets/languages
  *
@@ -36,7 +36,7 @@ if ( ! defined( 'WPFORMS_VERSION' ) ) {
 	 *
 	 * @since 1.0.0
 	 */
-	define( 'WPFORMS_VERSION', '1.7.4.1' );
+	define( 'WPFORMS_VERSION', '1.7.8' );
 }
 
 // Plugin Folder Path.
@@ -253,7 +253,7 @@ if ( version_compare( $GLOBALS['wp_version'], '5.2', '<' ) ) {
 					<?php
 					printf(
 						/* translators: %s - WordPress version. */
-						esc_html__( 'The WPForms plugin is disabled because it requires WordPress %s or greater.', 'wpforms-lite' ),
+						esc_html__( 'The WPForms plugin is disabled because it requires WordPress %s or later.', 'wpforms-lite' ),
 						'5.2'
 					);
 					?>

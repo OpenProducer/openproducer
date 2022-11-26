@@ -83,7 +83,7 @@ class MonsterInsights_Notification_Event_Runner {
 	/**
 	 * Update the last run time with a default of time.
 	 *
-	 * @param string     $notification_id The notification id to update the last run time for.
+	 * @param string $notification_id The notification id to update the last run time for.
 	 * @param string|int $time The timestamp to store the last run time.
 	 */
 	public function update_last_run( $notification_id, $time = '' ) {
@@ -140,7 +140,7 @@ class MonsterInsights_Notification_Event_Runner {
 					$added_notification = $notification->add_notification();
 
 					// Update the last run date as right now.
-					$this->update_last_run($notification->notification_id);
+					$this->update_last_run( $notification->notification_id );
 
 					// Avoid adding multiple notifications at the same time, and
 					// also avoid running more than 5 notifications that returned

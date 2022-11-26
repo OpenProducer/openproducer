@@ -14,7 +14,8 @@ class MonsterInsights_License_Compat {
 	/**
 	 * MonsterInsights_License_Shim constructor.
 	 */
-	public function __construct() {}
+	public function __construct() {
+	}
 
 	/**
 	 * @return string

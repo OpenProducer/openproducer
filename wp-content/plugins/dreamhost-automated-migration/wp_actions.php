@@ -27,11 +27,13 @@ if (!class_exists('DHWPAction')) :
 			} else {
 				DHAccount::setup($this->settings);
 			}
+			##ENABLECACHE##
 		}
 
 		public function deactivate() {
 			$info = array();
 			$this->siteinfo->basic($info);
+			##DISABLECACHE##
 			$this->bvapi->pingbv('/bvapi/deactivate', $info);
 		}
 
@@ -39,12 +41,15 @@ if (!class_exists('DHWPAction')) :
 			##CLEARPTCONFIG##
 			##CLEARIPSTORE##
 			##CLEARDYNSYNCCONFIG##
+			##CLEARCACHECONFIG##
 			do_action('clear_bv_services_config');
 		}
 
 		public function clear_bv_services_config() {
 			$this->settings->deleteOption($this->bvinfo->services_option_name);
 		}
+
+		##SOUNINSTALLFUNCTION##
 
 		public function footerHandler() {
 			$bvfooter = $this->settings->getOption($this->bvinfo->badgeinfo);

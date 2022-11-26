@@ -87,7 +87,7 @@
 				$connectionBlocks.each( function() {
 					var requiredEmpty = false,
 						providerName;
-					$( this ).find( 'table span.required' ).each(function() {
+					$( this ).find( 'table span.required' ).each( function() {
 						var $element = $( this ).parent().parent().find( 'select' );
 						if ( $element.val() === '' ) {
 							requiredEmpty = true;
@@ -215,9 +215,9 @@
 										$connections.find( '.wpforms-provider-connections' ).prepend( res.data.html );
 
 										// Process and load the accounts if they exist.
-										var $connection = $connections.find( '.wpforms-provider-connection:first' );
+										var $connection = $connections.find( '.wpforms-provider-connection' ).first();
 										if ( $connection.find( '.wpforms-provider-accounts option:selected' ) ) {
-											$connection.find( '.wpforms-provider-accounts option:first' ).prop( 'selected', true );
+											$connection.find( '.wpforms-provider-accounts option' ).first().prop( 'selected', true );
 											$connection.find( '.wpforms-provider-accounts select' ).trigger( 'change' );
 										}
 									} else {
@@ -323,7 +323,7 @@
 						$container.after( res.data.html );
 
 						// Process first list found.
-						$connection.find( '.wpforms-provider-lists option:first' ).prop( 'selected', true );
+						$connection.find( '.wpforms-provider-lists option' ).first().prop( 'selected', true );
 						$connection.find( '.wpforms-provider-lists select' ).trigger( 'change' );
 					} else {
 						WPFormsProviders.errorDisplay( res.data.error, $container );

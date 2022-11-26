@@ -71,7 +71,7 @@ class WPForms_Overview {
 		// Load the class that builds the overview table.
 		require_once WPFORMS_PLUGIN_DIR . 'includes/admin/overview/class-overview-table.php';
 
-		$this->overview_table = new WPForms_Overview_Table();
+		$this->overview_table = WPForms_Overview_Table::get_instance();
 	}
 
 	/**
@@ -152,6 +152,24 @@ class WPForms_Overview {
 	}
 
 	/**
+	 * Determine if it is an empty state.
+	 *
+	 * @since 1.7.5
+	 */
+	private function is_empty_state() {
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+
+		return empty( $this->overview_table->items ) &&
+			! isset( $_GET['search']['term'] ) &&
+			! isset( $_GET['status'] ) &&
+			! isset( $_GET['tags'] ) &&
+			array_sum( wpforms()->get( 'forms_views' )->get_count() ) === 0;
+
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+	}
+
+	/**
 	 * Build the output for the overview page.
 	 *
 	 * @since 1.0.0
@@ -175,16 +193,16 @@ class WPForms_Overview {
 				<?php
 				$this->overview_table->prepare_items();
 
+				// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
+				/**
+				 * Fires before forms overview list table output.
+				 *
+				 * @since 1.6.0.1
+				 */
 				do_action( 'wpforms_admin_overview_before_table' );
+				// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
 
-				if (
-					empty( $this->overview_table->items ) &&
-					// phpcs:disable WordPress.Security.NonceVerification.Recommended
-					! isset( $_GET['search']['term'] ) &&
-					! isset( $_GET['status'] ) &&
-					array_sum( wpforms()->get( 'forms_views' )->get_count() ) === 0
-					// phpcs:enable WordPress.Security.NonceVerification.Recommended
-				) {
+				if ( $this->is_empty_state() ) {
 
 					// Output no forms screen.
 					echo wpforms_render( 'admin/empty-states/no-forms' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

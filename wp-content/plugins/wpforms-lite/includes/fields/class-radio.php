@@ -106,7 +106,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 		$choices  = $field['choices'];
 		$dynamic  = wpforms_get_field_dynamic_choices( $field, $form_id, $form_data );
 
-		if ( $dynamic ) {
+		if ( $dynamic !== false ) {
 			$choices              = $dynamic;
 			$field['show_values'] = true;
 		}
@@ -500,7 +500,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 			$post                      = get_post( $value_raw );
 
 			if ( ! empty( $post ) && ! is_wp_error( $post ) && $data['dynamic_post_type'] === $post->post_type ) {
-				$data['value'] = esc_html( $post->post_title );
+				$data['value'] = esc_html( wpforms_get_post_title( $post ) );
 			}
 		} elseif ( 'taxonomy' === $dynamic && ! empty( $field['dynamic_taxonomy'] ) ) {
 
@@ -511,7 +511,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 			$term                     = get_term( $value_raw, $data['dynamic_taxonomy'] );
 
 			if ( ! empty( $term ) && ! is_wp_error( $term ) ) {
-				$data['value'] = esc_html( $term->name );
+				$data['value'] = esc_html( wpforms_get_term_name( $term ) );
 			}
 		} else {
 

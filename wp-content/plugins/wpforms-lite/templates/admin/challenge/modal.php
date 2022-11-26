@@ -66,7 +66,7 @@ if ( ! \defined( 'ABSPATH' ) ) {
 
 	<div class="wpforms-challenge-block-under-timer">
 		<?php if ( 'start' === $state ) : ?>
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=wpforms-builder&challenge=init' ) ); ?>" class="wpforms-btn wpforms-btn-md wpforms-btn-orange wpforms-challenge-start">
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=wpforms-builder' ) ); ?>" class="wpforms-btn wpforms-btn-md wpforms-btn-orange wpforms-challenge-start">
 				<?php esc_html_e( 'Start Challenge', 'wpforms-lite' ); ?>
 			</a>
 		<?php elseif ( 'progress' === $state ) : ?>

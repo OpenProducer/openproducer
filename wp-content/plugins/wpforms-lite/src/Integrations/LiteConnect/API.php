@@ -73,6 +73,24 @@ class API {
 	const KEY_NONCE_ACTION = 'lite_connect_key_action';
 
 	/**
+	 * Max number of attempts for generate_site_key().
+	 *
+	 * @since 1.7.5
+	 *
+	 * @var integer
+	 */
+	const MAX_GENERATE_KEY_ATTEMPTS = 20;
+
+	/**
+	 * Generate key attempt counter.
+	 *
+	 * @since 1.7.5
+	 *
+	 * @var string
+	 */
+	const GENERATE_KEY_ATTEMPT_COUNTER_OPTION = 'wpforms_lite_connect_generate_key_attempt_counter';
+
+	/**
 	 * Lite Connect API URL.
 	 *
 	 * @since 1.7.4
@@ -128,6 +146,10 @@ class API {
 	 */
 	protected function generate_site_key() {
 
+		if ( $this->is_max_generate_key_attempts_reached() ) {
+			return false;
+		}
+
 		if ( Transient::get( self::LITE_CONNECT_SITE_KEY_LOCK ) ) {
 			return false;
 		}
@@ -153,6 +175,8 @@ class API {
 		if ( $response !== false ) {
 			Transient::delete( self::LITE_CONNECT_SITE_KEY_LOCK );
 		}
+
+		$this->update_generate_key_attempts_count();
 
 		// At this point, we do not have the site key.
 		// It will be sent to us in the 'wpforms/auth/key/nonce' callback.
@@ -390,5 +414,58 @@ class API {
 		}
 
 		$this->site_id = $site['id'];
+	}
+
+	/**
+	 * Check that we have not reached the max number of attempts to get keys from API using generate_keys().
+	 *
+	 * @since 1.7.5
+	 *
+	 * @return bool
+	 */
+	private function is_max_generate_key_attempts_reached() {
+
+		$attempts_count = get_option( self::GENERATE_KEY_ATTEMPT_COUNTER_OPTION, 0 );
+
+		return $attempts_count >= self::MAX_GENERATE_KEY_ATTEMPTS;
+	}
+
+	/**
+	 * Update count of the attempts to get keys from API using generate_keys().
+	 * It allows us to prevent sending requests to the API server infinitely.
+	 *
+	 * @since 1.7.5
+	 */
+	private function update_generate_key_attempts_count() {
+
+		global $wpdb;
+
+		$counter = get_option( self::GENERATE_KEY_ATTEMPT_COUNTER_OPTION, 0 );
+
+		if ( $counter >= self::MAX_GENERATE_KEY_ATTEMPTS - 1 ) {
+			// Disable Lite Connect.
+			$wpforms_settings                               = get_option( 'wpforms_settings', [] );
+			$wpforms_settings[ LiteConnect::SETTINGS_SLUG ] = 0;
+
+			update_option( 'wpforms_settings',  $wpforms_settings );
+		}
+
+		// Store actual attempt counter value to the option.
+		// We need here an atomic operation to avoid race conditions with getting site key via callback.
+		// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->query(
+			$wpdb->prepare(
+				"INSERT INTO $wpdb->options
+				(option_name, option_value, autoload)
+                VALUES ( %s, 1, 'no' )
+				ON DUPLICATE KEY UPDATE
+					option_value = option_value + 1",
+				self::GENERATE_KEY_ATTEMPT_COUNTER_OPTION
+			)
+		);
+		// phpcs:enable WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
+
+		wp_cache_delete( self::GENERATE_KEY_ATTEMPT_COUNTER_OPTION, 'options' );
 	}
 }

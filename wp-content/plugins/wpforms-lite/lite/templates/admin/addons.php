@@ -32,10 +32,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 						],
 						$upgrade_link_base
 					);
+
+					if ( $addon['slug'] === 'wpforms-stripe' ) {
+						$addon['recommended'] = true;
+					}
 				?>
 					<div class="addon-container">
 						<div class="addon-item">
-							<div class="details wpforms-clear" style="">
+							<div class="details wpforms-clear">
 								<img src="<?php echo esc_url( WPFORMS_PLUGIN_URL . 'assets/images/' . $addon['icon'] ); ?>" alt="<?php echo esc_attr( $addon['title'] ); ?> <?php esc_attr_e( 'logo', 'wpforms-lite' ); ?>">
 								<h5 class="addon-name">
 									<?php
@@ -46,6 +50,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 										esc_html( $addon['title'] )
 									);
 									?>
+									<?php if ( ! empty( $addon['recommended'] ) ) : ?>
+										<span class="wpforms-addon-recommended">
+											<i class="fa fa-star" aria-hidden="true"></i>
+											<?php esc_html_e( 'Recommended', 'wpforms-lite' ); ?>
+										</span>
+									<?php endif; ?>
 								</h5>
 								<p class="addon-desc"><?php echo esc_html( $addon['excerpt'] ); ?></p>
 							</div>

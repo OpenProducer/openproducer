@@ -364,7 +364,7 @@ class Tokens {
 	 * @param string|false $token_key If provided, check that the token matches the provided input.
 	 * @param bool|true    $suppress_errors If true, return a falsy value when the token isn't found; When false, return a descriptive WP_Error when the token isn't found.
 	 *
-	 * @return object|false
+	 * @return object|false|WP_Error
 	 */
 	public function get_access_token( $user_id = false, $token_key = false, $suppress_errors = true ) {
 		if ( $this->is_locked() ) {
@@ -487,18 +487,19 @@ class Tokens {
 	 *
 	 * @todo Refactor to properly load the XMLRPC client independently.
 	 *
-	 * @param Integer $user_id the user identifier.
-	 * @param bool    $can_overwrite_primary_user Allow for the primary user to be disconnected.
-	 * @return Boolean Whether the disconnection of the user was successful.
+	 * @param int       $user_id The user identifier.
+	 * @param bool|null $deprecated Deprecated.
+	 *
+	 * @return bool Whether the disconnection of the user was successful.
 	 */
-	public function disconnect_user( $user_id, $can_overwrite_primary_user = false ) {
+	public function disconnect_user( $user_id, $deprecated = null ) {
 		$tokens = $this->get_user_tokens();
 		if ( ! $tokens ) {
 			return false;
 		}
 
-		if ( Jetpack_Options::get_option( 'master_user' ) === $user_id && ! $can_overwrite_primary_user ) {
-			return false;
+		if ( null !== $deprecated ) {
+			_deprecated_argument( __METHOD__, '1.46.0', 'Parameter $can_overwrite_primary_user is deprecated' );
 		}
 
 		if ( ! isset( $tokens[ $user_id ] ) ) {

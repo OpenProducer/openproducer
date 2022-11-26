@@ -1,5 +1,132 @@
 == Changelog ==
 
+= 1.7.8 =
+- Added: All anti-spam protection settings are grouped in one place in the Form Builder > Settings for easier access.
+- Changed: Recently added Form Templates are now available in the "New Templates" category.
+- Changed: Non-responsive (desktop) version of the Form Builder is not accessible on mobile devices.
+- Fixed: jQuery deprecation notices were triggered in the browser's console.
+- Fixed: Close button in dropdowns was displayed incorrectly in certain places.
+- Fixed: A PHP warning was raised on certain site configurations when the user tried to submit a form.
+- Fixed: Toggle control animation was working incorrectly in certain cases.
+- Fixed: Text was overlapping the down arrow on dropdowns in the 2021 theme.
+- Fixed: WPForms Challenge user experience was improved.
+- Fixed: Smart tag list was too big in fields with warnings.
+- Fixed: Some input masks caused the text in the Text field to be right-aligned.
+- Fixed: Compatibility with the 2023 theme was improved.
+
+= 1.7.7.2 =
+- Added: There is a new filter `wpforms_builder_panel_sidebar_section_classes` to change builder panel sidebar section classes.
+- Changed: Updated DOMPurify library to 2.4.0.
+- Fixed: Placeholder text in the Dropdown field was cut off in the Form Builder.
+- Fixed: The Form Builder had an inconsistent text strings escaping.
+- Fixed: The information about "no form templates to display" did not disappear when a category was changed.
+
+= 1.7.7.1 =
+- Fixed: Very long field labels were not wrapped and were breaking mid-word.
+
+= 1.7.7 =
+- Added: All templates are now available on our new Form Templates admin page.
+- Added: Form Templates can now be marked as favorite for easier access to forms inside the Form Builder.
+- Added: The form fields column can now be collapsed in the Form Builder to give more space to the form preview panel.
+- Changed: The DB tables row in the Site Health Info section is now private which means it's excluded from the copied data when the "Copy site info to clipboard" button is clicked.
+- Fixed: WPForms Challenge was displayed after a forms search with no result.
+- Fixed: WPForms Challenge disappeared after selecting a template for the new form.
+- Fixed: After a form submission a PHP warning was generated in some cases when the Akismet anti-spam protection setting was enabled.
+- Fixed: Using allow/deny list was breaking input mask validation for all fields above the Email field.
+- Fixed: An unusually long text string in the confirmation message caused layout problems due to overflow.
+- Fixed: `page_title` smart tag was working inconsistently on a form preview page.
+- Fixed: From Email address check in the Form Builder > Notifications was incorrectly handling domain check containing the `www` prefix.
+- Fixed: Input mask validation message didn't use what was previously saved on the WPForms > Settings > Validation page.
+- Fixed: On the Form builder, a template selection didn't work if a page was translated through web extensions.
+
+= 1.7.6 =
+- Added: Form Submissions can now be checked against the Akismet API to prevent spam.
+- Changed: Empty post titles and term names in Dynamic Choices are now treated the way WordPress does.
+- Changed: Modern Dropdown field fuzzy search sensitivity is adjusted to display only exact matches.
+- Changed: Allow typing choices in the modern Dropdown field with the Multiple Options Selection option enabled.
+- Changed: WPForms Challenge experience is improved for new users.
+- Changed: Lite Connect is now disabled in non-production environments.
+- Changed: Lite Connect functionality improves handling of staging and cloned sites, and changed domain names.
+- Changed: Unnecessary PHP packages are no longer shipped in WPForms Lite.
+- Changed: Stylesheets loaded in the Form Builder and on certain plugin pages are better optimized and shrank to improve performance.
+- Changed: WPForms now better integrates with the WP Mail SMTP plugin to enable overriding From Name and From Email values in existing forms.
+- Changed: Form Notifications now have better validation of From Email settings.
+- Changed: Start using new `elementor/widgets/register` hook introduced in Elementor 3.5.0.
+- Changed: Updated DOMPurify library to 2.3.10.
+- Changed: Updated jquery.validate library to 1.19.5.
+- Fixed: Improved compatibility with Twenty Twenty-Two theme.
+- Fixed: Added meaningful `alt` text to form submission spinner image to stop being flagged by certain SEO scanners.
+- Fixed: Constant Contact Authorization Code and Account Nickname fields are now required on the Settings > Integrations page.
+- Fixed: Constant Contact connection can now be added even if the Authorization Code is invalid.
+- Fixed: Validation of required fields on Marketing section in the Form Builder was triggered even if the field is hidden.
+- Fixed: Action Scheduler was triggering a PHP fatal error on the Tools > Scheduled Actions page on PHP 5.6.
+- Fixed: Images breaking out of containers on smaller screens if Multiple Choice and Checkboxes fields were set to use image choices.
+- Fixed: `query_var` smart tag was not working in Confirmations and Notifications.
+- Fixed: Custom templates had an incorrect badge, "Addon" instead of "Custom".
+- Fixed: The Confirmation Message label overlapped the editor when WYSIWYG mode was disabled.
+- Fixed: Default form title was not changed when switching form templates.
+- Fixed: Both `page_title` and `page_id` smart tags were returning incorrect values on non-singular pages if the form was used outside the Loop.
+- Fixed: WPForms Block preview (on block hover) was rendered incorrectly in Site Editor.
+- Fixed: Custom validation errors were not displayed with hCaptcha enabled upon AJAX form submission.
+- Fixed: Validation errors were not shown when the field with an input mask was not fully filled.
+- Fixed: Smart Tags could be added to Sender Email and Sender Name if the fields were managed by the WP Mail SMTP plugin.
+- Fixed: The Confirmation message block had incorrect margins in the Twenty Twenty-Two theme.
+- Fixed: Occasional errors during migration were fixed when upgrading from some older versions of WPForms.
+- Fixed: The Confirmation Redirect URL can no longer be saved with an empty value.
+- Fixed: Default choices were displayed on the frontend if a Dynamic Choices source had no objects (Dropdown, Multiple Choice, and Checkboxes fields were affected).
+
+= 1.7.5.5 =
+- Fixed: Migrations logic was broken in certain cases when addons have their own migrations.
+- Fixed: Security-related improvements around email generation for notifications.
+
+= 1.7.5.3 =
+- Added: New filter to modify CSS classes of the form submit button on the frontend.
+- Changed: Improve cached templates handling in the Form Builder.
+- Fixed: Retrieving a current URL should not strip a custom port.
+- Fixed: "JavaScript file not found" error when the "Load Assets Globally" option was enabled in Settings > General.
+- Fixed: Do not cache an incorrect or empty response from the Templates API.
+
+= 1.7.5.2 =
+- Fixed: Increase chances for the templates inside the Form Builder to load properly, so occasional empty form creation from a template should be gone.
+- Fixed: PHP fatal error was generated in some cases when Lite Connect attempted to generate site key too many times.
+
+= 1.7.5.1 =
+- Fixed: v1.7.5 migration did not complete when a database prefix other than `wp_` was used.
+- Fixed: Incorrect Form Tags links to filter by tags were generated right after saving tags.
+
+= 1.7.5 =
+- Added: Form Tags: add tags to forms with an ability to filter by them; bulk add/edit/delete tags for multiple forms.
+- Added: Display the status of the Lite Connect setting and the date-time when it was enabled (Tools > System Info).
+- Added: New `{unique_value}` smart tag.
+- Changed: The sodium library is now included in WordPress core, so we removed it from the plugin.
+- Changed: Action Scheduler library was updated to 3.4.2 to fix deprecation notices with PHP 8.1.
+- Changed: The jquery.validate library updated to 1.19.4.
+- Changed: Conditional logic can now be applied to custom fields.
+- Changed: Do not allow not completed Challenge to appear in the regular Form Builder.
+- Fixed: For some fields, their default values were not always previewed in the Form Builder.
+- Fixed: Regularly clean up additional information we store for each task we run within the plugin.
+- Fixed: No fatal error anymore in Allow/Deny email lists with very long or international emails.
+- Fixed: Correctly handle additional CSS classes for each WPForms block on the same page (Block Editor).
+- Fixed: Modals order was incorrect when the Lite Connect feature was enabled or disabled on mobile.
+- Fixed: Notification for the last step of the WPForms Challenge was not displayed on the Posts Page with the Gutenberg plugin.
+- Fixed: Some Form Templates could be empty upon fresh installation.
+- Fixed: Several minor issues in the Challenge flow are now fixed.
+- Fixed: Color Palette was not shown in the Form Builder for duplicated fields.
+- Fixed: Do not register Gutenberg block styles on the front end when no form is present on a page.
+- Fixed: Limit the number of attempts to get the site key in Lite Connect.
+- Fixed: Multiple Items (Radio) choice showed "Empty" on a single entry page if a selected choice value is undefined/empty.
+- Fixed: Added focus state indication for admin tabs.
+- Fixed: GDPR sub-settings remained enabled if GDPR is disabled and sub-setting was left enabled.
+- Fixed: Duplicate/Trash form actions did not work after sorting forms by Name, Author, or Created Date.
+- Fixed: Notices appeared in the debug.log when the user created a Custom Template and used it in the Form Builder.
+- Fixed: hCaptcha pointer had a weird thick dark border since WordPress 6.0.
+- Fixed: Check GDPR settings before trying to use a cookie.
+
+= 1.7.4.2 =
+- Changed: DOMPurify library updated to 2.3.8.
+- Fixed: WordPress 6.0 compatibility - WPForms block styling fixed inside the Full Site Editor.
+- Fixed: Lite Connect: submitted form entries counting improved.
+
 = 1.7.4.1 =
 - Fixed: LiteConnect auth key request didn't work with plain permalinks and with subdirectory install.
 - Fixed: Form Locations compatibility with the Full Site Editor template parts.

@@ -114,12 +114,15 @@ class System extends View {
 
 		if ( ! empty( $activated['pro'] ) ) {
 			$date  = $activated['pro'] + ( get_option( 'gmt_offset' ) * 3600 );
-			$data .= 'Pro:                      ' . date_i18n( esc_html__( 'M j, Y @ g:ia', 'wpforms-lite' ), $date ) . "\n";
+			$data .= 'Pro:                      ' . date_i18n( 'M j, Y @ g:ia', $date ) . "\n";
 		}
+
 		if ( ! empty( $activated['lite'] ) ) {
 			$date  = $activated['lite'] + ( get_option( 'gmt_offset' ) * 3600 );
-			$data .= 'Lite:                     ' . date_i18n( esc_html__( 'M j, Y @ g:ia', 'wpforms-lite' ), $date ) . "\n";
+			$data .= 'Lite:                     ' . date_i18n( 'M j, Y @ g:ia', $date ) . "\n";
 		}
+
+		$data .= 'Lite Connect:             ' . $this->get_lite_connect_info() . "\n";
 
 		return $data;
 	}
@@ -376,4 +379,25 @@ class System extends View {
 		return $data;
 	}
 
+	/**
+	 * Get Lite Connect status info string.
+	 *
+	 * @since 1.7.5
+	 *
+	 * @return string
+	 */
+	private function get_lite_connect_info() {
+
+		$lc_enabled       = wpforms_setting( 'lite-connect-enabled' );
+		$lc_enabled_since = wpforms_setting( 'lite-connect-enabled-since' );
+		$date             = date_i18n( 'M j, Y @ g:ia', $lc_enabled_since + get_option( 'gmt_offset' ) * 3600 );
+
+		if ( $lc_enabled ) {
+			$string = $lc_enabled_since ? 'Backup is enabled since ' . $date : 'Backup is enabled';
+		} else {
+			$string = $lc_enabled_since ? 'Backup is not enabled. Previously was enabled since ' . $date : 'Backup is not enabled';
+		}
+
+		return $string;
+	}
 }

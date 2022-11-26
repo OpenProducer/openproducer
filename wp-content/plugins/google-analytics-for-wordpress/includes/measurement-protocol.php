@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-function monsterinsights_get_mp_api_url( ) {
+function monsterinsights_get_mp_api_url() {
 	return 'https://www.google-analytics.com/collect';
 }
 
@@ -23,15 +23,15 @@ function monsterinsights_mp_api_call( $args = array() ) {
 	$defaults = array(
 		't'  => 'event', // Required: Hit type
 		'ec' => '',      // Optional: Event category
-		'ea' => '', 	 // Optional: Event Action
-		'el' => '', 	 // Optional: Event Label
-		'ev' => null, 	 // Optional: Event Value
+		'ea' => '',     // Optional: Event Action
+		'el' => '',     // Optional: Event Label
+		'ev' => null,     // Optional: Event Value
 	);
 
-	$body  = array_merge( $defaults , $args );
+	$body = array_merge( $defaults, $args );
 
 	// We want to get the user's IP address when possible
-	$ip     = '';
+	$ip = '';
 	if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) && ! filter_var( $_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP ) === false ) {
 		$ip = $_SERVER['HTTP_CLIENT_IP'];
 	} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && ! filter_var( $_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP ) === false ) {
@@ -79,7 +79,7 @@ function monsterinsights_mp_api_call( $args = array() ) {
 		'uip' => $ip,
 
 		// Optional: User Agent
-		'ua'  => ! empty( $user_agent ) ?  $user_agent : $_SERVER['HTTP_USER_AGENT'],
+		'ua'  => ! empty( $user_agent ) ? $user_agent : $_SERVER['HTTP_USER_AGENT'],
 
 		// Optional: Time of the event
 		'z'   => time(),
@@ -105,7 +105,7 @@ function monsterinsights_mp_api_call( $args = array() ) {
 	}
 
 	$debug_mode = monsterinsights_is_debug_mode();
-	$args = array(
+	$args       = array(
 		'method'   => 'POST',
 		'timeout'  => '5',
 		'blocking' => ( $debug_mode ) ? true : false,
@@ -151,7 +151,7 @@ function monsterinsights_mp_track_event_call( $args = array() ) {
 		'ev' => null,
 	);
 
-	$args         = wp_parse_args( $args, $default_args );
+	$args = wp_parse_args( $args, $default_args );
 
 	//$args = apply_filters( 'monsterinsights_mp_track_event_call', $args );
 

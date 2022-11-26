@@ -92,12 +92,14 @@ class Core {
 		$strings['close']              = esc_html__( 'Close', 'wpforms-lite' );
 		$strings['ajax_url']           = admin_url( 'admin-ajax.php' );
 		$strings['nonce']              = wp_create_nonce( 'wpforms-education' );
-		$strings['activate_prompt']    = '<p>' . esc_html__( 'The %name% is installed but not activated. Would you like to activate it?', 'wpforms-lite' ) . '</p>';
+		/* translators: %s - addon name. */
+		$strings['activate_prompt']    = '<p>' . esc_html( sprintf( __( 'The %s is installed but not activated. Would you like to activate it?', 'wpforms-lite' ), '%name%' ) ) . '</p>';
 		$strings['activate_confirm']   = esc_html__( 'Yes, activate', 'wpforms-lite' );
 		$strings['addon_activated']    = esc_html__( 'Addon activated', 'wpforms-lite' );
 		$strings['plugin_activated']   = esc_html__( 'Plugin activated', 'wpforms-lite' );
 		$strings['activating']         = esc_html__( 'Activating', 'wpforms-lite' );
-		$strings['install_prompt']     = '<p>' . esc_html__( 'The %name% is not installed. Would you like to install and activate it?', 'wpforms-lite' ) . '</p>';
+		/* translators: %s - addon name. */
+		$strings['install_prompt']     = '<p>' . esc_html( sprintf( __( 'The %s is not installed. Would you like to install and activate it?', 'wpforms-lite' ), '%name%' ) ) . '</p>';
 		$strings['install_confirm']    = esc_html__( 'Yes, install and activate', 'wpforms-lite' );
 		$strings['installing']         = esc_html__( 'Installing', 'wpforms-lite' );
 		$strings['can_install_addons'] = wpforms_can_install( 'addon' );
@@ -106,13 +108,15 @@ class Core {
 		$strings['saving']             = esc_html__( 'Saving ...', 'wpforms-lite' );
 
 		if ( ! $strings['can_install_addons'] ) {
-			$strings['install_prompt'] = '<p>' . esc_html__( 'The %name% is not installed. Please install and activate it to use this feature.', 'wpforms-lite' ) . '</p>';
+			/* translators: %s - addon name. */
+			$strings['install_prompt'] = '<p>' . esc_html( sprintf( __( 'The %s is not installed. Please install and activate it to use this feature.', 'wpforms-lite' ), '%name%' ) ) . '</p>';
 		}
 
 		$strings['upgrade'] = [
 			'pro'   => [
 				'title'        => esc_html__( 'is a PRO Feature', 'wpforms-lite' ),
-				'message'      => '<p>' . esc_html__( 'We\'re sorry, the %name% is not available on your plan. Please upgrade to the PRO plan to unlock all these awesome features.', 'wpforms-lite' ) . '</p>',
+				/* translators: %s - addon name. */
+				'message'      => '<p>' . esc_html( sprintf( __( 'We\'re sorry, the %s is not available on your plan. Please upgrade to the PRO plan to unlock all these awesome features.', 'wpforms-lite' ), '%name%' ) ) . '</p>',
 				'doc'          => '<a href="https://wpforms.com/docs/upgrade-wpforms-lite-paid-license/?utm_source=WordPress&amp;utm_medium=link&amp;utm_campaign=liteplugin&amp;utm_content=upgrade-pro#installing-wpforms" target="_blank" rel="noopener noreferrer" class="already-purchased">' . esc_html__( 'Already purchased?', 'wpforms-lite' ) . '</a>',
 				'button'       => esc_html__( 'Upgrade to PRO', 'wpforms-lite' ),
 				'url'          => wpforms_admin_upgrade_link( 'builder-modal' ),
@@ -121,7 +125,8 @@ class Core {
 			],
 			'elite' => [
 				'title'        => esc_html__( 'is an Elite Feature', 'wpforms-lite' ),
-				'message'      => '<p>' . esc_html__( 'We\'re sorry, the %name% is not available on your plan. Please upgrade to the Elite plan to unlock all these awesome features.', 'wpforms-lite' ) . '</p>',
+				/* translators: %s - addon name. */
+				'message'      => '<p>' . esc_html( sprintf( __( 'We\'re sorry, the %s is not available on your plan. Please upgrade to the Elite plan to unlock all these awesome features.', 'wpforms-lite' ), '%name%' ) ) . '</p>',
 				'doc'          => '<a href="https://wpforms.com/docs/upgrade-wpforms-lite-paid-license/?utm_source=WordPress&amp;utm_medium=link&amp;utm_campaign=liteplugin&amp;utm_content=upgrade-elite#installing-wpforms" target="_blank" rel="noopener noreferrer" class="already-purchased">' . esc_html__( 'Already purchased?', 'wpforms-lite' ) . '</a>',
 				'button'       => esc_html__( 'Upgrade to Elite', 'wpforms-lite' ),
 				'url'          => wpforms_admin_upgrade_link( 'builder-modal' ),
@@ -139,6 +144,8 @@ class Core {
 				]
 			)
 		);
+
+		$strings['thanks_for_interest'] = esc_html__( 'Thanks for your interest in WPForms Pro!', 'wpforms-lite' );
 
 		return $strings;
 	}

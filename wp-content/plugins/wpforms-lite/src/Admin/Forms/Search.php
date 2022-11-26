@@ -70,9 +70,6 @@ class Search {
 		// Use filter to add the search term to the get forms arguments.
 		add_filter( 'wpforms_get_multiple_forms_args', [ $this, 'get_forms_args' ] );
 
-		// Count results.
-		add_filter( 'wpforms_overview_table_update_count', [ $this, 'update_count' ], 10, 2 );
-
 		// Encapsulate search into posts_where.
 		add_action( 'wpforms_form_handler_get_multiple_before_get_posts', [ $this, 'before_get_posts' ] );
 		add_action( 'wpforms_form_handler_get_multiple_after_get_posts', [ $this, 'after_get_posts' ], 10, 2 );
@@ -94,6 +91,7 @@ class Search {
 	 * Count search results.
 	 *
 	 * @since 1.7.2
+	 * @deprecated 1.7.5
 	 *
 	 * @param array $count Number of forms in different views.
 	 * @param array $args  Get forms arguments.
@@ -102,24 +100,9 @@ class Search {
 	 */
 	public function update_count( $count, $args ) {
 
-		// Count search result.
-		// We should perform the search without paging and then count the results.
-		$args = array_merge(
-			$args,
-			[
-				'nopaging'               => true,
-				'no_found_rows'          => true,
-				'update_post_meta_cache' => false,
-				'update_post_term_cache' => false,
-				'fields'                 => 'ids',
-				'post_status'            => 'publish',
-			]
-		);
+		_deprecated_function( __METHOD__, '1.7.5 of the WPForms plugin', "wpforms()->get( 'forms_views' )->update_count()" );
 
-		$forms        = wpforms()->get( 'form' )->get( '', $args );
-		$count['all'] = is_array( $forms ) ? count( $forms ) : 0;
-
-		return $count;
+		return wpforms()->get( 'forms_views' )->update_count();
 	}
 
 	/**

@@ -9,7 +9,7 @@ class BVFSCallback extends BVCallbackBase {
 	public $account;
 
 	public static $cwAllowedFiles = array(".htaccess", ".user.ini", "malcare-waf.php");
-	const FS_WING_VERSION = 1.0;
+	const FS_WING_VERSION = 1.2;
 
 	public function __construct($callback_handler) {
 		$this->account = $callback_handler->account;
@@ -357,6 +357,39 @@ class BVFSCallback extends BVCallbackBase {
 				$files = $params['files'];
 				$withContent = array_key_exists('withcontent', $params) ? $params['withcontent'] : true;
 				$resp = array("files_content" => $this->getFilesContent($files, $withContent));
+				break;
+			case "gtfls":
+				$resp = array();
+
+				if (array_key_exists('get_files_content', $params)) {
+					$args = $params['get_files_content'];
+					$with_content = array_key_exists('withcontent', $args) ? $args['withcontent'] : true;
+					$resp['get_files_content'] = $this->getFilesContent($args['files'], $with_content);
+				}
+
+				if (array_key_exists('get_files_stats', $params)) {
+					$args = $params['get_files_stats'];
+					$md5 = array_key_exists('md5', $args) ? $args['md5'] : false;
+					$stats = $this->getFilesStats(
+							$args['files'], $args['offset'], $args['limit'], $args['bsize'], $md5
+					);
+
+					$result = array();
+
+					if (array_key_exists('stats', $stats)) {
+						$result['stats'] = array();
+						foreach ($stats['stats'] as $stat) {
+							$result['stats'][$stat['filename']] = $stat;
+						}
+					}
+
+					if (array_key_exists('missingfiles', $stats)) {
+						$result['missingfiles'] = $stats['missingfiles'];
+					}
+
+					$resp['get_files_stats'] = $result;
+				}
+
 				break;
 			default:
 				$resp = false;

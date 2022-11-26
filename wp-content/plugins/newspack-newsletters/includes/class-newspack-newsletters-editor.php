@@ -100,7 +100,7 @@ final class Newspack_Newsletters_Editor {
 	 * Get CSS rules for color palette.
 	 *
 	 * @param string $container_selector Optional selector to prefix as a container to every rule.
-	 * 
+	 *
 	 * @return string CSS rules.
 	 */
 	public static function get_color_palette_css( $container_selector = '' ) {
@@ -118,7 +118,7 @@ final class Newspack_Newsletters_Editor {
 				function( $rule ) use ( $container_selector ) {
 					return $container_selector . ' ' . $rule;
 				},
-				$rules 
+				$rules
 			);
 		}
 		return implode( "\n", $rules );
@@ -133,13 +133,25 @@ final class Newspack_Newsletters_Editor {
 			return;
 		}
 
+		$allowed_actions = [
+			__CLASS__ . '::enqueue_block_editor_assets',
+			'newspack_enqueue_scripts',
+			'wp_enqueue_editor_format_library_assets',
+		];
+
+		if ( isset( $GLOBALS['coauthors_plus'] ) ) {
+			$hash              = spl_object_hash( $GLOBALS['coauthors_plus'] );
+			$allowed_actions[] = $hash . 'enqueue_sidebar_plugin_assets';
+		}
+
+		/**
+		 * Filters allowed 'enqueue_block_editor_assets' actions inside a newsletter editor.
+		 *
+		 * @param string[] $allowed_actions Array of allowed actions.
+		 */
 		$allowed_actions = apply_filters(
 			'newspack_newsletters_allowed_editor_actions',
-			[
-				__CLASS__ . '::enqueue_block_editor_assets',
-				'newspack_enqueue_scripts',
-				'wp_enqueue_editor_format_library_assets',
-			]
+			$allowed_actions
 		);
 
 		$enqueue_block_editor_assets_filters = $GLOBALS['wp_filter']['enqueue_block_editor_assets']->callbacks;
@@ -232,6 +244,7 @@ final class Newspack_Newsletters_Editor {
 			'core/image',
 			'core/separator',
 			'core/list',
+			'core/list-item',
 			'core/quote',
 			'core/site-logo',
 			'core/site-tagline',
@@ -322,20 +335,20 @@ final class Newspack_Newsletters_Editor {
 		// If it's a reusable block, register this plugin's blocks.
 		if ( 'wp_block' === get_post_type() ) {
 			\wp_enqueue_script(
-				'newspack-newsletters-blocks',
-				plugins_url( '../dist/blocks.js', __FILE__ ),
+				'newspack-newsletters-editor-blocks',
+				plugins_url( '../dist/editorBlocks.js', __FILE__ ),
 				[],
-				filemtime( NEWSPACK_NEWSLETTERS_PLUGIN_FILE . 'dist/blocks.js' ),
+				filemtime( NEWSPACK_NEWSLETTERS_PLUGIN_FILE . 'dist/editorBlocks.js' ),
 				true
 			);
 			wp_register_style(
-				'newspack-newsletters-blocks',
-				plugins_url( '../dist/blocks.css', __FILE__ ),
+				'newspack-newsletters-editor-blocks',
+				plugins_url( '../dist/editorBlocks.css', __FILE__ ),
 				[],
-				filemtime( NEWSPACK_NEWSLETTERS_PLUGIN_FILE . 'dist/blocks.css' )
+				filemtime( NEWSPACK_NEWSLETTERS_PLUGIN_FILE . 'dist/editorBlocks.css' )
 			);
-			wp_style_add_data( 'newspack-newsletters-blocks', 'rtl', 'replace' );
-			wp_enqueue_style( 'newspack-newsletters-blocks' );
+			wp_style_add_data( 'newspack-newsletters-editor-blocks', 'rtl', 'replace' );
+			wp_enqueue_style( 'newspack-newsletters-editor-blocks' );
 		}
 	}
 

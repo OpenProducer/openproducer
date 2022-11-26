@@ -91,7 +91,7 @@ class Export extends View {
 	 */
 	public function check_capability() {
 
-		return wpforms_current_user_can( [ 'view_forms', 'view_entries', 'create_forms' ] );
+		return wpforms_current_user_can( [ 'edit_forms', 'view_entries' ] );
 	}
 
 	/**

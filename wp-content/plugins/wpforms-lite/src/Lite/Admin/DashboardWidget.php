@@ -41,6 +41,17 @@ class DashboardWidget extends Widget {
 			return;
 		}
 
+		global $pagenow;
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		$is_admin_page   = $pagenow === 'index.php' && empty( $_GET['page'] );
+		$is_ajax_request = wp_doing_ajax() && isset( $_REQUEST['action'] ) && strpos( sanitize_key( $_REQUEST['action'] ), 'wpforms_dash_widget' ) !== false;
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+		if ( ! $is_admin_page && ! $is_ajax_request ) {
+			return;
+		}
+
 		if ( ! apply_filters( 'wpforms_admin_dashboardwidget', true ) ) {
 			return;
 		}
@@ -120,7 +131,7 @@ class DashboardWidget extends Widget {
 
 		wp_enqueue_script(
 			'wpforms-moment',
-			WPFORMS_PLUGIN_URL . 'assets/js/moment.min.js',
+			WPFORMS_PLUGIN_URL . 'assets/lib/moment/moment.min.js',
 			[],
 			'2.22.2',
 			true
@@ -128,7 +139,7 @@ class DashboardWidget extends Widget {
 
 		wp_enqueue_script(
 			'wpforms-chart',
-			WPFORMS_PLUGIN_URL . 'assets/js/chart.min.js',
+			WPFORMS_PLUGIN_URL . 'assets/lib/chart.min.js',
 			[ 'wpforms-moment' ],
 			'2.7.2',
 			true
@@ -136,7 +147,7 @@ class DashboardWidget extends Widget {
 
 		wp_enqueue_script(
 			'wpforms-dashboard-widget',
-			WPFORMS_PLUGIN_URL . "lite/assets/js/admin/dashboard-widget{$min}.js",
+			WPFORMS_PLUGIN_URL . "assets/lite/js/admin/dashboard-widget{$min}.js",
 			[ 'jquery', 'wpforms-chart' ],
 			WPFORMS_VERSION,
 			true

@@ -3,6 +3,7 @@
 namespace WPForms\Lite\Admin\Education;
 
 use WPForms\Admin\Education;
+use WPForms\Integrations\LiteConnect\API;
 use WPForms\Lite\Integrations\LiteConnect\LiteConnect as LiteConnectClass;
 use WPForms\Lite\Integrations\LiteConnect\Integration as LiteConnectIntegration;
 
@@ -135,7 +136,7 @@ class LiteConnect implements Education\EducationInterface {
 
 		wp_enqueue_script(
 			'wpforms-lite-admin-education-lite-connect',
-			WPFORMS_PLUGIN_URL . "lite/assets/js/admin/education/lite-connect{$min}.js",
+			WPFORMS_PLUGIN_URL . "assets/lite/js/admin/education/lite-connect{$min}.js",
 			[ 'jquery' ],
 			WPFORMS_VERSION,
 			true
@@ -160,7 +161,7 @@ class LiteConnect implements Education\EducationInterface {
 		// jQuery confirm.
 		wp_enqueue_script(
 			'jquery-confirm',
-			WPFORMS_PLUGIN_URL . 'assets/js/jquery.jquery-confirm.min.js',
+			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.confirm/jquery-confirm.min.js',
 			[ 'jquery' ],
 			'3.3.2',
 			true
@@ -168,7 +169,7 @@ class LiteConnect implements Education\EducationInterface {
 
 		wp_enqueue_style(
 			'jquery-confirm',
-			WPFORMS_PLUGIN_URL . 'assets/css/jquery-confirm.min.css',
+			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.confirm/jquery-confirm.min.css',
 			[],
 			'3.3.2'
 		);
@@ -176,7 +177,7 @@ class LiteConnect implements Education\EducationInterface {
 		// FontAwesome.
 		wp_enqueue_style(
 			'wpforms-font-awesome',
-			WPFORMS_PLUGIN_URL . 'assets/css/font-awesome.min.css',
+			WPFORMS_PLUGIN_URL . 'assets/lib/font-awesome/font-awesome.min.css',
 			null,
 			'4.7.0'
 		);
@@ -184,7 +185,7 @@ class LiteConnect implements Education\EducationInterface {
 		// Dashboard Education styles.
 		wp_enqueue_style(
 			'wpforms-lite-admin-education-lite-connect',
-			WPFORMS_PLUGIN_URL . "lite/assets/css/dashboard-education{$min}.css",
+			WPFORMS_PLUGIN_URL . "assets/lite/css/dashboard-education{$min}.css",
 			[],
 			WPFORMS_VERSION
 		);
@@ -290,7 +291,7 @@ class LiteConnect implements Education\EducationInterface {
 			'',
 			esc_html__( 'Enable Form Entry Backups', 'wpforms-lite' ),
 			$this->is_enabled,
-			''
+			'disabled'
 		);
 
 		return wpforms_render(
@@ -334,7 +335,7 @@ class LiteConnect implements Education\EducationInterface {
 			'',
 			esc_html__( 'Enable Form Entry Backups for Free', 'wpforms-lite' ),
 			$this->is_enabled,
-			''
+			'disabled'
 		);
 
 		return wpforms_render(
@@ -370,7 +371,7 @@ class LiteConnect implements Education\EducationInterface {
 			'',
 			esc_html__( 'Enable Form Entry Backups for Free', 'wpforms-lite' ),
 			$this->is_enabled,
-			''
+			'disabled'
 		);
 
 		return wpforms_render(
@@ -408,6 +409,9 @@ class LiteConnect implements Education\EducationInterface {
 		if ( ! $settings[ $slug ] ) {
 			wp_send_json_success( '' );
 		}
+
+		// Reset generate key attempts counter.
+		update_option( API::GENERATE_KEY_ATTEMPT_COUNTER_OPTION, 0 );
 
 		// We have to start requesting site keys in ajax, turning on the LC functionality.
 		// First, the request to the API server will be sent.

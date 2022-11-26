@@ -26,10 +26,14 @@ if ( ! class_exists( 'MonsterInsights_MetaBoxes' ) ) {
 		}
 
 		public function register_hooks() {
-			add_action( 'monsterinsights_after_exclude_metabox', array( $this, 'print_dummy_page_insights_metabox_html' ) );
+			add_action( 'monsterinsights_after_exclude_metabox', array(
+				$this,
+				'print_dummy_page_insights_metabox_html'
+			) );
 		}
 
 		public function print_dummy_page_insights_metabox_html() {
+			$is_v4 = 'ua' !== MonsterInsights()->auth->get_connected_type();
 			?>
 			<div class="monsterinsights-metabox lite" id="monsterinsights-metabox-page-insights">
 				<a class="button" href="#" id="monsterinsights_show_page_insights">
@@ -38,25 +42,31 @@ if ( ! class_exists( 'MonsterInsights_MetaBoxes' ) ) {
 
 				<div id="monsterinsights-page-insights-content">
 					<div class="monsterinsights-page-insights__tabs">
-						<a href="#" class="monsterinsights-page-insights__tabs-tab active" data-tab="monsterinsights-last-30-days-content">
+						<a href="#" class="monsterinsights-page-insights__tabs-tab active"
+						   data-tab="monsterinsights-last-30-days-content">
 							<?php _e( 'Last 30 days', 'google-analytics-for-wordpress' ); ?>
 						</a>
-						<a href="#" class="monsterinsights-page-insights__tabs-tab" data-tab="monsterinsights-yesterday-content">
+						<a href="#" class="monsterinsights-page-insights__tabs-tab"
+						   data-tab="monsterinsights-yesterday-content">
 							<?php _e( 'Yesterday', 'google-analytics-for-wordpress' ); ?>
 						</a>
 					</div>
 					<div class="monsterinsights-page-insights-tabs-content">
-						<div class="monsterinsights-page-insights-tabs-content__tab active" id="monsterinsights-last-30-days-content">
+						<div class="monsterinsights-page-insights-tabs-content__tab active"
+							 id="monsterinsights-last-30-days-content">
 							<div class="monsterinsights-page-insights-tabs-content__tab-items">
 
-								<div class="monsterinsights-page-insights-tabs-content__tab-item">
-									<div class="monsterinsights-page-insights-tabs-content__tab-item__result">
-										<span>53.40%</span>
+								<?php if ( ! $is_v4 ) { ?>
+									<div class="monsterinsights-page-insights-tabs-content__tab-item">
+										<div class="monsterinsights-page-insights-tabs-content__tab-item__result">
+											<span>53.40%</span>
+										</div>
+										<div class="monsterinsights-page-insights-tabs-content__tab-item__title">
+											<?php _e( 'Bounce Rate', 'google-analytics-for-wordpress' ); ?>
+										</div>
 									</div>
-									<div class="monsterinsights-page-insights-tabs-content__tab-item__title">
-										<?php _e( 'Bounce Rate', 'google-analytics-for-wordpress' ); ?>
-									</div>
-								</div>
+								<?php } ?>
+
 								<div class="monsterinsights-page-insights-tabs-content__tab-item">
 									<div class="monsterinsights-page-insights-tabs-content__tab-item__result">
 										<span>1m 43s</span>
@@ -65,14 +75,18 @@ if ( ! class_exists( 'MonsterInsights_MetaBoxes' ) ) {
 										<?php _e( 'Time on Page', 'google-analytics-for-wordpress' ); ?>
 									</div>
 								</div>
-								<div class="monsterinsights-page-insights-tabs-content__tab-item">
-									<div class="monsterinsights-page-insights-tabs-content__tab-item__result">
-										<span>3.9s</span>
+
+								<?php if ( ! $is_v4 ) { ?>
+									<div class="monsterinsights-page-insights-tabs-content__tab-item">
+										<div class="monsterinsights-page-insights-tabs-content__tab-item__result">
+											<span>3.9s</span>
+										</div>
+										<div class="monsterinsights-page-insights-tabs-content__tab-item__title">
+											<?php _e( 'Load Time', 'google-analytics-for-wordpress' ); ?>
+										</div>
 									</div>
-									<div class="monsterinsights-page-insights-tabs-content__tab-item__title">
-										<?php _e( 'Load Time', 'google-analytics-for-wordpress' ); ?>
-									</div>
-								</div>
+								<?php } ?>
+
 								<div class="monsterinsights-page-insights-tabs-content__tab-item">
 									<div class="monsterinsights-page-insights-tabs-content__tab-item__result">
 										<span>19056</span>
@@ -100,17 +114,21 @@ if ( ! class_exists( 'MonsterInsights_MetaBoxes' ) ) {
 
 							</div>
 						</div>
-						<div class="monsterinsights-page-insights-tabs-content__tab" id="monsterinsights-yesterday-content">
+						<div class="monsterinsights-page-insights-tabs-content__tab"
+							 id="monsterinsights-yesterday-content">
 							<div class="monsterinsights-page-insights-tabs-content__tab-items">
 
-								<div class="monsterinsights-page-insights-tabs-content__tab-item">
-									<div class="monsterinsights-page-insights-tabs-content__tab-item__result">
-										<span>53.40%</span>
+								<?php if ( ! $is_v4 ) { ?>
+									<div class="monsterinsights-page-insights-tabs-content__tab-item">
+										<div class="monsterinsights-page-insights-tabs-content__tab-item__result">
+											<span>53.40%</span>
+										</div>
+										<div class="monsterinsights-page-insights-tabs-content__tab-item__title">
+											<?php _e( 'Bounce Rate', 'google-analytics-for-wordpress' ); ?>
+										</div>
 									</div>
-									<div class="monsterinsights-page-insights-tabs-content__tab-item__title">
-										<?php _e( 'Bounce Rate', 'google-analytics-for-wordpress' ); ?>
-									</div>
-								</div>
+								<?php } ?>
+
 								<div class="monsterinsights-page-insights-tabs-content__tab-item">
 									<div class="monsterinsights-page-insights-tabs-content__tab-item__result">
 										<span>1m 43s</span>
@@ -119,14 +137,18 @@ if ( ! class_exists( 'MonsterInsights_MetaBoxes' ) ) {
 										<?php _e( 'Time on Page', 'google-analytics-for-wordpress' ); ?>
 									</div>
 								</div>
-								<div class="monsterinsights-page-insights-tabs-content__tab-item">
-									<div class="monsterinsights-page-insights-tabs-content__tab-item__result">
-										<span>3.9s</span>
+
+								<?php if ( ! $is_v4 ) { ?>
+									<div class="monsterinsights-page-insights-tabs-content__tab-item">
+										<div class="monsterinsights-page-insights-tabs-content__tab-item__result">
+											<span>3.9s</span>
+										</div>
+										<div class="monsterinsights-page-insights-tabs-content__tab-item__title">
+											<?php _e( 'Load Time', 'google-analytics-for-wordpress' ); ?>
+										</div>
 									</div>
-									<div class="monsterinsights-page-insights-tabs-content__tab-item__title">
-										<?php _e( 'Load Time', 'google-analytics-for-wordpress' ); ?>
-									</div>
-								</div>
+								<?php } ?>
+
 								<div class="monsterinsights-page-insights-tabs-content__tab-item">
 									<div class="monsterinsights-page-insights-tabs-content__tab-item__result">
 										<span>19056</span>

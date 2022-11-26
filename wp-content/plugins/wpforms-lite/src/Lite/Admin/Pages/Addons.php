@@ -67,7 +67,7 @@ class Addons {
 		// JavaScript.
 		wp_enqueue_script(
 			'listjs',
-			WPFORMS_PLUGIN_URL . 'assets/js/list.min.js',
+			WPFORMS_PLUGIN_URL . 'assets/lib/list.min.js',
 			[ 'jquery' ],
 			'1.5.0'
 		);

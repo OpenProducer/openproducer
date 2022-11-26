@@ -363,11 +363,15 @@ class WPForms_Field_Name extends WPForms_Field {
 	public function field_preview( $field ) {
 
 		// Define data.
-		$simple_placeholder = ! empty( $field['simple_placeholder'] ) ? esc_attr( $field['simple_placeholder'] ) : '';
-		$first_placeholder  = ! empty( $field['first_placeholder'] ) ? esc_attr( $field['first_placeholder'] ) : '';
-		$middle_placeholder = ! empty( $field['middle_placeholder'] ) ? esc_attr( $field['middle_placeholder'] ) : '';
-		$last_placeholder   = ! empty( $field['last_placeholder'] ) ? esc_attr( $field['last_placeholder'] ) : '';
-		$format             = ! empty( $field['format'] ) ? esc_attr( $field['format'] ) : 'first-last';
+		$simple_placeholder = ! empty( $field['simple_placeholder'] ) ? $field['simple_placeholder'] : '';
+		$first_placeholder  = ! empty( $field['first_placeholder'] ) ? $field['first_placeholder'] : '';
+		$middle_placeholder = ! empty( $field['middle_placeholder'] ) ? $field['middle_placeholder'] : '';
+		$last_placeholder   = ! empty( $field['last_placeholder'] ) ? $field['last_placeholder'] : '';
+		$simple_default     = ! empty( $field['simple_default'] ) ? $field['simple_default'] : '';
+		$first_default      = ! empty( $field['first_default'] ) ? $field['first_default'] : '';
+		$middle_default     = ! empty( $field['middle_default'] ) ? $field['middle_default'] : '';
+		$last_default       = ! empty( $field['last_default'] ) ? $field['last_default'] : '';
+		$format             = ! empty( $field['format'] ) ? $field['format'] : 'first-last';
 
 		// Label.
 		$this->field_preview_option( 'label', $field );
@@ -376,21 +380,21 @@ class WPForms_Field_Name extends WPForms_Field {
 		<div class="format-selected-<?php echo sanitize_html_class( $format ); ?> format-selected wpforms-clear">
 
 			<div class="wpforms-simple">
-				<input type="text" placeholder="<?php echo esc_attr( $simple_placeholder ); ?>" class="primary-input" readonly>
+				<input type="text" placeholder="<?php echo esc_attr( $simple_placeholder ); ?>" value="<?php echo esc_attr( $simple_default ); ?>" class="primary-input" readonly>
 			</div>
 
 			<div class="wpforms-first-name">
-				<input type="text" placeholder="<?php echo esc_attr( $first_placeholder ); ?>" class="primary-input" readonly>
+				<input type="text" placeholder="<?php echo esc_attr( $first_placeholder ); ?>" value="<?php echo esc_attr( $first_default ); ?>" class="primary-input" readonly>
 				<label class="wpforms-sub-label"><?php esc_html_e( 'First', 'wpforms-lite' ); ?></label>
 			</div>
 
 			<div class="wpforms-middle-name">
-				<input type="text" placeholder="<?php echo esc_attr( $middle_placeholder ); ?>" class="primary-input" readonly>
+				<input type="text" placeholder="<?php echo esc_attr( $middle_placeholder ); ?>" value="<?php echo esc_attr( $middle_default ); ?>" class="primary-input" readonly>
 				<label class="wpforms-sub-label"><?php esc_html_e( 'Middle', 'wpforms-lite' ); ?></label>
 			</div>
 
 			<div class="wpforms-last-name">
-				<input type="text" placeholder="<?php echo esc_attr( $last_placeholder ); ?>" class="primary-input" readonly>
+				<input type="text" placeholder="<?php echo esc_attr( $last_placeholder ); ?>" value="<?php echo esc_attr( $last_default ); ?>" class="primary-input" readonly>
 				<label class="wpforms-sub-label"><?php esc_html_e( 'Last', 'wpforms-lite' ); ?></label>
 			</div>
 

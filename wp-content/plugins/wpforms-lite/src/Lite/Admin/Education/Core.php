@@ -34,7 +34,7 @@ class Core extends \WPForms\Admin\Education\Core {
 
 		wp_enqueue_script(
 			'wpforms-lite-admin-education-core',
-			WPFORMS_PLUGIN_URL . "lite/assets/js/admin/education/core{$min}.js",
+			WPFORMS_PLUGIN_URL . "assets/lite/js/admin/education/core{$min}.js",
 			[ 'wpforms-admin-education-core' ],
 			WPFORMS_VERSION,
 			false
@@ -44,7 +44,7 @@ class Core extends \WPForms\Admin\Education\Core {
 		if ( wpforms_is_admin_page( 'builder' ) ) {
 			wp_enqueue_style(
 				'wpforms-lite-admin-education-builder',
-				WPFORMS_PLUGIN_URL . "lite/assets/css/builder-education{$min}.css",
+				WPFORMS_PLUGIN_URL . "assets/lite/css/builder-education{$min}.css",
 				[],
 				WPFORMS_VERSION
 			);

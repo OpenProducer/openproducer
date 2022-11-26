@@ -71,6 +71,15 @@ abstract class WPForms_Template {
 	public $icon = '';
 
 	/**
+	 * Form template preview URL.
+	 *
+	 * @since 1.7.5.3
+	 *
+	 * @var string
+	 */
+	public $url = '';
+
+	/**
 	 * Array of data that is assigned to the post_content on form creation.
 	 *
 	 * @since 1.0.0
@@ -150,6 +159,7 @@ abstract class WPForms_Template {
 			'description' => $this->description,
 			'includes'    => $this->includes,
 			'icon'        => $this->icon,
+			'url'         => ! empty( $this->url ) ? $this->url : '',
 			'plugin_dir'  => $this->get_plugin_dir(),
 		];
 

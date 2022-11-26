@@ -160,8 +160,58 @@ class WPForms_Process {
 			return;
 		}
 
-		// Formatted form data for hooks.
-		$this->form_data = apply_filters( 'wpforms_process_before_form_data', wpforms_decode( $form->post_content ), $entry );
+		/**
+		 * Filter form data obtained during form process.
+		 *
+		 * @since 1.5.3
+		 *
+		 * @param array $form_data Form data.
+		 * @param array $entry     Form entry.
+		 */
+		$this->form_data = (array) apply_filters( 'wpforms_process_before_form_data', wpforms_decode( $form->post_content ), $entry );
+
+		if ( ! isset( $this->form_data['fields'], $this->form_data['id'] ) ) {
+			$error_id = uniqid();
+
+			// Logs missing form data.
+			wpforms_log(
+				/* translators: %s - error unique ID. */
+				sprintf( esc_html__( 'Missing form data on form submission process %s', 'wpforms-lite' ), $error_id ),
+				esc_html__( 'Form data is not an array in `\WPForms_Process::process()`. It might be caused by incorrect data returned by `wpforms_process_before_form_data` filter. Verify whether you have a custom code using this filter and debug value it is returning.', 'wpforms-lite' ),
+				[
+					'type'    => [ 'error', 'entry' ],
+					'form_id' => $form_id,
+				]
+			);
+
+			$error_messages[] = esc_html__( 'Your form has not been submitted because data is missing from the entry.', 'wpforms-lite' );
+
+			if ( wpforms_setting( 'logs-enable' ) && wpforms_current_user_can( wpforms_get_capability_manage_options() ) ) {
+				$error_messages[] = sprintf(
+					wp_kses( /* translators: %s - URL to the WForms Logs admin page. */
+						__( 'Check the WPForms &raquo; Tools &raquo; <a href="%s">Logs</a> for more details.', 'wpforms-lite' ),
+						[ 'a' => [ 'href' => [] ] ]
+					),
+					esc_url(
+						add_query_arg(
+							[
+								'page' => 'wpforms-tool',
+								'view' => 'logs',
+							],
+							admin_url( 'admin.php' )
+						)
+					)
+				);
+
+				/* translators: %s - error unique ID. */
+				$error_messages[] = sprintf( esc_html__( 'Error ID: %s.', 'wpforms-lite' ), $error_id );
+			}
+
+			$errors[ $form_id ]['header'] = implode( '<br>', $error_messages );
+			$this->errors                 = $errors;
+
+			return;
+		}
 
 		// Pre-process/validate hooks and filter.
 		// Data is not validated or cleaned yet so use with caution.
@@ -389,6 +439,27 @@ class WPForms_Process {
 			return;
 		}
 
+		$akismet = wpforms()->get( 'akismet' )->validate( $this->form_data, $entry );
+
+		// If Akismet marks the entry as spam, we want to log the entry and fail silently.
+		if ( $akismet ) {
+
+			$this->errors[ $form_id ]['header'] = $akismet;
+
+			// Log the spam entry depending on log levels set.
+			wpforms_log(
+				'Spam Entry ' . uniqid(),
+				[ $akismet, $entry ],
+				[
+					'type'    => [ 'spam' ],
+					'form_id' => $this->form_data['id'],
+				]
+			);
+
+			// Fail silently.
+			return;
+		}
+
 		// Pass the form created date into the form data.
 		$this->form_data['created'] = $form->post_date;
 
@@ -425,6 +496,18 @@ class WPForms_Process {
 
 		// Success - add entry to database.
 		$this->entry_id = $this->entry_save( $this->fields, $entry, $this->form_data['id'], $this->form_data );
+
+		/**
+		 * Runs right after adding entry to the database.
+		 *
+		 * @since 1.7.7
+		 *
+		 * @param array $fields    Fields data.
+		 * @param array $entry     User submitted data.
+		 * @param array $form_data Form data.
+		 * @param int   $entry_id  Entry ID.
+		 */
+		do_action( 'wpforms_process_entry_saved', $this->fields, $entry, $this->form_data, $this->entry_id );
 
 		// Fire the logic to send notification emails.
 		$this->entry_email( $this->fields, $entry, $this->form_data, $this->entry_id, 'entry' );
@@ -609,7 +692,21 @@ class WPForms_Process {
 				continue;
 			}
 
-			$process_confirmation = apply_filters( 'wpforms_entry_confirmation_process', true, $this->fields, $form_data, $confirmation_id );
+			// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
+
+			/**
+			 * Process confirmation filter.
+			 *
+			 * @since 1.4.8
+			 *
+			 * @param bool  $process   Whether to process the logic or not.
+			 * @param array $fields    List of submitted fields.
+			 * @param array $form_data Form data and settings.
+			 * @param int   $id        Confirmation ID.
+			 */
+			$process_confirmation = apply_filters( 'wpforms_entry_confirmation_process', true, $this->fields, $this->form_data, $confirmation_id );
+			// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
+
 			if ( $process_confirmation ) {
 				break;
 			}
@@ -731,7 +828,7 @@ class WPForms_Process {
 
 		$error_msg  = esc_html__( 'Form has not been submitted, please see the errors below.', 'wpforms-lite' );
 		$error_msg .= '<br>' . sprintf( /* translators: %1$.3f - the total size of the selected files in megabytes, %2$.3f - allowed file upload limit in megabytes.*/
-			esc_html__( 'The total size of the selected files %1$.3f Mb exceeds the allowed limit %2$.3f Mb.', 'wpforms-lite' ),
+			esc_html__( 'The total size of the selected files %1$.3f MB exceeds the allowed limit %2$.3f MB.', 'wpforms-lite' ),
 			esc_html( $total_size / 1048576 ),
 			esc_html( $post_max_size / 1048576 )
 		);
@@ -772,7 +869,7 @@ class WPForms_Process {
 		$fields = apply_filters( 'wpforms_entry_email_data', $fields, $entry, $form_data );
 
 		// Backwards compatibility for notifications before v1.4.3.
-		if ( empty( $form_data['settings']['notifications'] ) ) {
+		if ( empty( $form_data['settings']['notifications'] ) && ! empty( $form_data['settings']['notification_email'] ) ) {
 			$notifications[1] = array(
 				'email'          => $form_data['settings']['notification_email'],
 				'subject'        => $form_data['settings']['notification_subject'],

@@ -36,7 +36,8 @@ interface Newspack_Newsletters_ESP_API_Interface {
 	 *
 	 * @param string $post_id Campaign Id.
 	 * @param string $list_id ID of the list.
-	 * @return object|WP_Error API Response or error.
+	 *
+	 * @return array|WP_Error API Response or error.
 	 */
 	public function list( $post_id, $list_id );
 
@@ -44,17 +45,19 @@ interface Newspack_Newsletters_ESP_API_Interface {
 	 * Retrieve a campaign.
 	 *
 	 * @param integer $post_id Numeric ID of the Newsletter post.
-	 * @return object|WP_Error API Response or error.
+	 *
+	 * @return array|WP_Error API Response or error.
 	 */
 	public function retrieve( $post_id );
 
 	/**
 	 * Set sender data.
 	 *
-	 * @param string $post_id Numeric ID of the campaign.
+	 * @param string $post_id   Numeric ID of the campaign.
 	 * @param string $from_name Sender name.
-	 * @param string $reply_to Reply to email address.
-	 * @return object|WP_Error API Response or error.
+	 * @param string $reply_to  Reply to email address.
+	 *
+	 * @return array|WP_Error API Response or error.
 	 */
 	public function sender( $post_id, $from_name, $reply_to );
 
@@ -62,32 +65,52 @@ interface Newspack_Newsletters_ESP_API_Interface {
 	 * Send test email or emails.
 	 *
 	 * @param integer $post_id Numeric ID of the Newsletter post.
-	 * @param array   $emails Array of email addresses to send to.
-	 * @return object|WP_Error API Response or error.
+	 * @param array   $emails  Array of email addresses to send to.
+	 *
+	 * @return array|WP_Error API Response or error.
 	 */
 	public function test( $post_id, $emails );
 
 	/**
 	 * Synchronize post with corresponding ESP campaign.
 	 *
-	 * @param WP_POST $post Post to synchronize.
-	 * @return object|null API Response or error.
+	 * @param WP_Post $post Post to synchronize.
+	 *
+	 * @return array|WP_Error API Response or error.
 	 */
 	public function sync( $post );
 
 	/**
 	 * List the ESP's contact lists.
 	 *
-	 * @return object|null API Response or error.
+	 * @return array|WP_Error API Response or error.
 	 */
 	public function get_lists();
 
 	/**
 	 * Add contact to a list.
 	 *
-	 * @param array  $contact Contact data.
-	 * @param strine $list_id List ID.
-	 * @return object|null API Response or error.
+	 * @param array  $contact      {
+	 *    Contact data.
+	 *
+	 *    @type string   $email    Contact email address.
+	 *    @type string   $name     Contact name. Optional.
+	 *    @type string[] $metadata Contact additional metadata. Optional.
+	 * }
+	 * @param string $list_id      List to add the contact to.
+	 *
+	 * @return array|WP_Error Contact data if it was added, or error otherwise.
 	 */
-	public function add_contact( $contact, $list_id);
+	public function add_contact( $contact, $list_id = false );
+
+	/**
+	 * Update a contact lists subscription.
+	 *
+	 * @param string   $email           Contact email address.
+	 * @param string[] $lists_to_add    Array of list IDs to subscribe the contact to.
+	 * @param string[] $lists_to_remove Array of list IDs to remove the contact from.
+	 *
+	 * @return true|WP_Error True if the contact was updated or error.
+	 */
+	public function update_contact_lists( $email, $lists_to_add = [], $lists_to_remove = [] );
 }

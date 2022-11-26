@@ -10,6 +10,7 @@
  * in require_lib().
  *
  * @since 4.0.2
+ * @deprecated since 11.3 Use `JETPACK__PLUGIN_DIR . '_inc/lib/'` instead.
  *
  * @return string Location of Jetpack library directory.
  *
@@ -48,13 +49,14 @@ require_once JETPACK__PLUGIN_DIR . 'class.photon.php';
 require_once JETPACK__PLUGIN_DIR . 'functions.photon.php';
 require_once JETPACK__PLUGIN_DIR . 'functions.global.php';
 require_once JETPACK__PLUGIN_DIR . 'functions.compat.php';
-require_once JETPACK__PLUGIN_DIR . 'functions.gallery.php';
+require_once JETPACK__PLUGIN_DIR . 'class-jetpack-gallery-settings.php';
 require_once JETPACK__PLUGIN_DIR . 'functions.cookies.php';
 require_once JETPACK__PLUGIN_DIR . 'require-lib.php';
 require_once JETPACK__PLUGIN_DIR . 'class.jetpack-autoupdate.php';
 require_once JETPACK__PLUGIN_DIR . 'class.frame-nonce-preview.php';
 require_once JETPACK__PLUGIN_DIR . 'modules/module-headings.php';
 require_once JETPACK__PLUGIN_DIR . 'class.jetpack-connection-banner.php';
+require_once JETPACK__PLUGIN_DIR . 'class-jetpack-connection-widget.php';
 require_once JETPACK__PLUGIN_DIR . 'class.jetpack-plan.php';
 // Used by the API endpoints.
 require_once JETPACK__PLUGIN_DIR . 'modules/seo-tools/class-jetpack-seo-utils.php';
@@ -82,6 +84,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 }
 
 require_once JETPACK__PLUGIN_DIR . '_inc/lib/class.core-rest-api-endpoints.php';
+require_once JETPACK__PLUGIN_DIR . '_inc/blogging-prompts.php';
 
 add_action( 'updating_jetpack_version', array( 'Jetpack', 'do_version_bump' ), 10, 2 );
 add_filter( 'is_jetpack_site', '__return_true' );

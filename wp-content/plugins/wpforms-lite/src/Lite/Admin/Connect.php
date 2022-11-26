@@ -50,7 +50,7 @@ class Connect {
 
 		\wp_enqueue_script(
 			'wpforms-connect',
-			\WPFORMS_PLUGIN_URL . "lite/assets/js/admin/connect{$min}.js",
+			\WPFORMS_PLUGIN_URL . "assets/lite/js/admin/connect{$min}.js",
 			array( 'jquery' ),
 			\WPFORMS_VERSION,
 			true

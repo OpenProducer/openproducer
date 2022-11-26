@@ -373,11 +373,12 @@ function wpforms_settings_radio_callback( $args ) {
  */
 function wpforms_settings_toggle_callback( $args ) {
 
-	$value  = wpforms_setting( $args['id'] );
-	$id     = wpforms_sanitize_key( $args['id'] );
-	$class  = ! empty( $args['control-class'] ) ? $args['control-class'] : '';
-	$class .= ! empty( $args['is-important'] ) ? ' wpforms-important' : '';
-	$output = wpforms_panel_field_toggle_control(
+	$value      = wpforms_setting( $args['id'] );
+	$id         = wpforms_sanitize_key( $args['id'] );
+	$class      = ! empty( $args['control-class'] ) ? $args['control-class'] : '';
+	$class     .= ! empty( $args['is-important'] ) ? ' wpforms-important' : '';
+	$input_attr = ! empty( $args['input-attr'] ) ? $args['input-attr'] : '';
+	$output     = wpforms_panel_field_toggle_control(
 		[
 			'control-class' => $class,
 		],
@@ -385,7 +386,7 @@ function wpforms_settings_toggle_callback( $args ) {
 		$id,
 		! empty( $args['label'] ) ? $args['label'] : '',
 		$value,
-		''
+		$input_attr
 	);
 
 	$desc_on  = ! empty( $args['desc'] ) ? $args['desc'] : '';

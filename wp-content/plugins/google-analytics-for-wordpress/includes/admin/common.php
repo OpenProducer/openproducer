@@ -262,6 +262,7 @@ function monsterinsights_admin_scripts() {
 				'new_pretty_link_url'             => admin_url( 'post-new.php?post_type=pretty-link' ),
 				'wpmailsmtp_admin_url'            => admin_url( 'admin.php?page=wp-mail-smtp' ),
 				'load_headline_analyzer_settings' => monsterinsights_load_gutenberg_app() ? 'true' : 'false',
+				'exit_url'                        => add_query_arg( 'page', 'monsterinsights_settings', admin_url( 'admin.php' ) ),
 			)
 		);
 
@@ -283,7 +284,7 @@ function monsterinsights_admin_scripts() {
 		wp_enqueue_script( 'monsterinsights-vue-reports' );
 
 		// We do not have a current auth.
-		$auth = MonsterInsights()->auth;
+		$auth      = MonsterInsights()->auth;
 		$site_auth = $auth->get_viewname();
 		$ms_auth   = is_multisite() && $auth->get_network_viewname();
 
@@ -291,36 +292,36 @@ function monsterinsights_admin_scripts() {
 			'monsterinsights-vue-reports',
 			'monsterinsights',
 			array(
-				'ajax'             => admin_url( 'admin-ajax.php' ),
-				'nonce'            => wp_create_nonce( 'mi-admin-nonce' ),
-				'network'          => is_network_admin(),
-				'translations'     => wp_get_jed_locale_data( monsterinsights_is_pro_version() ? 'ga-premium' : 'google-analytics-for-wordpress' ),
-				'assets'           => plugins_url( $version_path . '/assets/vue', MONSTERINSIGHTS_PLUGIN_FILE ),
-				'shareasale_id'    => monsterinsights_get_shareasale_id(),
-				'shareasale_url'   => monsterinsights_get_shareasale_url( monsterinsights_get_shareasale_id(), '' ),
-				'addons_url'       => is_multisite() ? network_admin_url( 'admin.php?page=monsterinsights_network#/addons' ) : admin_url( 'admin.php?page=monsterinsights_settings#/addons' ),
-				'timezone'         => date( 'e' ),
-				'authed'           => $site_auth || $ms_auth,
+				'ajax'                => admin_url( 'admin-ajax.php' ),
+				'nonce'               => wp_create_nonce( 'mi-admin-nonce' ),
+				'network'             => is_network_admin(),
+				'translations'        => wp_get_jed_locale_data( monsterinsights_is_pro_version() ? 'ga-premium' : 'google-analytics-for-wordpress' ),
+				'assets'              => plugins_url( $version_path . '/assets/vue', MONSTERINSIGHTS_PLUGIN_FILE ),
+				'shareasale_id'       => monsterinsights_get_shareasale_id(),
+				'shareasale_url'      => monsterinsights_get_shareasale_url( monsterinsights_get_shareasale_id(), '' ),
+				'addons_url'          => is_multisite() ? network_admin_url( 'admin.php?page=monsterinsights_network#/addons' ) : admin_url( 'admin.php?page=monsterinsights_settings#/addons' ),
+				'timezone'            => date( 'e' ),
+				'authed'              => $site_auth || $ms_auth,
 				'auth_connected_type' => $auth->get_connected_type(),
-				'settings_url'     => add_query_arg( 'page', 'monsterinsights_settings', admin_url( 'admin.php' ) ),
+				'settings_url'        => add_query_arg( 'page', 'monsterinsights_settings', admin_url( 'admin.php' ) ),
 				// Used to add notices for future deprecations.
-				'versions'         => monsterinsights_get_php_wp_version_warning_data(),
-				'plugin_version'   => MONSTERINSIGHTS_VERSION,
-				'is_admin'         => true,
-				'admin_email'      => get_option( 'admin_email' ),
-				'site_url'         => get_site_url(),
-				'wizard_url'       => is_network_admin() ? network_admin_url( 'index.php?page=monsterinsights-onboarding' ) : admin_url( 'index.php?page=monsterinsights-onboarding' ),
-				'install_nonce'    => wp_create_nonce( 'monsterinsights-install' ),
-				'activate_nonce'   => wp_create_nonce( 'monsterinsights-activate' ),
-				'deactivate_nonce' => wp_create_nonce( 'monsterinsights-deactivate' ),
-				'update_settings'  => current_user_can( 'monsterinsights_save_settings' ),
-				'migrated'         => monsterinsights_get_option( 'gadwp_migrated', 0 ),
+				'versions'            => monsterinsights_get_php_wp_version_warning_data(),
+				'plugin_version'      => MONSTERINSIGHTS_VERSION,
+				'is_admin'            => true,
+				'admin_email'         => get_option( 'admin_email' ),
+				'site_url'            => get_site_url(),
+				'wizard_url'          => is_network_admin() ? network_admin_url( 'index.php?page=monsterinsights-onboarding' ) : admin_url( 'index.php?page=monsterinsights-onboarding' ),
+				'install_nonce'       => wp_create_nonce( 'monsterinsights-install' ),
+				'activate_nonce'      => wp_create_nonce( 'monsterinsights-activate' ),
+				'deactivate_nonce'    => wp_create_nonce( 'monsterinsights-deactivate' ),
+				'update_settings'     => current_user_can( 'monsterinsights_save_settings' ),
+				'migrated'            => monsterinsights_get_option( 'gadwp_migrated', 0 ),
 			)
 		);
 
 		return;
 	}
-	
+
 	// ublock notice
 	add_action( 'admin_print_footer_scripts', 'monsterinsights_settings_ublock_error_js', 9999999 );
 }
@@ -901,9 +902,8 @@ function monsterinsights_maybe_add_wp_php_version_notification() {
 	}
 
 	if ( $needs_wp_warning ) {
-
 		$isitwp_url     = 'https://www.isitwp.com/upgrading-wordpress-is-easier-than-you-think/?utm_source=monsterinsights&utm_medium=notifications&utm_campaign=upgradewp';
-		$wpbeginner_url = 'https://www.wpbeginner.com/beginners-guide/why-you-should-always-use-the-latest-version-of-wordpress/utm_source=monsterinsights&utm_medium=notifications&utm_campaign=upgradewp';
+		$wpbeginner_url = monsterinsights_get_url( 'notifications', 'pgradewp', 'https://www.wpbeginner.com/beginners-guide/why-you-should-always-use-the-latest-version-of-wordpress/' );
 
 		$notification['id']    = 'upgrade_wp_49_notification';
 		$notification['title'] = __( 'ACTION REQUIRED: Your WordPress version is putting your site at risk!', 'google-analytics-for-wordpress' );
@@ -934,9 +934,9 @@ add_action( 'admin_init', 'monsterinsights_maybe_add_wp_php_version_notification
 /**
  * Add notification for Year In Review report for year 2021.
  *
+ * @return void
  * @since 7.13.2
  *
- * @return void
  */
 function monsterinsights_year_in_review_notification() {
 

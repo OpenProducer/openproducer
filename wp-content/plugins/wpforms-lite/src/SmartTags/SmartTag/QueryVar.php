@@ -13,6 +13,7 @@ class QueryVar extends SmartTag {
 	 * Get smart tag value.
 	 *
 	 * @since 1.6.7
+	 * @since 1.7.6 Added support for ajax submissions.
 	 *
 	 * @param array  $form_data Form data.
 	 * @param array  $fields    List of fields.
@@ -28,7 +29,22 @@ class QueryVar extends SmartTag {
 			return '';
 		}
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		return ! empty( $_GET[ $attributes['key'] ] ) ? esc_html( sanitize_text_field( wp_unslash( $_GET[ $attributes['key'] ] ) ) ) : '';
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		if ( ! empty( $_GET[ $attributes['key'] ] ) ) {
+			return esc_html( sanitize_text_field( wp_unslash( $_GET[ $attributes['key'] ] ) ) );
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		if ( empty( $_POST['page_url'] ) ) {
+			return '';
+		}
+
+		$query = wp_parse_url( esc_url_raw( wp_unslash( $_POST['page_url'] ) ), PHP_URL_QUERY );
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
+
+		parse_str( $query, $results );
+
+		return ! empty( $results[ $attributes['key'] ] ) ? esc_html( sanitize_text_field( wp_unslash( $results[ $attributes['key'] ] ) ) ) : '';
 	}
 }

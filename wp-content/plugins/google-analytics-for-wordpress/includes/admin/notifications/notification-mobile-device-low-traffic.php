@@ -11,8 +11,8 @@ final class MonsterInsights_Notification_Mobile_Device_Low_Traffic extends Monst
 	public $notification_id = 'monsterinsights_notification_mobile_device';
 	public $notification_interval = 15; // in days
 	public $notification_type = array( 'basic', 'lite', 'master', 'plus', 'pro' );
-    public $notification_category = 'insight';
-    public $notification_priority = 2;
+	public $notification_category = 'insight';
+	public $notification_priority = 2;
 
 	/**
 	 * Prepare Notification
@@ -37,9 +37,9 @@ final class MonsterInsights_Notification_Mobile_Device_Low_Traffic extends Monst
 					'text' => __( 'View Report', 'google-analytics-for-wordpress' )
 				),
 				"learn_more"  => array(
-					'url'           => $this->build_external_link( 'https://www.wpbeginner.com/beginners-guide/how-to-preview-the-mobile-layout-of-your-site/' ),
-					'text'          => __( 'Learn More', 'google-analytics-for-wordpress' ),
-					'is_external'   => true,
+					'url'         => $this->build_external_link( 'https://www.wpbeginner.com/beginners-guide/how-to-preview-the-mobile-layout-of-your-site/' ),
+					'text'        => __( 'Learn More', 'google-analytics-for-wordpress' ),
+					'is_external' => true,
 				),
 			);
 

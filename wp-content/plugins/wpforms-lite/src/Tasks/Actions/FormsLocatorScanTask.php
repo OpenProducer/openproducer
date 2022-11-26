@@ -513,7 +513,7 @@ class FormsLocatorScanTask extends Task {
 	}
 
 	/**
-	 * Log message to standard debug.log file.
+	 * Log message to WPForms logger and standard debug.log file.
 	 *
 	 * @since 1.7.4
 	 *

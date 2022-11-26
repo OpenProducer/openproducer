@@ -10,7 +10,7 @@ if (!class_exists('DHInfo')) :
 		public $badgeinfo = 'dhbadge';
 		public $ip_header_option = 'dhipheader';
 		public $brand_option = 'dhbrand';
-		public $version = '4.69';
+		public $version = '4.78';
 		public $webpage = 'https://www.dreamhost.com';
 		public $appurl = 'https://migrate.blogvault.net';
 		public $slug = 'dreamhost-automated-migration/dreamhost.php';
@@ -103,8 +103,19 @@ if (!class_exists('DHInfo')) :
 			return ($this->getWatchTime() > $expiry_time);
 		}
 
+		public function isValidEnvironment(){
+			$bvsiteinfo = new DHWPSiteInfo();
+			$siteurl = $bvsiteinfo->siteurl();
+			$bvconfig = $this->config;
+			if ($bvconfig && array_key_exists("abspath", $bvconfig) &&
+					array_key_exists("siteurl", $bvconfig) && !empty($siteurl)) {
+				return ($bvconfig["abspath"] == ABSPATH && $bvconfig["siteurl"] == $siteurl);
+			}
+			return true;
+		}
+
 		public function isProtectModuleEnabled() {
-			return $this->isServiceActive("protect");
+			return $this->isServiceActive("protect") && $this->isValidEnvironment();
 		}
 
 		public function isDynSyncModuleEnabled() {
@@ -130,7 +141,7 @@ if (!class_exists('DHInfo')) :
 		}
 
 		public function isMalcare() {
-			return $this->getBrandName() === 'MalCare - Pro';
+			return $this->getBrandName() === 'MalCare';
 		}
 
 		public function isBlogvault() {

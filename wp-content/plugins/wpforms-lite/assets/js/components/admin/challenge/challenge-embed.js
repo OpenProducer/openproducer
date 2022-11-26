@@ -146,7 +146,7 @@ WPFormsChallenge.embed = window.WPFormsChallenge.embed || ( function( document, 
 		},
 
 		/**
-		 * Hide the popoup.
+		 * Hide the popup.
 		 *
 		 * @since 1.5.0
 		 */

@@ -18,7 +18,7 @@ abstract class CacheBase {
 	 *
 	 * @var bool
 	 */
-	private static $updated = false;
+	protected static $updated = false;
 
 	/**
 	 * Settings.
@@ -177,7 +177,19 @@ abstract class CacheBase {
 	 */
 	public function update_cache() {
 
-		$request = wp_remote_get( $this->settings['remote_source'] );
+		$wpforms_key = 'lite';
+
+		if ( wpforms()->is_pro() ) {
+			$wpforms_key = wpforms_get_license_key();
+		}
+
+		$request = wp_remote_get(
+			add_query_arg( 'tgm-updater-key', $wpforms_key, $this->settings['remote_source'] ),
+			[
+				'timeout'    => 10,
+				'user-agent' => wpforms_get_default_user_agent(),
+			]
+		);
 
 		if ( is_wp_error( $request ) ) {
 			return [];
