@@ -1,3 +1,864 @@
+# [1.96.0](https://github.com/Automattic/newspack-plugin/compare/v1.95.4...v1.96.0) (2022-11-14)
+
+
+### Bug Fixes
+
+* allow Stripe Billing portal to render without RAS ([b6e22cd](https://github.com/Automattic/newspack-plugin/commit/b6e22cdbc021a475cf2c347513fd9d80b6759082))
+* apply ex-donor status only if user has no active subscriptions ([#2101](https://github.com/Automattic/newspack-plugin/issues/2101)) ([40399ea](https://github.com/Automattic/newspack-plugin/commit/40399eaf763809062ed2248f3837b7c565ece2cd))
+* apply My Account template changes only when RAS is active ([cd7b304](https://github.com/Automattic/newspack-plugin/commit/cd7b30404ce35eed28bb7b2f7de07047077e267b))
+* package lock ([8707e53](https://github.com/Automattic/newspack-plugin/commit/8707e53ad0d63daab93d503ecb302240ace40c86))
+* **stripe:** handle failed invoice fatal error ([#2103](https://github.com/Automattic/newspack-plugin/issues/2103)) ([f865428](https://github.com/Automattic/newspack-plugin/commit/f865428a9a1e2ae5027a19e6461940d4d1b6f4c4))
+* **Stripe:** improve handling of invoice error ([#2117](https://github.com/Automattic/newspack-plugin/issues/2117)) ([609bf7d](https://github.com/Automattic/newspack-plugin/commit/609bf7d9a23afaa92374403c23fec6e072e5e636))
+* update newspack-scripts to fix CI builds ([#2109](https://github.com/Automattic/newspack-plugin/issues/2109)) ([ec1ee7a](https://github.com/Automattic/newspack-plugin/commit/ec1ee7a4abf0964015bb6c2dd7aea5b0424cfc2e))
+* use default terms text in reg block if no text defined ([#2078](https://github.com/Automattic/newspack-plugin/issues/2078)) ([443c59c](https://github.com/Automattic/newspack-plugin/commit/443c59c251f53ac590cd578f50312937eb85cec2))
+
+
+### Features
+
+* enable setting user custom fields for job title etc. ([#2102](https://github.com/Automattic/newspack-plugin/issues/2102)) ([4018af6](https://github.com/Automattic/newspack-plugin/commit/4018af61acbc8a952355a5b138808618de3efc26)), closes [#1723](https://github.com/Automattic/newspack-plugin/issues/1723)
+* **newsletter-contact:** disallow overriding membership status field ([#2093](https://github.com/Automattic/newspack-plugin/issues/2093)) ([8b8e134](https://github.com/Automattic/newspack-plugin/commit/8b8e134c75cfd2ae956e640615106c884d8d3204))
+
+# [1.96.0-alpha.4](https://github.com/Automattic/newspack-plugin/compare/v1.96.0-alpha.3...v1.96.0-alpha.4) (2022-11-07)
+
+
+### Bug Fixes
+
+* **stripe:** invoice error handling ([#2119](https://github.com/Automattic/newspack-plugin/issues/2119)) ([8855681](https://github.com/Automattic/newspack-plugin/commit/8855681d92794c4b01835627328d9a39c8fc2d10))
+
+## [1.95.4](https://github.com/Automattic/newspack-plugin/compare/v1.95.3...v1.95.4) (2022-11-07)
+
+
+### Bug Fixes
+
+* **stripe:** invoice error handling ([#2119](https://github.com/Automattic/newspack-plugin/issues/2119)) ([8855681](https://github.com/Automattic/newspack-plugin/commit/8855681d92794c4b01835627328d9a39c8fc2d10))
+
+## [1.95.3](https://github.com/Automattic/newspack-plugin/compare/v1.95.2...v1.95.3) (2022-11-04)
+
+
+### Bug Fixes
+
+* update newspack-scripts to fix CI builds ([#2110](https://github.com/Automattic/newspack-plugin/issues/2110)) ([c395ddb](https://github.com/Automattic/newspack-plugin/commit/c395ddb84064bc17ed78330ce8b24371455aa083))
+
+## [1.95.3-hotfix.1](https://github.com/Automattic/newspack-plugin/compare/v1.95.2...v1.95.3-hotfix.1) (2022-11-04)
+
+
+### Bug Fixes
+
+* update newspack-scripts to fix CI builds ([#2109](https://github.com/Automattic/newspack-plugin/issues/2109)) ([bc1e44a](https://github.com/Automattic/newspack-plugin/commit/bc1e44a6cf9eb561b08a7b717c9de7d2c9bb160b))
+
+## [1.95.2](https://github.com/Automattic/newspack-plugin/compare/v1.95.1...v1.95.2) (2022-11-03)
+
+
+### Bug Fixes
+
+* **oauth:** change Google's `dfp` scope to `admanager` ([#2106](https://github.com/Automattic/newspack-plugin/issues/2106)) ([703623e](https://github.com/Automattic/newspack-plugin/commit/703623ebfa19c2beedb2ae9d1535300c01298a61))
+
+## [1.95.2-hotfix.1](https://github.com/Automattic/newspack-plugin/compare/v1.95.1...v1.95.2-hotfix.1) (2022-11-03)
+
+
+### Bug Fixes
+
+* **oauth:** change Google's `dfp` scope to `admanager` ([46e5eea](https://github.com/Automattic/newspack-plugin/commit/46e5eea6da738e59c2d56d3d34c2f8c1abe25bc0))
+
+## [1.95.1](https://github.com/Automattic/newspack-plugin/compare/v1.95.0...v1.95.1) (2022-10-31)
+
+
+### Bug Fixes
+
+* **oauth:** log missing google scopes ([#2099](https://github.com/Automattic/newspack-plugin/issues/2099)) ([642b1c5](https://github.com/Automattic/newspack-plugin/commit/642b1c5a02f45d94fcf5d5173aac9998d4ae4e53))
+
+## [1.95.1-hotfix.1](https://github.com/Automattic/newspack-plugin/compare/v1.95.0...v1.95.1-hotfix.1) (2022-10-31)
+
+
+### Bug Fixes
+
+* **oauth:** log missing google scopes ([831d475](https://github.com/Automattic/newspack-plugin/commit/831d475a175f55eff3c89a7e3bf403cee1e0626b))
+
+# [1.95.0](https://github.com/Automattic/newspack-plugin/compare/v1.94.0...v1.95.0) (2022-10-31)
+
+
+### Bug Fixes
+
+* "Sign In" page styles ([#2075](https://github.com/Automattic/newspack-plugin/issues/2075)) ([04ce12c](https://github.com/Automattic/newspack-plugin/commit/04ce12c9a1423e66aaa6953d7c8ac5e921bf9e1c))
+* **ads:** rename GAM methods ([#2074](https://github.com/Automattic/newspack-plugin/issues/2074)) ([6e7cb90](https://github.com/Automattic/newspack-plugin/commit/6e7cb90e3b8a5d39e128bbf58cb91b3d8c1b8fe5))
+* check Woo plugins status before enabling RAS ([#2076](https://github.com/Automattic/newspack-plugin/issues/2076)) ([3aedbd4](https://github.com/Automattic/newspack-plugin/commit/3aedbd486ac1e3522256bb0a4a9765e01988d8c6))
+* overzealous woo check for RAS front-end ([#2080](https://github.com/Automattic/newspack-plugin/issues/2080)) ([6b4c253](https://github.com/Automattic/newspack-plugin/commit/6b4c253f5974012572d7adce40d21dd5adff1aff))
+* show display name in My Account UI ([#2079](https://github.com/Automattic/newspack-plugin/issues/2079)) ([91fd1b8](https://github.com/Automattic/newspack-plugin/commit/91fd1b88045b565446801425314318dfd4add6a3))
+* sql error with starter content queries ([#2077](https://github.com/Automattic/newspack-plugin/issues/2077)) ([84665ed](https://github.com/Automattic/newspack-plugin/commit/84665ed398e9daea60c8f76ddbb5cb340f75d117))
+
+
+### Features
+
+* Add Meta pixel settings section (aka Facebook pixel) ([f6e8bca](https://github.com/Automattic/newspack-plugin/commit/f6e8bca4c1ba6c40d370cf3b2deb0a56d5a9d343)), closes [#1994](https://github.com/Automattic/newspack-plugin/issues/1994)
+* **ads:** publisher media kit add-on ([#2048](https://github.com/Automattic/newspack-plugin/issues/2048)) ([709e66c](https://github.com/Automattic/newspack-plugin/commit/709e66cb7037fb8e54b6e93830e287f5a22aaec1))
+* Allow user to mark revisions as Major revisions and they'll never be deleted ([#2033](https://github.com/Automattic/newspack-plugin/issues/2033)) ([174ea7f](https://github.com/Automattic/newspack-plugin/commit/174ea7f121dc08729296b6381e766771825d5025))
+* **reader-auth:** improved otp ux ([#2043](https://github.com/Automattic/newspack-plugin/issues/2043)) ([c89a467](https://github.com/Automattic/newspack-plugin/commit/c89a4674809fe723b7400919ffe9c3e6400b99f4))
+* **stripe:** synchronise with WooCommerce Subscriptions ([#1936](https://github.com/Automattic/newspack-plugin/issues/1936)) ([6526770](https://github.com/Automattic/newspack-plugin/commit/652677029d6ea6ce0b7c7d1b2121eff76ed6f0b6))
+
+# [1.95.0-alpha.1](https://github.com/Automattic/newspack-plugin/compare/v1.94.0...v1.95.0-alpha.1) (2022-10-21)
+
+
+### Bug Fixes
+
+* "Sign In" page styles ([#2075](https://github.com/Automattic/newspack-plugin/issues/2075)) ([04ce12c](https://github.com/Automattic/newspack-plugin/commit/04ce12c9a1423e66aaa6953d7c8ac5e921bf9e1c))
+* **ads:** rename GAM methods ([#2074](https://github.com/Automattic/newspack-plugin/issues/2074)) ([6e7cb90](https://github.com/Automattic/newspack-plugin/commit/6e7cb90e3b8a5d39e128bbf58cb91b3d8c1b8fe5))
+* check Woo plugins status before enabling RAS ([#2076](https://github.com/Automattic/newspack-plugin/issues/2076)) ([3aedbd4](https://github.com/Automattic/newspack-plugin/commit/3aedbd486ac1e3522256bb0a4a9765e01988d8c6))
+* overzealous woo check for RAS front-end ([#2080](https://github.com/Automattic/newspack-plugin/issues/2080)) ([6b4c253](https://github.com/Automattic/newspack-plugin/commit/6b4c253f5974012572d7adce40d21dd5adff1aff))
+* show display name in My Account UI ([#2079](https://github.com/Automattic/newspack-plugin/issues/2079)) ([91fd1b8](https://github.com/Automattic/newspack-plugin/commit/91fd1b88045b565446801425314318dfd4add6a3))
+* sql error with starter content queries ([#2077](https://github.com/Automattic/newspack-plugin/issues/2077)) ([84665ed](https://github.com/Automattic/newspack-plugin/commit/84665ed398e9daea60c8f76ddbb5cb340f75d117))
+
+
+### Features
+
+* Add Meta pixel settings section (aka Facebook pixel) ([f6e8bca](https://github.com/Automattic/newspack-plugin/commit/f6e8bca4c1ba6c40d370cf3b2deb0a56d5a9d343)), closes [#1994](https://github.com/Automattic/newspack-plugin/issues/1994)
+* **ads:** publisher media kit add-on ([#2048](https://github.com/Automattic/newspack-plugin/issues/2048)) ([709e66c](https://github.com/Automattic/newspack-plugin/commit/709e66cb7037fb8e54b6e93830e287f5a22aaec1))
+* Allow user to mark revisions as Major revisions and they'll never be deleted ([#2033](https://github.com/Automattic/newspack-plugin/issues/2033)) ([174ea7f](https://github.com/Automattic/newspack-plugin/commit/174ea7f121dc08729296b6381e766771825d5025))
+* **reader-auth:** improved otp ux ([#2043](https://github.com/Automattic/newspack-plugin/issues/2043)) ([c89a467](https://github.com/Automattic/newspack-plugin/commit/c89a4674809fe723b7400919ffe9c3e6400b99f4))
+* **stripe:** synchronise with WooCommerce Subscriptions ([#1936](https://github.com/Automattic/newspack-plugin/issues/1936)) ([6526770](https://github.com/Automattic/newspack-plugin/commit/652677029d6ea6ce0b7c7d1b2121eff76ed6f0b6))
+
+# [1.94.0](https://github.com/Automattic/newspack-plugin/compare/v1.93.2...v1.94.0) (2022-10-19)
+
+
+### Bug Fixes
+
+* "Sign In" page styles ([#2075](https://github.com/Automattic/newspack-plugin/issues/2075)) ([b7a453a](https://github.com/Automattic/newspack-plugin/commit/b7a453a2be38dd102dcf319f633d663677687012))
+* **auth:** ensure OTP on reader state changes ([#2053](https://github.com/Automattic/newspack-plugin/issues/2053)) ([0f8d7ed](https://github.com/Automattic/newspack-plugin/commit/0f8d7ed45e9d90beee6d8fde0f34ce7268b74785))
+* **reader-activation:** checkbox alignment ([#2057](https://github.com/Automattic/newspack-plugin/issues/2057)) ([6059956](https://github.com/Automattic/newspack-plugin/commit/6059956d77efc4e21106e6ea8069978219c2a79e))
+* **reader-activation:** vertical alignment of the icon ([#2056](https://github.com/Automattic/newspack-plugin/issues/2056)) ([4257f60](https://github.com/Automattic/newspack-plugin/commit/4257f6064857bfd3f415baaac04d7cd078c16a39))
+* **wizards:** rename advertising scripts and API paths so they're not blocked by adblocker ([dba4119](https://github.com/Automattic/newspack-plugin/commit/dba41193f43481e4182f688893cbf787712e5fcc))
+
+
+### Features
+
+* **ads:** expand suppression options ([#1915](https://github.com/Automattic/newspack-plugin/issues/1915)) ([f6e012b](https://github.com/Automattic/newspack-plugin/commit/f6e012bb104ef28d4a3da8d3e08cd9e2428884d8))
+* more prominent already-have-account section ([#2025](https://github.com/Automattic/newspack-plugin/issues/2025)) ([23f5d7f](https://github.com/Automattic/newspack-plugin/commit/23f5d7f6c76e9df6573979d97be1087fd5725a63))
+* **plugins-screen:** update button to use primary style ([#2037](https://github.com/Automattic/newspack-plugin/issues/2037)) ([9827ff3](https://github.com/Automattic/newspack-plugin/commit/9827ff311384278fdd7d2f178272b7e476949243))
+* show unregistered RAS UI to admins ([#2064](https://github.com/Automattic/newspack-plugin/issues/2064)) ([9352c23](https://github.com/Automattic/newspack-plugin/commit/9352c2322059f313b1cea2dc79c37bdc022c4015))
+* update woocommerce account details and use cards ([#2063](https://github.com/Automattic/newspack-plugin/issues/2063)) ([81bb8be](https://github.com/Automattic/newspack-plugin/commit/81bb8bec9608c6f4145cc332bb4931415a456fa4))
+
+# [1.94.0-alpha.4](https://github.com/Automattic/newspack-plugin/compare/v1.94.0-alpha.3...v1.94.0-alpha.4) (2022-10-19)
+
+
+### Bug Fixes
+
+* "Sign In" page styles ([#2075](https://github.com/Automattic/newspack-plugin/issues/2075)) ([b7a453a](https://github.com/Automattic/newspack-plugin/commit/b7a453a2be38dd102dcf319f633d663677687012))
+
+# [1.94.0-alpha.3](https://github.com/Automattic/newspack-plugin/compare/v1.94.0-alpha.2...v1.94.0-alpha.3) (2022-10-10)
+
+
+### Bug Fixes
+
+* **stripe-wc:** prevent duplicate orders creation ([041d711](https://github.com/Automattic/newspack-plugin/commit/041d7116d0158e3e8e84e4192e98aee00eca7e42))
+* **stripe:** handle sync errors ([329de96](https://github.com/Automattic/newspack-plugin/commit/329de960cae933d1b0341433dd20b71942abfec0))
+
+## [1.93.2](https://github.com/Automattic/newspack-plugin/compare/v1.93.1...v1.93.2) (2022-10-10)
+
+
+### Bug Fixes
+
+* **stripe-wc:** prevent duplicate orders creation ([041d711](https://github.com/Automattic/newspack-plugin/commit/041d7116d0158e3e8e84e4192e98aee00eca7e42))
+* **stripe:** handle sync errors ([329de96](https://github.com/Automattic/newspack-plugin/commit/329de960cae933d1b0341433dd20b71942abfec0))
+
+## [1.93.1](https://github.com/Automattic/newspack-plugin/compare/v1.93.0...v1.93.1) (2022-10-06)
+
+
+### Bug Fixes
+
+* fire ini-load analytics events on DOMContentLoaded, not load ([cc2485d](https://github.com/Automattic/newspack-plugin/commit/cc2485d20cc80afabf760fa154d5a198fcb552b5))
+* force hotfix release ([e68b169](https://github.com/Automattic/newspack-plugin/commit/e68b169a5df18bb66c2183f70441cb21ca39fd3f))
+
+# [1.93.0](https://github.com/Automattic/newspack-plugin/compare/v1.92.1...v1.93.0) (2022-09-28)
+
+
+### Features
+
+* custom email sender for reader activation ([#2052](https://github.com/Automattic/newspack-plugin/issues/2052)) ([5fde94f](https://github.com/Automattic/newspack-plugin/commit/5fde94f4afb29dedf4ef735ab1a762e401338d91))
+
+# [1.93.0-hotfix.1](https://github.com/Automattic/newspack-plugin/compare/v1.92.1...v1.93.0-hotfix.1) (2022-09-28)
+
+
+### Features
+
+* custom email sender for reader activation ([3ee10b7](https://github.com/Automattic/newspack-plugin/commit/3ee10b79bafc1eac2e3995f880cc7d80c476efcc))
+* custom from name ([63186d2](https://github.com/Automattic/newspack-plugin/commit/63186d24a47089f3c47b860cad8e6ab7c060b47b))
+* custom receipts sender ([378f944](https://github.com/Automattic/newspack-plugin/commit/378f944622d1c7b27527959c0c2fd18959dbc4bb))
+
+## [1.92.1](https://github.com/Automattic/newspack-plugin/compare/v1.92.0...v1.92.1) (2022-09-28)
+
+
+### Bug Fixes
+
+* disable author filter for co-authors ([#2050](https://github.com/Automattic/newspack-plugin/issues/2050)) ([695e16f](https://github.com/Automattic/newspack-plugin/commit/695e16f24a27310df6ceddbbefd311f8572128d2))
+
+# [1.92.0](https://github.com/Automattic/newspack-plugin/compare/v1.91.2...v1.92.0) (2022-09-27)
+
+
+### Bug Fixes
+
+* **analytics:** remove illegal reference on wizard ([#1996](https://github.com/Automattic/newspack-plugin/issues/1996)) ([bec14a2](https://github.com/Automattic/newspack-plugin/commit/bec14a22ebb6d8c2c37de6bdd920d5fb13e0c440))
+* **reader-activation-auth:** header link color ([6e85ada](https://github.com/Automattic/newspack-plugin/commit/6e85adafa814e0149062e589d24969467d5b53db))
+* **stripe:** handle error if customer LTV is not retrievable ([2f9f4a4](https://github.com/Automattic/newspack-plugin/commit/2f9f4a44e45c80eb01a326baaa78be866e9b55ab))
+* **stripe:** validate webhook existence on donation ([#2026](https://github.com/Automattic/newspack-plugin/issues/2026)) ([c505fbc](https://github.com/Automattic/newspack-plugin/commit/c505fbcc19a98f73e55fbbd421f343e12ac3dd7f))
+* **wc-to-ac-metadata:** add last payment date field for one-time donors ([0106915](https://github.com/Automattic/newspack-plugin/commit/01069153abfd24dc61f01e82aa43dd6ceb6a5d93))
+* **wc-to-ac-metadata:** disregard `0` next payment date ([6e43db1](https://github.com/Automattic/newspack-plugin/commit/6e43db1c52f41e51316aa6b5233e8e445d7a506b))
+
+
+### Features
+
+* Adds a filter by Author in the Posts admin page ([bc49686](https://github.com/Automattic/newspack-plugin/commit/bc496868e9a2d438303699db45972f438ad2ff5c))
+* **auth:** otp embedded to magic links ([#1988](https://github.com/Automattic/newspack-plugin/issues/1988)) ([d6e072c](https://github.com/Automattic/newspack-plugin/commit/d6e072ccd18b2cff2e3dda97e371eedb1187afab))
+* do not redirect resubscribe requests ([#1989](https://github.com/Automattic/newspack-plugin/issues/1989)) ([53da790](https://github.com/Automattic/newspack-plugin/commit/53da790dbc0f4b06fb5a18b15f03e7a121a1909d))
+* enable limit post revisions kept in the database ([#2030](https://github.com/Automattic/newspack-plugin/issues/2030)) ([44680c5](https://github.com/Automattic/newspack-plugin/commit/44680c5c8b43a85de44e8d70d7ffce6a2ef69528))
+* **plugins-screen:** display a plugin review form, if URL supplied ([#2005](https://github.com/Automattic/newspack-plugin/issues/2005)) ([77d3aa0](https://github.com/Automattic/newspack-plugin/commit/77d3aa06054627bd5d6d1d6f2385be6746f02beb))
+* **plugins:** handle missing organic-profile-block plugin ([2475ad0](https://github.com/Automattic/newspack-plugin/commit/2475ad08f5191608401e2f2b486bd670dd82c732))
+* stripe-to-stripe migrator ([a82f326](https://github.com/Automattic/newspack-plugin/commit/a82f326b98bab5b08581dfd347505f7f42f237aa))
+* **stripe:** send data about cancelled subscription to Campaigns ([#1966](https://github.com/Automattic/newspack-plugin/issues/1966)) ([0554487](https://github.com/Automattic/newspack-plugin/commit/055448741cba1e7830fc839bd3a76f5b6521ecf1))
+* sync from Stripe to ESP CLI tool ([#1984](https://github.com/Automattic/newspack-plugin/issues/1984)) ([c10fbc7](https://github.com/Automattic/newspack-plugin/commit/c10fbc7c8d17d11dfbffe1a36dc1e4cfa5e6332c))
+* **woocommerce:** handle metadata when creating a membership ([af75438](https://github.com/Automattic/newspack-plugin/commit/af75438dca6305b77d2d034f67199c5ead34dbce))
+
+# [1.92.0-alpha.4](https://github.com/Automattic/newspack-plugin/compare/v1.92.0-alpha.3...v1.92.0-alpha.4) (2022-09-26)
+
+
+### Bug Fixes
+
+* **reader-activation-auth:** header link color ([6e85ada](https://github.com/Automattic/newspack-plugin/commit/6e85adafa814e0149062e589d24969467d5b53db))
+* **stripe:** handle error if customer LTV is not retrievable ([2f9f4a4](https://github.com/Automattic/newspack-plugin/commit/2f9f4a44e45c80eb01a326baaa78be866e9b55ab))
+* **stripe:** validate webhook existence on donation ([#2026](https://github.com/Automattic/newspack-plugin/issues/2026)) ([c505fbc](https://github.com/Automattic/newspack-plugin/commit/c505fbcc19a98f73e55fbbd421f343e12ac3dd7f))
+* **wc-to-ac-metadata:** add last payment date field for one-time donors ([0106915](https://github.com/Automattic/newspack-plugin/commit/01069153abfd24dc61f01e82aa43dd6ceb6a5d93))
+
+
+### Features
+
+* enable limit post revisions kept in the database ([#2030](https://github.com/Automattic/newspack-plugin/issues/2030)) ([44680c5](https://github.com/Automattic/newspack-plugin/commit/44680c5c8b43a85de44e8d70d7ffce6a2ef69528))
+* **plugins-screen:** display a plugin review form, if URL supplied ([#2005](https://github.com/Automattic/newspack-plugin/issues/2005)) ([77d3aa0](https://github.com/Automattic/newspack-plugin/commit/77d3aa06054627bd5d6d1d6f2385be6746f02beb))
+* stripe-to-stripe migrator ([a82f326](https://github.com/Automattic/newspack-plugin/commit/a82f326b98bab5b08581dfd347505f7f42f237aa))
+* sync from Stripe to ESP CLI tool ([#1984](https://github.com/Automattic/newspack-plugin/issues/1984)) ([c10fbc7](https://github.com/Automattic/newspack-plugin/commit/c10fbc7c8d17d11dfbffe1a36dc1e4cfa5e6332c))
+* **woocommerce:** handle metadata when creating a membership ([af75438](https://github.com/Automattic/newspack-plugin/commit/af75438dca6305b77d2d034f67199c5ead34dbce))
+
+# [1.92.0-alpha.3](https://github.com/Automattic/newspack-plugin/compare/v1.92.0-alpha.2...v1.92.0-alpha.3) (2022-09-23)
+
+
+### Bug Fixes
+
+* **analytics:** improve reliability of custom events reporting in AMP ([#2034](https://github.com/Automattic/newspack-plugin/issues/2034)) ([746fdda](https://github.com/Automattic/newspack-plugin/commit/746fdda6c1e2f7ac07192bf30bbf50c88b6f767e))
+
+## [1.91.2](https://github.com/Automattic/newspack-plugin/compare/v1.91.1...v1.91.2) (2022-09-23)
+
+
+### Bug Fixes
+
+* **analytics:** improve reliability of custom events reporting in AMP ([#2034](https://github.com/Automattic/newspack-plugin/issues/2034)) ([746fdda](https://github.com/Automattic/newspack-plugin/commit/746fdda6c1e2f7ac07192bf30bbf50c88b6f767e))
+
+## [1.91.2-hotfix.2](https://github.com/Automattic/newspack-plugin/compare/v1.91.2-hotfix.1...v1.91.2-hotfix.2) (2022-09-23)
+
+
+### Bug Fixes
+
+* remove filter priority ([92ad712](https://github.com/Automattic/newspack-plugin/commit/92ad71276e78da40ad96486f0036c3101e00a494))
+
+## [1.91.2-hotfix.1](https://github.com/Automattic/newspack-plugin/compare/v1.91.1...v1.91.2-hotfix.1) (2022-09-23)
+
+
+### Bug Fixes
+
+* **analytics:** improve reliability of custom events reporting in AMP ([a3d5982](https://github.com/Automattic/newspack-plugin/commit/a3d59829ed9c53e81f5ca89899b87e68cb19b43e))
+
+## [1.91.1](https://github.com/Automattic/newspack-plugin/compare/v1.91.0...v1.91.1) (2022-09-21)
+
+
+### Bug Fixes
+
+* move improved frequency options out of experimental state ([45b0fe6](https://github.com/Automattic/newspack-plugin/commit/45b0fe62ae51023a21bf789873fc441d1bbea47d))
+
+# [1.91.0](https://github.com/Automattic/newspack-plugin/compare/v1.90.0...v1.91.0) (2022-09-15)
+
+
+### Features
+
+* stop auto-email on registration and rate limit unverified accounts ([#2004](https://github.com/Automattic/newspack-plugin/issues/2004)) ([b518874](https://github.com/Automattic/newspack-plugin/commit/b518874f3935a1397daf999d934b06ce0e795a51))
+
+# [1.91.0-hotfix.1](https://github.com/Automattic/newspack-plugin/compare/v1.90.0...v1.91.0-hotfix.1) (2022-09-15)
+
+
+### Features
+
+* stop auto-email on registration and rate limit unverified accounts ([c6a2566](https://github.com/Automattic/newspack-plugin/commit/c6a256660ffaaeed115a6933377ee768f76e2487))
+
+# [1.90.0](https://github.com/Automattic/newspack-plugin/compare/v1.89.1...v1.90.0) (2022-09-14)
+
+
+### Bug Fixes
+
+* **ac-master-list:** handle empty lists ([cfabb5a](https://github.com/Automattic/newspack-plugin/commit/cfabb5a7a90848c209c40b35749504f2feaded4c))
+* add check to only change theme if not empty ([#1978](https://github.com/Automattic/newspack-plugin/issues/1978)) ([b9835f1](https://github.com/Automattic/newspack-plugin/commit/b9835f194de5759bf975343e5a3cb9bfe79b8f16))
+* allow Register block to be edited even if RAS is not enabled ([#1962](https://github.com/Automattic/newspack-plugin/issues/1962)) ([649f47b](https://github.com/Automattic/newspack-plugin/commit/649f47b57965121aa0b11f11a7e1c3aaeebd00f1))
+* **emails:** don't create post if pluggable functions are not available ([#1979](https://github.com/Automattic/newspack-plugin/issues/1979)) ([d8aac4f](https://github.com/Automattic/newspack-plugin/commit/d8aac4fb7d18313efb025592e25d1187d1a298e3))
+* **emails:** editor message ([62dec52](https://github.com/Automattic/newspack-plugin/commit/62dec5226b7413afd62da173ace49624425cc0a8))
+* **google-oauth:** missing email message ([#1925](https://github.com/Automattic/newspack-plugin/issues/1925)) ([93260a3](https://github.com/Automattic/newspack-plugin/commit/93260a368717b36d9f14f835856bbc3790557b38))
+* horizontal scrollbar on auth modal ([#1919](https://github.com/Automattic/newspack-plugin/issues/1919)) ([08a7bb6](https://github.com/Automattic/newspack-plugin/commit/08a7bb612a58d7d02b69ed241fe82273ab7c5104))
+* if logging in from an overlay prompt, dismiss the prompt after login ([#1927](https://github.com/Automattic/newspack-plugin/issues/1927)) ([999437d](https://github.com/Automattic/newspack-plugin/commit/999437db7fed57ea43e5edde9daba574c2c27283))
+* localized reader auth error messages ([#1948](https://github.com/Automattic/newspack-plugin/issues/1948)) ([fb58a7f](https://github.com/Automattic/newspack-plugin/commit/fb58a7f6b7b2cfdfe13845330de9ed87f83e8f8b))
+* post-logout messaging ([#1934](https://github.com/Automattic/newspack-plugin/issues/1934)) ([11e6917](https://github.com/Automattic/newspack-plugin/commit/11e691728dd9f46e29a89e9548703de5ed5a4afb))
+* prefix WC My Account actions so we can decide which hooks to support ([#1963](https://github.com/Automattic/newspack-plugin/issues/1963)) ([0fa8c0a](https://github.com/Automattic/newspack-plugin/commit/0fa8c0ada1d7d5fc9ef8ce2388c48d0fac2d0c4a))
+* **reader-activation:** send payment contact metadata only if RA is enabled ([#1957](https://github.com/Automattic/newspack-plugin/issues/1957)) ([3e14777](https://github.com/Automattic/newspack-plugin/commit/3e1477742f1c8cc6819282054c99f35e36b47803))
+* register and auth form tweaks ([#1935](https://github.com/Automattic/newspack-plugin/issues/1935)) ([3b76d3f](https://github.com/Automattic/newspack-plugin/commit/3b76d3f70c2b3cbb761e6d56f5432143cc7075a4))
+* **registration-block:** allow any markup in the success state ([977e77a](https://github.com/Automattic/newspack-plugin/commit/977e77a75c266e636cf764bc67061b7d51f563f1))
+* **registration-block:** column layout in editor ([#1920](https://github.com/Automattic/newspack-plugin/issues/1920)) ([f1ae0c5](https://github.com/Automattic/newspack-plugin/commit/f1ae0c5894f9fc571e9e50b44d984d90476243a6))
+* **registration-block:** fix empty success state ([272aee5](https://github.com/Automattic/newspack-plugin/commit/272aee5c7b291240beb067afcc2401c3992264f4))
+* show My Account messages using custom messaging instead of WC messaging ([#1932](https://github.com/Automattic/newspack-plugin/issues/1932)) ([c9802fe](https://github.com/Automattic/newspack-plugin/commit/c9802fe1ea494872253fe148b86ccb0dfaa9660b))
+* **stripe:** handle WC-originating Stripe transactions ([674b278](https://github.com/Automattic/newspack-plugin/commit/674b2788a45a13c8fae8d0b2fd8ec4b22b1a04ae))
+* **WooCommerce:** error notice text color ([#1954](https://github.com/Automattic/newspack-plugin/issues/1954)) ([2e4b95f](https://github.com/Automattic/newspack-plugin/commit/2e4b95f52602529faef051c804d95891f02ed6e2))
+
+
+### Features
+
+* **ac-metadata:** send SSO provider name as "NP_Connected Account" field ([56b6597](https://github.com/Automattic/newspack-plugin/commit/56b6597426f75b75205490acad7284119045b03d))
+* **ac-metadata:** send Stripe customer LTV as "NP_Total Paid" field ([5f6da59](https://github.com/Automattic/newspack-plugin/commit/5f6da59f02897284ea5cefdc45d5dfb4a2e5bbd1))
+* after account deletion message ([2547b76](https://github.com/Automattic/newspack-plugin/commit/2547b76373b620e9852040bdcb68c28e49a3657d))
+* **analytics:** prevent sending NTG newsletter event if subscribing to master list ([#1946](https://github.com/Automattic/newspack-plugin/issues/1946)) ([806a8b0](https://github.com/Automattic/newspack-plugin/commit/806a8b0a07c4496fd2f209536d0b78ad42b7ce1a))
+* custom messaging for reader without password ([#1965](https://github.com/Automattic/newspack-plugin/issues/1965)) ([a584b59](https://github.com/Automattic/newspack-plugin/commit/a584b597f6d0e067e60734c42b9b03eac1346e4c))
+* disable mailchimp-for-woocommerce plugin campaign tracking cookie ([#618](https://github.com/Automattic/newspack-plugin/issues/618)) ([99310cb](https://github.com/Automattic/newspack-plugin/commit/99310cb6f343a9801c0ba0c3b8916e5ff5331ae2))
+* for donations via a prompt, add prompt ID to event label ([#1928](https://github.com/Automattic/newspack-plugin/issues/1928)) ([4704cfd](https://github.com/Automattic/newspack-plugin/commit/4704cfd21f793717c10433056a6e425a84b0e574))
+* give each registration form a unique ID ([#1953](https://github.com/Automattic/newspack-plugin/issues/1953)) ([29fb515](https://github.com/Automattic/newspack-plugin/commit/29fb515534ff5036b7c734de1267d8e5f3f3c05d))
+* **google-sitekit:** prevent excluding logged-in users from GA if RA is enabled ([#1960](https://github.com/Automattic/newspack-plugin/issues/1960)) ([3b18bcc](https://github.com/Automattic/newspack-plugin/commit/3b18bcc400439b0036440994f0db226ce7eee559))
+* honeypot trap for auth and registration forms ([#1896](https://github.com/Automattic/newspack-plugin/issues/1896)) ([d5d713c](https://github.com/Automattic/newspack-plugin/commit/d5d713ca0b4715924136265d36dfdeb19954fa1a))
+* move have account text below SSO and adjust font-size ([#1917](https://github.com/Automattic/newspack-plugin/issues/1917)) ([869913d](https://github.com/Automattic/newspack-plugin/commit/869913dec1156492569ccd4eda56b29401384c3c))
+* new option for minimum donation amount ([#1895](https://github.com/Automattic/newspack-plugin/issues/1895)) ([0b9618b](https://github.com/Automattic/newspack-plugin/commit/0b9618b25d76b64619d25f2077466030f126b477))
+* reader account deletion and ESP sync options ([#1884](https://github.com/Automattic/newspack-plugin/issues/1884)) ([b9fd209](https://github.com/Automattic/newspack-plugin/commit/b9fd209191acd8cc460adb6e06c568e76298645b))
+* **reader-activation:** check lists in auth modal by default ([#1933](https://github.com/Automattic/newspack-plugin/issues/1933)) ([77bce1d](https://github.com/Automattic/newspack-plugin/commit/77bce1d56e6b5169db639ac5c9f5c4c42dd251f1))
+* **reader-activation:** customizable account deletion, password reset emails ([#1938](https://github.com/Automattic/newspack-plugin/issues/1938)) ([c121e5c](https://github.com/Automattic/newspack-plugin/commit/c121e5c3ceb531fae58154585f85d2978b4f187e))
+* **reader-activation:** customizable verification email ([#1929](https://github.com/Automattic/newspack-plugin/issues/1929)) ([d293701](https://github.com/Automattic/newspack-plugin/commit/d2937017d15b4e49070de2342384d1ebefcce01f))
+* **reader-activation:** handle global auth success in registration block ([debf5d2](https://github.com/Automattic/newspack-plugin/commit/debf5d2da397a24362134020959cf6a85c942b39))
+* **reader-activation:** improve password reset flow ([a05a9b6](https://github.com/Automattic/newspack-plugin/commit/a05a9b6cea9d4d1a15918d0e88848b97423655fb))
+* **registration-block:** hidden input for subscription ([#1949](https://github.com/Automattic/newspack-plugin/issues/1949)) ([fc4f4d5](https://github.com/Automattic/newspack-plugin/commit/fc4f4d5725d557086acbcbf35051ce4ad067c863))
+* reorganise reader registration header section ([#1967](https://github.com/Automattic/newspack-plugin/issues/1967)) ([f3f54e1](https://github.com/Automattic/newspack-plugin/commit/f3f54e109fab6fcb18c5e664a4c9a6205de80fe7))
+* set from details for password reset emails ([#1926](https://github.com/Automattic/newspack-plugin/issues/1926)) ([8b8607a](https://github.com/Automattic/newspack-plugin/commit/8b8607a968f2eccbf3dcd51e3746ef1a032f6fb0))
+* **stripe:** lookup stripe customer ID on registration ([#1860](https://github.com/Automattic/newspack-plugin/issues/1860)) ([490cd97](https://github.com/Automattic/newspack-plugin/commit/490cd97aced223ee48f6413b9a8529de45ab882b)), closes [#1853](https://github.com/Automattic/newspack-plugin/issues/1853)
+* subscription metadata for ESP; Stripe webhook creation tweak ([#1859](https://github.com/Automattic/newspack-plugin/issues/1859)) ([e094b15](https://github.com/Automattic/newspack-plugin/commit/e094b159742fc12d0b05921b411bbf54545ce7ad))
+* title and description for registration block ([#1924](https://github.com/Automattic/newspack-plugin/issues/1924)) ([1c9fba6](https://github.com/Automattic/newspack-plugin/commit/1c9fba61e9dd7cfcdf41af0a9d72fdc55dfab4aa))
+* update billing portal copy ([8040b80](https://github.com/Automattic/newspack-plugin/commit/8040b80d2d2567885d3a97e2292ad91b8488e525))
+* update reader-facing language on auth fail ([#1974](https://github.com/Automattic/newspack-plugin/issues/1974)) ([a05ca37](https://github.com/Automattic/newspack-plugin/commit/a05ca37f84574a21f040c278ffcf75982d66e1db))
+* update woocommerce account message/notice ([#1956](https://github.com/Automattic/newspack-plugin/issues/1956)) ([db18b95](https://github.com/Automattic/newspack-plugin/commit/db18b9546d3ca73e6fb35d6355669e718fbb6232))
+* use reCAPTCHA to secure all Reader Activation-related forms ([#1910](https://github.com/Automattic/newspack-plugin/issues/1910)) ([cc8ef79](https://github.com/Automattic/newspack-plugin/commit/cc8ef79aa1cc59a708f0b2f6c5ff3c104cac44a0))
+* use universal "from" email, customizable magic link email ([#1937](https://github.com/Automattic/newspack-plugin/issues/1937)) ([3b269aa](https://github.com/Automattic/newspack-plugin/commit/3b269aa6e62a3edc936c94d2af7fac78e536ccbc))
+* Woo sync to ActiveCampaign ([#1968](https://github.com/Automattic/newspack-plugin/issues/1968)) ([630b24e](https://github.com/Automattic/newspack-plugin/commit/630b24eb160ee97a554f7d00746c3ac59a118df3))
+
+# [1.90.0-alpha.3](https://github.com/Automattic/newspack-plugin/compare/v1.90.0-alpha.2...v1.90.0-alpha.3) (2022-09-07)
+
+
+### Bug Fixes
+
+* **ac-master-list:** handle empty lists ([cfabb5a](https://github.com/Automattic/newspack-plugin/commit/cfabb5a7a90848c209c40b35749504f2feaded4c))
+* add check to only change theme if not empty ([#1978](https://github.com/Automattic/newspack-plugin/issues/1978)) ([b9835f1](https://github.com/Automattic/newspack-plugin/commit/b9835f194de5759bf975343e5a3cb9bfe79b8f16))
+* **emails:** don't create post if pluggable functions are not available ([#1979](https://github.com/Automattic/newspack-plugin/issues/1979)) ([d8aac4f](https://github.com/Automattic/newspack-plugin/commit/d8aac4fb7d18313efb025592e25d1187d1a298e3))
+* prefix WC My Account actions so we can decide which hooks to support ([#1963](https://github.com/Automattic/newspack-plugin/issues/1963)) ([0fa8c0a](https://github.com/Automattic/newspack-plugin/commit/0fa8c0ada1d7d5fc9ef8ce2388c48d0fac2d0c4a))
+
+
+### Features
+
+* Woo sync to ActiveCampaign ([#1968](https://github.com/Automattic/newspack-plugin/issues/1968)) ([630b24e](https://github.com/Automattic/newspack-plugin/commit/630b24eb160ee97a554f7d00746c3ac59a118df3))
+
+# [1.90.0-alpha.2](https://github.com/Automattic/newspack-plugin/compare/v1.90.0-alpha.1...v1.90.0-alpha.2) (2022-09-06)
+
+
+### Bug Fixes
+
+* allow Register block to be edited even if RAS is not enabled ([#1962](https://github.com/Automattic/newspack-plugin/issues/1962)) ([649f47b](https://github.com/Automattic/newspack-plugin/commit/649f47b57965121aa0b11f11a7e1c3aaeebd00f1))
+* **emails:** editor message ([62dec52](https://github.com/Automattic/newspack-plugin/commit/62dec5226b7413afd62da173ace49624425cc0a8))
+* localized reader auth error messages ([#1948](https://github.com/Automattic/newspack-plugin/issues/1948)) ([fb58a7f](https://github.com/Automattic/newspack-plugin/commit/fb58a7f6b7b2cfdfe13845330de9ed87f83e8f8b))
+* **reader-activation:** send payment contact metadata only if RA is enabled ([#1957](https://github.com/Automattic/newspack-plugin/issues/1957)) ([3e14777](https://github.com/Automattic/newspack-plugin/commit/3e1477742f1c8cc6819282054c99f35e36b47803))
+* **registration-block:** allow any markup in the success state ([977e77a](https://github.com/Automattic/newspack-plugin/commit/977e77a75c266e636cf764bc67061b7d51f563f1))
+* **registration-block:** fix empty success state ([272aee5](https://github.com/Automattic/newspack-plugin/commit/272aee5c7b291240beb067afcc2401c3992264f4))
+* **WooCommerce:** error notice text color ([#1954](https://github.com/Automattic/newspack-plugin/issues/1954)) ([2e4b95f](https://github.com/Automattic/newspack-plugin/commit/2e4b95f52602529faef051c804d95891f02ed6e2))
+
+
+### Features
+
+* **ac-metadata:** send SSO provider name as "NP_Connected Account" field ([56b6597](https://github.com/Automattic/newspack-plugin/commit/56b6597426f75b75205490acad7284119045b03d))
+* **ac-metadata:** send Stripe customer LTV as "NP_Total Paid" field ([5f6da59](https://github.com/Automattic/newspack-plugin/commit/5f6da59f02897284ea5cefdc45d5dfb4a2e5bbd1))
+* after account deletion message ([2547b76](https://github.com/Automattic/newspack-plugin/commit/2547b76373b620e9852040bdcb68c28e49a3657d))
+* **analytics:** prevent sending NTG newsletter event if subscribing to master list ([#1946](https://github.com/Automattic/newspack-plugin/issues/1946)) ([806a8b0](https://github.com/Automattic/newspack-plugin/commit/806a8b0a07c4496fd2f209536d0b78ad42b7ce1a))
+* custom messaging for reader without password ([#1965](https://github.com/Automattic/newspack-plugin/issues/1965)) ([a584b59](https://github.com/Automattic/newspack-plugin/commit/a584b597f6d0e067e60734c42b9b03eac1346e4c))
+* give each registration form a unique ID ([#1953](https://github.com/Automattic/newspack-plugin/issues/1953)) ([29fb515](https://github.com/Automattic/newspack-plugin/commit/29fb515534ff5036b7c734de1267d8e5f3f3c05d))
+* **google-sitekit:** prevent excluding logged-in users from GA if RA is enabled ([#1960](https://github.com/Automattic/newspack-plugin/issues/1960)) ([3b18bcc](https://github.com/Automattic/newspack-plugin/commit/3b18bcc400439b0036440994f0db226ce7eee559))
+* **reader-activation:** customizable account deletion, password reset emails ([#1938](https://github.com/Automattic/newspack-plugin/issues/1938)) ([c121e5c](https://github.com/Automattic/newspack-plugin/commit/c121e5c3ceb531fae58154585f85d2978b4f187e))
+* **reader-activation:** customizable verification email ([#1929](https://github.com/Automattic/newspack-plugin/issues/1929)) ([d293701](https://github.com/Automattic/newspack-plugin/commit/d2937017d15b4e49070de2342384d1ebefcce01f))
+* **reader-activation:** handle global auth success in registration block ([debf5d2](https://github.com/Automattic/newspack-plugin/commit/debf5d2da397a24362134020959cf6a85c942b39))
+* **reader-activation:** improve password reset flow ([a05a9b6](https://github.com/Automattic/newspack-plugin/commit/a05a9b6cea9d4d1a15918d0e88848b97423655fb))
+* **registration-block:** hidden input for subscription ([#1949](https://github.com/Automattic/newspack-plugin/issues/1949)) ([fc4f4d5](https://github.com/Automattic/newspack-plugin/commit/fc4f4d5725d557086acbcbf35051ce4ad067c863))
+* reorganise reader registration header section ([#1967](https://github.com/Automattic/newspack-plugin/issues/1967)) ([f3f54e1](https://github.com/Automattic/newspack-plugin/commit/f3f54e109fab6fcb18c5e664a4c9a6205de80fe7))
+* update billing portal copy ([8040b80](https://github.com/Automattic/newspack-plugin/commit/8040b80d2d2567885d3a97e2292ad91b8488e525))
+* update reader-facing language on auth fail ([#1974](https://github.com/Automattic/newspack-plugin/issues/1974)) ([a05ca37](https://github.com/Automattic/newspack-plugin/commit/a05ca37f84574a21f040c278ffcf75982d66e1db))
+* update woocommerce account message/notice ([#1956](https://github.com/Automattic/newspack-plugin/issues/1956)) ([db18b95](https://github.com/Automattic/newspack-plugin/commit/db18b9546d3ca73e6fb35d6355669e718fbb6232))
+* use universal "from" email, customizable magic link email ([#1937](https://github.com/Automattic/newspack-plugin/issues/1937)) ([3b269aa](https://github.com/Automattic/newspack-plugin/commit/3b269aa6e62a3edc936c94d2af7fac78e536ccbc))
+
+# [1.90.0-alpha.1](https://github.com/Automattic/newspack-plugin/compare/v1.89.1...v1.90.0-alpha.1) (2022-08-26)
+
+
+### Bug Fixes
+
+* **google-oauth:** missing email message ([#1925](https://github.com/Automattic/newspack-plugin/issues/1925)) ([93260a3](https://github.com/Automattic/newspack-plugin/commit/93260a368717b36d9f14f835856bbc3790557b38))
+* horizontal scrollbar on auth modal ([#1919](https://github.com/Automattic/newspack-plugin/issues/1919)) ([08a7bb6](https://github.com/Automattic/newspack-plugin/commit/08a7bb612a58d7d02b69ed241fe82273ab7c5104))
+* if logging in from an overlay prompt, dismiss the prompt after login ([#1927](https://github.com/Automattic/newspack-plugin/issues/1927)) ([999437d](https://github.com/Automattic/newspack-plugin/commit/999437db7fed57ea43e5edde9daba574c2c27283))
+* post-logout messaging ([#1934](https://github.com/Automattic/newspack-plugin/issues/1934)) ([11e6917](https://github.com/Automattic/newspack-plugin/commit/11e691728dd9f46e29a89e9548703de5ed5a4afb))
+* register and auth form tweaks ([#1935](https://github.com/Automattic/newspack-plugin/issues/1935)) ([3b76d3f](https://github.com/Automattic/newspack-plugin/commit/3b76d3f70c2b3cbb761e6d56f5432143cc7075a4))
+* **registration-block:** column layout in editor ([#1920](https://github.com/Automattic/newspack-plugin/issues/1920)) ([f1ae0c5](https://github.com/Automattic/newspack-plugin/commit/f1ae0c5894f9fc571e9e50b44d984d90476243a6))
+* show My Account messages using custom messaging instead of WC messaging ([#1932](https://github.com/Automattic/newspack-plugin/issues/1932)) ([c9802fe](https://github.com/Automattic/newspack-plugin/commit/c9802fe1ea494872253fe148b86ccb0dfaa9660b))
+* **stripe:** handle WC-originating Stripe transactions ([674b278](https://github.com/Automattic/newspack-plugin/commit/674b2788a45a13c8fae8d0b2fd8ec4b22b1a04ae))
+
+
+### Features
+
+* disable mailchimp-for-woocommerce plugin campaign tracking cookie ([#618](https://github.com/Automattic/newspack-plugin/issues/618)) ([99310cb](https://github.com/Automattic/newspack-plugin/commit/99310cb6f343a9801c0ba0c3b8916e5ff5331ae2))
+* for donations via a prompt, add prompt ID to event label ([#1928](https://github.com/Automattic/newspack-plugin/issues/1928)) ([4704cfd](https://github.com/Automattic/newspack-plugin/commit/4704cfd21f793717c10433056a6e425a84b0e574))
+* honeypot trap for auth and registration forms ([#1896](https://github.com/Automattic/newspack-plugin/issues/1896)) ([d5d713c](https://github.com/Automattic/newspack-plugin/commit/d5d713ca0b4715924136265d36dfdeb19954fa1a))
+* move have account text below SSO and adjust font-size ([#1917](https://github.com/Automattic/newspack-plugin/issues/1917)) ([869913d](https://github.com/Automattic/newspack-plugin/commit/869913dec1156492569ccd4eda56b29401384c3c))
+* new option for minimum donation amount ([#1895](https://github.com/Automattic/newspack-plugin/issues/1895)) ([0b9618b](https://github.com/Automattic/newspack-plugin/commit/0b9618b25d76b64619d25f2077466030f126b477))
+* reader account deletion and ESP sync options ([#1884](https://github.com/Automattic/newspack-plugin/issues/1884)) ([b9fd209](https://github.com/Automattic/newspack-plugin/commit/b9fd209191acd8cc460adb6e06c568e76298645b))
+* **reader-activation:** check lists in auth modal by default ([#1933](https://github.com/Automattic/newspack-plugin/issues/1933)) ([77bce1d](https://github.com/Automattic/newspack-plugin/commit/77bce1d56e6b5169db639ac5c9f5c4c42dd251f1))
+* set from details for password reset emails ([#1926](https://github.com/Automattic/newspack-plugin/issues/1926)) ([8b8607a](https://github.com/Automattic/newspack-plugin/commit/8b8607a968f2eccbf3dcd51e3746ef1a032f6fb0))
+* **stripe:** lookup stripe customer ID on registration ([#1860](https://github.com/Automattic/newspack-plugin/issues/1860)) ([490cd97](https://github.com/Automattic/newspack-plugin/commit/490cd97aced223ee48f6413b9a8529de45ab882b)), closes [#1853](https://github.com/Automattic/newspack-plugin/issues/1853)
+* subscription metadata for ESP; Stripe webhook creation tweak ([#1859](https://github.com/Automattic/newspack-plugin/issues/1859)) ([e094b15](https://github.com/Automattic/newspack-plugin/commit/e094b159742fc12d0b05921b411bbf54545ce7ad))
+* title and description for registration block ([#1924](https://github.com/Automattic/newspack-plugin/issues/1924)) ([1c9fba6](https://github.com/Automattic/newspack-plugin/commit/1c9fba61e9dd7cfcdf41af0a9d72fdc55dfab4aa))
+* use reCAPTCHA to secure all Reader Activation-related forms ([#1910](https://github.com/Automattic/newspack-plugin/issues/1910)) ([cc8ef79](https://github.com/Automattic/newspack-plugin/commit/cc8ef79aa1cc59a708f0b2f6c5ff3c104cac44a0))
+
+## [1.89.1](https://github.com/Automattic/newspack-plugin/compare/v1.89.0...v1.89.1) (2022-08-18)
+
+
+### Bug Fixes
+
+* version for cache busting ([1db4ee2](https://github.com/Automattic/newspack-plugin/commit/1db4ee255d0131c1713cbae6a37eaed9d9447603))
+* version for cache busting ([#1918](https://github.com/Automattic/newspack-plugin/issues/1918)) ([17949da](https://github.com/Automattic/newspack-plugin/commit/17949da88767610d5a4411bcf7d8e03b9b443daa))
+
+## [1.89.1-hotfix.1](https://github.com/Automattic/newspack-plugin/compare/v1.89.0...v1.89.1-hotfix.1) (2022-08-18)
+
+
+### Bug Fixes
+
+* version for cache busting ([1db4ee2](https://github.com/Automattic/newspack-plugin/commit/1db4ee255d0131c1713cbae6a37eaed9d9447603))
+
+# [1.89.0](https://github.com/Automattic/newspack-plugin/compare/v1.88.0...v1.89.0) (2022-08-16)
+
+
+### Bug Fixes
+
+* **active-campaign:** legacy contacts detection ([#1858](https://github.com/Automattic/newspack-plugin/issues/1858)) ([67640a5](https://github.com/Automattic/newspack-plugin/commit/67640a5f2c35361ac40784d752e413cc3d80a150))
+* **campaigns-wizard:** segmentation wording ([ddf61ad](https://github.com/Automattic/newspack-plugin/commit/ddf61ad30e7b22cc4022e24bc411a5cb3f576fd5))
+* ensure scroll on smaller height ([#1813](https://github.com/Automattic/newspack-plugin/issues/1813)) ([e234e8b](https://github.com/Automattic/newspack-plugin/commit/e234e8bd6445de7c32190bdd5af00d9e369f25fe))
+* fix fatal error when debug mode active ([#1826](https://github.com/Automattic/newspack-plugin/issues/1826)) ([d9388ee](https://github.com/Automattic/newspack-plugin/commit/d9388ee5e33d5d3fcdaa39cb415c04eb24242a9c))
+* **ga:** cookie parsing ([#1857](https://github.com/Automattic/newspack-plugin/issues/1857)) ([a936abd](https://github.com/Automattic/newspack-plugin/commit/a936abdf72d97e9c4c702ae1aefefe57aec672d4))
+* google auth button type ([#1829](https://github.com/Automattic/newspack-plugin/issues/1829)) ([3704d9f](https://github.com/Automattic/newspack-plugin/commit/3704d9f735de97fd4edd25b7775577f3cd6b4c7d))
+* **google-auth:** catch and display errors ([#1871](https://github.com/Automattic/newspack-plugin/issues/1871)) ([67cbcfd](https://github.com/Automattic/newspack-plugin/commit/67cbcfdbe53ec48539a1f1fb4d9af4b81ab9ca12))
+* **google-auth:** ensure popup on user click event ([#1831](https://github.com/Automattic/newspack-plugin/issues/1831)) ([0af9abf](https://github.com/Automattic/newspack-plugin/commit/0af9abfd15b777b062befbec6bd510ac585b6139))
+* **magic-links:** fix email encoding on sent link ([#1833](https://github.com/Automattic/newspack-plugin/issues/1833)) ([8d4756c](https://github.com/Automattic/newspack-plugin/commit/8d4756cbdc86cbf7b63e212b4d0887c74771f2fc))
+* **my account:** handle legacy data ([#1823](https://github.com/Automattic/newspack-plugin/issues/1823)) ([6816799](https://github.com/Automattic/newspack-plugin/commit/68167997eaa342bd15bf7abf2a100401562a2eac))
+* **newsletters:** use international date format ([#1855](https://github.com/Automattic/newspack-plugin/issues/1855)) ([4cda57d](https://github.com/Automattic/newspack-plugin/commit/4cda57d48656b41d5567a1cee7b593fe369ef208))
+* **oauth:** csrf token lifespan ([#1869](https://github.com/Automattic/newspack-plugin/issues/1869)) ([52e0f8b](https://github.com/Automattic/newspack-plugin/commit/52e0f8bf1dba1a9ac887727e8a90d7912d4b5109))
+* parse CID from _ga cookie if it only contains CID string ([#1874](https://github.com/Automattic/newspack-plugin/issues/1874)) ([dc1fb52](https://github.com/Automattic/newspack-plugin/commit/dc1fb5265ac240b071b792e5ad97b1770a8d3133))
+* **popups:** use new Campaigns method for creating donation events on new orders ([#1794](https://github.com/Automattic/newspack-plugin/issues/1794)) ([49dc14c](https://github.com/Automattic/newspack-plugin/commit/49dc14cbeb89bc4dc0b2614c14f8a923590ff44a))
+* **reader-activation:** add metadata to reader registered on donation ([722724c](https://github.com/Automattic/newspack-plugin/commit/722724cc49b3aac35b81a3fc0da2f62a317c3cd1))
+* **reader-activation:** handle modal conflict when auth is triggered from a prompt ([c2a0141](https://github.com/Automattic/newspack-plugin/commit/c2a014186d252fcc84bef560c0ac22f9c6f0c5da)), closes [#1835](https://github.com/Automattic/newspack-plugin/issues/1835)
+* **reader-activation:** handle no lists config available ([23b0249](https://github.com/Automattic/newspack-plugin/commit/23b02491e9c2b954726437371d610fe64909463f))
+* **reader-activation:** reinitialize auth links after DOM load ([#1812](https://github.com/Automattic/newspack-plugin/issues/1812)) ([0a4b499](https://github.com/Automattic/newspack-plugin/commit/0a4b49905c3fb9d9296fd171d8914f91df4f92c7))
+* **reader-activation:** remove async prop from library ([#1846](https://github.com/Automattic/newspack-plugin/issues/1846)) ([4131ca6](https://github.com/Automattic/newspack-plugin/commit/4131ca675eae7db7ee6468af85392b678fb43b76))
+* **reader-activation:** username generation handling ([#1789](https://github.com/Automattic/newspack-plugin/issues/1789)) ([17edf2a](https://github.com/Automattic/newspack-plugin/commit/17edf2adc8f4022d26757467e7d4066f61cdfd91))
+* redirecting to My Account after logging in while pre-authed ([#1863](https://github.com/Automattic/newspack-plugin/issues/1863)) ([ddf111e](https://github.com/Automattic/newspack-plugin/commit/ddf111ec302e4d571c96369dd145b3292134fed9))
+* **registration-block:** don't escape html for sign in labels ([#1834](https://github.com/Automattic/newspack-plugin/issues/1834)) ([871300d](https://github.com/Automattic/newspack-plugin/commit/871300d8ac0cb127300bcd784c1f934780e6e887))
+* **registration-block:** margin for success message ([#1808](https://github.com/Automattic/newspack-plugin/issues/1808)) ([1bfe546](https://github.com/Automattic/newspack-plugin/commit/1bfe546aa5cbc550cff975bc5f2fc73f553558f0))
+* **registration-block:** render on preview ([#1844](https://github.com/Automattic/newspack-plugin/issues/1844)) ([87b9be9](https://github.com/Automattic/newspack-plugin/commit/87b9be9f8f26c61bc9e793318e0870b9fb5d309c))
+* tweak arguments for magic link client hash ([#1862](https://github.com/Automattic/newspack-plugin/issues/1862)) ([8dcd45e](https://github.com/Automattic/newspack-plugin/commit/8dcd45e8b342869f04b5bdde3d29792fd4c196b3))
+* verify reader on google authentication ([#1873](https://github.com/Automattic/newspack-plugin/issues/1873)) ([c9c4eef](https://github.com/Automattic/newspack-plugin/commit/c9c4eef03ac27cf6110a1c1b7a0ae45898b30ae1))
+
+
+### Features
+
+* **active-campaign:** metadata improvements ([#1851](https://github.com/Automattic/newspack-plugin/issues/1851)) ([48883af](https://github.com/Automattic/newspack-plugin/commit/48883afe7598e43463e76eee08d738da259035fe))
+* **active-campaigns:** override is-new-contact for legacy contacts ([34dd9a2](https://github.com/Automattic/newspack-plugin/commit/34dd9a2d9a08c33005e94cc55ad585a65983f22d))
+* **analytics:** send GA events on the server side ([#1828](https://github.com/Automattic/newspack-plugin/issues/1828)) ([3e384e1](https://github.com/Automattic/newspack-plugin/commit/3e384e16d390c11d1dd38c28e254b2c0e9dcc00d))
+* authenticated reader cookie ([#1882](https://github.com/Automattic/newspack-plugin/issues/1882)) ([352316b](https://github.com/Automattic/newspack-plugin/commit/352316b0e589db4f83b841d57cf1aab701947487))
+* better welcome email copy for initial verification ([#1880](https://github.com/Automattic/newspack-plugin/issues/1880)) ([604ebf7](https://github.com/Automattic/newspack-plugin/commit/604ebf7bd4d99d1503b1b46ec60035e95d3c33d6))
+* cookie reader's preferred auth strategy ([#1875](https://github.com/Automattic/newspack-plugin/issues/1875)) ([fc47f41](https://github.com/Automattic/newspack-plugin/commit/fc47f41d93eeb028d862838c75b6bbad996e4f8d))
+* disable woocomerce welcome emails in favor of verification email ([#1876](https://github.com/Automattic/newspack-plugin/issues/1876)) ([1e470e3](https://github.com/Automattic/newspack-plugin/commit/1e470e349f5467dc54e09e7358339f15edf970a4))
+* **donations:** remove defaultFrequency from the configuration ([#1814](https://github.com/Automattic/newspack-plugin/issues/1814)) ([b6aa894](https://github.com/Automattic/newspack-plugin/commit/b6aa894bcf3088e2c679f594faf95d5f0ff72581))
+* handle contact update w/out lists selection ([#1816](https://github.com/Automattic/newspack-plugin/issues/1816)) ([67574d1](https://github.com/Automattic/newspack-plugin/commit/67574d15438de7dd76839613ea5612b750d4cd5c))
+* handle new frequency options in Campaigns dashbaord ([#1779](https://github.com/Automattic/newspack-plugin/issues/1779)) ([c770a7d](https://github.com/Automattic/newspack-plugin/commit/c770a7d15804ab70817a640a71b34bfe9ceba62f))
+* if registering an email that already has an account, show different message ([#1849](https://github.com/Automattic/newspack-plugin/issues/1849)) ([bf48bc4](https://github.com/Automattic/newspack-plugin/commit/bf48bc462298b6df9cf36a8b97d7e72654e7ac64))
+* lock access to My Account UI until account is verified ([#1877](https://github.com/Automattic/newspack-plugin/issues/1877)) ([a850f48](https://github.com/Automattic/newspack-plugin/commit/a850f4898ea83b0e358a763f4e4eefaf7d2ea97e))
+* **my-account:** stripe billing portal link ([#1761](https://github.com/Automattic/newspack-plugin/issues/1761)) ([3e69af1](https://github.com/Automattic/newspack-plugin/commit/3e69af1956dd24c89c2c2b313100bc01fa07df90)), closes [#1742](https://github.com/Automattic/newspack-plugin/issues/1742) [#1739](https://github.com/Automattic/newspack-plugin/issues/1739) [#1740](https://github.com/Automattic/newspack-plugin/issues/1740) [#1741](https://github.com/Automattic/newspack-plugin/issues/1741) [#1782](https://github.com/Automattic/newspack-plugin/issues/1782)
+* **reader-activation:** account link and auth form ([#1754](https://github.com/Automattic/newspack-plugin/issues/1754)) ([b163664](https://github.com/Automattic/newspack-plugin/commit/b1636644e134724b2235e23e75c14b9af0e38091))
+* **reader-activation:** activecampaign master list ([#1818](https://github.com/Automattic/newspack-plugin/issues/1818)) ([ecbbc47](https://github.com/Automattic/newspack-plugin/commit/ecbbc474930ce420dfe293e339f5c6d354f81f7d))
+* **reader-activation:** disable 3rd party login buttons initially ([#1806](https://github.com/Automattic/newspack-plugin/issues/1806)) ([c806bfe](https://github.com/Automattic/newspack-plugin/commit/c806bfe005121e1a907b94b9954d917976805c22))
+* **reader-activation:** optimistic account link ([#1847](https://github.com/Automattic/newspack-plugin/issues/1847)) ([85c550a](https://github.com/Automattic/newspack-plugin/commit/85c550a9aaa9156469efd59cc1a30b69164a0646))
+* **reader-activation:** prevent updating user email in my-account ([7d49db4](https://github.com/Automattic/newspack-plugin/commit/7d49db4fa54738b5962302080661d9d76f9aebee))
+* **reader-activation:** registration auth cookie control ([#1787](https://github.com/Automattic/newspack-plugin/issues/1787)) ([aeb0b5b](https://github.com/Automattic/newspack-plugin/commit/aeb0b5bbef9dc13d57872c90c7f5d87762745298))
+* **reader-activation:** settings wizard ([#1773](https://github.com/Automattic/newspack-plugin/issues/1773)) ([aaff0de](https://github.com/Automattic/newspack-plugin/commit/aaff0deb1cd2c6f4b711c904c88051a198c6a6cd))
+* **reader-auth:** make password login the first option, instead of login link ([1fe5ffa](https://github.com/Automattic/newspack-plugin/commit/1fe5ffae6aca9070465c58c0f51825ef3df911f6)), closes [#1809](https://github.com/Automattic/newspack-plugin/issues/1809)
+* register anonymous single donors ([#1795](https://github.com/Automattic/newspack-plugin/issues/1795)) ([9e4f2f6](https://github.com/Automattic/newspack-plugin/commit/9e4f2f6cc9748dafc322f4c3c6d23b83fb021f83))
+* **registration-block:** add success icon ([#1804](https://github.com/Automattic/newspack-plugin/issues/1804)) ([86c38f8](https://github.com/Automattic/newspack-plugin/commit/86c38f8a40e821fa40a1e3c1885c1736d38e6b84))
+* **registration-block:** editable success state ([#1785](https://github.com/Automattic/newspack-plugin/issues/1785)) ([7dcea82](https://github.com/Automattic/newspack-plugin/commit/7dcea826a788d3219943137da64eb61fb6f623da)), closes [#1768](https://github.com/Automattic/newspack-plugin/issues/1768)
+* **registration-block:** login with Google ([#1781](https://github.com/Automattic/newspack-plugin/issues/1781)) ([ed79c5c](https://github.com/Automattic/newspack-plugin/commit/ed79c5ca275b4353146f3e2d1975a642ab02ca02)), closes [#1774](https://github.com/Automattic/newspack-plugin/issues/1774)
+* **registration-block:** newsletter subscription ([#1778](https://github.com/Automattic/newspack-plugin/issues/1778)) ([717b5b8](https://github.com/Automattic/newspack-plugin/commit/717b5b8f20660efd27c2351d60830b288996b8b9))
+* reorganise donations wizard and use buttongroup for donation type ([#1824](https://github.com/Automattic/newspack-plugin/issues/1824)) ([f7b58ae](https://github.com/Automattic/newspack-plugin/commit/f7b58ae0fbc28524031c533855aa7c4c8c558f8e))
+* replace WooCommerce’s login form with our own ([#1854](https://github.com/Automattic/newspack-plugin/issues/1854)) ([f5b24c4](https://github.com/Automattic/newspack-plugin/commit/f5b24c4dfd216e188a22439434bb2c0f56cb9b88))
+* **rss:** adds offset feature ([#1790](https://github.com/Automattic/newspack-plugin/issues/1790)) ([321eff5](https://github.com/Automattic/newspack-plugin/commit/321eff533b5140986c5a7fd52546319dfb8b2125))
+* send user metadata to AC ([#1793](https://github.com/Automattic/newspack-plugin/issues/1793)) ([03a15ba](https://github.com/Automattic/newspack-plugin/commit/03a15ba8b8e435d70a72250ae27f68a6042eb54c))
+* set client id cookie; reader activation tweaks ([#1780](https://github.com/Automattic/newspack-plugin/issues/1780)) ([96a07ae](https://github.com/Automattic/newspack-plugin/commit/96a07ae3873d23775da826606582bd1a84342515))
+* **stripe:** webhook auto-creation and validation ([365aed9](https://github.com/Automattic/newspack-plugin/commit/365aed937ccc8f7b03efe99d0ff3097149a6b37b))
+* tweak registration block styling ([d83448e](https://github.com/Automattic/newspack-plugin/commit/d83448e4f69dfbcdda639df5b474c90fed348037))
+
+
+### Reverts
+
+* Revert "chore(release): 1.87.0 [skip ci]" ([ca8d55c](https://github.com/Automattic/newspack-plugin/commit/ca8d55cc239d26538a231b770c82a9c98a8d4400))
+
+# [1.89.0-alpha.2](https://github.com/Automattic/newspack-plugin/compare/v1.89.0-alpha.1...v1.89.0-alpha.2) (2022-08-12)
+
+
+### Bug Fixes
+
+* **google-auth:** catch and display errors ([#1871](https://github.com/Automattic/newspack-plugin/issues/1871)) ([67cbcfd](https://github.com/Automattic/newspack-plugin/commit/67cbcfdbe53ec48539a1f1fb4d9af4b81ab9ca12))
+* **oauth:** csrf token lifespan ([#1869](https://github.com/Automattic/newspack-plugin/issues/1869)) ([52e0f8b](https://github.com/Automattic/newspack-plugin/commit/52e0f8bf1dba1a9ac887727e8a90d7912d4b5109))
+* parse CID from _ga cookie if it only contains CID string ([#1874](https://github.com/Automattic/newspack-plugin/issues/1874)) ([dc1fb52](https://github.com/Automattic/newspack-plugin/commit/dc1fb5265ac240b071b792e5ad97b1770a8d3133))
+* redirecting to My Account after logging in while pre-authed ([#1863](https://github.com/Automattic/newspack-plugin/issues/1863)) ([ddf111e](https://github.com/Automattic/newspack-plugin/commit/ddf111ec302e4d571c96369dd145b3292134fed9))
+* verify reader on google authentication ([#1873](https://github.com/Automattic/newspack-plugin/issues/1873)) ([c9c4eef](https://github.com/Automattic/newspack-plugin/commit/c9c4eef03ac27cf6110a1c1b7a0ae45898b30ae1))
+
+
+### Features
+
+* authenticated reader cookie ([#1882](https://github.com/Automattic/newspack-plugin/issues/1882)) ([352316b](https://github.com/Automattic/newspack-plugin/commit/352316b0e589db4f83b841d57cf1aab701947487))
+* better welcome email copy for initial verification ([#1880](https://github.com/Automattic/newspack-plugin/issues/1880)) ([604ebf7](https://github.com/Automattic/newspack-plugin/commit/604ebf7bd4d99d1503b1b46ec60035e95d3c33d6))
+* cookie reader's preferred auth strategy ([#1875](https://github.com/Automattic/newspack-plugin/issues/1875)) ([fc47f41](https://github.com/Automattic/newspack-plugin/commit/fc47f41d93eeb028d862838c75b6bbad996e4f8d))
+* disable woocomerce welcome emails in favor of verification email ([#1876](https://github.com/Automattic/newspack-plugin/issues/1876)) ([1e470e3](https://github.com/Automattic/newspack-plugin/commit/1e470e349f5467dc54e09e7358339f15edf970a4))
+* lock access to My Account UI until account is verified ([#1877](https://github.com/Automattic/newspack-plugin/issues/1877)) ([a850f48](https://github.com/Automattic/newspack-plugin/commit/a850f4898ea83b0e358a763f4e4eefaf7d2ea97e))
+
+# [1.89.0-alpha.1](https://github.com/Automattic/newspack-plugin/compare/v1.88.0...v1.89.0-alpha.1) (2022-08-10)
+
+
+### Bug Fixes
+
+* **active-campaign:** legacy contacts detection ([#1858](https://github.com/Automattic/newspack-plugin/issues/1858)) ([67640a5](https://github.com/Automattic/newspack-plugin/commit/67640a5f2c35361ac40784d752e413cc3d80a150))
+* **campaigns-wizard:** segmentation wording ([ddf61ad](https://github.com/Automattic/newspack-plugin/commit/ddf61ad30e7b22cc4022e24bc411a5cb3f576fd5))
+* ensure scroll on smaller height ([#1813](https://github.com/Automattic/newspack-plugin/issues/1813)) ([e234e8b](https://github.com/Automattic/newspack-plugin/commit/e234e8bd6445de7c32190bdd5af00d9e369f25fe))
+* fix fatal error when debug mode active ([#1826](https://github.com/Automattic/newspack-plugin/issues/1826)) ([d9388ee](https://github.com/Automattic/newspack-plugin/commit/d9388ee5e33d5d3fcdaa39cb415c04eb24242a9c))
+* **ga:** cookie parsing ([#1857](https://github.com/Automattic/newspack-plugin/issues/1857)) ([a936abd](https://github.com/Automattic/newspack-plugin/commit/a936abdf72d97e9c4c702ae1aefefe57aec672d4))
+* google auth button type ([#1829](https://github.com/Automattic/newspack-plugin/issues/1829)) ([3704d9f](https://github.com/Automattic/newspack-plugin/commit/3704d9f735de97fd4edd25b7775577f3cd6b4c7d))
+* **google-auth:** ensure popup on user click event ([#1831](https://github.com/Automattic/newspack-plugin/issues/1831)) ([0af9abf](https://github.com/Automattic/newspack-plugin/commit/0af9abfd15b777b062befbec6bd510ac585b6139))
+* **magic-links:** fix email encoding on sent link ([#1833](https://github.com/Automattic/newspack-plugin/issues/1833)) ([8d4756c](https://github.com/Automattic/newspack-plugin/commit/8d4756cbdc86cbf7b63e212b4d0887c74771f2fc))
+* **my account:** handle legacy data ([#1823](https://github.com/Automattic/newspack-plugin/issues/1823)) ([6816799](https://github.com/Automattic/newspack-plugin/commit/68167997eaa342bd15bf7abf2a100401562a2eac))
+* **newsletters:** use international date format ([#1855](https://github.com/Automattic/newspack-plugin/issues/1855)) ([4cda57d](https://github.com/Automattic/newspack-plugin/commit/4cda57d48656b41d5567a1cee7b593fe369ef208))
+* **popups:** use new Campaigns method for creating donation events on new orders ([#1794](https://github.com/Automattic/newspack-plugin/issues/1794)) ([49dc14c](https://github.com/Automattic/newspack-plugin/commit/49dc14cbeb89bc4dc0b2614c14f8a923590ff44a))
+* **reader-activation:** add metadata to reader registered on donation ([722724c](https://github.com/Automattic/newspack-plugin/commit/722724cc49b3aac35b81a3fc0da2f62a317c3cd1))
+* **reader-activation:** handle modal conflict when auth is triggered from a prompt ([c2a0141](https://github.com/Automattic/newspack-plugin/commit/c2a014186d252fcc84bef560c0ac22f9c6f0c5da)), closes [#1835](https://github.com/Automattic/newspack-plugin/issues/1835)
+* **reader-activation:** handle no lists config available ([23b0249](https://github.com/Automattic/newspack-plugin/commit/23b02491e9c2b954726437371d610fe64909463f))
+* **reader-activation:** reinitialize auth links after DOM load ([#1812](https://github.com/Automattic/newspack-plugin/issues/1812)) ([0a4b499](https://github.com/Automattic/newspack-plugin/commit/0a4b49905c3fb9d9296fd171d8914f91df4f92c7))
+* **reader-activation:** remove async prop from library ([#1846](https://github.com/Automattic/newspack-plugin/issues/1846)) ([4131ca6](https://github.com/Automattic/newspack-plugin/commit/4131ca675eae7db7ee6468af85392b678fb43b76))
+* **reader-activation:** username generation handling ([#1789](https://github.com/Automattic/newspack-plugin/issues/1789)) ([17edf2a](https://github.com/Automattic/newspack-plugin/commit/17edf2adc8f4022d26757467e7d4066f61cdfd91))
+* **registration-block:** don't escape html for sign in labels ([#1834](https://github.com/Automattic/newspack-plugin/issues/1834)) ([871300d](https://github.com/Automattic/newspack-plugin/commit/871300d8ac0cb127300bcd784c1f934780e6e887))
+* **registration-block:** margin for success message ([#1808](https://github.com/Automattic/newspack-plugin/issues/1808)) ([1bfe546](https://github.com/Automattic/newspack-plugin/commit/1bfe546aa5cbc550cff975bc5f2fc73f553558f0))
+* **registration-block:** render on preview ([#1844](https://github.com/Automattic/newspack-plugin/issues/1844)) ([87b9be9](https://github.com/Automattic/newspack-plugin/commit/87b9be9f8f26c61bc9e793318e0870b9fb5d309c))
+* tweak arguments for magic link client hash ([#1862](https://github.com/Automattic/newspack-plugin/issues/1862)) ([8dcd45e](https://github.com/Automattic/newspack-plugin/commit/8dcd45e8b342869f04b5bdde3d29792fd4c196b3))
+
+
+### Features
+
+* **active-campaign:** metadata improvements ([#1851](https://github.com/Automattic/newspack-plugin/issues/1851)) ([48883af](https://github.com/Automattic/newspack-plugin/commit/48883afe7598e43463e76eee08d738da259035fe))
+* **active-campaigns:** override is-new-contact for legacy contacts ([34dd9a2](https://github.com/Automattic/newspack-plugin/commit/34dd9a2d9a08c33005e94cc55ad585a65983f22d))
+* **analytics:** send GA events on the server side ([#1828](https://github.com/Automattic/newspack-plugin/issues/1828)) ([3e384e1](https://github.com/Automattic/newspack-plugin/commit/3e384e16d390c11d1dd38c28e254b2c0e9dcc00d))
+* **donations:** remove defaultFrequency from the configuration ([#1814](https://github.com/Automattic/newspack-plugin/issues/1814)) ([b6aa894](https://github.com/Automattic/newspack-plugin/commit/b6aa894bcf3088e2c679f594faf95d5f0ff72581))
+* handle contact update w/out lists selection ([#1816](https://github.com/Automattic/newspack-plugin/issues/1816)) ([67574d1](https://github.com/Automattic/newspack-plugin/commit/67574d15438de7dd76839613ea5612b750d4cd5c))
+* handle new frequency options in Campaigns dashbaord ([#1779](https://github.com/Automattic/newspack-plugin/issues/1779)) ([c770a7d](https://github.com/Automattic/newspack-plugin/commit/c770a7d15804ab70817a640a71b34bfe9ceba62f))
+* if registering an email that already has an account, show different message ([#1849](https://github.com/Automattic/newspack-plugin/issues/1849)) ([bf48bc4](https://github.com/Automattic/newspack-plugin/commit/bf48bc462298b6df9cf36a8b97d7e72654e7ac64))
+* **my-account:** stripe billing portal link ([#1761](https://github.com/Automattic/newspack-plugin/issues/1761)) ([3e69af1](https://github.com/Automattic/newspack-plugin/commit/3e69af1956dd24c89c2c2b313100bc01fa07df90)), closes [#1742](https://github.com/Automattic/newspack-plugin/issues/1742) [#1739](https://github.com/Automattic/newspack-plugin/issues/1739) [#1740](https://github.com/Automattic/newspack-plugin/issues/1740) [#1741](https://github.com/Automattic/newspack-plugin/issues/1741) [#1782](https://github.com/Automattic/newspack-plugin/issues/1782)
+* **reader-activation:** account link and auth form ([#1754](https://github.com/Automattic/newspack-plugin/issues/1754)) ([b163664](https://github.com/Automattic/newspack-plugin/commit/b1636644e134724b2235e23e75c14b9af0e38091))
+* **reader-activation:** activecampaign master list ([#1818](https://github.com/Automattic/newspack-plugin/issues/1818)) ([ecbbc47](https://github.com/Automattic/newspack-plugin/commit/ecbbc474930ce420dfe293e339f5c6d354f81f7d))
+* **reader-activation:** disable 3rd party login buttons initially ([#1806](https://github.com/Automattic/newspack-plugin/issues/1806)) ([c806bfe](https://github.com/Automattic/newspack-plugin/commit/c806bfe005121e1a907b94b9954d917976805c22))
+* **reader-activation:** optimistic account link ([#1847](https://github.com/Automattic/newspack-plugin/issues/1847)) ([85c550a](https://github.com/Automattic/newspack-plugin/commit/85c550a9aaa9156469efd59cc1a30b69164a0646))
+* **reader-activation:** prevent updating user email in my-account ([7d49db4](https://github.com/Automattic/newspack-plugin/commit/7d49db4fa54738b5962302080661d9d76f9aebee))
+* **reader-activation:** registration auth cookie control ([#1787](https://github.com/Automattic/newspack-plugin/issues/1787)) ([aeb0b5b](https://github.com/Automattic/newspack-plugin/commit/aeb0b5bbef9dc13d57872c90c7f5d87762745298))
+* **reader-activation:** settings wizard ([#1773](https://github.com/Automattic/newspack-plugin/issues/1773)) ([aaff0de](https://github.com/Automattic/newspack-plugin/commit/aaff0deb1cd2c6f4b711c904c88051a198c6a6cd))
+* **reader-auth:** make password login the first option, instead of login link ([1fe5ffa](https://github.com/Automattic/newspack-plugin/commit/1fe5ffae6aca9070465c58c0f51825ef3df911f6)), closes [#1809](https://github.com/Automattic/newspack-plugin/issues/1809)
+* register anonymous single donors ([#1795](https://github.com/Automattic/newspack-plugin/issues/1795)) ([9e4f2f6](https://github.com/Automattic/newspack-plugin/commit/9e4f2f6cc9748dafc322f4c3c6d23b83fb021f83))
+* **registration-block:** add success icon ([#1804](https://github.com/Automattic/newspack-plugin/issues/1804)) ([86c38f8](https://github.com/Automattic/newspack-plugin/commit/86c38f8a40e821fa40a1e3c1885c1736d38e6b84))
+* **registration-block:** editable success state ([#1785](https://github.com/Automattic/newspack-plugin/issues/1785)) ([7dcea82](https://github.com/Automattic/newspack-plugin/commit/7dcea826a788d3219943137da64eb61fb6f623da)), closes [#1768](https://github.com/Automattic/newspack-plugin/issues/1768)
+* **registration-block:** login with Google ([#1781](https://github.com/Automattic/newspack-plugin/issues/1781)) ([ed79c5c](https://github.com/Automattic/newspack-plugin/commit/ed79c5ca275b4353146f3e2d1975a642ab02ca02)), closes [#1774](https://github.com/Automattic/newspack-plugin/issues/1774)
+* **registration-block:** newsletter subscription ([#1778](https://github.com/Automattic/newspack-plugin/issues/1778)) ([717b5b8](https://github.com/Automattic/newspack-plugin/commit/717b5b8f20660efd27c2351d60830b288996b8b9))
+* reorganise donations wizard and use buttongroup for donation type ([#1824](https://github.com/Automattic/newspack-plugin/issues/1824)) ([f7b58ae](https://github.com/Automattic/newspack-plugin/commit/f7b58ae0fbc28524031c533855aa7c4c8c558f8e))
+* replace WooCommerce’s login form with our own ([#1854](https://github.com/Automattic/newspack-plugin/issues/1854)) ([f5b24c4](https://github.com/Automattic/newspack-plugin/commit/f5b24c4dfd216e188a22439434bb2c0f56cb9b88))
+* **rss:** adds offset feature ([#1790](https://github.com/Automattic/newspack-plugin/issues/1790)) ([321eff5](https://github.com/Automattic/newspack-plugin/commit/321eff533b5140986c5a7fd52546319dfb8b2125))
+* send user metadata to AC ([#1793](https://github.com/Automattic/newspack-plugin/issues/1793)) ([03a15ba](https://github.com/Automattic/newspack-plugin/commit/03a15ba8b8e435d70a72250ae27f68a6042eb54c))
+* set client id cookie; reader activation tweaks ([#1780](https://github.com/Automattic/newspack-plugin/issues/1780)) ([96a07ae](https://github.com/Automattic/newspack-plugin/commit/96a07ae3873d23775da826606582bd1a84342515))
+* **stripe:** webhook auto-creation and validation ([365aed9](https://github.com/Automattic/newspack-plugin/commit/365aed937ccc8f7b03efe99d0ff3097149a6b37b))
+* tweak registration block styling ([d83448e](https://github.com/Automattic/newspack-plugin/commit/d83448e4f69dfbcdda639df5b474c90fed348037))
+
+
+### Reverts
+
+* Revert "chore(release): 1.87.0 [skip ci]" ([ca8d55c](https://github.com/Automattic/newspack-plugin/commit/ca8d55cc239d26538a231b770c82a9c98a8d4400))
+
+# [1.88.0](https://github.com/Automattic/newspack-plugin/compare/v1.87.0...v1.88.0) (2022-08-10)
+
+
+### Bug Fixes
+
+* trigger ci ([e8bf33a](https://github.com/Automattic/newspack-plugin/commit/e8bf33aa5bcfb7bac71a68daa06038b3a6ce6f7c))
+
+
+### Features
+
+* add UI to manage reCaptcha v3 settings in Reader Revenue wizard ([9b88366](https://github.com/Automattic/newspack-plugin/commit/9b88366303b181c61860c2626811c863663b066b))
+
+# [1.88.0-hotfix.1](https://github.com/Automattic/newspack-plugin/compare/v1.87.0...v1.88.0-hotfix.1) (2022-08-10)
+
+
+### Features
+
+* add UI to manage reCaptcha v3 settings in Reader Revenue wizard ([9b88366](https://github.com/Automattic/newspack-plugin/commit/9b88366303b181c61860c2626811c863663b066b))
+
+# [1.87.0](https://github.com/Automattic/newspack-plugin/compare/v1.86.0...v1.87.0) (2022-07-26)
+
+
+### Bug Fixes
+
+* **active-campaign:** legacy contacts detection ([#1858](https://github.com/Automattic/newspack-plugin/issues/1858)) ([67640a5](https://github.com/Automattic/newspack-plugin/commit/67640a5f2c35361ac40784d752e413cc3d80a150))
+* **campaigns-wizard:** segmentation wording ([ddf61ad](https://github.com/Automattic/newspack-plugin/commit/ddf61ad30e7b22cc4022e24bc411a5cb3f576fd5))
+* ensure scroll on smaller height ([#1813](https://github.com/Automattic/newspack-plugin/issues/1813)) ([e234e8b](https://github.com/Automattic/newspack-plugin/commit/e234e8bd6445de7c32190bdd5af00d9e369f25fe))
+* fix fatal error when debug mode active ([#1826](https://github.com/Automattic/newspack-plugin/issues/1826)) ([d9388ee](https://github.com/Automattic/newspack-plugin/commit/d9388ee5e33d5d3fcdaa39cb415c04eb24242a9c))
+* **ga:** cookie parsing ([#1857](https://github.com/Automattic/newspack-plugin/issues/1857)) ([a936abd](https://github.com/Automattic/newspack-plugin/commit/a936abdf72d97e9c4c702ae1aefefe57aec672d4))
+* google auth button type ([#1829](https://github.com/Automattic/newspack-plugin/issues/1829)) ([3704d9f](https://github.com/Automattic/newspack-plugin/commit/3704d9f735de97fd4edd25b7775577f3cd6b4c7d))
+* **google-auth:** ensure popup on user click event ([#1831](https://github.com/Automattic/newspack-plugin/issues/1831)) ([0af9abf](https://github.com/Automattic/newspack-plugin/commit/0af9abfd15b777b062befbec6bd510ac585b6139))
+* **magic-links:** fix email encoding on sent link ([#1833](https://github.com/Automattic/newspack-plugin/issues/1833)) ([8d4756c](https://github.com/Automattic/newspack-plugin/commit/8d4756cbdc86cbf7b63e212b4d0887c74771f2fc))
+* **my account:** handle legacy data ([#1823](https://github.com/Automattic/newspack-plugin/issues/1823)) ([6816799](https://github.com/Automattic/newspack-plugin/commit/68167997eaa342bd15bf7abf2a100401562a2eac))
+* **newsletters:** use international date format ([#1855](https://github.com/Automattic/newspack-plugin/issues/1855)) ([4cda57d](https://github.com/Automattic/newspack-plugin/commit/4cda57d48656b41d5567a1cee7b593fe369ef208))
+* **popups:** use new Campaigns method for creating donation events on new orders ([#1794](https://github.com/Automattic/newspack-plugin/issues/1794)) ([49dc14c](https://github.com/Automattic/newspack-plugin/commit/49dc14cbeb89bc4dc0b2614c14f8a923590ff44a))
+* **reader-activation:** add metadata to reader registered on donation ([722724c](https://github.com/Automattic/newspack-plugin/commit/722724cc49b3aac35b81a3fc0da2f62a317c3cd1))
+* **reader-activation:** handle modal conflict when auth is triggered from a prompt ([c2a0141](https://github.com/Automattic/newspack-plugin/commit/c2a014186d252fcc84bef560c0ac22f9c6f0c5da)), closes [#1835](https://github.com/Automattic/newspack-plugin/issues/1835)
+* **reader-activation:** handle no lists config available ([23b0249](https://github.com/Automattic/newspack-plugin/commit/23b02491e9c2b954726437371d610fe64909463f))
+* **reader-activation:** reinitialize auth links after DOM load ([#1812](https://github.com/Automattic/newspack-plugin/issues/1812)) ([0a4b499](https://github.com/Automattic/newspack-plugin/commit/0a4b49905c3fb9d9296fd171d8914f91df4f92c7))
+* **reader-activation:** remove async prop from library ([#1846](https://github.com/Automattic/newspack-plugin/issues/1846)) ([4131ca6](https://github.com/Automattic/newspack-plugin/commit/4131ca675eae7db7ee6468af85392b678fb43b76))
+* **reader-activation:** username generation handling ([#1789](https://github.com/Automattic/newspack-plugin/issues/1789)) ([17edf2a](https://github.com/Automattic/newspack-plugin/commit/17edf2adc8f4022d26757467e7d4066f61cdfd91))
+* **registration-block:** don't escape html for sign in labels ([#1834](https://github.com/Automattic/newspack-plugin/issues/1834)) ([871300d](https://github.com/Automattic/newspack-plugin/commit/871300d8ac0cb127300bcd784c1f934780e6e887))
+* **registration-block:** margin for success message ([#1808](https://github.com/Automattic/newspack-plugin/issues/1808)) ([1bfe546](https://github.com/Automattic/newspack-plugin/commit/1bfe546aa5cbc550cff975bc5f2fc73f553558f0))
+* **registration-block:** render on preview ([#1844](https://github.com/Automattic/newspack-plugin/issues/1844)) ([87b9be9](https://github.com/Automattic/newspack-plugin/commit/87b9be9f8f26c61bc9e793318e0870b9fb5d309c))
+* tweak arguments for magic link client hash ([#1862](https://github.com/Automattic/newspack-plugin/issues/1862)) ([8dcd45e](https://github.com/Automattic/newspack-plugin/commit/8dcd45e8b342869f04b5bdde3d29792fd4c196b3))
+
+
+### Features
+
+* **active-campaign:** metadata improvements ([#1851](https://github.com/Automattic/newspack-plugin/issues/1851)) ([48883af](https://github.com/Automattic/newspack-plugin/commit/48883afe7598e43463e76eee08d738da259035fe))
+* **active-campaigns:** override is-new-contact for legacy contacts ([34dd9a2](https://github.com/Automattic/newspack-plugin/commit/34dd9a2d9a08c33005e94cc55ad585a65983f22d))
+* **analytics:** send GA events on the server side ([#1828](https://github.com/Automattic/newspack-plugin/issues/1828)) ([3e384e1](https://github.com/Automattic/newspack-plugin/commit/3e384e16d390c11d1dd38c28e254b2c0e9dcc00d))
+* **donations:** remove defaultFrequency from the configuration ([#1814](https://github.com/Automattic/newspack-plugin/issues/1814)) ([b6aa894](https://github.com/Automattic/newspack-plugin/commit/b6aa894bcf3088e2c679f594faf95d5f0ff72581))
+* handle contact update w/out lists selection ([#1816](https://github.com/Automattic/newspack-plugin/issues/1816)) ([67574d1](https://github.com/Automattic/newspack-plugin/commit/67574d15438de7dd76839613ea5612b750d4cd5c))
+* handle new frequency options in Campaigns dashbaord ([#1779](https://github.com/Automattic/newspack-plugin/issues/1779)) ([c770a7d](https://github.com/Automattic/newspack-plugin/commit/c770a7d15804ab70817a640a71b34bfe9ceba62f))
+* if registering an email that already has an account, show different message ([#1849](https://github.com/Automattic/newspack-plugin/issues/1849)) ([bf48bc4](https://github.com/Automattic/newspack-plugin/commit/bf48bc462298b6df9cf36a8b97d7e72654e7ac64))
+* **my-account:** stripe billing portal link ([#1761](https://github.com/Automattic/newspack-plugin/issues/1761)) ([3e69af1](https://github.com/Automattic/newspack-plugin/commit/3e69af1956dd24c89c2c2b313100bc01fa07df90)), closes [#1742](https://github.com/Automattic/newspack-plugin/issues/1742) [#1739](https://github.com/Automattic/newspack-plugin/issues/1739) [#1740](https://github.com/Automattic/newspack-plugin/issues/1740) [#1741](https://github.com/Automattic/newspack-plugin/issues/1741) [#1782](https://github.com/Automattic/newspack-plugin/issues/1782)
+* **reader-activation:** account link and auth form ([#1754](https://github.com/Automattic/newspack-plugin/issues/1754)) ([b163664](https://github.com/Automattic/newspack-plugin/commit/b1636644e134724b2235e23e75c14b9af0e38091))
+* **reader-activation:** activecampaign master list ([#1818](https://github.com/Automattic/newspack-plugin/issues/1818)) ([ecbbc47](https://github.com/Automattic/newspack-plugin/commit/ecbbc474930ce420dfe293e339f5c6d354f81f7d))
+* **reader-activation:** disable 3rd party login buttons initially ([#1806](https://github.com/Automattic/newspack-plugin/issues/1806)) ([c806bfe](https://github.com/Automattic/newspack-plugin/commit/c806bfe005121e1a907b94b9954d917976805c22))
+* **reader-activation:** optimistic account link ([#1847](https://github.com/Automattic/newspack-plugin/issues/1847)) ([85c550a](https://github.com/Automattic/newspack-plugin/commit/85c550a9aaa9156469efd59cc1a30b69164a0646))
+* **reader-activation:** prevent updating user email in my-account ([7d49db4](https://github.com/Automattic/newspack-plugin/commit/7d49db4fa54738b5962302080661d9d76f9aebee))
+* **reader-activation:** registration auth cookie control ([#1787](https://github.com/Automattic/newspack-plugin/issues/1787)) ([aeb0b5b](https://github.com/Automattic/newspack-plugin/commit/aeb0b5bbef9dc13d57872c90c7f5d87762745298))
+* **reader-activation:** settings wizard ([#1773](https://github.com/Automattic/newspack-plugin/issues/1773)) ([aaff0de](https://github.com/Automattic/newspack-plugin/commit/aaff0deb1cd2c6f4b711c904c88051a198c6a6cd))
+* **reader-auth:** make password login the first option, instead of login link ([1fe5ffa](https://github.com/Automattic/newspack-plugin/commit/1fe5ffae6aca9070465c58c0f51825ef3df911f6)), closes [#1809](https://github.com/Automattic/newspack-plugin/issues/1809)
+* register anonymous single donors ([#1795](https://github.com/Automattic/newspack-plugin/issues/1795)) ([9e4f2f6](https://github.com/Automattic/newspack-plugin/commit/9e4f2f6cc9748dafc322f4c3c6d23b83fb021f83))
+* **registration-block:** add success icon ([#1804](https://github.com/Automattic/newspack-plugin/issues/1804)) ([86c38f8](https://github.com/Automattic/newspack-plugin/commit/86c38f8a40e821fa40a1e3c1885c1736d38e6b84))
+* **registration-block:** editable success state ([#1785](https://github.com/Automattic/newspack-plugin/issues/1785)) ([7dcea82](https://github.com/Automattic/newspack-plugin/commit/7dcea826a788d3219943137da64eb61fb6f623da)), closes [#1768](https://github.com/Automattic/newspack-plugin/issues/1768)
+* **registration-block:** login with Google ([#1781](https://github.com/Automattic/newspack-plugin/issues/1781)) ([ed79c5c](https://github.com/Automattic/newspack-plugin/commit/ed79c5ca275b4353146f3e2d1975a642ab02ca02)), closes [#1774](https://github.com/Automattic/newspack-plugin/issues/1774)
+* **registration-block:** newsletter subscription ([#1778](https://github.com/Automattic/newspack-plugin/issues/1778)) ([717b5b8](https://github.com/Automattic/newspack-plugin/commit/717b5b8f20660efd27c2351d60830b288996b8b9))
+* reorganise donations wizard and use buttongroup for donation type ([#1824](https://github.com/Automattic/newspack-plugin/issues/1824)) ([f7b58ae](https://github.com/Automattic/newspack-plugin/commit/f7b58ae0fbc28524031c533855aa7c4c8c558f8e))
+* replace WooCommerce’s login form with our own ([#1854](https://github.com/Automattic/newspack-plugin/issues/1854)) ([f5b24c4](https://github.com/Automattic/newspack-plugin/commit/f5b24c4dfd216e188a22439434bb2c0f56cb9b88))
+* **rss:** adds offset feature ([#1790](https://github.com/Automattic/newspack-plugin/issues/1790)) ([321eff5](https://github.com/Automattic/newspack-plugin/commit/321eff533b5140986c5a7fd52546319dfb8b2125))
+* send user metadata to AC ([#1793](https://github.com/Automattic/newspack-plugin/issues/1793)) ([03a15ba](https://github.com/Automattic/newspack-plugin/commit/03a15ba8b8e435d70a72250ae27f68a6042eb54c))
+* set client id cookie; reader activation tweaks ([#1780](https://github.com/Automattic/newspack-plugin/issues/1780)) ([96a07ae](https://github.com/Automattic/newspack-plugin/commit/96a07ae3873d23775da826606582bd1a84342515))
+* **stripe:** webhook auto-creation and validation ([365aed9](https://github.com/Automattic/newspack-plugin/commit/365aed937ccc8f7b03efe99d0ff3097149a6b37b))
+* tweak registration block styling ([d83448e](https://github.com/Automattic/newspack-plugin/commit/d83448e4f69dfbcdda639df5b474c90fed348037))
+
+
+### Reverts
+
+* Revert "chore(release): 1.87.0 [skip ci]" ([ca8d55c](https://github.com/Automattic/newspack-plugin/commit/ca8d55cc239d26538a231b770c82a9c98a8d4400))
+
+# [1.87.0-alpha.1](https://github.com/Automattic/newspack-plugin/compare/v1.86.0...v1.87.0-alpha.1) (2022-07-14)
+
+
+### Bug Fixes
+
+* **donations:** numbers formatting if NRH is the platform ([525c166](https://github.com/Automattic/newspack-plugin/commit/525c16678e3aa14805c76f2657caacd15253e0b6)), closes [#1650](https://github.com/Automattic/newspack-plugin/issues/1650)
+* fatal in RR wizard if not passing all params ([#1777](https://github.com/Automattic/newspack-plugin/issues/1777)) ([de2cfd1](https://github.com/Automattic/newspack-plugin/commit/de2cfd14ca5dd324b1fa64afd54ba3131118d2ce))
+* include blocks' files in release ([a662d91](https://github.com/Automattic/newspack-plugin/commit/a662d91b472ae0fd1f83c46b79ff96a8d88d4466))
+* linking buttons ([00e908a](https://github.com/Automattic/newspack-plugin/commit/00e908a005eac49daa24bd68edd89039941d35df))
+* **woocommerce:** product creation ([#1763](https://github.com/Automattic/newspack-plugin/issues/1763)) ([0fb580d](https://github.com/Automattic/newspack-plugin/commit/0fb580d192c11eddc6651ef229bb83a880921e8c))
+
+
+### Features
+
+* **donations:** amounts and frequencies customisation ([#1753](https://github.com/Automattic/newspack-plugin/issues/1753)) ([cb1f888](https://github.com/Automattic/newspack-plugin/commit/cb1f888c3055e71d9c121fb5823cbdc5de6ff63d))
+* **engagement:** manage newsletters subscription lists ([#1734](https://github.com/Automattic/newspack-plugin/issues/1734)) ([f514935](https://github.com/Automattic/newspack-plugin/commit/f514935e2d11c451c48e3278b425936b9ae18456))
+* **reader-activation:** extended auth expiration ([#1752](https://github.com/Automattic/newspack-plugin/issues/1752)) ([4920a4d](https://github.com/Automattic/newspack-plugin/commit/4920a4d27809dd2ceddac028abe93347076204eb))
+* **reader-activation:** registration block ([#1724](https://github.com/Automattic/newspack-plugin/issues/1724)) ([06e60ab](https://github.com/Automattic/newspack-plugin/commit/06e60aba65bf47d9fdd28c31b2af2fbddd291b55))
+* **reader-activation:** restricted reader roles ([#1770](https://github.com/Automattic/newspack-plugin/issues/1770)) ([41682f2](https://github.com/Automattic/newspack-plugin/commit/41682f28f5f10268d43cc25a1ada481778c02657))
+
+# [1.86.0](https://github.com/Automattic/newspack-plugin/compare/v1.85.2...v1.86.0) (2022-07-11)
+
+
+### Bug Fixes
+
+* **reader-revenue:** disable WC email if module will send email ([#1709](https://github.com/Automattic/newspack-plugin/issues/1709)) ([48e1613](https://github.com/Automattic/newspack-plugin/commit/48e16134c45bb0482cd59e224ec9a84fd20520f6)), closes [#1699](https://github.com/Automattic/newspack-plugin/issues/1699)
+
+
+### Features
+
+* ads onboarding ([#1678](https://github.com/Automattic/newspack-plugin/issues/1678)) ([80c0bf4](https://github.com/Automattic/newspack-plugin/commit/80c0bf4561071ca701cb2d74e8a5d370487c97d8))
+* disable deactivate and delete for required plugins ([#1712](https://github.com/Automattic/newspack-plugin/issues/1712)) ([75afee8](https://github.com/Automattic/newspack-plugin/commit/75afee8a437abbaeabc593f1e7f67ec326654049))
+* **experimental:** magic links ([#1668](https://github.com/Automattic/newspack-plugin/issues/1668)) ([02d9f82](https://github.com/Automattic/newspack-plugin/commit/02d9f82ea83296818439f53c5fe2a1ae52a0116c))
+* **reader-revenue:** prevent creating duplicate stripe webhooks ([#1710](https://github.com/Automattic/newspack-plugin/issues/1710)) ([586e693](https://github.com/Automattic/newspack-plugin/commit/586e69311a689406b4657a349c6bd5b59e943719))
+
+# [1.86.0-alpha.3](https://github.com/Automattic/newspack-plugin/compare/v1.86.0-alpha.2...v1.86.0-alpha.3) (2022-07-08)
+
+
+### Bug Fixes
+
+* **donations:** numbers formatting if NRH is the platform ([924d6b9](https://github.com/Automattic/newspack-plugin/commit/924d6b93a8bbb57bb4e499949f5a54be8ad79208)), closes [#1650](https://github.com/Automattic/newspack-plugin/issues/1650)
+
+## [1.85.2](https://github.com/Automattic/newspack-plugin/compare/v1.85.1...v1.85.2) (2022-07-08)
+
+
+### Bug Fixes
+
+* **donations:** numbers formatting if NRH is the platform ([924d6b9](https://github.com/Automattic/newspack-plugin/commit/924d6b93a8bbb57bb4e499949f5a54be8ad79208)), closes [#1650](https://github.com/Automattic/newspack-plugin/issues/1650)
+
+## [1.85.1](https://github.com/Automattic/newspack-plugin/compare/v1.85.0...v1.85.1) (2022-07-07)
+
+
+### Bug Fixes
+
+* **amp-plus:** handle complianz-gdpr plugin ([0f7ee8a](https://github.com/Automattic/newspack-plugin/commit/0f7ee8a545216f048646c7e16f0e11ff420029af))
+
+# [1.85.0](https://github.com/Automattic/newspack-plugin/compare/v1.84.1...v1.85.0) (2022-06-27)
+
+
+### Bug Fixes
+
+* **ads:** always allow service account credentials ([#1694](https://github.com/Automattic/newspack-plugin/issues/1694)) ([5f1c55d](https://github.com/Automattic/newspack-plugin/commit/5f1c55df776cc1016dedc1f60c1d716f9c5776c7))
+* compare both IDs and labels for autocomplete selections ([#1679](https://github.com/Automattic/newspack-plugin/issues/1679)) ([cfec9b3](https://github.com/Automattic/newspack-plugin/commit/cfec9b30b00da9b6b6be9498b5461d2d1359f642))
+* deactivate Salesforce syncing if RR platform is not Newspack ([#1669](https://github.com/Automattic/newspack-plugin/issues/1669)) ([32b4768](https://github.com/Automattic/newspack-plugin/commit/32b476837e14c1616dd1a879046c30b8c0e17808))
+* oauth error handling ([#1687](https://github.com/Automattic/newspack-plugin/issues/1687)) ([902061c](https://github.com/Automattic/newspack-plugin/commit/902061c842ed621ec6e6090f87801edfb33ba389))
+
+
+### Features
+
+* **ads:** fixed height support for placements ([#1697](https://github.com/Automattic/newspack-plugin/issues/1697)) ([f71bb37](https://github.com/Automattic/newspack-plugin/commit/f71bb375e294dc50dda786f0aaef73822163e5d3))
+* refactor protected pages handling, and make donation page protected ([#1686](https://github.com/Automattic/newspack-plugin/issues/1686)) ([2b2abf8](https://github.com/Automattic/newspack-plugin/commit/2b2abf8c5d53535d0acb54c888fa74ec3d02ec09))
+* **rss:** add RSS Enhancements plugin to the core ([#1688](https://github.com/Automattic/newspack-plugin/issues/1688)) ([c38bfd6](https://github.com/Automattic/newspack-plugin/commit/c38bfd6864ba66e28e76c56a43c6a9d1f558c15a))
+* simplify components and use Gutenberg's ([#1676](https://github.com/Automattic/newspack-plugin/issues/1676)) ([39a2474](https://github.com/Automattic/newspack-plugin/commit/39a247459b4151901799093e8bcd311d4f97abe7))
+
+# [1.85.0-alpha.2](https://github.com/Automattic/newspack-plugin/compare/v1.85.0-alpha.1...v1.85.0-alpha.2) (2022-06-24)
+
+
+### Bug Fixes
+
+* set HTTPS transport mode to "beacon" for non-AMP GA ([e350d84](https://github.com/Automattic/newspack-plugin/commit/e350d84afdee385edc5a460c52bf87340d64dfa1))
+
+## [1.84.1](https://github.com/Automattic/newspack-plugin/compare/v1.84.0...v1.84.1) (2022-06-24)
+
+
+### Bug Fixes
+
+* set HTTPS transport mode to "beacon" for non-AMP GA ([e350d84](https://github.com/Automattic/newspack-plugin/commit/e350d84afdee385edc5a460c52bf87340d64dfa1))
+
+# [1.84.0](https://github.com/Automattic/newspack-plugin/compare/v1.83.3...v1.84.0) (2022-06-13)
+
+
+### Bug Fixes
+
+* **ads:** resolve conflicts from hotfix merge ([#1685](https://github.com/Automattic/newspack-plugin/issues/1685)) ([8ce12cd](https://github.com/Automattic/newspack-plugin/commit/8ce12cd3b898fd89ed51331c6d2ef298bbab7f05))
+* **reader-revenue:** initial order state with total of 0 ([7c30b09](https://github.com/Automattic/newspack-plugin/commit/7c30b09351cc2292726404bd3b7db95652bf1bc2))
+
+
+### Features
+
+* **ads:** handle gam default ad units ([#1654](https://github.com/Automattic/newspack-plugin/issues/1654)) ([321b98e](https://github.com/Automattic/newspack-plugin/commit/321b98e426bb74e03299878accab04ac8dcb7e08))
+* **analytics:** automatically link GA4 with Site Kit ([#1698](https://github.com/Automattic/newspack-plugin/issues/1698)) ([266135f](https://github.com/Automattic/newspack-plugin/commit/266135fb9de7e88ec3ca097b29d7988b4f2f817c))
+* reader registration on donate ([#1655](https://github.com/Automattic/newspack-plugin/issues/1655)) ([5821b57](https://github.com/Automattic/newspack-plugin/commit/5821b5785910baa14d7fcd774fad1dd34392e1ba))
+* remove theme selection from setup wizard ([#1656](https://github.com/Automattic/newspack-plugin/issues/1656)) ([94e4580](https://github.com/Automattic/newspack-plugin/commit/94e4580042ddf8d55b93ca199a1cb4d64d678ca4))
+
+# [1.84.0-alpha.5](https://github.com/Automattic/newspack-plugin/compare/v1.84.0-alpha.4...v1.84.0-alpha.5) (2022-06-10)
+
+
+### Features
+
+* **analytics:** automatically link GA4 with Site Kit ([#1698](https://github.com/Automattic/newspack-plugin/issues/1698)) ([266135f](https://github.com/Automattic/newspack-plugin/commit/266135fb9de7e88ec3ca097b29d7988b4f2f817c))
+
+# [1.84.0-alpha.4](https://github.com/Automattic/newspack-plugin/compare/v1.84.0-alpha.3...v1.84.0-alpha.4) (2022-06-07)
+
+
+### Bug Fixes
+
+* oauth error handling ([#1687](https://github.com/Automattic/newspack-plugin/issues/1687)) ([d2bfd9f](https://github.com/Automattic/newspack-plugin/commit/d2bfd9f163fe06b439009f8f2a885ea013c489af))
+
+## [1.83.3](https://github.com/Automattic/newspack-plugin/compare/v1.83.2...v1.83.3) (2022-06-07)
+
+
+### Bug Fixes
+
+* oauth error handling ([#1687](https://github.com/Automattic/newspack-plugin/issues/1687)) ([d2bfd9f](https://github.com/Automattic/newspack-plugin/commit/d2bfd9f163fe06b439009f8f2a885ea013c489af))
+
+## [1.83.3-hotfix.1](https://github.com/Automattic/newspack-plugin/compare/v1.83.2...v1.83.3-hotfix.1) (2022-06-07)
+
+
+### Bug Fixes
+
+* oauth error handling ([#1687](https://github.com/Automattic/newspack-plugin/issues/1687)) ([d2bfd9f](https://github.com/Automattic/newspack-plugin/commit/d2bfd9f163fe06b439009f8f2a885ea013c489af))
+
+## [1.83.2](https://github.com/Automattic/newspack-plugin/compare/v1.83.1...v1.83.2) (2022-06-02)
+
+
+### Bug Fixes
+
+* **ads:** handle units from disconnected gam ([#1684](https://github.com/Automattic/newspack-plugin/issues/1684)) ([62ffa2b](https://github.com/Automattic/newspack-plugin/commit/62ffa2b5fd1cdea802ff4421d0c68c3c36c09d81))
+
+## [1.83.2-hotfix.1](https://github.com/Automattic/newspack-plugin/compare/v1.83.1...v1.83.2-hotfix.1) (2022-06-02)
+
+
+### Bug Fixes
+
+* **ads:** handle units from disconnected gam ([a7236d7](https://github.com/Automattic/newspack-plugin/commit/a7236d7e194ce52168c29ab8387c10e3f0d2be7a))
+
+## [1.83.1](https://github.com/Automattic/newspack-plugin/compare/v1.83.0...v1.83.1) (2022-05-30)
+
+
+### Bug Fixes
+
+* force alpha release ([34971d8](https://github.com/Automattic/newspack-plugin/commit/34971d807e19641388ebbf65216ce0a9e7fede92))
+
+## [1.83.1-alpha.1](https://github.com/Automattic/newspack-plugin/compare/v1.83.0...v1.83.1-alpha.1) (2022-05-27)
+
+
+### Bug Fixes
+
+* force alpha release ([34971d8](https://github.com/Automattic/newspack-plugin/commit/34971d807e19641388ebbf65216ce0a9e7fede92))
+
+# [1.83.0](https://github.com/Automattic/newspack-plugin/compare/v1.82.2...v1.83.0) (2022-05-24)
+
+
+### Features
+
+* **amp:** add support for GA4 ([#1653](https://github.com/Automattic/newspack-plugin/issues/1653)) ([2beb990](https://github.com/Automattic/newspack-plugin/commit/2beb990d793710b6001526b5ce40c6405ca5edc8))
+
+## [1.82.2](https://github.com/Automattic/newspack-plugin/compare/v1.82.1...v1.82.2) (2022-05-23)
+
+
+### Bug Fixes
+
+* **rss-feeds:** skip Jetpack lazy loading on RSS feeds ([58c64bf](https://github.com/Automattic/newspack-plugin/commit/58c64bfc1e73654e135fcc162e2ea5a12e290599))
+
+## [1.82.2-hotfix.1](https://github.com/Automattic/newspack-plugin/compare/v1.82.1...v1.82.2-hotfix.1) (2022-05-23)
+
+
+### Bug Fixes
+
+* **rss-feeds:** skip Jetpack lazy loading on RSS feeds ([58c64bf](https://github.com/Automattic/newspack-plugin/commit/58c64bfc1e73654e135fcc162e2ea5a12e290599))
+
 ## [1.82.1](https://github.com/Automattic/newspack-plugin/compare/v1.82.0...v1.82.1) (2022-05-18)
 
 

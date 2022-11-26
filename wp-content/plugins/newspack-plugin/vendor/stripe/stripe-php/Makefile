@@ -12,11 +12,11 @@ test: vendor
 .PHONY: test
 
 fmt: vendor
-	vendor/bin/php-cs-fixer fix -v --using-cache=no .
+	vendor/bin/php-cs-fixer fix -v --using-cache=no
 .PHONY: fmt
 
 fmtcheck: vendor
-	vendor/bin/php-cs-fixer fix -v --dry-run --using-cache=no .
+	vendor/bin/php-cs-fixer fix -v --dry-run --using-cache=no
 .PHONY: fmtcheck
 
 phpdoc: vendor/bin/phpdoc
@@ -32,7 +32,7 @@ phpstan-baseline: vendor/bin/phpstan
 
 update-version:
 	@echo "$(VERSION)" > VERSION
-	@perl -pi -e 's|VERSION = '\''[.\d]+'\''|VERSION = '\''$(VERSION)'\''|' lib/Stripe.php
+	@perl -pi -e 's|VERSION = '\''[.\-\w\d]+'\''|VERSION = '\''$(VERSION)'\''|' lib/Stripe.php
 .PHONY: update-version
 
 codegen-format: fmt

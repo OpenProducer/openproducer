@@ -31,46 +31,49 @@ class Report_Campaign_Data extends Lightweight_API {
 	}
 
 	/**
-	 * Handle reporting campaign data – e.g. views, dismissals.
+	 * Handle reporting campaign data – views and subscriptions.
 	 *
-	 * @param object $request A request.
+	 * @param object         $request A request.
+	 * @param string|boolean $now A timestamp to log events with. If none given, use the current time.
 	 */
-	public function report_campaign( $request ) {
-		$client_id          = $this->get_request_param( 'cid', $request );
-		$campaign_id        = $this->get_request_param( 'popup_id', $request );
-		$campaign_data      = $this->get_campaign_data( $client_id, $campaign_id );
-		$client_data_update = [];
+	public function report_campaign( $request, $now = false ) {
+		$client_id = $this->get_request_param( 'cid', $request );
+		$popup_id  = $this->get_request_param( 'popup_id', $request );
+		$action    = $this->get_request_param( 'dismiss', $request ) ? 'prompt_dismissed' : 'prompt_seen';
 
-		$campaign_data['count']++;
-		$campaign_data['last_viewed'] = time();
-
-		// Handle permanent suppression.
-		if ( $this->get_request_param( 'suppress_forever', $request ) ) {
-			$campaign_data['suppress_forever'] = true;
-
-			// Suppressed a newsletter prompt.
-			if ( $this->get_request_param( 'is_newsletter_popup', $request ) ) {
-				$client_data_update['suppressed_newsletter_campaign'] = true;
-			}
+		if ( false === $now ) {
+			$now = time();
 		}
 
-		// Subscribed to a newsletter – suppress this prompt.
-		if ( 'subscribed' === $this->get_request_param( 'mailing_list_status', $request ) ) {
-			$campaign_data['suppress_forever'] = true;
-		}
+		$timestamp = gmdate( 'Y-m-d H:i:s', $now );
+		$events    = [
+			[
+				'client_id'    => $client_id,
+				'date_created' => $timestamp,
+				'type'         => $action,
+				'context'      => $popup_id,
+			],
+		];
 
-		// Add an email subscription to client data.
+		// Log a newsletter subscription event.
 		$email_address = $this->get_request_param( 'email', $request );
 		if ( $email_address ) {
-			// This is an array, so it's possible to collect data for separate lists in the future.
-			$client_data_update['email_subscriptions'][] = [
-				'email' => $email_address,
+			$subscription_event = [
+				'client_id'    => $client_id,
+				'date_created' => $timestamp,
+				'type'         => 'subscription',
+				'context'      => $email_address,
 			];
+			$esp                = $this->get_request_param( 'esp', $request );
+
+			if ( $esp ) {
+				$subscription_event['value']['esp'] = $esp;
+			}
+
+			$events[] = $subscription_event;
 		}
 
-		// Update prompts data.
-		$client_data_update['prompts'] = [ "$campaign_id" => $campaign_data ];
-		$this->save_client_data( $client_id, $client_data_update );
+		$this->save_reader_events( $client_id, $events );
 	}
 }
 new Report_Campaign_Data();

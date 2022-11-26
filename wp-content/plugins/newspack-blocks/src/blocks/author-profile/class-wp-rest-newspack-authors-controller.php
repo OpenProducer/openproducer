@@ -37,19 +37,25 @@ class WP_REST_Newspack_Authors_Controller extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => [ $this, 'get_authors' ],
 					'args'                => [
-						'author_id' => [
+						'author_id'           => [
 							'sanitize_callback' => 'absint',
 						],
-						'offset'    => [
+						'is_guest_author'     => [
 							'sanitize_callback' => 'absint',
 						],
-						'per_page'  => [
+						'avatar_hide_default' => [
 							'sanitize_callback' => 'absint',
 						],
-						'search'    => [
+						'offset'              => [
+							'sanitize_callback' => 'absint',
+						],
+						'per_page'            => [
+							'sanitize_callback' => 'absint',
+						],
+						'search'              => [
 							'sanitize_callback' => 'sanitize_text_field',
 						],
-						'fields'    => [
+						'fields'              => [
 							'sanitize_callback' => 'sanitize_text_field',
 						],
 					],
@@ -66,7 +72,8 @@ class WP_REST_Newspack_Authors_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function get_authors( $request ) {
-		$author_id           = ! empty( $request->get_param( 'authorId' ) ) ? $request->get_param( 'authorId' ) : 0; // Fetch a specific user or guest author by ID.
+		$author_id           = ! empty( $request->get_param( 'author_id' ) ) ? $request->get_param( 'author_id' ) : 0; // Fetch a specific user or guest author by ID.
+		$is_guest_author     = null !== $request->get_param( 'is_guest_author' ) ? $request->get_param( 'is_guest_author' ) : true; // If $author_id is known to be a regular WP user, not a guest author, this will be `false`.
 		$search              = ! empty( $request->get_param( 'search' ) ) ? $request->get_param( 'search' ) : null; // Fetch authors by search string.
 		$offset              = ! empty( $request->get_param( 'offset' ) ) ? $request->get_param( 'offset' ) : 0; // Offset results (for pagination).
 		$per_page            = ! empty( $request->get_param( 'perPage' ) ) ? $request->get_param( 'perPage' ) : 10; // Number of results to return per page. This is applied to each query, so the actual number of results returned may be up to 2x this number.
@@ -79,26 +86,29 @@ class WP_REST_Newspack_Authors_Controller extends WP_REST_Controller {
 		$user_total         = 0;
 
 		// Get Co-authors guest authors.
-		$guest_author_args = [
-			'post_type'      => 'guest-author',
-			'posts_per_page' => $per_page,
-			'offset'         => $offset,
-		];
+		if ( $is_guest_author ) {
+			$guest_author_args = [
+				'post_type'      => 'guest-author',
+				'posts_per_page' => $per_page,
+				'offset'         => $offset,
+			];
 
-		if ( $search && ! $author_id ) {
-			$guest_author_args['s'] = $search;
-		}
-		if ( $author_id ) {
-			$guest_author_args['p'] = $author_id;
-		}
-		if ( $include ) {
-			$guest_author_args['post__in']            = $include;
-			$guest_author_args['ignore_sticky_posts'] = true;
+			if ( $search && ! $author_id ) {
+				$guest_author_args['s'] = $search;
+			}
+			if ( $author_id ) {
+				$guest_author_args['p'] = $author_id;
+			}
+			if ( $include ) {
+				$guest_author_args['post__in']            = $include;
+				$guest_author_args['ignore_sticky_posts'] = true;
+			}
+
+			$guest_authors      = get_posts( $guest_author_args );
+			$guest_author_total = count( $guest_authors );
 		}
 
-		$guest_authors      = get_posts( $guest_author_args );
-		$guest_author_total = count( $guest_authors );
-		$users              = [];
+		$users = [];
 
 		// If passed an author ID.
 		if ( $author_id ) {
@@ -153,26 +163,11 @@ class WP_REST_Newspack_Authors_Controller extends WP_REST_Controller {
 								'id'         => intval( $guest_author->ID ),
 								'registered' => $guest_author->post_date,
 								'is_guest'   => true,
+								'slug'       => $guest_author->post_name,
 							];
 
 							$guest_author = ( new CoAuthors_Guest_Authors() )->get_guest_author_by( 'id', $guest_author->ID );
 
-							if ( in_array( 'login', $fields, true ) ) {
-								$guest_author_data['login'] = $guest_author->user_login;
-							}
-							if ( in_array( 'name', $fields, true ) ) {
-								$guest_author_data['name'] = $guest_author->display_name;
-							}
-							if ( in_array( 'bio', $fields, true ) ) {
-								$guest_author_data['bio'] = get_post_meta( $guest_author->ID, 'cap-description', true );
-							}
-							if ( in_array( 'email', $fields, true ) ) {
-								$email_data = $this->get_email( $guest_author->ID );
-
-								if ( $email_data ) {
-									$guest_author_data['email'] = $email_data;
-								}
-							}
 							if ( in_array( 'avatar', $fields, true ) && function_exists( 'coauthors_get_avatar' ) ) {
 								$avatar = coauthors_get_avatar( $guest_author, 256 );
 
@@ -180,14 +175,8 @@ class WP_REST_Newspack_Authors_Controller extends WP_REST_Controller {
 									$guest_author_data['avatar'] = $avatar;
 								}
 							}
-							if ( in_array( 'url', $fields, true ) ) {
-								$guest_author_data['url'] = esc_urL(
-									get_site_urL( null, '?author_name=' . get_post_meta( $guest_author->ID, 'cap-user_login', true ) )
-								);
-							}
-							if ( in_array( 'social', $fields, true ) ) {
-								$guest_author_data['social'] = $this->get_social( $guest_author->ID );
-							}
+
+							$guest_author_data = self::fill_guest_author_data( $guest_author_data, $guest_author, $fields );
 
 							$acc[] = $guest_author_data;
 						}
@@ -204,24 +193,9 @@ class WP_REST_Newspack_Authors_Controller extends WP_REST_Controller {
 							'id'         => intval( $user->data->ID ),
 							'registered' => $user->data->user_registered,
 							'is_guest'   => false,
+							'slug'       => $user->data->user_login,
 						];
 
-						if ( in_array( 'login', $fields, true ) ) {
-							$user_data['login'] = $user->data->user_login;
-						}
-						if ( in_array( 'name', $fields, true ) ) {
-							$user_data['name'] = $user->data->display_name;
-						}
-						if ( in_array( 'bio', $fields, true ) ) {
-							$user_data['bio'] = get_the_author_meta( 'description', $user->data->ID );
-						}
-						if ( in_array( 'email', $fields, true ) ) {
-							$email_data = $this->get_email( $user->data->ID, false, $user->data->user_email );
-
-							if ( $email_data ) {
-								$user_data['email'] = $email_data;
-							}
-						}
 						if ( in_array( 'avatar', $fields, true ) ) {
 							$avatar = get_avatar( $user->data->ID, 256 );
 
@@ -229,14 +203,9 @@ class WP_REST_Newspack_Authors_Controller extends WP_REST_Controller {
 								$user_data['avatar'] = $avatar;
 							}
 						}
-						if ( in_array( 'url', $fields, true ) ) {
-							$user_data['url'] = esc_urL( get_author_posts_url( $user->data->ID ) );
-						}
-						if ( in_array( 'social', $fields, true ) ) {
-							$user_data['social'] = $this->get_social( $user->data->ID );
-						}
 
-						$acc[] = $user_data;
+						$user_data = self::fill_user_data( $user_data, $user, $fields );
+						$acc[]     = $user_data;
 					}
 					return $acc;
 				},
@@ -256,6 +225,106 @@ class WP_REST_Newspack_Authors_Controller extends WP_REST_Controller {
 		$response->header( 'x-wp-total', $user_total + $guest_author_total );
 
 		return rest_ensure_response( $response );
+	}
+
+	/**
+	 * Fill guest author data.
+	 *
+	 * @param array  $guest_author_data Guest author data.
+	 * @param object $guest_author The guest author object.
+	 * @param array  $fields Fields requested.
+	 */
+	public static function fill_guest_author_data( $guest_author_data, $guest_author, $fields = false ) {
+		if ( false === $fields || in_array( 'login', $fields, true ) ) {
+			$guest_author_data['login'] = $guest_author->user_login;
+		}
+		if ( false === $fields || in_array( 'name', $fields, true ) ) {
+			$guest_author_data['name'] = $guest_author->display_name;
+		}
+		if ( false === $fields || in_array( 'bio', $fields, true ) ) {
+			$guest_author_data['bio'] = get_post_meta( $guest_author->ID, 'cap-description', true );
+		}
+		if ( false === $fields || in_array( 'email', $fields, true ) ) {
+			$email_data = self::get_email( $guest_author->ID );
+
+			if ( $email_data ) {
+				$guest_author_data['email'] = $email_data;
+			}
+		}
+		if ( false === $fields || in_array( 'url', $fields, true ) ) {
+			$guest_author_data['url'] = esc_url(
+				get_site_url( null, '?author_name=' . get_post_meta( $guest_author->ID, 'cap-user_login', true ) )
+			);
+		}
+		if ( false === $fields || in_array( 'social', $fields, true ) ) {
+			$guest_author_data['social'] = self::get_social( $guest_author->ID );
+		}
+
+		if ( class_exists( '\Newspack\Authors_Custom_Fields' ) ) {
+			foreach ( \Newspack\Authors_Custom_Fields::get_custom_fields() as $custom_field ) {
+				$key   = $custom_field['name'];
+				$value = $guest_author->$key;
+				if ( ! empty( $value ) && 'newspack_phone_number' === $custom_field['name'] ) {
+					$value = [
+						'url' => 'tel:' . $value,
+					];
+					if ( class_exists( 'Newspack_SVG_Icons' ) ) {
+						$value['svg'] = Newspack_SVG_Icons::get_social_link_svg( $value['url'], 24 );
+					}
+				}
+				$guest_author_data[ $custom_field['name'] ] = $value;
+			}
+		}
+
+		return $guest_author_data;
+	}
+
+	/**
+	 * Fill user data.
+	 *
+	 * @param array   $user_data User data.
+	 * @param WP_User $user The current WP_User object.
+	 * @param array   $fields Fields requested.
+	 */
+	public static function fill_user_data( $user_data, $user, $fields = false ) {
+		if ( false === $fields || in_array( 'login', $fields, true ) ) {
+			$user_data['login'] = $user->data->user_login;
+		}
+		if ( false === $fields || in_array( 'name', $fields, true ) ) {
+			$user_data['name'] = $user->data->display_name;
+		}
+		if ( false === $fields || in_array( 'bio', $fields, true ) ) {
+			$user_data['bio'] = get_the_author_meta( 'description', $user->data->ID );
+		}
+		if ( false === $fields || in_array( 'email', $fields, true ) ) {
+			$email_data = self::get_email( $user->data->ID, false, $user->data->user_email );
+
+			if ( $email_data ) {
+				$user_data['email'] = $email_data;
+			}
+		}
+		if ( false === $fields || in_array( 'url', $fields, true ) ) {
+			$user_data['url'] = esc_url( get_author_posts_url( $user->data->ID ) );
+		}
+		if ( false === $fields || in_array( 'social', $fields, true ) ) {
+			$user_data['social'] = self::get_social( $user->data->ID );
+		}
+
+		if ( class_exists( '\Newspack\Authors_Custom_Fields' ) ) {
+			foreach ( \Newspack\Authors_Custom_Fields::get_custom_fields() as $custom_field ) {
+				$value = \get_user_meta( $user->data->ID, $custom_field['name'], true );
+				if ( ! empty( $value ) && 'newspack_phone_number' === $custom_field['name'] ) {
+					$value = [
+						'url' => 'tel:' . $value,
+					];
+					if ( class_exists( 'Newspack_SVG_Icons' ) ) {
+						$value['svg'] = Newspack_SVG_Icons::get_social_link_svg( $value['url'], 24 );
+					}
+				}
+				$user_data[ $custom_field['name'] ] = $value;
+			}
+		}
+		return $user_data;
 	}
 
 	/**

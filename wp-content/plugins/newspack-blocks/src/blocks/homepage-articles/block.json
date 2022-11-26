@@ -74,6 +74,10 @@
       "type": "integer",
       "default": 3
     },
+    "colGap": {
+      "type": "integer",
+      "default": 3
+    },
     "postsToShow": {
       "type": "integer",
       "default": 3
@@ -156,6 +160,11 @@
     "textAlign": {
       "type": "string",
       "default": "left"
+    },
+    "includedPostStatuses": {
+      "type": "array",
+      "default": [ "publish" ],
+      "items": { "type": "string" }
     }
   }
 }

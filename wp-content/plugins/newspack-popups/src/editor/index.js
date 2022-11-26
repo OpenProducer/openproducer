@@ -16,9 +16,9 @@ import { PluginDocumentSettingPanel, PluginPostStatusInfo } from '@wordpress/edi
  */
 import { optionsFieldsSelector } from './utils';
 import Sidebar from './Sidebar';
+import StylesSidebar from './StylesSidebar';
 import FrequencySidebar from './FrequencySidebar';
 import SegmentationSidebar from './SegmentationSidebar';
-import DismissSidebar from './DismissSidebar';
 import ColorsSidebar from './ColorsSidebar';
 import AdvancedSidebar from './AdvancedSidebar';
 import Preview from './Preview';
@@ -31,8 +31,10 @@ import './style.scss';
 const mapDispatchToProps = dispatch => {
 	const { createNotice, removeNotice } = dispatch( 'core/notices' );
 	return {
-		onMetaFieldChange: ( key, value ) => {
-			dispatch( 'core/editor' ).editPost( { meta: { [ key ]: value } } );
+		onMetaFieldChange: ( metaToUpdate = {} ) => {
+			if ( 0 < Object.keys( metaToUpdate ).length ) {
+				dispatch( 'core/editor' ).editPost( { meta: metaToUpdate } );
+			}
 		},
 		createNotice,
 		removeNotice,
@@ -46,19 +48,31 @@ const connectData = compose( [
 
 // Connect data to components.
 const SidebarWithData = connectData( Sidebar );
+const StylesSidebarWithData = connectData( StylesSidebar );
 const FrequencySidebarWithData = connectData( FrequencySidebar );
 const SegmentationSidebarWithData = connectData( SegmentationSidebar );
-const DismissSidebarWithData = connectData( DismissSidebar );
 const ColorsSidebarWithData = connectData( ColorsSidebar );
 const PostTypesPanelWithData = connectData( PostTypesPanel );
 const AdvancedSidebarWithData = connectData( AdvancedSidebar );
 
 // Register components.
+registerPlugin( 'newspack-popups-styles', {
+	render: () => (
+		<PluginDocumentSettingPanel
+			name="popup-styles-panel"
+			title={ __( 'Styles', 'newspack-popups' ) }
+		>
+			<StylesSidebarWithData />
+		</PluginDocumentSettingPanel>
+	),
+	icon: null,
+} );
+
 registerPlugin( 'newspack-popups', {
 	render: () => (
 		<PluginDocumentSettingPanel
 			name="popup-settings-panel"
-			title={ __( 'Prompt Settings', 'newspack-popups' ) }
+			title={ __( 'Settings', 'newspack-popups' ) }
 		>
 			<SidebarWithData />
 		</PluginDocumentSettingPanel>
@@ -70,7 +84,7 @@ registerPlugin( 'newspack-popups-frequency', {
 	render: () => (
 		<PluginDocumentSettingPanel
 			name="-frequency-panel"
-			title={ __( 'Frequency Settings', 'newspack-popups' ) }
+			title={ __( 'Frequency', 'newspack-popups' ) }
 		>
 			<FrequencySidebarWithData />
 		</PluginDocumentSettingPanel>
@@ -82,21 +96,9 @@ registerPlugin( 'newspack-popups-segmentation', {
 	render: () => (
 		<PluginDocumentSettingPanel
 			name="popup-segmentation-panel"
-			title={ __( 'Segmentation Settings', 'newspack-popups' ) }
+			title={ __( 'Segmentation', 'newspack-popups' ) }
 		>
 			<SegmentationSidebarWithData />
-		</PluginDocumentSettingPanel>
-	),
-	icon: null,
-} );
-
-registerPlugin( 'newspack-popups-dismiss', {
-	render: () => (
-		<PluginDocumentSettingPanel
-			name="popup-dismiss-panel"
-			title={ __( 'Dismiss Button Settings', 'newspack-popups' ) }
-		>
-			<DismissSidebarWithData />
 		</PluginDocumentSettingPanel>
 	),
 	icon: null,
@@ -106,7 +108,7 @@ registerPlugin( 'newspack-popups-colors', {
 	render: () => (
 		<PluginDocumentSettingPanel
 			name="popup-colors-panel"
-			title={ __( 'Color Settings', 'newspack-popups' ) }
+			title={ __( 'Color', 'newspack-popups' ) }
 		>
 			<ColorsSidebarWithData />
 		</PluginDocumentSettingPanel>

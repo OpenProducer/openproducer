@@ -1,3 +1,5 @@
+/* globals newspack_popups_view */
+
 /**
  * WordPress dependencies
  */
@@ -23,24 +25,38 @@ export const performXHRequest = ( { url, data } ) => {
 	XHR.send( encodedData );
 };
 
-const getCookies = () =>
+export const getCookies = () =>
 	document.cookie.split( '; ' ).reduce( ( acc, cookieStr ) => {
 		const cookie = cookieStr.split( '=' );
 		acc[ cookie[ 0 ] ] = cookie[ 1 ];
 		return acc;
 	}, {} );
 
-export const getClientIDValue = () => getCookies()[ 'newspack-cid' ];
+export const getClientIDValue = () => getCookies()[ newspack_popups_view.cid_cookie_name ];
+
+export const setCookie = ( name, value, expirationDays = 365 ) => {
+	const date = new Date();
+	date.setTime( date.getTime() + expirationDays * 24 * 60 * 60 * 1000 );
+	document.cookie = `${ name }=${ value }; expires=${ date.toUTCString() }; path=/`;
+};
 
 /**
  * Replace a dynamic value, like a client ID, in a string.
  *
- * @param  {string} value A string to replace value in.
+ * @param {string} value A string to replace value in.
  * @return {string} String with the value replaced.
  */
 export const substituteDynamicValue = value => {
-	if ( value && String( value ).replace( /\s/g, '' ) === 'CLIENT_ID(newspack-cid)' ) {
-		value = getClientIDValue() || '';
+	if ( value ) {
+		const trimmedValue = String( value ).replace( /\s/g, '' );
+		switch ( trimmedValue ) {
+			case 'CLIENT_ID(newspack-cid)':
+				value = getClientIDValue() || '';
+				break;
+			case 'DOCUMENT_REFERRER':
+				value = document.referrer || '';
+				break;
+		}
 	}
 	return value;
 };
@@ -48,7 +64,7 @@ export const substituteDynamicValue = value => {
 /**
  * Replace dynamic values in a URL.
  *
- * @param  {string} url A URL with dynamic values.
+ * @param {string} url A URL with dynamic values.
  * @return {string} URL with the values replaced.
  */
 export const parseDynamicURL = url => {
@@ -64,15 +80,15 @@ export const parseDynamicURL = url => {
  * Given a data object and a form HTML element,
  * update the data with values from the form.
  *
- * @param  {Object} data An object.
- * @param  {HTMLFormElement} formElement A form element.
+ * @param {Object}          data        An object.
+ * @param {HTMLFormElement} formElement A form element.
  * @return {Object} Updated data.
  */
 export const processFormData = ( data, formElement ) => {
 	Object.keys( data ).forEach( key => {
 		let value = data[ key ];
-		if ( value === '${formFields[email]}' ) {
-			const inputEl = formElement.querySelector( '[name="email"]' );
+		if ( -1 < value.indexOf( '${formFields' ) ) {
+			const inputEl = formElement.querySelector( '[name="email"], [type="email"]' );
 			if ( inputEl ) {
 				value = inputEl.value;
 			}
@@ -82,15 +98,22 @@ export const processFormData = ( data, formElement ) => {
 	return data;
 };
 
+// Get the hash from a URL without any query strings.
+const getHash = url => {
+	const hash = new URL( url ).hash.split( /\?|\&/ );
+
+	return hash[ 0 ];
+};
+
 /**
  * Given an amp-analytics configuration, a current url, and cookies,
  * retrieve client ID related linker param to be inserted into site cookies.
  *
- * @param  {Object} config amp-analytics configuration.
- * @param {Object} config.linkers Linkers configuration.
- * @param {Object} config.cookies Cookies configuration.
- * @param  {string} [url=window.location.href] A URL, presumably with the linker param.
- * @param  {string} [documentCookie=document.cookie] The cookie.
+ * @param {Object} config                           amp-analytics configuration.
+ * @param {Object} config.linkers                   Linkers configuration.
+ * @param {Object} config.cookies                   Cookies configuration.
+ * @param {string} [url=window.location.href]       A URL, presumably with the linker param.
+ * @param {string} [documentCookie=document.cookie] The cookie.
  * @return {Object} Cookie value and a clean URL – without the linker param.
  */
 export const getCookieValueFromLinker = (
@@ -99,13 +122,20 @@ export const getCookieValueFromLinker = (
 	documentCookie = document.cookie
 ) => {
 	let cookieValue;
-	let cleanURL;
+	let cleanURL = url;
 	if ( linkers && linkers.enabled && cookies && cookies.enabled ) {
 		const linkerName = Object.keys( linkers ).filter( k => k !== 'enabled' )[ 0 ];
 		const cookieName = Object.keys( cookies ).filter( k => k !== 'enabled' )[ 0 ];
 		const linkerParam = getQueryArg( url, linkerName );
 		const hasCIDCookie = documentCookie.indexOf( cookieName ) >= 0;
-		cleanURL = removeQueryArgs( url, linkerName );
+
+		// URLs with a hash fragment preceding a query string won't be able to extract the query string by itself.
+		// Let's remove the hash fragment before processing the query string, then add it back afterward.
+		const hash = getHash( url );
+		if ( hash ) {
+			cleanURL = url.replace( hash, '' );
+		}
+		cleanURL = removeQueryArgs( cleanURL, linkerName ) + hash;
 
 		// Strip trailing `?` character from clean URL.
 		if ( '?' === cleanURL.charAt( cleanURL.length - 1 ) ) {
@@ -113,7 +143,7 @@ export const getCookieValueFromLinker = (
 		}
 
 		if ( linkerParam && ! hasCIDCookie ) {
-			// eslint-disable-next-line no-unused-vars
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const [ version, checksum, cidName, cidValue ] = linkerParam.split( '*' );
 			try {
 				// Strip dots, not sure why they were in a URL – maybe chrome devtools?
@@ -143,3 +173,14 @@ export const waitUntil = ( condition, callback, maxTries = 10 ) => {
 		}
 	}, 200 );
 };
+
+/**
+ * If an AMP module was loaded, e.g. via another plugin or a custom header script, it should not be polyfilled.
+ */
+export const shouldPolyfillAMPModule = name => undefined === customElements.get( `amp-${ name }` );
+
+export const parseOnHandlers = onAttributeValue =>
+	onAttributeValue
+		.split( ';' )
+		.filter( Boolean )
+		.map( onHandler => /(?<action>\w*):(?<id>(\w|-)*)\.(?<method>.*)/.exec( onHandler ).groups );

@@ -1,3 +1,6 @@
+@use '../variables-site/colors';
+@use '../variables-site/structure';
+
 input[type='text'],
 input[type='email'],
 input[type='url'],
@@ -16,18 +19,18 @@ input[type='zip'],
 input[type='color'],
 textarea {
 	-webkit-backface-visibility: hidden;
-	background: $color__background-input;
-	border: solid 1px $color__border;
+	background: colors.$color__background-input;
+	border: solid 1px colors.$color__border;
 	box-sizing: border-box;
 	outline: none;
-	padding: #{0.36 * $size__spacing-unit} #{0.66 * $size__spacing-unit};
+	padding: #{0.36 * structure.$size__spacing-unit} #{0.66 * structure.$size__spacing-unit};
 	-webkit-appearance: none;
 	outline-offset: 0;
 	border-radius: 0;
 
 	&:focus {
-		border-color: $color__text-main;
-		outline: thin solid rgba( $color__text-main, 0.25 );
+		border-color: colors.$color__text-main;
+		outline: thin solid rgba( colors.$color__text-main, 0.25 );
 		outline-offset: -4px;
 	}
 }
@@ -48,6 +51,52 @@ textarea {
 
 form {
 	p {
-		margin: $size__spacing-unit 0;
+		margin: structure.$size__spacing-unit 0;
+	}
+}
+
+input[type='checkbox'] {
+	-webkit-appearance: none;
+	appearance: none;
+	background: white;
+	border: solid 1px colors.$color__border;
+	border-radius: 2px;
+	color: white;
+	cursor: pointer;
+	display: inline-grid;
+	font: inherit;
+	height: 20px !important;
+	margin: 0;
+	place-content: center;
+	width: 20px !important;
+
+	&::before {
+		background: transparent
+			url( "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath d='M16.7 7.1l-6.3 8.5-3.3-2.5-.9 1.2 4.5 3.4L17.9 8z' fill='white'%3E%3C/path%3E%3C/svg%3E" )
+			0 0 no-repeat;
+		content: '';
+		display: block;
+		height: 24px;
+		opacity: 0;
+		width: 24px;
+	}
+
+	&:checked {
+		background: colors.$color__background-button;
+		border-color: transparent;
+
+		&::before {
+			opacity: 1;
+		}
+	}
+
+	&:focus {
+		outline: 1.5px solid colors.$color__background-button;
+		outline-offset: 1px;
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+		opacity: 0.75;
 	}
 }

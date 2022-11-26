@@ -373,7 +373,7 @@ class GCECredentials extends CredentialsLoader implements
             $this->hasCheckedOnGce = true;
         }
         if (!$this->isOnGce) {
-            return array();  // return an empty array with no access token
+            return [];  // return an empty array with no access token
         }
 
         $response = $this->getFromMetadata($httpHandler, $this->tokenUri);
@@ -544,5 +544,21 @@ class GCECredentials extends CredentialsLoader implements
     public function getQuotaProject()
     {
         return $this->quotaProject;
+    }
+
+    /**
+     * Set whether or not we've already checked the GCE environment.
+     *
+     * @param bool $isOnGce
+     *
+     * @return void
+     */
+    public function setIsOnGce($isOnGce)
+    {
+        // Implicitly set hasCheckedGce to true
+        $this->hasCheckedOnGce = true;
+
+        // Set isOnGce
+        $this->isOnGce = $isOnGce;
     }
 }

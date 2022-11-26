@@ -25,9 +25,9 @@ class Plugin_Manager {
 		'jetpack',
 		'amp',
 		'pwa',
-		'wordpress-seo',
 		'google-site-kit',
 		'newspack-blocks',
+		'wp-parsely',
 	];
 
 	/**
@@ -150,15 +150,6 @@ class Plugin_Manager {
 				'AuthorURI'   => esc_url( 'https://automattic.com' ),
 				'Download'    => 'https://github.com/Automattic/newspack-popups/releases/latest/download/newspack-popups.zip',
 			],
-			'newspack-rss-enhancements'     => [
-				'Name'        => esc_html__( 'Newspack RSS Enhancements', 'newspack' ),
-				'Description' => esc_html__( 'Create and manage customized RSS feeds for syndication partners', 'newspack' ),
-				'Author'      => esc_html__( 'Automattic', 'newspack' ),
-				'PluginURI'   => esc_url( 'https://newspack.pub' ),
-				'AuthorURI'   => esc_url( 'https://automattic.com' ),
-				'Download'    => 'https://github.com/Automattic/newspack-rss-enhancements/releases/latest/download/newspack-rss-enhancements.zip',
-				'EditPath'    => 'edit.php?post_type=partner_rss_feed',
-			],
 			'newspack-sponsors'             => [
 				'Name'        => esc_html__( 'Newspack Sponsors', 'newspack' ),
 				'Description' => esc_html__( 'Sponsored and underwritten content for Newspack sites.', 'newspack' ),
@@ -218,6 +209,13 @@ class Plugin_Manager {
 				'PluginURI'   => esc_url( 'https://github.com/xwp/pwa-wp' ),
 				'Download'    => 'wporg',
 			],
+			'recaptcha-for-woocommerce'     => [
+				'Name'        => esc_html__( 'reCaptcha for WooCommerce', 'newspack' ),
+				'Description' => esc_html__( 'Protect your eCommerce store from malicious and automated attacks by using reCaptcha for WooCommerce.', 'newspack' ),
+				'Author'      => esc_html__( 'I13 Web Solution', 'newspack' ),
+				'PluginURI'   => esc_url( 'https://woocommerce.com/products/recaptcha-for-woocommerce/' ),
+				'AuthorURI'   => esc_url( 'https://woocommerce.com/vendor/i13-web-solution/' ),
+			],
 			'redirection'                   => [
 				'Name'        => esc_html__( 'Redirection', 'newspack' ),
 				'Description' => esc_html__( 'Manage all your 301 redirects and monitor 404 errors.', 'newspack' ),
@@ -253,7 +251,7 @@ class Plugin_Manager {
 			],
 			'woocommerce-subscriptions'     => [
 				'Name'        => esc_html__( 'WooCommerce Subscriptions', 'newspack' ),
-				'Description' => esc_html__( 'An eCommerce toolkit that helps you sell anything. Beautifully.', 'newspack' ),
+				'Description' => esc_html__( 'Sell products and services with recurring payments in your WooCommerce Store.', 'newspack' ),
 				'Author'      => esc_html__( 'WooCommerce', 'newspack' ),
 				'PluginURI'   => esc_url( 'https://woocommerce.com/products/woocommerce-subscriptions/' ),
 				'AuthorURI'   => esc_url( 'https://woocommerce.com/' ),
@@ -309,6 +307,14 @@ class Plugin_Manager {
 				'Author'      => esc_html__( 'Gary Thayer, David Green, 10up', 'newspack' ),
 				'AuthorURI'   => esc_url( 'https://10up.com' ),
 				'PluginURI'   => esc_url( 'https://wordpress.org/plugins/ad-refresh-control/' ),
+				'Download'    => 'wporg',
+			],
+			'publisher-media-kit'           => [
+				'Name'        => esc_html__( 'Publisher Media Kit', 'newspack' ),
+				'Description' => esc_html__( 'Quick and easy option for small to medium sized publishers to digitize their media kit.', 'newspack' ),
+				'Author'      => esc_html__( '10up', 'newspack' ),
+				'AuthorURI'   => esc_url( 'https://10up.com' ),
+				'PluginURI'   => esc_url( 'https://wordpress.org/plugins/publisher-media-kit/' ),
 				'Download'    => 'wporg',
 			],
 			'broadstreet'                   => [

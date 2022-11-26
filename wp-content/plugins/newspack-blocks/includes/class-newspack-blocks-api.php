@@ -223,17 +223,6 @@ class Newspack_Blocks_API {
 	}
 
 	/**
-	 * Pass post format to editor.
-	 *
-	 * @param array $object The object info.
-	 * @return string post format.
-	 */
-	public static function newspack_blocks_post_format( $object ) {
-		$post_format = get_post_format( $object['id'] );
-		return $post_format ? $post_format : 'standard';
-	}
-
-	/**
 	 * Pass whether there is a custom excerpt to the editor.
 	 *
 	 * @param array $object The object info.
@@ -292,6 +281,14 @@ class Newspack_Blocks_API {
 			$args['order']    = 'ASC';
 		}
 
+		if ( isset( $attributes['showExcerpt'], $attributes['excerptLength'] ) ) {
+			$block_attributes = [
+				'showExcerpt'   => $attributes['showExcerpt'],
+				'excerptLength' => $attributes['excerptLength'],
+			];
+			Newspack_Blocks::filter_excerpt( $block_attributes );
+		}
+
 		$query = new WP_Query( $args );
 		$posts = [];
 
@@ -308,7 +305,6 @@ class Newspack_Blocks_API {
 			// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 			$meta = new WP_REST_Post_Meta_Fields( 'post' );
-
 			$data = [
 				'author'         => (int) $post->post_author,
 				'content'        => [
@@ -326,17 +322,20 @@ class Newspack_Blocks_API {
 				],
 			];
 
-			$add_ons = [
-				'newspack_article_classes'        => Newspack_Blocks::get_term_classes( $data['id'] ),
-				'newspack_author_info'            => self::newspack_blocks_get_author_info( $data ),
-				'newspack_category_info'          => self::newspack_blocks_get_primary_category( $data ),
-				'newspack_featured_image_caption' => self::newspack_blocks_get_image_caption( $data ),
-				'newspack_featured_image_src'     => self::newspack_blocks_get_image_src( $data ),
-				'newspack_has_custom_excerpt'     => self::newspack_blocks_has_custom_excerpt( $data ),
-				'newspack_post_format'            => self::newspack_blocks_post_format( $data ),
-				'newspack_post_sponsors'          => self::newspack_blocks_sponsor_info( $data ),
-				'post_type'                       => $post->post_type,
-				'post_link'                       => Newspack_Blocks::get_post_link( $post->ID ),
+			$sponsors = Newspack_Blocks::get_all_sponsors( $post->ID );
+			$add_ons  = [
+				'newspack_article_classes'          => Newspack_Blocks::get_term_classes( $data['id'] ),
+				'newspack_author_info'              => self::newspack_blocks_get_author_info( $data ),
+				'newspack_category_info'            => self::newspack_blocks_get_primary_category( $data ),
+				'newspack_featured_image_caption'   => self::newspack_blocks_get_image_caption( $data ),
+				'newspack_featured_image_src'       => self::newspack_blocks_get_image_src( $data ),
+				'newspack_has_custom_excerpt'       => self::newspack_blocks_has_custom_excerpt( $data ),
+				'newspack_post_sponsors'            => self::newspack_blocks_sponsor_info( $data ),
+				'newspack_sponsors_show_author'     => Newspack_Blocks::newspack_display_sponsors_and_authors( $sponsors ),
+				'newspack_sponsors_show_categories' => Newspack_Blocks::newspack_display_sponsors_and_categories( $sponsors ),
+				'post_status'                       => $post->post_status,
+				'post_type'                         => $post->post_type,
+				'post_link'                         => Newspack_Blocks::get_post_link( $post->ID ),
 			];
 
 			// Support Newspack Listings hide author/publish date options.

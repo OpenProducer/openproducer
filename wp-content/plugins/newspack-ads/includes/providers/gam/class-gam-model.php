@@ -7,7 +7,9 @@
 
 namespace Newspack_Ads\Providers;
 
-use Newspack_Ads\Providers\GAM_API;
+use Google\Auth\Credentials\ServiceAccountCredentials;
+use Newspack_Ads\Placements;
+use Newspack_Ads\Providers\GAM\Api as GAM_Api;
 
 /**
  * Newspack Ads GAM Model Class.
@@ -17,14 +19,24 @@ final class GAM_Model {
 	const CODE  = 'code';
 	const FLUID = 'fluid';
 
+	const SERVICE_ACCOUNT_CREDENTIALS_OPTION_NAME = '_newspack_ads_gam_credentials';
+
 	// Legacy network code manually inserted.
 	const OPTION_NAME_LEGACY_NETWORK_CODE = '_newspack_ads_service_google_ad_manager_network_code';
 
 	// GAM network code pulled from user credentials.
 	const OPTION_NAME_GAM_NETWORK_CODE = '_newspack_ads_gam_network_code';
 
-	const OPTION_NAME_GAM_ITEMS             = '_newspack_ads_gam_items';
-	const OPTION_NAME_GLOBAL_AD_SUPPRESSION = '_newspack_global_ad_suppression';
+	const OPTION_NAME_GAM_ITEMS = '_newspack_ads_gam_items';
+
+	const OPTION_NAME_DEFAULT_UNITS = '_newspack_ads_gam_default_units';
+
+	/**
+	 * GAM Api
+	 *
+	 * @var GAM_Api
+	 */
+	private static $api = null;
 
 	/**
 	 * Custom post type
@@ -34,18 +46,18 @@ final class GAM_Model {
 	public static $custom_post_type = 'newspack_ad_codes';
 
 	/**
-	 * Array of all unique div IDs used for ads.
+	 * Associative array of all ad slots that will be rendered on the page.
 	 *
 	 * @var array
 	 */
-	public static $ad_ids = [];
+	public static $slots = [];
 
 	/**
-	 * Array of all ad units configurations.
+	 * Whether GAM units were already synced.
 	 *
-	 * @var array|null Array or null if not yet initialized.
+	 * @var boolean Whether GAM units were already synced.
 	 */
-	public static $ad_units = null;
+	public static $synced = false;
 
 	/**
 	 * Initialize Google Ads Model
@@ -54,8 +66,44 @@ final class GAM_Model {
 	 * @return void
 	 */
 	public static function init() {
-		add_action( 'init', array( __CLASS__, 'register_ad_post_type' ) );
-		GAM_API::set_network_code( get_option( self::OPTION_NAME_GAM_NETWORK_CODE, null ) );
+		add_action( 'init', [ __CLASS__, 'register_ad_post_type' ] );
+		add_action( 'newspack_ads_activation_hook', [ __CLASS__, 'register_default_placements_units' ] );
+	}
+
+	/**
+	 * Get the GAM API
+	 *
+	 * @return GAM_Api|false The GAM API, or false if unable to initialized.
+	 */
+	public static function get_api() {
+		if ( isset( self::$api ) ) {
+			return self::$api;
+		}
+
+		/** Default method is through stored service account. */
+		$auth_method = 'service_account';
+		$credentials = self::get_service_account_credentials();
+
+		/** If service account method is not available, look for OAuth2. */
+		if ( ! $credentials && class_exists( 'Newspack\Google_Services_Connection' ) ) {
+			$oauth2_credentials = \Newspack\Google_Services_Connection::get_oauth2_credentials();
+			if ( false !== $oauth2_credentials ) {
+				$auth_method = 'oauth2';
+				$credentials = $oauth2_credentials;
+			}
+		}
+
+		$network_code = self::get_active_network_code();
+
+		try {
+			self::$api = new GAM_Api( $auth_method, $credentials, $network_code );
+			/** Test the connection once to ensure the session has GAM connection. */
+			self::$api->get_current_user();
+		} catch ( \Exception $e ) {
+			self::$api = false;
+		}
+
+		return self::$api;
 	}
 
 	/**
@@ -75,16 +123,63 @@ final class GAM_Model {
 	}
 
 	/**
+	 * Register default ad units to placements
+	 */
+	public static function register_default_placements_units() {
+		$ad_units       = self::get_default_ad_units();
+		$placements_map = [
+			'global_below_header' => 'newspack_below_header',
+			'sticky'              => 'newspack_sticky_footer',
+			'sidebar_sidebar-1'   => [
+				'before' => 'newspack_sidebar_1',
+				'after'  => 'newspack_sidebar_2',
+			],
+			'scaip-1'             => 'newspack_in_article_1',
+			'scaip-2'             => 'newspack_in_article_2',
+			'scaip-3'             => 'newspack_in_article_3',
+		];
+		$default_data   = [
+			'enabled'  => true,
+			'provider' => 'gam',
+		];
+		foreach ( $placements_map as $placement => $ad_unit ) {
+			$should_update  = false;
+			$placement_data = Placements::get_placement_data( $placement );
+			$placement_data = wp_parse_args( $placement_data, $default_data );
+			if ( 'sidebar_sidebar-1' === $placement ) {
+				$placement_data['stick_to_top'] = true;
+			}
+			if ( ! is_array( $ad_unit ) && empty( $placement_data['ad_unit'] ) ) {
+				$should_update             = true;
+				$placement_data['ad_unit'] = $ad_unit;
+			} elseif ( is_array( $ad_unit ) ) {
+				foreach ( $ad_unit as $hook => $hook_ad_unit ) {
+					if ( ! isset( $placement_data['hooks'][ $hook ]['ad_unit'] ) || empty( $placement_data['hooks'][ $hook ]['ad_unit'] ) ) {
+						$should_update                               = true;
+						$placement_data['hooks'][ $hook ]['ad_unit'] = $hook_ad_unit;
+					}
+				}
+			}
+			if ( $should_update ) {
+				Placements::update_placement( $placement, $placement_data );
+			}
+		}
+	}
+
+	/**
 	 * Initial GAM setup.
 	 *
 	 * @return object|\WP_Error Setup results or error if setup fails.
 	 */
 	public static function setup_gam() {
 		$setup_results = array();
-		try {
-			$setup_results['created_targeting_keys'] = GAM_API::update_custom_targeting_keys();
-		} catch ( \Exception $e ) {
-			return new \WP_Error( 'newspack_ads_setup_gam', $e->getMessage() );
+		$api           = self::get_api();
+		if ( $api ) {
+			try {
+				$setup_results['created_targeting_keys'] = $api->targeting_keys->update_default_targeting_keys();
+			} catch ( \Exception $e ) {
+				return new \WP_Error( 'newspack_ads_setup_gam', $e->getMessage() );
+			}
 		}
 		return $setup_results;
 	}
@@ -92,7 +187,7 @@ final class GAM_Model {
 	/**
 	 * Get a single ad unit to display on the page.
 	 *
-	 * @param number $id     The id of the ad unit to retrieve.
+	 * @param string $id     The id of the ad unit to retrieve.
 	 * @param array  $config {
 	 *   Optional additional configuration parameters for the ad unit.
 	 *
@@ -104,7 +199,7 @@ final class GAM_Model {
 	 * @return object Prepared ad unit, with markup for injecting on a page.
 	 */
 	public static function get_ad_unit_for_display( $id, $config = array() ) {
-		if ( 0 === (int) $id ) {
+		if ( empty( $id ) ) {
 			return new \WP_Error(
 				'newspack_no_adspot_found',
 				\esc_html__( 'No such ad spot.', 'newspack' ),
@@ -114,61 +209,162 @@ final class GAM_Model {
 			);
 		}
 
-		$unique_id = $config['unique_id'] ?? uniqid();
-		$placement = $config['placement'] ?? '';
-		$context   = $config['context'] ?? '';
+		$unique_id    = $config['unique_id'] ?? uniqid();
+		$placement    = $config['placement'] ?? '';
+		$context      = $config['context'] ?? '';
+		$fixed_height = $config['fixed_height'] ?? false;
 
-		$ad_unit = \get_post( $id );
+		$ad_units = self::get_ad_units( false );
 
-		$prepared_ad_unit = [];
+		$index = array_search( $id, array_column( $ad_units, 'id' ) );
+		if ( false === $index ) {
+			return new \WP_Error(
+				'newspack_no_adspot_found',
+				\esc_html__( 'No such ad spot.', 'newspack' ),
+				array(
+					'status' => '400',
+				)
+			);
+		}
+		$ad_unit = $ad_units[ $index ];
 
-		if ( is_a( $ad_unit, 'WP_Post' ) ) {
-			// Legacy ad units, saved as CPT. Ad unit ID is the post ID.
-			$prepared_ad_unit = [
-				'id'    => $ad_unit->ID,
-				'name'  => $ad_unit->post_title,
-				'code'  => \get_post_meta( $ad_unit->ID, self::CODE, true ),
-				'sizes' => self::sanitize_sizes( \get_post_meta( $ad_unit->ID, self::SIZES, true ) ),
-				'fluid' => (bool) \get_post_meta( $ad_unit->ID, self::FLUID, true ),
-			];
-		} else {
-			// Ad units saved in options table. Ad unit ID is the GAM Ad Unit ID.
-			$ad_units = self::get_synced_gam_ad_units();
+		$ad_unit['placement']    = $placement;
+		$ad_unit['context']      = $context;
+		$ad_unit['fixed_height'] = $fixed_height;
 
-			foreach ( $ad_units as $unit ) {
-				if ( intval( $id ) === intval( $unit['id'] ) && 'ACTIVE' === $unit['status'] ) {
-					$ad_unit = $unit;
-					break;
+		$ad_unit['ad_code']     = self::get_ad_unit_code( $ad_unit, $unique_id );
+		$ad_unit['amp_ad_code'] = self::get_ad_unit_amp_code( $ad_unit, $unique_id );
+		return $ad_unit;
+	}
+
+	/**
+	 * Get default ad units.
+	 *
+	 * @param boolean $sync Whether to sync the ad units with GAM.
+	 *
+	 * @return array Array of ad units.
+	 */
+	public static function get_default_ad_units( $sync = true ) {
+		$ad_units = [
+			'newspack_below_header'  => [
+				'name'  => \esc_html__( 'Newspack Below Header', 'newspack' ),
+				'sizes' => [
+					[ 320, 50 ],
+					[ 320, 100 ],
+					[ 728, 90 ],
+					[ 970, 90 ],
+					[ 970, 250 ],
+				],
+			],
+			'newspack_sticky_footer' => [
+				'name'  => \esc_html__( 'Newspack Sticky Footer', 'newspack' ),
+				'sizes' => [
+					[ 320, 50 ],
+					[ 320, 100 ],
+				],
+			],
+			'newspack_sidebar_1'     => [
+				'name'  => \esc_html__( 'Newspack Sidebar 1', 'newspack' ),
+				'sizes' => [
+					[ 300, 250 ],
+					[ 300, 600 ],
+				],
+			],
+			'newspack_sidebar_2'     => [
+				'name'  => \esc_html__( 'Newspack Sidebar 2', 'newspack' ),
+				'sizes' => [
+					[ 300, 250 ],
+					[ 300, 600 ],
+				],
+			],
+			'newspack_in_article_1'  => [
+				'name'  => \esc_html__( 'Newspack In-Article 1', 'newspack' ),
+				'sizes' => [
+					[ 728, 90 ],
+					[ 300, 250 ],
+				],
+			],
+			'newspack_in_article_2'  => [
+				'name'  => \esc_html__( 'Newspack In-Article 2', 'newspack' ),
+				'sizes' => [
+					[ 728, 90 ],
+					[ 300, 250 ],
+				],
+			],
+			'newspack_in_article_3'  => [
+				'name'  => \esc_html__( 'Newspack In-Article 3', 'newspack' ),
+				'sizes' => [
+					[ 728, 90 ],
+					[ 300, 250 ],
+				],
+			],
+		];
+		/**
+		 * Filters the default ad units.
+		 *
+		 * @param array $ad_units Array of ad units.
+		 */
+		$ad_units = apply_filters( 'newspack_ads_default_ad_units', $ad_units );
+
+		/**
+		 * Update values with stored data.
+		 */
+		$stored_units = get_option( self::OPTION_NAME_DEFAULT_UNITS, [] );
+		if ( is_array( $stored_units ) ) {
+			$ad_units = array_merge( $ad_units, $stored_units );
+		}
+
+		/**
+		 * If API is available, sync ad unit in GAM and replace local config with
+		 * remote.
+		 */
+		if ( true === $sync ) {
+			$api = self::get_api();
+			if ( $api ) {
+				$gam_ad_units = $api->ad_units->get_serialized_ad_units( [], true );
+				if ( ! is_wp_error( $gam_ad_units ) ) {
+					foreach ( $ad_units as $ad_unit_key => $ad_unit_config ) {
+						/** Validate config before continuing. */
+						if ( ! is_array( $ad_unit_config ) || empty( $ad_unit_config['name'] ) ) {
+							continue;
+						}
+						$ad_unit_idx = array_search( $ad_unit_config['name'], array_column( $gam_ad_units, 'name' ) );
+						if ( $ad_unit_idx ) {
+							$gam_ad_unit = $gam_ad_units[ $ad_unit_idx ];
+							/** Update ad unit status to 'ACTIVE' if not active. */
+							if ( 'ACTIVE' !== $gam_ad_unit['status'] ) {
+								$api->ad_units->update_ad_unit_status( $gam_ad_unit['id'], 'ACTIVE' );
+								$gam_ad_unit = $api->ad_units->get_serialized_ad_units( [ $gam_ad_unit['id'] ] )[0];
+							}
+						} else {
+							/** Create ad unit if not synced. */
+							$created_unit = $api->ad_units->create_ad_unit( $ad_unit_config );
+							if ( ! is_wp_error( $created_unit ) ) {
+								$gam_ad_unit = $created_unit;
+							}
+						}
+						$ad_units[ $ad_unit_key ] = $gam_ad_unit;
+					}
+					update_option( self::OPTION_NAME_DEFAULT_UNITS, $ad_units );
 				}
 			}
-			if ( $ad_unit ) {
-				$prepared_ad_unit = [
-					'id'    => $ad_unit['id'],
-					'name'  => $ad_unit['name'],
-					'code'  => $ad_unit['code'],
-					'sizes' => self::sanitize_sizes( $ad_unit['sizes'] ),
-					'fluid' => isset( $ad_unit['fluid'] ) ? (bool) $ad_unit['fluid'] : false,
-				];
-			}
 		}
 
-		// Ad unit not found neither as the CPT nor in options table.
-		if ( ! isset( $prepared_ad_unit['id'] ) ) {
-			return new \WP_Error(
-				'newspack_no_adspot_found',
-				\esc_html__( 'No such ad spot.', 'newspack' ),
-				array(
-					'status' => '400',
-				)
-			);
-		}
-
-		$prepared_ad_unit['placement'] = $placement;
-		$prepared_ad_unit['context']   = $context;
-
-		$prepared_ad_unit['ad_code']     = self::get_ad_unit_code( $prepared_ad_unit, $unique_id );
-		$prepared_ad_unit['amp_ad_code'] = self::get_ad_unit_amp_code( $prepared_ad_unit, $unique_id );
-		return $prepared_ad_unit;
+		return array_map(
+			function( $id, $ad_unit ) {
+				/** Prepare unsynced default units. */
+				if ( empty( $ad_unit['id'] ) ) {
+					$ad_unit['id']         = $id;
+					$ad_unit['code']       = $id;
+					$ad_unit['fluid']      = false;
+					$ad_unit['status']     = 'ACTIVE';
+					$ad_unit['is_default'] = true;
+				}
+				return $ad_unit;
+			},
+			array_keys( $ad_units ),
+			array_values( $ad_units )
+		);
 	}
 
 	/**
@@ -203,25 +399,43 @@ final class GAM_Model {
 
 	/**
 	 * Get the ad units.
+	 *
+	 * @param bool $sync Whether to attempt sync with connected GAM.
+	 *
+	 * @return array Array of ad units.
 	 */
-	public static function get_ad_units() {
-		if ( null !== self::$ad_units ) {
-			return self::$ad_units;
-		}
-		$ad_units = self::get_legacy_ad_units();
-		if ( self::is_gam_connected() ) {
-			$gam_ad_units = GAM_API::get_serialised_gam_ad_units();
-			if ( \is_wp_error( $gam_ad_units ) ) {
-				return $gam_ad_units;
+	public static function get_ad_units( $sync = true ) {
+		if ( $sync && ! self::$synced ) {
+			// Only sync once per execution.
+			if ( self::is_api_connected() ) {
+				$api = self::get_api();
+				if ( $api ) {
+					$gam_ad_units = $api->ad_units->get_serialized_ad_units();
+					if ( ! \is_wp_error( $gam_ad_units ) && ! empty( $gam_ad_units ) ) {
+						self::sync_gam_settings( $gam_ad_units );
+						self::$synced = true;
+					}
+				}
 			}
-			$sync_result = self::sync_gam_settings( $gam_ad_units );
-			if ( \is_wp_error( $sync_result ) ) {
-				return $sync_result;
-			}
-			$ad_units = array_merge( $ad_units, $gam_ad_units );
 		}
-		self::$ad_units = $ad_units;
-		return self::$ad_units;
+		$default_units = self::get_default_ad_units( $sync );
+		$synced_units  = self::get_synced_ad_units();
+
+		/* Clear default units that are synced. */
+		foreach ( $synced_units as $ad_unit ) {
+			$default_unit_idx = array_search( $ad_unit['id'], array_column( $default_units, 'id' ) );
+			if ( false !== $default_unit_idx ) {
+				unset( $default_units[ $default_unit_idx ] );
+				$default_units = array_values( $default_units );
+			}
+		}
+
+		$ad_units = array_merge(
+			self::get_legacy_ad_units(),
+			$synced_units,
+			$default_units
+		);
+		return $ad_units;
 	}
 
 	/**
@@ -230,8 +444,9 @@ final class GAM_Model {
 	 * @param array $ad_unit The new ad unit info to add.
 	 */
 	public static function add_ad_unit( $ad_unit ) {
-		if ( self::is_gam_connected() ) {
-			$result = GAM_API::create_ad_unit( $ad_unit );
+		if ( self::is_api_connected() ) {
+			$api    = self::get_api();
+			$result = $api->ad_units->create_ad_unit( $ad_unit );
 			self::sync_gam_settings();
 		} else {
 			$result = self::legacy_add_ad_unit( $ad_unit );
@@ -326,7 +541,8 @@ final class GAM_Model {
 		if ( isset( $ad_unit['is_legacy'] ) && true === $ad_unit['is_legacy'] ) {
 			$result = self::legacy_update_ad_unit( $ad_unit );
 		} else {
-			$result = GAM_API::update_ad_unit( $ad_unit );
+			$api    = self::get_api();
+			$result = $api->ad_units->update_ad_unit( $ad_unit );
 			self::sync_gam_settings();
 		}
 		return $result;
@@ -345,9 +561,20 @@ final class GAM_Model {
 				return true;
 			}
 		} else {
-			$result = GAM_API::change_ad_unit_status( $id, 'ARCHIVE' );
-			self::sync_gam_settings();
-			return $result;
+			$api = self::get_api();
+			if ( $api ) {
+				$result = $api->ad_units->update_ad_unit_status( $id, 'ARCHIVE' );
+				self::sync_gam_settings();
+				return $result;
+			} else {
+				return new \WP_Error(
+					'newspack_ads_gam_error',
+					\esc_html__( 'Not connected to GAM', 'newspack-ads' ),
+					array(
+						'status' => '400',
+					)
+				);
+			}
 		}
 	}
 
@@ -376,12 +603,13 @@ final class GAM_Model {
 	 * @param object[] $settings Settings to use.
 	 */
 	public static function sync_gam_settings( $serialised_ad_units = null, $settings = null ) {
+		$api = self::get_api();
 		if ( null === $serialised_ad_units ) {
-			$serialised_ad_units = GAM_API::get_serialised_gam_ad_units();
+			$serialised_ad_units = $api->ad_units->get_serialized_ad_units();
 		}
 		if ( null === $settings ) {
 			try {
-				$settings = GAM_API::get_gam_settings();
+				$settings = $api->get_settings();
 			} catch ( \Exception $e ) {
 				return new \WP_Error(
 					'newspack_ads_failed_gam_sync',
@@ -450,7 +678,7 @@ final class GAM_Model {
 	 *
 	 * @return array[] GAM items.
 	 */
-	private static function get_synced_gam_ad_units() {
+	public static function get_synced_ad_units() {
 		$gam_items = self::get_synced_gam_items();
 		if ( $gam_items ) {
 			return $gam_items['ad_units'];
@@ -484,25 +712,25 @@ final class GAM_Model {
 	 * @param string $unique_id The unique ID for this ad displayment.
 	 */
 	public static function get_ad_unit_code( $ad_unit, $unique_id = '' ) {
-		$sizes        = $ad_unit['sizes'];
 		$code         = $ad_unit['code'];
 		$network_code = self::get_active_network_code();
 		$unique_id    = $unique_id ?? uniqid();
-		if ( ! is_array( $sizes ) ) {
-			$sizes = [];
+
+		if ( ! is_array( $ad_unit['sizes'] ) ) {
+			$ad_unit['sizes'] = [];
 		}
 
 		// Remove all ad sizes greater than 600px wide for sticky ads.
 		if ( self::is_sticky( $ad_unit ) ) {
-			$sizes = array_filter(
-				$sizes,
+			$ad_unit['sizes'] = array_filter(
+				$ad_unit['sizes'],
 				function( $size ) {
 					return $size[0] < 600;
 				}
 			);
 		}
 
-		self::$ad_ids[ $unique_id ] = $ad_unit;
+		self::$slots[ $unique_id ] = $ad_unit;
 
 		$code = sprintf(
 			"<!-- /%s/%s --><div id='div-gpt-ad-%s-0'></div>",
@@ -520,25 +748,26 @@ final class GAM_Model {
 	 * @param string $unique_id Optional pre-defined unique ID for this ad displayment.
 	 */
 	public static function get_ad_unit_amp_code( $ad_unit, $unique_id = '' ) {
-		$sizes        = $ad_unit['sizes'];
 		$code         = $ad_unit['code'];
 		$network_code = self::get_active_network_code();
 		$targeting    = self::get_ad_targeting( $ad_unit );
 		$unique_id    = $unique_id ?? uniqid();
 
-		if ( ! is_array( $sizes ) ) {
-			$sizes = [];
+		if ( ! is_array( $ad_unit['sizes'] ) ) {
+			$ad_unit['sizes'] = [];
 		}
 
 		// Remove all ad sizes greater than 600px wide for sticky ads.
 		if ( self::is_sticky( $ad_unit ) ) {
-			$sizes = array_filter(
-				$sizes,
+			$ad_unit['sizes'] = array_filter(
+				$ad_unit['sizes'],
 				function( $size ) {
 					return $size[0] < 600;
 				}
 			);
 		}
+
+		$sizes = $ad_unit['sizes'];
 
 		$size_map = self::get_ad_unit_size_map( $ad_unit, $sizes );
 
@@ -555,7 +784,7 @@ final class GAM_Model {
 		$attrs      = [];
 		$multisizes = [];
 
-		if ( true === $ad_unit['fluid'] ) {
+		if ( isset( $ad_unit['fluid'] ) && true === $ad_unit['fluid'] ) {
 			$attrs['height'] = 'fluid';
 			$attrs['layout'] = 'fluid';
 			$multisizes[]    = 'fluid';
@@ -566,7 +795,7 @@ final class GAM_Model {
 			usort(
 				$sizes,
 				function( $a, $b ) {
-					return $a[0] * $a[1] < $b[0] * $b[1];
+					return $a[0] * $a[1] < $b[0] * $b[1] ? 1 : -1;
 				}
 			);
 			if ( ! isset( $attrs['layout'] ) ) {
@@ -608,7 +837,7 @@ final class GAM_Model {
 
 	/**
 	 * Get size map for responsive ads.
-	 * 
+	 *
 	 * Gather up all of the ad sizes which should be displayed on the same
 	 * viewports. As a heuristic, each ad slot can safely display ads with a 30%
 	 * difference from slot's width. e.g. for the following setup: [[300,200],
@@ -630,7 +859,7 @@ final class GAM_Model {
 	public static function get_responsive_size_map( $sizes, $width_diff_ratio = 0.3, $width_threshold = 600 ) {
 
 		array_multisort( $sizes );
-	
+
 		// Each existing size's width is size map viewport.
 		$viewports = array_unique( array_column( $sizes, 0 ) );
 
@@ -639,8 +868,11 @@ final class GAM_Model {
 			foreach ( $sizes as $size ) {
 				$is_in_viewport     = $size[0] <= $viewport_width;
 				$is_above_threshold = false !== $width_threshold && $width_threshold <= $size[0];
-				$diff               = min( $viewport_width, $size[0] ) / max( $viewport_width, $size[0] );
-				$is_within_ratio    = ( 1 - $width_diff_ratio ) <= $diff;
+				if ( 0 === $size[0] ) {
+					continue;
+				}
+				$diff            = min( $viewport_width, $size[0] ) / max( $viewport_width, $size[0] );
+				$is_within_ratio = ( 1 - $width_diff_ratio ) <= $diff;
 				if ( $is_in_viewport && ( $is_within_ratio || $is_above_threshold ) ) {
 					$size_map[ $viewport_width ][] = $size;
 				}
@@ -828,7 +1060,7 @@ final class GAM_Model {
 					function( $user ) {
 						return $user->user_login;
 					},
-					get_coauthors() 
+					get_coauthors()
 				);
 			} else {
 				$authors = [ get_the_author_meta( 'user_login' ) ];
@@ -836,7 +1068,7 @@ final class GAM_Model {
 			if ( ! empty( $authors ) ) {
 				$targeting['author'] = array_map( 'sanitize_text_field', $authors );
 			}
-					
+
 			// Add post type to targeting.
 			$targeting['post_type'] = get_post_type();
 
@@ -869,24 +1101,30 @@ final class GAM_Model {
 	 *
 	 * @return boolean True if GAM is connected.
 	 */
-	public static function is_gam_connected() {
-		$status = GAM_API::connection_status();
-		return $status['connected'];
+	public static function is_api_connected() {
+		return ! empty( self::get_api() );
 	}
 
 	/**
 	 * Get GAM connection status.
 	 *
-	 * @return object Object with status information.
+	 * @return array Connection status information.
 	 */
-	public static function get_gam_connection_status() {
-		$status = GAM_API::connection_status();
-		if ( isset( $status['network_code'] ) ) {
-			update_option( self::OPTION_NAME_GAM_NETWORK_CODE, $status['network_code'] );
-		} else {
-			$status['network_code'] = self::get_active_network_code();
-		}
-		if ( true === $status['connected'] ) {
+	public static function get_connection_status() {
+		$api    = self::get_api();
+		$status = [
+			'connected'       => false,
+			'connection_mode' => 'legacy',
+			'network_code'    => self::get_active_network_code(),
+		];
+		if ( $api ) {
+			$status['connected']       = self::is_api_connected();
+			$status['connection_mode'] = $api->get_auth_method();
+			$network_code              = $api->get_network_code();
+			if ( ! empty( $network_code ) ) {
+				$status['network_code'] = $network_code;
+				update_option( self::OPTION_NAME_GAM_NETWORK_CODE, $network_code );
+			}
 			$status['is_network_code_matched'] = self::is_network_code_matched();
 		}
 		return $status;
@@ -897,38 +1135,67 @@ final class GAM_Model {
 	 *
 	 * @return array[] Array of available networks. Empty array if no networks found or unable to fetch.
 	 */
-	public static function get_gam_available_networks() {
-		try {
-			$networks = GAM_API::get_serialized_gam_networks();
-		} catch ( \Exception $e ) {
-			$networks = [];
+	public static function get_available_networks() {
+		$api      = self::get_api();
+		$networks = [];
+		if ( $api ) {
+			$networks = $api->get_serialized_networks();
 		}
 		return $networks;
 	}
 
 	/**
-	 * Get global ad suppresion config.
+	 * Get GAM Service Account Credentials
+	 *
+	 * @param array $config Optional config to load.
+	 *
+	 * @return ServiceAccountCredentials|false
 	 */
-	public static function get_suppression_config() {
-		return get_option(
-			self::OPTION_NAME_GLOBAL_AD_SUPPRESSION,
-			[
-				'tag_archive_pages'               => false,
-				'specific_tag_archive_pages'      => [],
-				'category_archive_pages'          => false,
-				'specific_category_archive_pages' => [],
-				'author_archive_pages'            => false,
-			]
-		);
+	public static function get_service_account_credentials( $config = [] ) {
+		if ( empty( $config ) ) {
+			$config = get_option( self::SERVICE_ACCOUNT_CREDENTIALS_OPTION_NAME );
+		}
+		if ( ! $config ) {
+			return false;
+		}
+		try {
+			$credentials = new ServiceAccountCredentials( 'https://www.googleapis.com/auth/dfp', $config );
+		} catch ( \Exception $e ) {
+			return false;
+		}
+		return $credentials;
 	}
 
 	/**
-	 * Update global ad suppresion config.
+	 * Update GAM credentials.
 	 *
-	 * @param array $config Updated config.
+	 * @param array $config Credentials config to update.
+	 *
+	 * @return object Object with status information.
 	 */
-	public static function update_suppression_config( $config ) {
-		update_option( self::OPTION_NAME_GLOBAL_AD_SUPPRESSION, $config );
+	public static function update_service_account_credentials( $config ) {
+		if ( ! self::get_service_account_credentials( $config ) ) {
+			return new \WP_Error( 'newspack_ads_gam_credentials', __( 'Invalid credentials configuration.', 'newspack-ads' ) );
+		}
+		$update_result = update_option( self::SERVICE_ACCOUNT_CREDENTIALS_OPTION_NAME, $config );
+		if ( ! $update_result ) {
+			return new \WP_Error( 'newspack_ads_gam_credentials', __( 'Unable to update GAM credentials', 'newspack-ads' ) );
+		}
+		return self::get_connection_status();
+	}
+
+	/**
+	 * Clear existing GAM credentials.
+	 *
+	 * @return object Object with status information.
+	 */
+	public static function remove_service_account_credentials() {
+		$deleted_credentials_result  = delete_option( self::SERVICE_ACCOUNT_CREDENTIALS_OPTION_NAME );
+		$deleted_network_code_result = delete_option( self::OPTION_NAME_GAM_NETWORK_CODE );
+		if ( ! $deleted_credentials_result || ! $deleted_network_code_result ) {
+			return new \WP_Error( 'newspack_ads_gam_credentials', __( 'Unable to remove GAM credentials', 'newspack-ads' ) );
+		}
+		return self::get_connection_status();
 	}
 }
 GAM_Model::init();

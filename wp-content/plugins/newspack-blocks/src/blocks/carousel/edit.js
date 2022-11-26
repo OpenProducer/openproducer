@@ -18,7 +18,6 @@ import {
 	BaseControl,
 	Button,
 	ButtonGroup,
-	CheckboxControl,
 	PanelBody,
 	PanelRow,
 	Placeholder,
@@ -34,12 +33,14 @@ import { decodeEntities } from '@wordpress/html-entities';
  * Internal dependencies
  */
 import QueryControls from '../../components/query-controls';
+import { PostTypesPanel, PostStatusesPanel } from '../../components/editor-panels';
 import createSwiper from './create-swiper';
 import {
 	formatAvatars,
 	formatByline,
 	formatSponsorLogos,
 	formatSponsorByline,
+	getPostStatusLabel,
 } from '../../shared/js/utils';
 // Use same posts store as Homepage Posts block.
 import { postsBlockSelector, postsBlockDispatch, shouldReflow } from '../homepage-articles/utils';
@@ -143,14 +144,7 @@ class Edit extends Component {
 	}
 
 	render() {
-		const {
-			attributes,
-			availablePostTypes,
-			className,
-			setAttributes,
-			latestPosts,
-			isUIDisabled,
-		} = this.props;
+		const { attributes, className, setAttributes, latestPosts, isUIDisabled } = this.props;
 		const {
 			aspectRatio,
 			authors,
@@ -271,6 +265,7 @@ class Edit extends Component {
 										}` }
 										key={ post.id }
 									>
+										{ getPostStatusLabel( post ) }
 										<figure className="post-thumbnail">
 											<a href="#" rel="bookmark">
 												{ post.newspack_featured_image_src ? (
@@ -280,7 +275,7 @@ class Edit extends Component {
 														alt=""
 													/>
 												) : (
-													<div className="wp-block-newspack-blocks-carousel__placeholder"></div>
+													<div className="wp-block-newspack-blocks-carousel__placeholder" />
 												) }
 											</a>
 										</figure>
@@ -290,34 +285,49 @@ class Edit extends Component {
 											showAuthor ||
 											showDate ) && (
 											<div className="entry-wrapper">
-												{ post.newspack_post_sponsors && (
-													<span className="cat-links sponsor-label">
-														<span className="flag">{ post.newspack_post_sponsors[ 0 ].flag }</span>
-													</span>
+												{ ( post.newspack_post_sponsors ||
+													( showCategory && 0 < post.newspack_category_info.length ) ) && (
+													<div
+														className={
+															'cat-links' + ( post.newspack_post_sponsors ? ' sponsor-label' : '' )
+														}
+													>
+														{ post.newspack_post_sponsors && (
+															<span className="flag">
+																{ post.newspack_post_sponsors[ 0 ].flag }
+															</span>
+														) }
+														{ showCategory &&
+															( ! post.newspack_post_sponsors ||
+																post.newspack_sponsors_show_categories ) && (
+																<a href="#">{ decodeEntities( post.newspack_category_info ) }</a>
+															) }
+													</div>
 												) }
-												{ showCategory &&
-													0 < post.newspack_category_info.length &&
-													! post.newspack_post_sponsors && (
-														<div className="cat-links">
-															<a href="#">{ decodeEntities( post.newspack_category_info ) }</a>
-														</div>
-													) }
 												{ showTitle && (
 													<h3 className="entry-title">
 														<a href="#">{ decodeEntities( post.title.rendered.trim() ) }</a>
 													</h3>
 												) }
 												<div className="entry-meta">
-													{ post.newspack_post_sponsors &&
-														formatSponsorLogos( post.newspack_post_sponsors ) }
-													{ post.newspack_post_sponsors &&
-														formatSponsorByline( post.newspack_post_sponsors ) }
+													{ post.newspack_post_sponsors && (
+														<span
+															className={ `entry-sponsors ${
+																post.newspack_sponsors_show_author ? 'plus-author' : ''
+															}` }
+														>
+															{ formatSponsorLogos( post.newspack_post_sponsors ) }
+															{ formatSponsorByline( post.newspack_post_sponsors ) }
+														</span>
+													) }
 													{ showAuthor &&
 														showAvatar &&
-														! post.newspack_post_sponsors &&
+														( ! post.newspack_post_sponsors ||
+															post.newspack_sponsors_show_author ) &&
 														formatAvatars( post.newspack_author_info ) }
 													{ showAuthor &&
-														! post.newspack_post_sponsors &&
+														( ! post.newspack_post_sponsors ||
+															post.newspack_sponsors_show_author ) &&
 														formatByline( post.newspack_author_info ) }
 													{ showDate && (
 														<time className="entry-date published" key="pub-date">
@@ -393,7 +403,6 @@ class Edit extends Component {
 										const isCurrent = aspectRatio === option.value;
 										return (
 											<Button
-												isLarge
 												isPrimary={ isCurrent }
 												aria-pressed={ isCurrent }
 												aria-label={ option.label }
@@ -428,7 +437,6 @@ class Edit extends Component {
 									aria-label={ __( 'Image Fit', 'newspack-blocks' ) }
 								>
 									<Button
-										isLarge
 										isPrimary={ 'cover' === imageFit }
 										aria-pressed={ 'cover' === imageFit }
 										aria-label={ __( 'Cover', 'newspack-blocks' ) }
@@ -437,7 +445,6 @@ class Edit extends Component {
 										{ __( 'Cover', 'newspack-blocks' ) }
 									</Button>
 									<Button
-										isLarge
 										isPrimary={ 'contain' === imageFit }
 										aria-pressed={ 'contain' === imageFit }
 										aria-label={ __( 'Contain', 'newspack-blocks' ) }
@@ -530,28 +537,8 @@ class Edit extends Component {
 							</PanelRow>
 						) }
 					</PanelBody>
-					<PanelBody title={ __( 'Post Types', 'newspack-blocks' ) }>
-						{ availablePostTypes &&
-							availablePostTypes.map( ( { name, slug } ) => (
-								<PanelRow key={ slug }>
-									<CheckboxControl
-										label={ name }
-										checked={ postType.indexOf( slug ) > -1 }
-										onChange={ value => {
-											const cleanPostType = [ ...new Set( postType ) ];
-											if ( value && cleanPostType.indexOf( slug ) === -1 ) {
-												cleanPostType.push( slug );
-											} else if ( ! value && cleanPostType.indexOf( slug ) > -1 ) {
-												cleanPostType.splice( cleanPostType.indexOf( slug ), 1 );
-											}
-											setAttributes( {
-												postType: cleanPostType,
-											} );
-										} }
-									/>
-								</PanelRow>
-							) ) }
-					</PanelBody>
+					<PostTypesPanel attributes={ attributes } setAttributes={ setAttributes } />
+					<PostStatusesPanel attributes={ attributes } setAttributes={ setAttributes } />
 				</InspectorControls>
 			</Fragment>
 		);

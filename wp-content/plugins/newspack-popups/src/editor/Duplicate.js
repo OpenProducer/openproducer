@@ -37,7 +37,7 @@ const DuplicateButton = ( {
 		const promptToDuplicate = parseInt( duplicateOf || postId );
 		try {
 			const defaultTitle = await apiFetch( {
-				path: `/newspack-popups/v1/${ promptToDuplicate }/duplicate`,
+				path: `/newspack-popups/v1/${ promptToDuplicate }/${ postId }/duplicate`,
 			} );
 
 			setDuplicateTitle( defaultTitle );

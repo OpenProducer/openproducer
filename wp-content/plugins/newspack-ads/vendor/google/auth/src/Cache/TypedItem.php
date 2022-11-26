@@ -21,6 +21,10 @@ use Psr\Cache\CacheItemInterface;
 
 /**
  * A cache item.
+ *
+ * This class will be used by MemoryCacheItemPool and SysVCacheItemPool
+ * on PHP 8.0 and above. It is compatible with psr/cache 3.0 (PSR-6).
+ * @see Item for compatiblity with previous versions of PHP.
  */
 final class TypedItem implements CacheItemInterface
 {
@@ -30,9 +34,9 @@ final class TypedItem implements CacheItemInterface
     private mixed $value;
 
     /**
-     * @var \DateTime|null
+     * @var \DateTimeInterface|null
      */
-    private ?\DateTime $expiration;
+    private ?\DateTimeInterface $expiration;
 
     /**
      * @var bool
@@ -103,18 +107,13 @@ final class TypedItem implements CacheItemInterface
             return $this;
         }
 
-        $implementationMessage = interface_exists('DateTimeInterface')
-            ? 'implement interface DateTimeInterface'
-            : 'be an instance of DateTime';
-
         $error = sprintf(
-            'Argument 1 passed to %s::expiresAt() must %s, %s given',
+            'Argument 1 passed to %s::expiresAt() must implement interface DateTimeInterface, %s given',
             get_class($this),
-            $implementationMessage,
             gettype($expiration)
         );
 
-        $this->handleError($error);
+        throw new \TypeError($error);
     }
 
     /**
@@ -133,25 +132,10 @@ final class TypedItem implements CacheItemInterface
                        'instance of DateInterval or of the type integer, %s given';
             $error = sprintf($message, get_class($this), gettype($time));
 
-            $this->handleError($error);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Handles an error.
-     *
-     * @param string $error
-     * @throws \TypeError
-     */
-    private function handleError($error)
-    {
-        if (class_exists('TypeError')) {
             throw new \TypeError($error);
         }
 
-        trigger_error($error, \E_USER_ERROR);
+        return $this;
     }
 
     /**
@@ -173,13 +157,12 @@ final class TypedItem implements CacheItemInterface
             return true;
         }
 
-        if ($expiration instanceof \DateTime) {
-            return true;
-        }
-
         return false;
     }
 
+    /**
+     * @return \DateTime
+     */
     protected function currentTime()
     {
         return new \DateTime('now', new \DateTimeZone('UTC'));

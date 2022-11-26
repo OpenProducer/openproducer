@@ -1,4 +1,4 @@
-import { __, sprintf } from '@wordpress/i18n';
+import { __, sprintf, _n } from '@wordpress/i18n';
 
 /**
  * Data selector for popup options (stored in post meta)
@@ -11,19 +11,24 @@ export const optionsFieldsSelector = select => {
 	const {
 		background_color,
 		frequency,
-		dismiss_text,
-		dismiss_text_alignment,
+		frequency_max,
+		frequency_start,
+		frequency_between,
+		frequency_reset,
 		display_title,
 		hide_border,
+		large_border,
 		overlay_color,
 		overlay_opacity,
 		overlay_size,
+		no_overlay_background,
 		placement,
+		trigger_type,
+		trigger_delay,
 		trigger_scroll_progress,
+		trigger_blocks_count,
 		archive_insertion_posts_count,
 		archive_insertion_is_repeating,
-		trigger_delay,
-		trigger_type,
 		utm_suppression,
 		selected_segment_id,
 		post_types,
@@ -32,40 +37,31 @@ export const optionsFieldsSelector = select => {
 		excluded_tags,
 	} = meta || {};
 
-	const isInlinePlacement = placementValue =>
-		-1 ===
-		[
-			'top_left',
-			'top',
-			'top_right',
-			'center_left',
-			'center',
-			'center_right',
-			'bottom_left',
-			'bottom',
-			'bottom_right',
-		].indexOf( placementValue );
-	const isOverlay = ! isInlinePlacement( placement );
+	const isOverlay = isOverlayPlacement( placement );
 
 	return {
 		background_color,
-		dismiss_text,
-		dismiss_text_alignment,
 		display_title,
 		hide_border,
+		large_border,
 		frequency,
+		frequency_max,
+		frequency_start,
+		frequency_between,
+		frequency_reset,
 		overlay_color,
 		overlay_opacity,
 		overlay_size,
+		no_overlay_background,
 		placement,
+		trigger_type,
+		trigger_delay,
 		trigger_scroll_progress,
+		trigger_blocks_count,
 		archive_insertion_posts_count,
 		archive_insertion_is_repeating,
-		trigger_delay,
-		trigger_type,
 		utm_suppression,
 		selected_segment_id,
-		isInlinePlacement,
 		isOverlay,
 		post_types,
 		archive_page_types,
@@ -135,6 +131,27 @@ export const updateEditorColors = backgroundColor => {
 };
 
 /**
+ * Is the given placement value an overlay placement?
+ *
+ * @param {string} placementValue Placement of the prompt.
+ * @return {boolean} Whether or not the prompt has an overlay placement.
+ */
+export const isOverlayPlacement = placementValue => {
+	const overlayPlacements = window.newspack_popups_data?.overlay_placements || [];
+	return -1 < overlayPlacements.indexOf( placementValue );
+};
+
+/**
+ * Is the placement inline?
+ * Not including Custom Placement or Manual-Only prompts.
+ *
+ * @param {string} placementValue Placement value of the prompt.
+ * @return {boolean} True if placementValue is an inline placement.
+ */
+export const isInlinePlacement = placementValue =>
+	-1 < [ 'inline', 'above_header', 'archives' ].indexOf( placementValue );
+
+/**
  * Is the given placement value a custom placement?
  *
  * @param {string} placementValue Placement of the prompt.
@@ -146,32 +163,20 @@ export const isCustomPlacement = placementValue => {
 };
 
 /**
- * Is the given placement value an overlay placement?
+ * Is the given placement value a manual-only placement?
  *
  * @param {string} placementValue Placement of the prompt.
- * @return {boolean} Whether or not the prompt has an overlay placement.
+ * @return {boolean} Whether or not the prompt is manual-only.
  */
-export const isOverlay = placementValue => {
-	const overlayPlacements = window.newspack_popups_data?.overlay_placements || [];
-	return -1 < overlayPlacements.indexOf( placementValue );
-};
+export const isManualOnlyPlacement = placementValue => 'manual' === placementValue;
 
 /**
  * Given a placement value, construct a context-sensitive help message to display in the editor sidebar.
  *
- * @param {string} placementValue Placement of the prompt.
- * @param {number|string} triggerPercentage Insertion percentage, for inline prompts.
- * @param {number|string} triggerCount Insertion posts count, for archives prompts.
- * @param {boolean} archive_insertion_is_repeating Repeat prompt every {triggerCount}, for archives prompts.
  * @return {string} An appropriate help message.
  */
-export const getPlacementHelpMessage = (
-	placementValue,
-	triggerPercentage = 0,
-	triggerCount = 0,
-	archive_insertion_is_repeating = false
-) => {
-	if ( isCustomPlacement( placementValue ) ) {
+export const getPlacementHelpMessage = props => {
+	if ( isCustomPlacement( props.placement ) ) {
 		const customPlacements = window.newspack_popups_data?.custom_placements || {};
 		return sprintf(
 			// Translators: Custom placement name.
@@ -179,11 +184,11 @@ export const getPlacementHelpMessage = (
 				'The prompt will appear where %s is inserted using the Custom Placement block.',
 				'newspack-popups'
 			),
-			customPlacements[ placementValue ] || __( 'this custom placement', 'newspack-popups' )
+			customPlacements[ props.placement ] || __( 'this custom placement', 'newspack-popups' )
 		);
 	}
 
-	switch ( placementValue ) {
+	switch ( props.placement ) {
 		case 'center':
 			return __(
 				'The prompt will be displayed as an overlay at the center of the viewport.',
@@ -235,23 +240,34 @@ export const getPlacementHelpMessage = (
 				'newspack-popups'
 			);
 		case 'inline':
-			return sprintf(
-				// Translators: Trigger percentage.
-				__(
-					'The prompt will be automatically inserted about %s into article content.',
-					'newspack-popups'
-				),
-				triggerPercentage + '%'
-			);
+			return props.trigger_type === 'blocks_count'
+				? sprintf(
+						// Translators: Blocks count until insertion.
+						_n(
+							'The prompt will be automatically inserted after %s block of content.',
+							'The prompt will be automatically inserted after %s blocks of content.',
+							props.trigger_blocks_count,
+							'newspack-popups'
+						),
+						props.trigger_blocks_count
+				  )
+				: sprintf(
+						// Translators: Article percentage count until insertion.
+						__(
+							'The prompt will be automatically inserted about %s into article content.',
+							'newspack-popups'
+						),
+						props.trigger_scroll_progress + '%'
+				  );
 		case 'archives':
-			return archive_insertion_is_repeating
+			return props.archive_insertion_is_repeating
 				? sprintf(
 						// Translators: Insertion period.
 						__(
 							'The prompt will be automatically inserted every %d articles in the archive pages.',
 							'newspack-popups'
 						),
-						triggerCount
+						props.archive_insertion_posts_count
 				  )
 				: sprintf(
 						// Translators: Insertion period articles count.
@@ -259,7 +275,7 @@ export const getPlacementHelpMessage = (
 							'The prompt will be automatically inserted after %d articles in the archive pages.',
 							'newspack-popups'
 						),
-						triggerCount
+						props.archive_insertion_posts_count
 				  );
 		case 'manual':
 			return __(

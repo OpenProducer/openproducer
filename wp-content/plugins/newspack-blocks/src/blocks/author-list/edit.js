@@ -38,6 +38,7 @@ import { avatarSizeOptions, textSizeOptions, units } from '../author-profile/edi
  * Internal dependencies
  */
 import { SingleAuthor } from '../author-profile/single-author';
+import { AuthorDisplaySettings } from '../shared/author';
 
 /**
  * External dependencies
@@ -60,10 +61,6 @@ const AuthorList = ( { attributes, clientId, setAttributes } ) => {
 		exclude,
 		excludeEmpty,
 		layout,
-		showBio,
-		showSocial,
-		showEmail,
-		showArchiveLink,
 		showAvatar,
 		showSeparators,
 		separatorSections,
@@ -84,17 +81,20 @@ const AuthorList = ( { attributes, clientId, setAttributes } ) => {
 		setIsLoading( true );
 		try {
 			const params = {
-				authorType,
-				authorRoles,
-				exclude: exclude.map( exclusion => parseInt( exclusion.value ) ),
+				author_type: authorType,
+				author_roles: authorRoles,
+				exclude: exclude.map( exclusion => ( {
+					value: exclusion.value,
+					isGuest: exclusion.isGuest,
+				} ) ),
 			};
 
 			if ( excludeEmpty ) {
-				params.excludeEmpty = 1;
+				params.exclude_empty = 1;
 			}
 
 			if ( avatarHideDefault ) {
-				params.avatarHideDefault = 1;
+				params.avatar_hide_default = 1;
 			}
 
 			const response = await apiFetch( {
@@ -253,6 +253,7 @@ const AuthorList = ( { attributes, clientId, setAttributes } ) => {
 								return suggestions.map( _author => ( {
 									value: _author.id,
 									label: decodeEntities( _author.name ) || __( '(no name)', 'newspack' ),
+									isGuest: _author.is_guest,
 								} ) );
 							} }
 							maxItemsToSuggest={ maxItemsToSuggest }
@@ -292,34 +293,7 @@ const AuthorList = ( { attributes, clientId, setAttributes } ) => {
 							</ButtonGroup>
 						</PanelRow>
 					</BaseControl>
-					<PanelRow>
-						<ToggleControl
-							label={ __( 'Display biographical info', 'newspack-blocks' ) }
-							checked={ showBio }
-							onChange={ () => setAttributes( { showBio: ! showBio } ) }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<ToggleControl
-							label={ __( 'Display social links', 'newspack-blocks' ) }
-							checked={ showSocial }
-							onChange={ () => setAttributes( { showSocial: ! showSocial } ) }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<ToggleControl
-							label={ __( 'Display email address', 'newspack-blocks' ) }
-							checked={ showEmail }
-							onChange={ () => setAttributes( { showEmail: ! showEmail } ) }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<ToggleControl
-							label={ __( 'Link to author archive', 'newspack-blocks' ) }
-							checked={ showArchiveLink }
-							onChange={ () => setAttributes( { showArchiveLink: ! showArchiveLink } ) }
-						/>
-					</PanelRow>
+					<AuthorDisplaySettings attributes={ attributes } setAttributes={ setAttributes } />
 				</PanelBody>
 				<PanelBody title={ __( 'Avatar Settings', 'newspack-blocks' ) }>
 					<PanelRow>

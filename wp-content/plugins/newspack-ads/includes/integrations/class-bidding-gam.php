@@ -10,7 +10,6 @@ namespace Newspack_Ads\Integrations;
 use Newspack_Ads\Bidding;
 use Newspack_Ads\Settings;
 use Newspack_Ads\Providers\GAM_Model;
-use Newspack_Ads\Providers\GAM_API;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -177,7 +176,7 @@ final class Bidding_GAM {
 					'batch'  => [
 						'sanitize_callback' => 'absint',
 					],
-					'fixing' => [ 
+					'fixing' => [
 						'sanitize_callback' => 'rest_sanitize_boolean',
 					],
 				],
@@ -232,7 +231,7 @@ final class Bidding_GAM {
 		);
 	}
 
-	
+
 
 	/**
 	 * Get a sanitized order config.
@@ -332,7 +331,7 @@ final class Bidding_GAM {
 			plugins_url( '../../dist/header-bidding-gam.js', __FILE__ ),
 			[ 'wp-components', 'wp-api-fetch' ],
 			filemtime( dirname( NEWSPACK_ADS_PLUGIN_FILE ) . '/dist/header-bidding-gam.js' ),
-			true 
+			true
 		);
 		wp_localize_script(
 			'newspack-ads-bidding-gam',
@@ -344,7 +343,7 @@ final class Bidding_GAM {
 		);
 		\wp_register_style(
 			'newspack-ads-bidding-gam',
-			plugins_url( '../dist/header-bidding-gam.css', __FILE__ ),
+			plugins_url( '../../dist/header-bidding-gam.css', __FILE__ ),
 			null,
 			filemtime( dirname( NEWSPACK_ADS_PLUGIN_FILE ) . '/dist/header-bidding-gam.css' )
 		);
@@ -369,12 +368,7 @@ final class Bidding_GAM {
 	 * @return bool Whether GAM is connected.
 	 */
 	private static function is_connected() {
-		if ( isset( self::$connected ) ) {
-			return self::$connected;
-		}
-		$connection      = GAM_API::connection_status();
-		self::$connected = (bool) $connection['connected'];
-		return self::$connected;
+		return ! empty( GAM_Model::get_api() );
 	}
 
 	/**
@@ -444,13 +438,14 @@ final class Bidding_GAM {
 		if ( ! is_null( self::$advertiser ) ) {
 			return self::$advertiser;
 		}
-		$advertisers      = GAM_API::get_serialised_advertisers();
+		$api              = GAM_Model::get_api();
+		$advertisers      = $api->advertisers->get_serialized_advertisers();
 		$advertiser_index = array_search( self::ADVERTISER_NAME, array_column( $advertisers, 'name' ) );
 		if ( false !== $advertiser_index ) {
 			$advertiser = $advertisers[ $advertiser_index ];
 		} else {
 			try {
-				$advertiser = GAM_API::create_advertiser( self::ADVERTISER_NAME );
+				$advertiser = $api->advertisers->create_advertiser( self::ADVERTISER_NAME );
 			} catch ( \Exception $e ) {
 				return new \WP_Error( 'newspack_ads_bidding_gam_error', $e->getMessage() );
 			}
@@ -472,10 +467,11 @@ final class Bidding_GAM {
 			'hb_pb'     => [],
 			'hb_bidder' => array_keys( \Newspack_Ads\get_bidders() ),
 		];
+		$api       = GAM_Model::get_api();
 		try {
 			$targeting_keys = [];
 			foreach ( $key_names as $key_name => $key_values ) {
-				$result                      = GAM_API::create_targeting_key( $key_name, $key_values );
+				$result                      = $api->targeting_keys->create_targeting_key( $key_name, $key_values );
 				$values                      = array_merge( $result['created_values'], $result['found_values'] );
 				$targeting_keys[ $key_name ] = [
 					'id'         => $result['targeting_key']->getId(),
@@ -503,8 +499,9 @@ final class Bidding_GAM {
 		if ( ! is_null( self::$creatives ) ) {
 			return self::$creatives;
 		}
+		$api = GAM_Model::get_api();
 		try {
-			$creatives = GAM_API::get_serialised_creatives_by_advertiser( $advertiser_id );
+			$creatives = $api->creatives->get_serialized_creatives_by_advertiser( $advertiser_id );
 		} catch ( \Exception $e ) {
 			return new \WP_Error( 'newspack_ads_bidding_gam_error', $e->getMessage() );
 		}
@@ -545,7 +542,7 @@ final class Bidding_GAM {
 				);
 			}
 			try {
-				$creatives = GAM_API::create_creatives( $configs );
+				$creatives = $api->creatives->create_creatives( $configs );
 			} catch ( \Exception $e ) {
 				return new \WP_Error( 'newspack_ads_bidding_gam_error', $e->getMessage() );
 			}
@@ -569,9 +566,10 @@ final class Bidding_GAM {
 				]
 			);
 		}
+		$api = GAM_Model::get_api();
 		try {
-			$orders         = GAM_API::get_serialised_orders(
-				GAM_API::get_orders_by_advertiser( self::get_advertiser()['id'] )
+			$orders         = $api->orders->get_serialized_orders(
+				$api->orders->get_orders_by_advertiser( self::get_advertiser()['id'] )
 			);
 			$orders_configs = get_option( self::get_option_name( 'orders' ), [] );
 			return array_map(
@@ -580,14 +578,14 @@ final class Bidding_GAM {
 						$orders_configs,
 						function( $order_config ) use ( $order ) {
 							return $order['id'] === $order_config['order_id'];
-						} 
+						}
 					);
 					if ( empty( $order_config ) ) {
 						return $order;
 					}
 					return array_merge( $order, array_shift( $order_config ) );
 				},
-				$orders 
+				$orders
 			);
 		} catch ( \Exception $e ) {
 			return new \WP_Error( 'newspack_ads_bidding_gam_error', $e->getMessage() );
@@ -635,7 +633,7 @@ final class Bidding_GAM {
 	 * @param int   $order_id The GAM Order ID.
 	 * @param array $data     The data to update with.
 	 *
-	 * @return bool|\WP_Error Whether the config was updated or WP_Error if order does not exist. 
+	 * @return bool|\WP_Error Whether the config was updated or WP_Error if order does not exist.
 	 */
 	private static function update_order_local_config( $order_id, $data ) {
 		if ( ! self::get_order_local_config( $order_id ) ) {
@@ -696,9 +694,10 @@ final class Bidding_GAM {
 
 		$config = self::get_order_local_config( $order_id );
 
-		if ( empty( $config ) || true === $fetch_remote ) { 
+		if ( empty( $config ) || true === $fetch_remote ) {
+			$api = GAM_Model::get_api();
 			try {
-				$order = GAM_API::get_orders_by_id( [ $order_id ] );
+				$order = $api->orders->get_orders_by_id( [ $order_id ] );
 			} catch ( \Exception $e ) {
 				return new \WP_Error( 'newspack_ads_bidding_gam_error', $e->getMessage() );
 			}
@@ -711,7 +710,7 @@ final class Bidding_GAM {
 					]
 				);
 			}
-			$order = GAM_API::get_serialised_orders( $order )[0];
+			$order = $api->orders->get_serialized_orders( $order )[0];
 
 			$config = self::get_order_local_config( $order_id, $order );
 		}
@@ -746,7 +745,8 @@ final class Bidding_GAM {
 		}
 
 		try {
-			GAM_API::archive_order( [ $order_id ] );
+			$api = GAM_Model::get_api();
+			$api->orders->archive_order( [ $order_id ] );
 		} catch ( \Exception $e ) {
 			return new \WP_Error( 'newspack_ads_bidding_gam_error', $e->getMessage() );
 		}
@@ -776,7 +776,8 @@ final class Bidding_GAM {
 		}
 
 		try {
-			$order = GAM_API::create_order( $order_config['order_name'], $config['advertiser_id'] );
+			$api   = GAM_Model::get_api();
+			$order = $api->orders->create_order( $order_config['order_name'], $config['advertiser_id'] );
 		} catch ( \Exception $e ) {
 			return new \WP_Error( 'newspack_ads_bidding_gam_error', $e->getMessage() );
 		}
@@ -816,7 +817,8 @@ final class Bidding_GAM {
 	 * @return int[] Map of existing line item IDs keyed by their cost value per unit in micro amount.
 	 */
 	private static function validate_order_line_items( $order_id ) {
-		$line_items = GAM_API::get_line_items_by_order_id( $order_id );
+		$api        = GAM_Model::get_api();
+		$line_items = $api->line_items->get_line_items_by_order_id( $order_id );
 		$value_map  = [];
 		foreach ( $line_items as $line_item ) {
 			$value_map[ $line_item->getCostPerUnit()->getMicroAmount() ] = $line_item->getId();
@@ -870,8 +872,8 @@ final class Bidding_GAM {
 		usort(
 			$buckets,
 			function( $a, $b ) {
-				return $a['max'] > $b['max'];
-			} 
+				return $a['max'] > $b['max'] ? 1 : -1;
+			}
 		);
 
 		// Assume all buckets share the same precision.
@@ -915,8 +917,10 @@ final class Bidding_GAM {
 			return new \WP_Error( 'newspack_ads_bidding_gam_error', __( 'Unsupported amount of line items.', 'newspack-ads' ) );
 		}
 
+		$api = GAM_Model::get_api();
+
 		// Batch create `hb_pb` values for all prices.
-		$pb_targeting_keys_result = GAM_API::create_targeting_key(
+		$pb_targeting_keys_result = $api->targeting_keys->create_targeting_key(
 			'hb_pb',
 			array_map(
 				function( $price ) {
@@ -936,7 +940,7 @@ final class Bidding_GAM {
 		// Create `hb_bidder` values for selected bidders.
 		if ( isset( $order_config['bidders'] ) && ! empty( $order_config['bidders'] ) ) {
 			$bidders        = $order_config['bidders'];
-			$bidders_result = GAM_API::create_targeting_key(
+			$bidders_result = $api->targeting_keys->create_targeting_key(
 				'hb_bidder',
 				$bidders
 			);
@@ -988,7 +992,7 @@ final class Bidding_GAM {
 		}
 
 		try {
-			$line_items = GAM_API::create_or_update_line_items( $line_item_configs );
+			$line_items = $api->line_items->create_or_update_line_items( $line_item_configs );
 		} catch ( \Exception $e ) {
 			return new \WP_Error( 'newspack_ads_bidding_gam_error', $e->getMessage() );
 		}
@@ -1087,7 +1091,8 @@ final class Bidding_GAM {
 			$lica_configs
 		);
 		try {
-			$licas = GAM_API::associate_creatives_to_line_items( $lica_configs );
+			$api   = GAM_Model::get_api();
+			$licas = $api->line_items->associate_creatives_to_line_items( $lica_configs );
 		} catch ( \Exception $e ) {
 			return new \WP_Error( 'newspack_ads_bidding_gam_error', $e->getMessage() );
 		}

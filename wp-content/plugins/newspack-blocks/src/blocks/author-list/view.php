@@ -14,6 +14,16 @@ function newspack_blocks_register_author_list() {
 		true
 	);
 
+	if ( class_exists( '\Newspack\Authors_Custom_Fields' ) ) {
+		$author_custom_fields = \Newspack\Authors_Custom_Fields::get_custom_fields();
+		foreach ( $author_custom_fields as $field ) {
+			$block_json['attributes'][ 'show' . $field['name'] ] = [
+				'type'    => 'string',
+				'default' => true,
+			];
+		}
+	}
+
 	register_block_type(
 		'newspack-blocks/' . $block_json['name'],
 		[
@@ -34,12 +44,6 @@ function newspack_blocks_render_block_author_list( $attributes ) {
 	}
 
 	// Gather attributes.
-	$exclude_ids         = array_map(
-		function( $exclusion ) {
-			return (int) $exclusion['value'];
-		},
-		$attributes['exclude']
-	);
 	$exclude_empty       = $attributes['excludeEmpty'];
 	$author_roles        = $attributes['authorRoles'];
 	$author_type         = $attributes['authorType'];
@@ -51,7 +55,7 @@ function newspack_blocks_render_block_author_list( $attributes ) {
 	$params              = [
 		'author_type'  => $author_type,
 		'author_roles' => $author_roles,
-		'exclude'      => $exclude_ids, // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
+		'exclude'      => $attributes['exclude'], // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 		'fields'       => [ 'id', 'name', 'bio', 'email', 'social', 'avatar', 'url' ],
 	];
 
@@ -120,7 +124,7 @@ function newspack_blocks_render_block_author_list( $attributes ) {
 					);
 					?>
 					<li class="newspack-blocks__author-list-item">
-						<?php echo wp_kses_post( $author_card ); ?>
+						<?php echo $author_card; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					</li>
 				<?php endforeach; ?>
 			</ul>
@@ -161,7 +165,7 @@ function newspack_blocks_render_block_author_list( $attributes ) {
 					</li>
 				<?php endif; ?>
 				<li class="newspack-blocks__author-list-item">
-					<?php echo wp_kses_post( $author_card ); ?>
+					<?php echo $author_card; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</li>
 			<?php endforeach; ?>
 		</ul>

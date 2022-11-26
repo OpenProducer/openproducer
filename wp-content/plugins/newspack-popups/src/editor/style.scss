@@ -1,3 +1,5 @@
+@use '~@wordpress/base-styles/colors' as wp-colors;
+
 $overlay__gap: 16px;
 $size__x-small: 380px;
 $size__small: 544px;
@@ -42,12 +44,6 @@ $size__large: 1264px;
 		}
 	}
 
-	&__not-interested-button-preview {
-		cursor: not-allowed;
-		font-size: 0.7em;
-		text-decoration: underline;
-	}
-
 	&__segmentation-sidebar {
 		.components-form-token-field__help {
 			display: none;
@@ -71,13 +67,30 @@ $size__large: 1264px;
 			margin-top: 24px;
 		}
 	}
+
+	&__frequency-toggle-control.components-toggle-control {
+		margin-top: 16px;
+	}
+
+	&__frequency-number-control.components-number-control {
+		align-items: center;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		margin-bottom: 8px;
+		width: 100%;
+
+		.components-input-control__container {
+			max-width: 25%;
+		}
+	}
 }
 
 .newspack-popups-css-grid-selector {
 	margin-bottom: 1em;
 
 	.components-base-control__label {
-		margin-bottom: 0;
+		margin-bottom: 8px;
 		margin-top: 1em;
 	}
 
@@ -131,9 +144,25 @@ $size__large: 1264px;
 	}
 
 	.components-base-control__help {
+		color: wp-colors.$gray-700;
 		font-size: 12px;
 		font-style: normal;
-		color: rgb( 117, 117, 117 );
+		margin-top: 8px;
+	}
+}
+
+.newspack-popups-style-selector {
+	display: grid;
+	gap: 8px;
+	grid-template-columns: repeat( 2, 1fr );
+
+	.components-button {
+		justify-content: center;
+
+		&.is-secondary {
+			box-shadow: inset 0 0 0 1px wp-colors.$gray-400;
+			color: wp-colors.$gray-900;
+		}
 	}
 }
 

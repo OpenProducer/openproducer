@@ -42,6 +42,14 @@ final class Core {
 		$this->includes();
 
 		add_action( 'wp_enqueue_scripts', [ __CLASS__, 'enqueue_scripts' ] );
+		register_activation_hook( NEWSPACK_ADS_PLUGIN_FILE, [ __CLASS__, 'activation_hook' ] );
+	}
+
+	/**
+	 * Activation Hook
+	 */
+	public static function activation_hook() {
+		do_action( 'newspack_ads_activation_hook' );
 	}
 
 	/**
@@ -74,10 +82,7 @@ final class Core {
 		include_once NEWSPACK_ADS_ABSPATH . '/includes/utils.php';
 		include_once NEWSPACK_ADS_ABSPATH . '/includes/providers/interface-provider.php';
 		include_once NEWSPACK_ADS_ABSPATH . '/includes/providers/class-provider.php';
-		include_once NEWSPACK_ADS_ABSPATH . '/includes/providers/gam/class-gam-api.php';
-		include_once NEWSPACK_ADS_ABSPATH . '/includes/providers/gam/class-gam-model.php';
 		include_once NEWSPACK_ADS_ABSPATH . '/includes/providers/gam/class-gam-provider.php';
-		include_once NEWSPACK_ADS_ABSPATH . '/includes/providers/gam/class-gam-scripts.php';
 		include_once NEWSPACK_ADS_ABSPATH . '/includes/providers/broadstreet/class-broadstreet-provider.php';
 		include_once NEWSPACK_ADS_ABSPATH . '/includes/class-settings.php';
 		include_once NEWSPACK_ADS_ABSPATH . '/includes/class-custom-label.php';
