@@ -220,7 +220,7 @@ class Importer extends View {
 				?>
 			</p>
 			<div class="upgrade">
-				<h5><?php esc_html_e( 'Heads Up!', 'wpforms-lite' ); ?></h5>
+				<h5><?php esc_html_e( 'Heads up!', 'wpforms-lite' ); ?></h5>
 				<p><?php esc_html_e( 'One or more of your forms contain fields that are not available in WPForms Lite. To properly import these fields, we recommend upgrading to WPForms Pro.', 'wpforms-lite' ); ?></p>
 				<p><?php esc_html_e( 'You can continue with the import without upgrading, and we will do our best to match the fields. However, some of them will be omitted due to compatibility issues.', 'wpforms-lite' ); ?></p>
 				<p>

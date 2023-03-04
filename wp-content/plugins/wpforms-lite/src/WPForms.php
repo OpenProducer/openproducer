@@ -2,6 +2,7 @@
 
 namespace WPForms {
 
+	use AllowDynamicProperties;
 	use stdClass;
 
 	/**
@@ -9,6 +10,7 @@ namespace WPForms {
 	 *
 	 * @since 1.0.0
 	 */
+	#[AllowDynamicProperties]
 	final class WPForms {
 
 		/**
@@ -164,7 +166,6 @@ namespace WPForms {
 			$this->includes_magic();
 
 			// Global includes.
-			require_once WPFORMS_PLUGIN_DIR . 'includes/functions-list.php';
 			require_once WPFORMS_PLUGIN_DIR . 'includes/class-install.php';
 			require_once WPFORMS_PLUGIN_DIR . 'includes/class-form.php';
 			require_once WPFORMS_PLUGIN_DIR . 'includes/class-fields.php';

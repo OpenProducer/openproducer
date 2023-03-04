@@ -51,14 +51,14 @@ class Summaries {
 	 */
 	public function hooks() {
 
-		\add_filter( 'wpforms_settings_defaults', array( $this, 'disable_summaries_setting' ) );
-		\add_action( 'wpforms_settings_updated', array( $this, 'deregister_fetch_info_blocks_task' ) );
+		add_filter( 'wpforms_settings_defaults', [ $this, 'disable_summaries_setting' ] );
+		add_action( 'wpforms_settings_updated', [ $this, 'deregister_fetch_info_blocks_task' ] );
 
 		if ( ! $this->is_disabled() ) {
-			\add_action( 'init', array( $this, 'preview' ) );
-			\add_filter( 'cron_schedules', array( $this, 'add_weekly_cron_schedule' ) );
-			\add_action( 'wpforms_email_summaries_cron', array( $this, 'cron' ) );
-			\add_filter( 'wpforms_tasks_get_tasks', array( $this, 'register_fetch_info_blocks_task' ) );
+			add_action( 'init', [ $this, 'preview' ] );
+			add_filter( 'cron_schedules', [ $this, 'add_weekly_cron_schedule' ] );
+			add_action( 'wpforms_email_summaries_cron', [ $this, 'cron' ] );
+			add_filter( 'wpforms_tasks_get_tasks', [ $this, 'register_fetch_info_blocks_task' ] );
 		}
 	}
 
@@ -90,10 +90,10 @@ class Summaries {
 		}
 
 		$url = \add_query_arg(
-			array(
+			[
 				'wpforms_email_template' => 'summary',
 				'wpforms_email_preview'  => '1',
-			),
+			],
 			\admin_url()
 		);
 
@@ -103,12 +103,12 @@ class Summaries {
 			$desc .= '<br><a href="' . $url . '" target="_blank">' . \esc_html__( 'View Email Summary Example', 'wpforms-lite' ) . '</a>';
 		}
 
-		$settings['misc']['email-summaries-disable'] = array(
+		$settings['misc']['email-summaries-disable'] = [
 			'id'   => 'email-summaries-disable',
 			'name' => \esc_html__( 'Disable Email Summaries', 'wpforms-lite' ),
 			'desc' => $desc,
 			'type' => 'checkbox',
-		);
+		];
 
 		return $settings;
 	}
@@ -186,10 +186,10 @@ class Summaries {
 	 */
 	public function add_weekly_cron_schedule( $schedules ) {
 
-		$schedules['wpforms_email_summaries_weekly'] = array(
+		$schedules['wpforms_email_summaries_weekly'] = [
 			'interval' => \WEEK_IN_SECONDS,
 			'display'  => \esc_html__( 'Weekly WPForms Email Summaries', 'wpforms-lite' ),
-		);
+		];
 
 		return $schedules;
 	}

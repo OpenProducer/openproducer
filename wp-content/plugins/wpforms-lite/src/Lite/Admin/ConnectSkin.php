@@ -27,9 +27,9 @@ class ConnectSkin extends PluginSilentUpgraderSkin {
 
 		if ( ! empty( $errors ) ) {
 			echo \wp_json_encode(
-				array(
+				[
 					'error' => \esc_html__( 'There was an error installing WPForms Pro. Please try again.', 'wpforms-lite' ),
-				)
+				]
 			);
 			die;
 		}

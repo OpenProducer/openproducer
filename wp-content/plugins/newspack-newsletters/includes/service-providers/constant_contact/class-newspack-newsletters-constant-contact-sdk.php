@@ -38,7 +38,7 @@ final class Newspack_Newsletters_Constant_Contact_SDK {
 	 *
 	 * @var string[]
 	 */
-	private $scope = [ 'account_read', 'contact_data', 'campaign_data' ];
+	private $scope = [ 'offline_access', 'account_read', 'contact_data', 'campaign_data' ];
 
 	/**
 	 * API Key
@@ -311,6 +311,19 @@ final class Newspack_Newsletters_Constant_Contact_SDK {
 			'contact_lists',
 			[ 'query' => [ 'include_count' => 'true' ] ]
 		)->lists;
+	}
+
+	/**
+	 * Get segments
+	 *
+	 * @return array
+	 */
+	public function get_segments() {
+		return $this->request(
+			'GET',
+			'segments',
+			[ 'query' => [ 'sort_by' => 'name' ] ]
+		)->segments;
 	}
 
 	/**

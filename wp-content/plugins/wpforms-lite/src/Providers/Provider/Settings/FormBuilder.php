@@ -38,7 +38,7 @@ abstract class FormBuilder implements FormBuilderInterface {
 	 *
 	 * @var array
 	 */
-	protected $form_data = array();
+	protected $form_data = [];
 
 	/**
 	 * Integrations constructor.
@@ -54,9 +54,9 @@ abstract class FormBuilder implements FormBuilderInterface {
 		if ( ! empty( $_GET['form_id'] ) ) { // phpcs:ignore
 			$this->form_data = \wpforms()->form->get(
 				\absint( $_GET['form_id'] ), // phpcs:ignore
-				array(
+				[
 					'content_only' => true,
-				)
+				]
 			);
 		}
 
@@ -71,11 +71,11 @@ abstract class FormBuilder implements FormBuilderInterface {
 	protected function init_hooks() {
 
 		// Register builder HTML template(s).
-		\add_action( 'wpforms_builder_print_footer_scripts', array( $this, 'builder_templates' ), 10 );
-		\add_action( 'wpforms_builder_print_footer_scripts', array( $this, 'builder_custom_templates' ), 11 );
+		add_action( 'wpforms_builder_print_footer_scripts', [ $this, 'builder_templates' ], 10 );
+		add_action( 'wpforms_builder_print_footer_scripts', [ $this, 'builder_custom_templates' ], 11 );
 
 		// Process builder AJAX requests.
-		\add_action( "wp_ajax_wpforms_builder_provider_ajax_{$this->core->slug}", array( $this, 'process_ajax' ) );
+		add_action( "wp_ajax_wpforms_builder_provider_ajax_{$this->core->slug}", [ $this, 'process_ajax' ] );
 
 		/*
 		 * Enqueue assets.
@@ -83,9 +83,9 @@ abstract class FormBuilder implements FormBuilderInterface {
 		if (
 			( ! empty( $_GET['page'] ) && $_GET['page'] === 'wpforms-builder' ) && // phpcs:ignore
 			! empty( $_GET['form_id'] ) && // phpcs:ignore
-			\is_admin()
+			is_admin()
 		) {
-			\add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		}
 	}
 
@@ -98,14 +98,14 @@ abstract class FormBuilder implements FormBuilderInterface {
 	public function builder_templates() {
 
 		$cl_builder_block = wpforms_conditional_logic()->builder_block(
-			array(
+			[
 				'form'       => $this->form_data,
 				'type'       => 'panel',
 				'parent'     => 'providers',
 				'panel'      => esc_attr( $this->core->slug ),
 				'subsection' => '%connection_id%',
 				'reference'  => esc_html__( 'Marketing provider connection', 'wpforms-lite' ),
-			),
+			],
 			false
 		);
 		?>
@@ -268,7 +268,7 @@ abstract class FormBuilder implements FormBuilderInterface {
 		\wp_enqueue_script(
 			'wpforms-admin-builder-templates',
 			WPFORMS_PLUGIN_URL . "assets/js/components/admin/builder/templates{$min}.js",
-			array( 'wp-util' ),
+			[ 'wp-util' ],
 			WPFORMS_VERSION,
 			true
 		);
@@ -276,7 +276,7 @@ abstract class FormBuilder implements FormBuilderInterface {
 		\wp_enqueue_script(
 			'wpforms-admin-builder-providers',
 			WPFORMS_PLUGIN_URL . "assets/js/components/admin/builder/providers{$min}.js",
-			array( 'wpforms-utils', 'wpforms-builder', 'wpforms-admin-builder-templates' ),
+			[ 'wpforms-utils', 'wpforms-builder', 'wpforms-admin-builder-templates' ],
 			WPFORMS_VERSION,
 			true
 		);
@@ -295,14 +295,14 @@ abstract class FormBuilder implements FormBuilderInterface {
 		// Check for permissions.
 		if ( ! \wpforms_current_user_can( 'edit_forms' ) ) {
 			\wp_send_json_error(
-				array(
+				[
 					'error' => \esc_html__( 'You do not have permission to perform this action.', 'wpforms-lite' ),
-				)
+				]
 			);
 		}
 
 		// Process required values.
-		$error = array( 'error' => \esc_html__( 'Something went wrong while performing an AJAX request.', 'wpforms-lite' ) );
+		$error = [ 'error' => esc_html__( 'Something went wrong while performing an AJAX request.', 'wpforms-lite' ) ];
 
 		if (
 			empty( $_POST['id'] ) ||
@@ -356,12 +356,12 @@ abstract class FormBuilder implements FormBuilderInterface {
 			$configured = 'configured';
 		}
 
-		$classes = array(
+		$classes = [
 			'wpforms-panel-sidebar-section',
 			'icon',
 			$configured,
 			'wpforms-panel-sidebar-section-' . $this->core->slug,
-		);
+		];
 		?>
 
 		<a href="#" class="<?php echo \esc_attr( \implode( ' ', $classes ) ); ?>"

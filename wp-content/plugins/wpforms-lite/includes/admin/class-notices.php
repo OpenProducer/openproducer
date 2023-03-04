@@ -28,7 +28,7 @@ class WPForms_Admin_Notice {
 	 * @since 1.3.9
 	 * @var array
 	 */
-	public $notices = array();
+	public $notices = [];
 
 	/**
 	 * Get the instance.
@@ -38,7 +38,7 @@ class WPForms_Admin_Notice {
 	 */
 	public static function getInstance() {
 
-		if ( is_null( self::$_instance ) ) {
+		if ( self::$_instance === null ) {
 			self::$_instance = new WPForms_Admin_Notice();
 		}
 
@@ -54,7 +54,7 @@ class WPForms_Admin_Notice {
 
 		_deprecated_function( __METHOD__, '1.7.2 of the WPForms plugin' );
 
-		add_action( 'admin_notices', array( &$this, 'display' ) );
+		add_action( 'admin_notices', [ &$this, 'display' ] );
 	}
 
 	/**

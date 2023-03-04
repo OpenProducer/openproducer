@@ -61,12 +61,12 @@ class Meta extends \WPForms_DB {
 	 */
 	public function get_columns() {
 
-		return array(
+		return [
 			'id'     => '%d',
 			'action' => '%s',
 			'data'   => '%s',
 			'date'   => '%s',
-		);
+		];
 	}
 
 	/**
@@ -78,11 +78,11 @@ class Meta extends \WPForms_DB {
 	 */
 	public function get_column_defaults() {
 
-		return array(
+		return [
 			'action' => '',
 			'data'   => '',
 			'date'   => gmdate( 'Y-m-d H:i:s' ),
-		);
+		];
 	}
 
 	/**

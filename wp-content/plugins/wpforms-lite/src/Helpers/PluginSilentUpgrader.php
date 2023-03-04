@@ -58,15 +58,15 @@ class PluginSilentUpgrader extends \Plugin_Upgrader {
 	 */
 	public function run( $options ) {
 
-		$defaults = array(
+		$defaults = [
 			'package'                     => '', // Please always pass this.
 			'destination'                 => '', // And this
 			'clear_destination'           => false,
 			'abort_if_destination_exists' => true, // Abort if the Destination directory exists, Pass clear_destination as false please
 			'clear_working'               => true,
 			'is_multi'                    => false,
-			'hook_extra'                  => array(), // Pass any extra $hook_extra args here, this will be passed to any hooked filters.
-		);
+			'hook_extra'                  => [], // Pass any extra $hook_extra args here, this will be passed to any hooked filters.
+		];
 
 		$options = wp_parse_args( $options, $defaults );
 
@@ -107,7 +107,7 @@ class PluginSilentUpgrader extends \Plugin_Upgrader {
 		}
 
 		// Connect to the Filesystem first.
-		$res = $this->fs_connect( array( WP_CONTENT_DIR, $options['destination'] ) );
+		$res = $this->fs_connect( [ WP_CONTENT_DIR, $options['destination'] ] );
 		// Mainly for non-connected filesystem.
 		if ( ! $res ) {
 			if ( ! $options['is_multi'] ) {
@@ -144,10 +144,10 @@ class PluginSilentUpgrader extends \Plugin_Upgrader {
 
 				// Report this failure back to WordPress.org for debugging purposes.
 				wp_version_check(
-					array(
+					[
 						'signature_failure_code' => $download->get_error_code(),
 						'signature_failure_data' => $download->get_error_data(),
-					)
+					]
 				);
 			}
 
@@ -179,14 +179,14 @@ class PluginSilentUpgrader extends \Plugin_Upgrader {
 
 		// With the given options, this installs it to the destination directory.
 		$result = $this->install_package(
-			array(
+			[
 				'source'                      => $working_dir,
 				'destination'                 => $options['destination'],
 				'clear_destination'           => $options['clear_destination'],
 				'abort_if_destination_exists' => $options['abort_if_destination_exists'],
 				'clear_working'               => $options['clear_working'],
 				'hook_extra'                  => $options['hook_extra'],
-			)
+			]
 		);
 
 		$this->skin->set_result( $result );
@@ -279,7 +279,7 @@ class PluginSilentUpgrader extends \Plugin_Upgrader {
 	 * @param array  $hook_extra       Extra arguments to pass to the filter hooks. Default empty array.
 	 * @return string|WP_Error The full path to the downloaded package file, or a WP_Error object.
 	 */
-	public function download_package( $package, $check_signatures = false, $hook_extra = array() ) {
+	public function download_package( $package, $check_signatures = false, $hook_extra = [] ) {
 
 		/**
 		 * Filters whether to return the package.
@@ -402,17 +402,18 @@ class PluginSilentUpgrader extends \Plugin_Upgrader {
 	 *
 	 * @return array|WP_Error The result (also stored in `WP_Upgrader::$result`), or a WP_Error on failure.
 	 */
-	public function install_package( $args = array() ) {
+	public function install_package( $args = [] ) {
+
 		global $wp_filesystem, $wp_theme_directories;
 
-		$defaults = array(
+		$defaults = [
 			'source'                      => '', // Please always pass this
 			'destination'                 => '', // and this
 			'clear_destination'           => false,
 			'clear_working'               => false,
 			'abort_if_destination_exists' => true,
-			'hook_extra'                  => array(),
-		);
+			'hook_extra'                  => [],
+		];
 
 		$args = wp_parse_args( $args, $defaults );
 
@@ -492,7 +493,7 @@ class PluginSilentUpgrader extends \Plugin_Upgrader {
 		 * to copy the directory into the directory, whilst they pass the source
 		 * as the actual files to copy.
 		 */
-		$protected_directories = array( ABSPATH, WP_CONTENT_DIR, WP_PLUGIN_DIR, WP_CONTENT_DIR . '/themes' );
+		$protected_directories = [ ABSPATH, WP_CONTENT_DIR, WP_PLUGIN_DIR, WP_CONTENT_DIR . '/themes' ];
 
 		if ( is_array( $wp_theme_directories ) ) {
 			$protected_directories = array_merge( $protected_directories, $wp_theme_directories );
@@ -596,7 +597,7 @@ class PluginSilentUpgrader extends \Plugin_Upgrader {
 	 *
 	 * @return bool|\WP_Error True if the installation was successful, false or a WP_Error otherwise.
 	 */
-	public function install( $package, $args = array() ) {
+	public function install( $package, $args = [] ) {
 
 		$result = parent::install( $package, $args );
 		if ( true === $result ) {

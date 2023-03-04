@@ -1015,6 +1015,7 @@ class MonsterInsights_Rest_Routes {
 				array(
 					'message' => $data['error'],
 					'footer'  => isset( $data['data']['footer'] ) ? $data['data']['footer'] : '',
+					'type'    => isset( $data['data']['type'] ) ? $data['data']['type'] : '',
 				)
 			);
 		}

@@ -65,7 +65,7 @@ class Integration extends \WPForms\Integrations\LiteConnect\Integration {
 
 		// Increase the entries count if the entry has been added successfully.
 		if ( isset( $response['status'] ) && $response['status'] === 'success' ) {
-			$this->increase_entries_count();
+			$this->increase_entries_count( $entry_args['form_id'] );
 		}
 
 		if ( ! empty( $response['error'] ) ) {
@@ -89,11 +89,21 @@ class Integration extends \WPForms\Integrations\LiteConnect\Integration {
 	 * Increases the Lite Connect entries count.
 	 *
 	 * @since 1.7.4
+	 *
+	 * @param int|false $form_id The form ID.
 	 */
-	public function increase_entries_count() {
+	public function increase_entries_count( $form_id = false ) {
 
 		self::maybe_set_entries_count();
 
 		update_option( self::LITE_CONNECT_ENTRIES_COUNT_OPTION, self::get_entries_count() + 1 );
+
+		// Increase the form entries count.
+		// It allows counting entries on per form level.
+		if ( ! empty( $form_id ) ) {
+			$count = self::get_form_entries_count( (int) $form_id );
+
+			update_post_meta( $form_id, self::LITE_CONNECT_FORM_ENTRIES_COUNT_META, ++$count );
+		}
 	}
 }

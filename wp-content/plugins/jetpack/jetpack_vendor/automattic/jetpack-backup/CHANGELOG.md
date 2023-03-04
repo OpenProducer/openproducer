@@ -5,6 +5,66 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.1] - 2023-01-30
+### Added
+- Add track event when user clicks on upgrade storage CTA [#28647]
+
+## [1.12.0] - 2023-01-30
+### Added
+- Move usage storage level to a global state [#28603]
+
+### Changed
+- Backup storage details improvement [#28581]
+
+## [1.11.0] - 2023-01-26
+### Added
+- Add backup storage UI on backup plugin [#28085]
+
+## [1.10.8] - 2023-01-23
+### Fixed
+- Clean up JavaScript eslint issues. [#28441]
+- Fixes the price display for products with intro offers for the first month. [#28424]
+
+## [1.10.7] - 2023-01-11
+### Added
+- Setup js tests and add some tests to existing reducers, selectors and hooks [#28130]
+
+### Changed
+- Updated package dependencies. [#28127]
+- Use `WP_Filesystem` more consistently in `Helper_Script_Manager`. [#28198]
+
+## [1.10.6] - 2022-12-19
+### Changed
+- Update Backup logo [#27802]
+
+### Fixed
+- Update for PHP 8.2 deprecations. [#27949]
+
+## [1.10.5] - 2022-12-06
+### Changed
+- Updated backup layout to improve consistency and remove redundancy. [#27222]
+- Updated package dependencies. [#27340, #27688, #27696, #27697]
+
+## [1.10.4] - 2022-11-28
+### Changed
+- Rename Jetpack Backup to Jetpack VaultPress Backup [#27432]
+- Updated package dependencies. [#26069]
+
+## [1.10.3] - 2022-11-14
+### Changed
+- Updated package dependencies. [#26930]
+
+## [1.10.2] - 2022-11-07
+### Changed
+- Updated package dependencies.
+
+### Fixed
+- Updated how backup determines if the site has a plan. [#26943]
+
+## [1.10.1] - 2022-11-01
+### Changed
+- Updated package dependencies. [#27196]
+
 ## [1.10.0] - 2022-10-25
 ### Changed
 - Backup: add a new event to track when a customer dismisses a review request. [#26980]
@@ -276,6 +336,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add API endpoints and Jetpack Backup package for managing Help…
 
+[1.12.1]: https://github.com/Automattic/jetpack-backup/compare/v1.12.0...v1.12.1
+[1.12.0]: https://github.com/Automattic/jetpack-backup/compare/v1.11.0...v1.12.0
+[1.11.0]: https://github.com/Automattic/jetpack-backup/compare/v1.10.8...v1.11.0
+[1.10.8]: https://github.com/Automattic/jetpack-backup/compare/v1.10.7...v1.10.8
+[1.10.7]: https://github.com/Automattic/jetpack-backup/compare/v1.10.6...v1.10.7
+[1.10.6]: https://github.com/Automattic/jetpack-backup/compare/v1.10.5...v1.10.6
+[1.10.5]: https://github.com/Automattic/jetpack-backup/compare/v1.10.4...v1.10.5
+[1.10.4]: https://github.com/Automattic/jetpack-backup/compare/v1.10.3...v1.10.4
+[1.10.3]: https://github.com/Automattic/jetpack-backup/compare/v1.10.2...v1.10.3
+[1.10.2]: https://github.com/Automattic/jetpack-backup/compare/v1.10.1...v1.10.2
+[1.10.1]: https://github.com/Automattic/jetpack-backup/compare/v1.10.0...v1.10.1
 [1.10.0]: https://github.com/Automattic/jetpack-backup/compare/v1.9.2...v1.10.0
 [1.9.2]: https://github.com/Automattic/jetpack-backup/compare/v1.9.1...v1.9.2
 [1.9.1]: https://github.com/Automattic/jetpack-backup/compare/v1.9.0...v1.9.1

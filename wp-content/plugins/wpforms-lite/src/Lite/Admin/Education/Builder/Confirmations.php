@@ -71,9 +71,10 @@ class Confirmations implements EducationInterface {
 				'subsection'  => absint( $field_id ),
 				'pro_badge'   => true,
 				'data'        => [
-					'action'  => 'upgrade',
-					'name'    => esc_html__( 'Show Entry Preview', 'wpforms-lite' ),
-					'licence' => 'pro',
+					'action'      => 'upgrade',
+					'name'        => esc_html__( 'Show Entry Preview', 'wpforms-lite' ),
+					'utm-content' => 'Show Entry Preview',
+					'licence'     => 'pro',
 				],
 				'attrs'       => [
 					'disabled' => 'disabled',

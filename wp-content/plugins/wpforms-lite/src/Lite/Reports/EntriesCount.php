@@ -27,24 +27,24 @@ class EntriesCount {
 	 */
 	public function get_by_form() {
 
-		$forms = \wpforms()->form->get( '', array( 'fields' => 'ids' ) );
+		$forms = wpforms()->form->get( '', [ 'fields' => 'ids' ] );
 
 		if ( empty( $forms ) || ! \is_array( $forms ) ) {
-			return array();
+			return [];
 		}
 
-		$result = array();
+		$result = [];
 
 		foreach ( $forms as $form_id ) {
 			$count = \absint( \get_post_meta( $form_id, 'wpforms_entries_count', true ) );
 			if ( empty( $count ) ) {
 				continue;
 			}
-			$result[ $form_id ] = array(
+			$result[ $form_id ] = [
 				'form_id' => $form_id,
 				'count'   => $count,
 				'title'   => \get_the_title( $form_id ),
-			);
+			];
 		}
 
 		if ( ! empty( $result ) ) {

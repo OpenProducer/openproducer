@@ -321,7 +321,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 						return;
 					}
 
-					prevFieldId = $field.prev( '.wpforms-field' ).data( 'field-id' );
+					prevFieldId = $field.prev( '.wpforms-field, .wpforms-alert' ).data( 'field-id' );
 					$prevFieldOption = $( `#wpforms-field-option-${prevFieldId}` );
 
 					if ( $prevFieldOption.length > 0 ) {

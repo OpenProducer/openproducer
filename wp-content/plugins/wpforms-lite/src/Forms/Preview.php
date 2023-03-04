@@ -219,7 +219,7 @@ class Preview {
 					],
 				]
 			),
-			'https://wpforms.com/docs/how-to-properly-test-your-wordpress-forms-before-launching-checklist/'
+			esc_url( wpforms_utm_link( 'https://wpforms.com/docs/how-to-properly-test-your-wordpress-forms-before-launching-checklist/', 'Form Preview', 'Form Testing Tips Documentation' ) )
 		);
 		$content .= '</p>';
 

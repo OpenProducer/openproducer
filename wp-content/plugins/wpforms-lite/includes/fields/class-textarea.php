@@ -19,7 +19,7 @@ class WPForms_Field_Textarea extends WPForms_Field {
 		$this->type  = 'textarea';
 		$this->icon  = 'fa-paragraph';
 		$this->order = 50;
-		add_action( 'wpforms_frontend_js', array( $this, 'frontend_js' ) );
+		add_action( 'wpforms_frontend_js', [ $this, 'frontend_js' ] );
 	}
 
 	/**
@@ -67,9 +67,9 @@ class WPForms_Field_Textarea extends WPForms_Field {
 		$this->field_option(
 			'basic-options',
 			$field,
-			array(
+			[
 				'markup' => 'open',
-			)
+			]
 		);
 
 		// Label.
@@ -85,9 +85,9 @@ class WPForms_Field_Textarea extends WPForms_Field {
 		$this->field_option(
 			'basic-options',
 			$field,
-			array(
+			[
 				'markup' => 'close',
-			)
+			]
 		);
 
 		/*
@@ -95,9 +95,10 @@ class WPForms_Field_Textarea extends WPForms_Field {
 		 */
 
 		// Options open markup.
-		$args = array(
+		$args = [
 			'markup' => 'open',
-		);
+		];
+
 		$this->field_option( 'advanced-options', $field, $args );
 
 		// Size.
@@ -107,56 +108,59 @@ class WPForms_Field_Textarea extends WPForms_Field {
 		$this->field_option( 'placeholder', $field );
 
 		// Limit length.
-		$args = array(
+		$args = [
 			'slug'    => 'limit_enabled',
 			'content' => $this->field_element(
 				'toggle',
 				$field,
-				array(
+				[
 					'slug'    => 'limit_enabled',
 					'value'   => isset( $field['limit_enabled'] ) ? '1' : '0',
 					'desc'    => esc_html__( 'Limit Length', 'wpforms-lite' ),
 					'tooltip' => esc_html__( 'Check this option to limit text length by characters or words count.', 'wpforms-lite' ),
-				),
+				],
 				false
 			),
-		);
+		];
+
 		$this->field_element( 'row', $field, $args );
 
 		$count = $this->field_element(
 			'text',
 			$field,
-			array(
+			[
 				'type'  => 'number',
 				'slug'  => 'limit_count',
-				'attrs' => array(
+				'attrs' => [
 					'min'     => 1,
 					'step'    => 1,
 					'pattern' => '[0-9]',
-				),
+				],
 				'value' => ! empty( $field['limit_count'] ) ? $field['limit_count'] : 1,
-			),
+			],
 			false
 		);
 
 		$mode = $this->field_element(
 			'select',
 			$field,
-			array(
+			[
 				'slug'    => 'limit_mode',
 				'value'   => ! empty( $field['limit_mode'] ) ? esc_attr( $field['limit_mode'] ) : 'characters',
-				'options' => array(
+				'options' => [
 					'characters' => esc_html__( 'Characters', 'wpforms-lite' ),
 					'words'      => esc_html__( 'Words', 'wpforms-lite' ),
-				),
-			),
+				],
+			],
 			false
 		);
-		$args = array(
+
+		$args = [
 			'slug'    => 'limit_controls',
 			'class'   => ! isset( $field['limit_enabled'] ) ? 'wpforms-hide' : '',
 			'content' => $count . $mode,
-		);
+		];
+
 		$this->field_element( 'row', $field, $args );
 
 		// Default value.
@@ -194,7 +198,7 @@ class WPForms_Field_Textarea extends WPForms_Field {
 		$placeholder   = ! empty( $field['placeholder'] ) ? $field['placeholder'] : '';
 		$default_value = ! empty( $field['default_value'] ) ? $field['default_value'] : '';
 
-		echo '<textarea placeholder="' . esc_attr( $placeholder ) . '" class="primary-input" readonly>' . wpforms_sanitize_textarea_field( $default_value ) . '</textarea>';
+		echo '<textarea placeholder="' . esc_attr( $placeholder ) . '" class="primary-input" readonly>' . esc_textarea( $default_value ) . '</textarea>';
 
 		// Description.
 		$this->field_preview_option( 'description', $field );
@@ -216,7 +220,8 @@ class WPForms_Field_Textarea extends WPForms_Field {
 		$value   = '';
 
 		if ( isset( $primary['attr']['value'] ) ) {
-			$value = wpforms_sanitize_textarea_field( $primary['attr']['value'] );
+			$value = esc_textarea( $primary['attr']['value'] );
+
 			unset( $primary['attr']['value'] );
 		}
 
@@ -258,7 +263,7 @@ class WPForms_Field_Textarea extends WPForms_Field {
 		// Get fields.
 		$fields = array_map(
 			function( $form ) {
-				return empty( $form['fields'] ) ? array() : $form['fields'];
+				return empty( $form['fields'] ) ? [] : $form['fields'];
 			},
 			(array) $forms
 		);
@@ -269,7 +274,7 @@ class WPForms_Field_Textarea extends WPForms_Field {
 			function( $accumulator, $current ) {
 				return array_merge( $accumulator, $current );
 			},
-			array()
+			[]
 		);
 
 		// Leave only fields with limit.
@@ -282,7 +287,7 @@ class WPForms_Field_Textarea extends WPForms_Field {
 
 		if ( count( $fields ) ) {
 			$min = \wpforms_get_min_suffix();
-			wp_enqueue_script( 'wpforms-text-limit', WPFORMS_PLUGIN_URL . "assets/js/text-limit{$min}.js", array(), WPFORMS_VERSION, true );
+			wp_enqueue_script( 'wpforms-text-limit', WPFORMS_PLUGIN_URL . "assets/js/text-limit{$min}.js", [], WPFORMS_VERSION, true );
 		}
 	}
 
@@ -307,12 +312,12 @@ class WPForms_Field_Textarea extends WPForms_Field {
 		// Sanitize but keep line breaks.
 		$value = wpforms_sanitize_textarea_field( $field_submit );
 
-		wpforms()->process->fields[ $field_id ] = array(
+		wpforms()->process->fields[ $field_id ] = [
 			'name'  => $name,
 			'value' => $value,
 			'id'    => absint( $field_id ),
 			'type'  => $this->type,
-		);
+		];
 	}
 
 	/**

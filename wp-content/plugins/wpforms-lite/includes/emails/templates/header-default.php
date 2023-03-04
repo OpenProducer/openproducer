@@ -6,7 +6,9 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 $header_image     = wpforms_setting( 'email-header-image', false );
 $background_color = wpforms_setting( 'email-background-color', '#e9eaec' );
@@ -237,6 +239,28 @@ $text_direction   = is_rtl() ? 'rtl' : 'ltr';
 				width:100% !important;
 			}
 		}
+        /* Rich Text compatibility - image alignment. */
+        .mcnTextContentContainer table tbody,
+        .mcnTextContentContainer table tbody tr,
+        .mcnTextContentContainer table tbody td {
+            display: block;
+        }
+        .mcnTextContentContainer p::after {
+            content: "";
+            clear: both;
+            display: block;
+        }
+        .mcnTextContentContainer p .alignleft {
+            float: left;
+        }
+        .mcnTextContentContainer p .aligncenter {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .mcnTextContentContainer p .alignright {
+            float: right;
+        }
 	</style>
 </head>
 <body style="height: 100%;margin: 0;padding: 0;width: 100%;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: <?php echo $background_color; ?>;">

@@ -64,7 +64,7 @@ add_action( 'mc4wp_admin_other_settings', '_mc4wp_usage_tracking_setting', 70 );
 	<div class="mc4wp-row">
 
 		<!-- Main Content -->
-		<div class="main-content mc4wp-col mc4wp-col-4">
+		<div class="main-content mc4wp-col">
 
 			<h1 class="mc4wp-page-title">
 				<?php echo esc_html__( 'Other Settings', 'mailchimp-for-wp' ); ?>
@@ -106,7 +106,7 @@ add_action( 'mc4wp_admin_other_settings', '_mc4wp_usage_tracking_setting', 70 );
 					echo '</p>';
 
 					// hack to hide filter input
-					echo '<style type="text/css">#debug-log-filter { display: none; }</style>';
+					echo '<style>#debug-log-filter { display: none; }</style>';
 				} else {
 					?>
 					<div id="debug-log" class="mc4wp-log widefat">
@@ -145,12 +145,10 @@ add_action( 'mc4wp_admin_other_settings', '_mc4wp_usage_tracking_setting', 70 );
 					echo '</p>';
 				}
 				?>
-
 				<script>
 					(function() {
-						'use strict';
 						// scroll to bottom of log
-						var log = document.getElementById("debug-log"),
+						let log = document.getElementById("debug-log"),
 							logItems;
 						log.scrollTop = log.scrollHeight;
 						log.style.minHeight = '';
@@ -158,8 +156,7 @@ add_action( 'mc4wp_admin_other_settings', '_mc4wp_usage_tracking_setting', 70 );
 						log.style.height = log.clientHeight + "px";
 
 						// add filter
-						var logFilter = document.getElementById('debug-log-filter');
-						logFilter.addEventListener('keydown', function(evt) {
+						document.getElementById('debug-log-filter').addEventListener('keydown', function(evt) {
 							if(evt.keyCode === 13 ) {
 								searchLog(evt.target.value.trim());
 							}
@@ -173,8 +170,8 @@ add_action( 'mc4wp_admin_other_settings', '_mc4wp_usage_tracking_setting', 70 );
 								})
 							}
 
-							var ri = new RegExp(query.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 'i');
-							var newLog = log.cloneNode();
+							const ri = new RegExp(query.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 'i');
+							const newLog = log.cloneNode(false);
 							logItems.forEach(function(node) {
 								if( ! node.textContent ) { return ; }
 								if( ! query.length || ri.test(node.textContent) ) {
@@ -182,7 +179,7 @@ add_action( 'mc4wp_admin_other_settings', '_mc4wp_usage_tracking_setting', 70 );
 								}
 							});
 
-							log.parentNode.replaceChild(newLog,log);
+							log.parentNode.replaceChild(newLog, log);
 							log = newLog;
 							log.scrollTop = log.scrollHeight;
 						}
@@ -190,12 +187,12 @@ add_action( 'mc4wp_admin_other_settings', '_mc4wp_usage_tracking_setting', 70 );
 				</script>
 			</div>
 			<!-- / Debug Log -->
-			<?php include __DIR__ . '/parts/admin-footer.php'; ?>
+			<?php require __DIR__ . '/parts/admin-footer.php'; ?>
 		</div>
 
 		<!-- Sidebar -->
-		<div class="mc4wp-sidebar mc4wp-col mc4wp-col-2">
-			<?php include __DIR__ . '/parts/admin-sidebar.php'; ?>
+		<div class="mc4wp-sidebar mc4wp-col">
+			<?php require __DIR__ . '/parts/admin-sidebar.php'; ?>
 		</div>
 
 

@@ -20,11 +20,11 @@ class Templates {
 
 		$template_dir = 'wpforms';
 
-		$file_paths = array(
+		$file_paths = [
 			1   => \trailingslashit( \get_stylesheet_directory() ) . $template_dir,
 			10  => \trailingslashit( \get_template_directory() ) . $template_dir,
 			100 => \trailingslashit( \WPFORMS_PLUGIN_DIR ) . 'templates',
-		);
+		];
 
 		$file_paths = \apply_filters( 'wpforms_helpers_templates_get_theme_template_paths', $file_paths );
 
@@ -77,7 +77,7 @@ class Templates {
 	 *
 	 * @throws \RuntimeException If extract() tries to modify the scope.
 	 */
-	public static function include_html( $template_name, $args = array(), $extract = false ) {
+	public static function include_html( $template_name, $args = [], $extract = false ) {
 
 		$template_name .= '.php';
 
@@ -121,7 +121,7 @@ class Templates {
 	 *
 	 * @return string
 	 */
-	public static function get_html( $template_name, $args = array(), $extract = false ) {
+	public static function get_html( $template_name, $args = [], $extract = false ) {
 
 		\ob_start();
 		self::include_html( $template_name, $args, $extract );

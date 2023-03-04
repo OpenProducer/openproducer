@@ -41,10 +41,10 @@ abstract class PageIntegrations implements PageIntegrationsInterface {
 	protected function ajax() {
 
 		// Remove provider from Settings Integrations tab.
-		\add_action( "wp_ajax_wpforms_settings_provider_disconnect_{$this->core->slug}", array( $this, 'ajax_disconnect' ) );
+		add_action( "wp_ajax_wpforms_settings_provider_disconnect_{$this->core->slug}", [ $this, 'ajax_disconnect' ] );
 
 		// Add new provider from Settings Integrations tab.
-		\add_action( "wp_ajax_wpforms_settings_provider_add_{$this->core->slug}", array( $this, 'ajax_connect' ) );
+		add_action( "wp_ajax_wpforms_settings_provider_add_{$this->core->slug}", [ $this, 'ajax_connect' ] );
 	}
 
 	/**
@@ -53,7 +53,7 @@ abstract class PageIntegrations implements PageIntegrationsInterface {
 	public function display( $active, $settings ) {
 
 		$connected = ! empty( $active[ $this->core->slug ] );
-		$accounts  = ! empty( $settings[ $this->core->slug ] ) ? $settings[ $this->core->slug ] : array();
+		$accounts  = ! empty( $settings[ $this->core->slug ] ) ? $settings[ $this->core->slug ] : [];
 		$class     = $connected && $accounts ? 'connected' : '';
 		$arrow     = 'right';
 
@@ -232,26 +232,26 @@ abstract class PageIntegrations implements PageIntegrationsInterface {
 		// Run a security check.
 		if ( ! \check_ajax_referer( 'wpforms-admin', 'nonce', false ) ) {
 			\wp_send_json_error(
-				array(
+				[
 					'error_msg' => \esc_html__( 'Your session expired. Please reload the page.', 'wpforms-lite' ),
-				)
+				]
 			);
 		}
 
 		// Check for permissions.
 		if ( ! \wpforms_current_user_can() ) {
 			\wp_send_json_error(
-				array(
+				[
 					'error_msg' => \esc_html__( 'You do not have permission.', 'wpforms-lite' ),
-				)
+				]
 			);
 		}
 
 		if ( empty( $_POST['provider'] ) || empty( $_POST['key'] ) ) {
 			\wp_send_json_error(
-				array(
+				[
 					'error_msg' => \esc_html__( 'Missing data.', 'wpforms-lite' ),
-				)
+				]
 			);
 		}
 
@@ -265,9 +265,9 @@ abstract class PageIntegrations implements PageIntegrationsInterface {
 
 		} else {
 			\wp_send_json_error(
-				array(
+				[
 					'error_msg' => \esc_html__( 'Connection missing.', 'wpforms-lite' ),
-				)
+				]
 			);
 		}
 	}
@@ -282,26 +282,26 @@ abstract class PageIntegrations implements PageIntegrationsInterface {
 		// Run a security check.
 		if ( ! \check_ajax_referer( 'wpforms-admin', 'nonce', false ) ) {
 			\wp_send_json_error(
-				array(
+				[
 					'error_msg' => \esc_html__( 'Your session expired. Please reload the page.', 'wpforms-lite' ),
-				)
+				]
 			);
 		}
 
 		// Check for permissions.
 		if ( ! \wpforms_current_user_can() ) {
 			\wp_send_json_error(
-				array(
+				[
 					'error_msg' => \esc_html__( 'You do not have permissions.', 'wpforms-lite' ),
-				)
+				]
 			);
 		}
 
 		if ( empty( $_POST['data'] ) ) {
 			\wp_send_json_error(
-				array(
+				[
 					'error_msg' => \esc_html__( 'Missing required data in payload.', 'wpforms-lite' ),
-				)
+				]
 			);
 		}
 	}

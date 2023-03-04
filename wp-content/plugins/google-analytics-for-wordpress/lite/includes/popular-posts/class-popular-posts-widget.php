@@ -101,7 +101,7 @@ class MonsterInsights_Popular_Posts_Widget extends MonsterInsights_Popular_Posts
 			$title_text = $this->title_text;
 		}
 
-		$html = '<div class="' . $this->get_wrapper_class( $atts ) . '">';
+		$html = '<div class="' . esc_textarea($this->get_wrapper_class( $atts )) . '">';
 		if ( $show_title ) {
 			$html .= '<h2 class="monsterinsights-widget-popular-posts-widget-title">' . wp_kses_post( $title_text ) . '</h2>';
 		}

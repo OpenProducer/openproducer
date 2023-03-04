@@ -56,19 +56,20 @@ class Captcha implements EducationInterface {
 		// Run a security check.
 		check_ajax_referer( 'wpforms-builder', 'nonce' );
 
-		// Check for permissions.
-		if ( ! wpforms_current_user_can() ) {
-			wp_send_json_error( esc_html__( 'You do not have permission.', 'wpforms-lite' ) );
-		}
-
 		// Check for form ID.
-		if ( ! isset( $_POST['id'] ) || empty( $_POST['id'] ) ) {
+		if ( empty( $_POST['id'] ) ) {
 			wp_send_json_error( esc_html__( 'No form ID found.', 'wpforms-lite' ) );
 		}
 
+		$form_id = absint( $_POST['id'] );
+
+		// Check for permissions.
+		if ( ! wpforms_current_user_can( 'edit_form_single', $form_id ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission.', 'wpforms-lite' ) );
+		}
+
 		// Get an actual form data.
-		$form_id   = absint( $_POST['id'] );
-		$form_data = wpforms()->form->get( $form_id, [ 'content_only' => true ] );
+		$form_data = wpforms()->get( 'form' )->get( $form_id, [ 'content_only' => true ] );
 
 		// Check that CAPTCHA is configured in the settings.
 		$captcha_settings = wpforms_get_captcha_settings();
@@ -121,6 +122,10 @@ class Captcha implements EducationInterface {
 
 		if ( $settings['provider'] === 'hcaptcha' ) {
 			return esc_html__( 'hCaptcha', 'wpforms-lite' );
+		}
+
+		if ( $settings['provider'] === 'turnstile' ) {
+			return esc_html__( 'Cloudflare Turnstile', 'wpforms-lite' );
 		}
 
 		$recaptcha_names = [

@@ -17,14 +17,14 @@ class WPForms_Install {
 	public function __construct() {
 
 		// When activated, trigger install method.
-		register_activation_hook( WPFORMS_PLUGIN_FILE, array( $this, 'install' ) );
-		register_deactivation_hook( WPFORMS_PLUGIN_FILE, array( $this, 'deactivate' ) );
+		register_activation_hook( WPFORMS_PLUGIN_FILE, [ $this, 'install' ] );
+		register_deactivation_hook( WPFORMS_PLUGIN_FILE, [ $this, 'deactivate' ] );
 
 		// Watch for new multisite blogs.
-		add_action( 'wpmu_new_blog', array( $this, 'new_multisite_blog' ), 10, 6 );
+		add_action( 'wpmu_new_blog', [ $this, 'new_multisite_blog' ], 10, 6 );
 
 		// Watch for delayed admin install.
-		add_action( 'admin_init', array( $this, 'admin' ) );
+		add_action( 'admin_init', [ $this, 'admin' ] );
 	}
 
 	/**
@@ -146,9 +146,11 @@ class WPForms_Install {
 
 		// Store the date when the initial activation was performed.
 		$type      = class_exists( 'WPForms_Lite', false ) ? 'lite' : 'pro';
-		$activated = get_option( 'wpforms_activated', array() );
+		$activated = get_option( 'wpforms_activated', [] );
+
 		if ( empty( $activated[ $type ] ) ) {
 			$activated[ $type ] = time();
+
 			update_option( 'wpforms_activated', $activated );
 		}
 	}

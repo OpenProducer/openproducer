@@ -1168,16 +1168,21 @@ class Locator {
 	 *
 	 * @return bool
 	 */
-	private function is_post_visible( $location ) {
+	private function is_post_visible( $location ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 		$edit_cap = 'edit_post';
 		$read_cap = 'read_post';
 		$post_id  = $location['id'];
 
+		if ( ! get_post_type_object( $location['type'] ) ) {
+			// Post type is not registered.
+			return false;
+		}
+
 		$post_status_obj = get_post_status_object( $location['status'] );
 
-		// Post status is not registered, assume it's not public.
 		if ( ! $post_status_obj ) {
+			// Post status is not registered, assume it's not public.
 			return current_user_can( $edit_cap, $post_id );
 		}
 

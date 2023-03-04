@@ -4,7 +4,7 @@ use WPForms\Lite\Integrations\LiteConnect\LiteConnect;
 use WPForms\Lite\Integrations\LiteConnect\Integration as LiteConnectIntegration;
 
 /**
- * WPForms Lite. Load Lite specific features/functionality.
+ * WPForms Lite. Load Lite-specific features/functionality.
  *
  * @since 1.2.0
  */
@@ -291,11 +291,19 @@ class WPForms_Lite {
 					'notifications',
 					'replyto',
 					$settings->form_data,
-					esc_html__( 'Reply-To Email Address', 'wpforms-lite' ),
+					esc_html__( 'Reply-To', 'wpforms-lite' ),
 					[
+						'tooltip'    => esc_html(
+							sprintf( /* translators: %s - <email@example.com>. */
+								__( 'Enter the email address or email address with recipient\'s name in "First Last %s" format.', 'wpforms-lite' ),
+								// &#8203 is a zero-width space character. Without it, Tooltipster thinks it's an HTML tag
+								// and closes it at the end of the string, hiding everything after this value.
+								'<&#8203;email@example.com&#8203;>'
+							)
+						),
 						'smarttags'  => [
 							'type'   => 'fields',
-							'fields' => 'email',
+							'fields' => 'email,name',
 						],
 						'parent'     => 'settings',
 						'subsection' => $id,
@@ -374,7 +382,7 @@ class WPForms_Lite {
 		wp_enqueue_style(
 			'wpforms-lite-admin',
 			WPFORMS_PLUGIN_URL . "assets/lite/css/admin{$min}.css",
-			array(),
+			[],
 			WPFORMS_VERSION
 		);
 	}
@@ -489,10 +497,15 @@ class WPForms_Lite {
 					$settings->form_data,
 					esc_html__( 'Confirmation Page', 'wpforms-lite' ),
 					[
-						'options'     => wpforms_get_pages_list(),
+						'class'       => 'wpforms-panel-field-confirmations-page-choicesjs-unflippable',
+						'options'     => wpforms_builder_form_settings_confirmation_get_pages( $settings->form_data, $field_id ),
 						'input_class' => 'wpforms-panel-field-confirmations-page',
 						'parent'      => 'settings',
 						'subsection'  => $field_id,
+						'choicesjs'   => [
+							'use_ajax'    => true,
+							'callback_fn' => 'select_pages',
+						],
 					]
 				);
 				wpforms_panel_field(
@@ -554,7 +567,7 @@ class WPForms_Lite {
 						],
 					]
 				),
-				'https://wpforms.com/docs/setup-form-notification-wpforms/'
+				esc_url( wpforms_utm_link( 'https://wpforms.com/docs/setup-form-notification-wpforms/', 'Builder Notifications', 'Disable Notifications Alert' ) )
 			),
 		];
 
@@ -588,7 +601,7 @@ class WPForms_Lite {
 				<?php
 				printf(
 					wp_kses( /* translators: %s - star icons. */
-						__( 'We know that you will truly love WPForms. It has over 11,000+ five star ratings (%s) and is active on over 5 million websites.', 'wpforms-lite' ),
+						__( 'We know that you will truly love WPForms. It has over 12,000+ five star ratings (%s) and is active on over 5 million websites.', 'wpforms-lite' ),
 						[
 							'i' => [
 								'class'       => [],
@@ -603,7 +616,7 @@ class WPForms_Lite {
 			<h6><?php esc_html_e( 'Pro Features:', 'wpforms-lite' ); ?></h6>
 			<div class="list">
 				<ul>
-					<li><?php esc_html_e( '500+ customizable form templates', 'wpforms-lite' ); ?></li>
+					<li><?php esc_html_e( '600+ customizable form templates', 'wpforms-lite' ); ?></li>
 					<li><?php esc_html_e( 'Store and manage form entries in WordPress', 'wpforms-lite' ); ?></li>
 					<li><?php esc_html_e( 'Unlock all fields & features, including Rich Text & conditional logic', 'wpforms-lite' ); ?></li>
 					<li><?php esc_html_e( 'Make Surveys and Polls and create reports', 'wpforms-lite' ); ?></li>
@@ -618,7 +631,8 @@ class WPForms_Lite {
 				</ul>
 			</div>
 			<p>
-				<a href="<?php echo esc_url( wpforms_admin_upgrade_link( 'settings-upgrade' ) ); ?>" target="_blank" rel="noopener noreferrer">
+				<?php $utm_content = ucwords( $view ) . ' Tab'; ?>
+				<a href="<?php echo esc_url( wpforms_admin_upgrade_link( 'settings-upgrade', $utm_content ) ); ?>" target="_blank" rel="noopener noreferrer">
 					<?php esc_html_e( 'Get WPForms Pro Today and Unlock all the Powerful Features »', 'wpforms-lite' ); ?>
 				</a>
 			</p>
@@ -689,6 +703,9 @@ class WPForms_Lite {
 				-ms-filter: blur(3px);
 				-o-filter: blur(3px);
 				filter: blur(3px);
+				user-select: none;
+				-webkit-user-select: none;
+				pointer-events: none;
 			}
 
 			.wpforms-admin-content a {
@@ -843,7 +860,7 @@ class WPForms_Lite {
 			} );
 		</script>
 
-		<div id="wpforms-entries-list" class="wrap wpforms-admin-wrap">
+		<div id="wpforms-entries-list" class="wrap wpforms-admin-wrap wpforms-entries-list-upgrade">
 			<h1 class="page-title">Entries</h1>
 			<div class="wpforms-admin-content-wrap">
 
@@ -905,13 +922,13 @@ class WPForms_Lite {
 								}
 							// phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterEnd
 							?>.</p>
-							<a href="<?php echo esc_url( wpforms_admin_upgrade_link( 'entries' ) ); ?>" class="wpforms-btn wpforms-btn-lg wpforms-btn-orange wpforms-upgrade-modal" target="_blank" rel="noopener noreferrer">
+							<a href="<?php echo esc_url( wpforms_admin_upgrade_link( 'entries', 'Upgrade to WPForms Pro & Restore Form Entries Button' ) ); ?>" class="wpforms-btn wpforms-btn-lg wpforms-btn-orange wpforms-upgrade-modal" target="_blank" rel="noopener noreferrer">
 								<?php esc_html_e( 'Upgrade to WPForms Pro & Restore Form Entries', 'wpforms-lite' ); ?>
 							</a>
 
 						<?php else : ?>
 
-							<a href="<?php echo esc_url( wpforms_admin_upgrade_link( 'entries' ) ); ?>" class="wpforms-btn wpforms-btn-lg wpforms-btn-orange wpforms-upgrade-modal" target="_blank" rel="noopener noreferrer">
+							<a href="<?php echo esc_url( wpforms_admin_upgrade_link( 'entries', 'Upgrade to WPForms Pro Now Button' ) ); ?>" class="wpforms-btn wpforms-btn-lg wpforms-btn-orange wpforms-upgrade-modal" target="_blank" rel="noopener noreferrer">
 								<?php esc_html_e( 'Upgrade to WPForms Pro Now', 'wpforms-lite' ); ?>
 							</a>
 

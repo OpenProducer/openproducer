@@ -124,10 +124,11 @@ class Geolocation extends AddonsItemBase {
 		return wp_parse_args(
 			[
 				'data'  => [
-					'action'  => 'upgrade',
-					'name'    => esc_html__( 'Address Autocomplete', 'wpforms-lite' ),
-					'licence' => 'pro',
-					'message' => esc_html__( 'We\'re sorry, Address Autocomplete is part of the Geolocation Addon and not available on your plan. Please upgrade to the PRO plan to unlock all these awesome features.', 'wpforms-lite' ),
+					'action'      => 'upgrade',
+					'name'        => esc_html__( 'Address Autocomplete', 'wpforms-lite' ),
+					'utm-content' => 'Address Autocomplete',
+					'licence'     => 'pro',
+					'message'     => esc_html__( 'We\'re sorry, Address Autocomplete is part of the Geolocation Addon and not available on your plan. Please upgrade to the PRO plan to unlock all these awesome features.', 'wpforms-lite' ),
 				],
 				'class' => 'education-modal',
 			],

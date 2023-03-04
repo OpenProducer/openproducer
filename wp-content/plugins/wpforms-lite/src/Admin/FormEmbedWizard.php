@@ -2,12 +2,32 @@
 
 namespace WPForms\Admin;
 
+use WP_Post;
+
 /**
  * Embed Form in a Page wizard.
  *
  * @since 1.6.2
  */
 class FormEmbedWizard {
+
+	/**
+	 * Max search results count of 'Select Page' dropdown.
+	 *
+	 * @since 1.7.9
+	 *
+	 * @var int
+	 */
+	const MAX_SEARCH_RESULTS_DROPDOWN_PAGES_COUNT = 20;
+
+	/**
+	 * Post statuses of pages in 'Select Page' dropdown.
+	 *
+	 * @since 1.7.9
+	 *
+	 * @var string[]
+	 */
+	const POST_STATUSES_OF_DROPDOWN_PAGES = [ 'publish', 'pending' ];
 
 	/**
 	 * Initialize class.
@@ -32,6 +52,7 @@ class FormEmbedWizard {
 	 * Register hooks.
 	 *
 	 * @since 1.6.2
+	 * @since 1.7.9 Add hook for searching pages in embed wizard via AJAX.
 	 */
 	public function hooks() {
 
@@ -40,12 +61,14 @@ class FormEmbedWizard {
 		add_filter( 'default_title', [ $this, 'embed_page_title' ], 10, 2 );
 		add_filter( 'default_content', [ $this, 'embed_page_content' ], 10, 2 );
 		add_action( 'wp_ajax_wpforms_admin_form_embed_wizard_embed_page_url', [ $this, 'get_embed_page_url_ajax' ] );
+		add_action( 'wp_ajax_wpforms_admin_form_embed_wizard_search_pages_choicesjs', [ $this, 'get_search_result_pages_ajax' ] );
 	}
 
 	/**
 	 * Enqueue assets.
 	 *
 	 * @since 1.6.2
+	 * @since 1.7.9 Add 'underscore' as dependency.
 	 */
 	public function enqueues() {
 
@@ -79,7 +102,7 @@ class FormEmbedWizard {
 		wp_enqueue_script(
 			'wpforms-admin-form-embed-wizard',
 			WPFORMS_PLUGIN_URL . "assets/js/components/admin/form-embed-wizard{$min}.js",
-			[ 'jquery' ],
+			[ 'jquery', 'underscore' ],
 			WPFORMS_VERSION
 		);
 
@@ -118,7 +141,7 @@ class FormEmbedWizard {
 
 		if ( ! $this->is_form_embed_page() ) {
 			$args['user_can_edit_pages'] = current_user_can( 'edit_pages' );
-			$args['dropdown_pages']      = $this->get_dropdown_pages();
+			$args['dropdown_pages']      = $this->get_select_dropdown_pages_html();
 		}
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -138,7 +161,7 @@ class FormEmbedWizard {
 
 		static $challenge_active = null;
 
-		if ( is_null( $challenge_active ) ) {
+		if ( $challenge_active === null ) {
 			$challenge        = wpforms()->get( 'challenge' );
 			$challenge_active = method_exists( $challenge, 'challenge_active' ) ? $challenge->challenge_active() : false;
 		}
@@ -327,38 +350,101 @@ class FormEmbedWizard {
 	 * Generate select with pages which are available to edit for current user.
 	 *
 	 * @since 1.6.6
+	 * @since 1.7.9 Refactor to use ChoicesJS instead of `wp_dropdown_pages()`.
 	 *
-	 * @return string HTML dropdown list of pages.
+	 * @return string
 	 */
-	private function get_dropdown_pages() {
+	private function get_select_dropdown_pages_html() {
 
-		add_filter( 'get_pages', [ $this, 'remove_inaccessible_pages' ], 20 );
-
-		$dropdown = wp_dropdown_pages(
+		$dropdown_pages = wpforms_search_posts(
+			'',
 			[
-				'show_option_none' => esc_html__( 'Select a Page', 'wpforms-lite' ),
-				'id'               => 'wpforms-admin-form-embed-wizard-select-page',
-				'name'             => '',
-				'post_status'      => [ 'publish', 'pending' ],
-				'echo'             => false,
+				'count'       => self::MAX_SEARCH_RESULTS_DROPDOWN_PAGES_COUNT,
+				'post_status' => self::POST_STATUSES_OF_DROPDOWN_PAGES,
 			]
 		);
 
-		remove_filter( 'get_pages', [ $this, 'remove_inaccessible_pages' ], 20 );
+		if ( empty( $dropdown_pages ) ) {
+			return '';
+		}
 
-		return $dropdown;
+		$total_pages    = 0;
+		$wp_count_pages = (array) wp_count_posts( 'page' );
+
+		foreach ( $wp_count_pages as $page_status => $pages_count ) {
+			if ( in_array( $page_status, self::POST_STATUSES_OF_DROPDOWN_PAGES, true ) ) {
+				$total_pages += $pages_count;
+			}
+		}
+
+		// Include so we can use `\wpforms_settings_select_callback()`.
+		require_once WPFORMS_PLUGIN_DIR . 'includes/admin/settings-api.php';
+
+		return wpforms_settings_select_callback(
+			[
+				'id'        => 'form-embed-wizard-choicesjs-select-pages',
+				'type'      => 'select',
+				'choicesjs' => true,
+				'options'   => wp_list_pluck( $dropdown_pages, 'post_title', 'ID' ),
+				'data'      => [
+					'use_ajax' => $total_pages > self::MAX_SEARCH_RESULTS_DROPDOWN_PAGES_COUNT,
+				],
+			]
+		);
+	}
+
+	/**
+	 * Get search result pages for ChoicesJS via AJAX.
+	 *
+	 * @since 1.7.9
+	 */
+	public function get_search_result_pages_ajax() {
+
+		// Run a security check.
+		if ( ! check_ajax_referer( 'wpforms_admin_form_embed_wizard_nonce', false, false ) ) {
+			wp_send_json_error(
+				[
+					'msg' => esc_html__( 'Your session expired. Please reload the builder.', 'wpforms-lite' ),
+				]
+			);
+		}
+
+		if ( ! array_key_exists( 'search', $_GET ) ) {
+			wp_send_json_error(
+				[
+					'msg' => esc_html__( 'Incorrect usage of this operation.', 'wpforms-lite' ),
+				]
+			);
+		}
+
+		$result_pages = wpforms_search_pages_for_dropdown(
+			sanitize_text_field( wp_unslash( $_GET['search'] ) ),
+			[
+				'count'       => self::MAX_SEARCH_RESULTS_DROPDOWN_PAGES_COUNT,
+				'post_status' => self::POST_STATUSES_OF_DROPDOWN_PAGES,
+			]
+		);
+
+		if ( empty( $result_pages ) ) {
+			wp_send_json_error( [] );
+		}
+
+		wp_send_json_success( $result_pages );
 	}
 
 	/**
 	 * Excludes pages from dropdown which user can't edit.
 	 *
 	 * @since 1.6.6
+	 * @deprecated 1.7.9
 	 *
-	 * @param \WP_Post[] $pages Array of page objects.
+	 * @param WP_Post[] $pages Array of page objects.
 	 *
-	 * @return \WP_Post[]|false Array of filtered pages or false.
+	 * @return WP_Post[]|false Array of filtered pages or false.
 	 */
 	public function remove_inaccessible_pages( $pages ) {
+
+		_deprecated_function( __METHOD__, '1.7.9 of the WPForms plugin' );
 
 		if ( ! $pages ) {
 			return $pages;

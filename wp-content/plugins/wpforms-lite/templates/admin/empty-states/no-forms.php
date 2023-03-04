@@ -38,7 +38,7 @@ if ( ! \defined( 'ABSPATH' ) ) {
 					],
 				]
 			),
-			'https://wpforms.com/docs/creating-first-form/'
+			esc_url( wpforms_utm_link( 'https://wpforms.com/docs/creating-first-form/', 'forms-overview', 'Create Your First Form Documentation' ) )
 		);
 		?>
 	</p>

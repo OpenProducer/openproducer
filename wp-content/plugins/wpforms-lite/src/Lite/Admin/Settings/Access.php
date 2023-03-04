@@ -35,9 +35,9 @@ class Access {
 	 */
 	public function hooks() {
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueues' ) );
-		add_filter( 'wpforms_settings_tabs', array( $this, 'add_tab' ) );
-		add_filter( 'wpforms_settings_defaults', array( $this, 'add_section' ) );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueues' ] );
+		add_filter( 'wpforms_settings_tabs', [ $this, 'add_tab' ] );
+		add_filter( 'wpforms_settings_defaults', [ $this, 'add_section' ] );
 	}
 
 	/**
@@ -62,7 +62,7 @@ class Access {
 		wp_enqueue_script(
 			'wpforms-lity',
 			WPFORMS_PLUGIN_URL . 'assets/lib/lity/lity.min.js',
-			array( 'jquery' ),
+			[ 'jquery' ],
 			'3.0.0',
 			true
 		);
@@ -79,13 +79,13 @@ class Access {
 	 */
 	public function add_tab( $tabs ) {
 
-		$tab = array(
-			self::SLUG => array(
+		$tab = [
+			self::SLUG => [
 				'name'   => esc_html__( 'Access', 'wpforms-lite' ),
 				'form'   => false,
 				'submit' => false,
-			),
-		);
+			],
+		];
 
 		return wpforms_list_insert_after( $tabs, 'geolocation', $tab );
 	}
@@ -101,22 +101,22 @@ class Access {
 	 */
 	public function add_section( $settings ) {
 
-		$section_rows = array(
+		$section_rows = [
 			'heading',
 			'screenshots',
 			'caps',
 			'upgrade_to_pro',
-		);
+		];
 
 		foreach ( $section_rows as $section_row ) {
 
-			$settings[ self::SLUG ][ self::SLUG . '-' . $section_row ] = array(
+			$settings[ self::SLUG ][ self::SLUG . '-' . $section_row ] = [
 				'id'       => self::SLUG . '-' . $section_row,
 				'content'  => method_exists( $this, 'output_section_row_' . $section_row ) ? $this->{ 'output_section_row_' . $section_row }() : '',
 				'type'     => 'content',
 				'no_label' => true,
-				'class'    => array( $section_row ),
-			);
+				'class'    => [ $section_row ],
+			];
 		}
 
 		return $settings;
@@ -194,27 +194,27 @@ class Access {
 	 */
 	public function output_section_row_caps() {
 
-		$caps = array(
-			array(
+		$caps = [
+			[
 				esc_html__( 'Create Forms', 'wpforms-lite' ),
 				esc_html__( 'Edit Forms', 'wpforms-lite' ),
 				esc_html__( 'Edit Others Forms', 'wpforms-lite' ),
 				esc_html__( 'View Forms', 'wpforms-lite' ),
 				esc_html__( 'View Others Forms', 'wpforms-lite' ),
-			),
-			array(
+			],
+			[
 				esc_html__( 'Delete Forms', 'wpforms-lite' ),
 				esc_html__( 'Delete Others Forms', 'wpforms-lite' ),
 				esc_html__( 'View Forms Entries', 'wpforms-lite' ),
 				esc_html__( 'View Others Forms Entries', 'wpforms-lite' ),
-			),
-			array(
+			],
+			[
 				esc_html__( 'Edit Forms Entries', 'wpforms-lite' ),
 				esc_html__( 'Edit Others Forms Entries', 'wpforms-lite' ),
 				esc_html__( 'Delete Forms Entries', 'wpforms-lite' ),
 				esc_html__( 'Delete Others Forms Entries', 'wpforms-lite' ),
-			),
-		);
+			],
+		];
 
 		$content = '<p>' . esc_html__( 'Custom access to the following capabilities…', 'wpforms-lite' ) . '</p>';
 
@@ -236,12 +236,10 @@ class Access {
 	 */
 	public function output_section_row_upgrade_to_pro() {
 
-		$content = sprintf(
+		return sprintf(
 			'<a href="%1$s" target="_blank" rel="noopener noreferrer" class="wpforms-upgrade-modal wpforms-btn wpforms-btn-lg wpforms-btn-orange">%2$s</a>',
-			esc_url( 'https://wpforms.com/lite-upgrade/?discount=LITEUPGRADE&utm_source=WordPress&utm_medium=settings-license&utm_campaign=liteplugin' ),
+			esc_url( wpforms_admin_upgrade_link( 'Settings - Access', 'Access Controls' ) ),
 			esc_html__( 'Upgrade to WPForms Pro', 'wpforms-lite' )
 		);
-
-		return $content;
 	}
 }

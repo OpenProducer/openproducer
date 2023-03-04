@@ -68,25 +68,32 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 */
 		openModalButtonClick: function() {
 
-			$( document ).on(
-				'click',
-				'.education-modal',
-				function( event ) {
+			$( document )
+				.on( 'click', '.education-modal:not(.wpforms-add-fields-button)', app.openModalButtonHandler )
+				.on( 'mousedown', '.education-modal.wpforms-add-fields-button', app.openModalButtonHandler );
+		},
 
-					var $this = $( this );
+		/**
+		 * Open education modal handler.
+		 *
+		 * @since 1.8.0
+		 *
+		 * @param {Event} event Event.
+		 */
+		openModalButtonHandler: function( event ) {
 
-					event.preventDefault();
+			event.preventDefault();
 
-					switch ( $this.data( 'action' ) ) {
-						case 'activate':
-							app.activateModal( $this );
-							break;
-						case 'install':
-							app.installModal( $this );
-							break;
-					}
-				}
-			);
+			const $this = $( this );
+
+			switch ( $this.data( 'action' ) ) {
+				case 'activate':
+					app.activateModal( $this );
+					break;
+				case 'install':
+					app.installModal( $this );
+					break;
+			}
 		},
 
 		/**
@@ -105,6 +112,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 						action: 'wpforms_education_dismiss',
 						nonce: wpforms_education.nonce,
 						section: $this.data( 'section' ),
+						page: typeof window.pagenow === 'string' ? window.pagenow : '',
 					};
 
 				if ( $cont.hasClass( 'wpforms-dismiss-out' ) ) {
@@ -224,6 +232,11 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 
 			// Test if the base URL already contains `?`.
 			var appendChar = /(\?)/.test( baseURL ) ? '&' : '?';
+
+			// If the upgrade link is changed by partners, appendChar has to be encoded.
+			if ( baseURL.indexOf( 'https://wpforms.com' ) === -1 ) {
+				appendChar = encodeURIComponent( appendChar );
+			}
 
 			return baseURL + appendChar + 'utm_content=' + encodeURIComponent( utmContent.trim() );
 		},

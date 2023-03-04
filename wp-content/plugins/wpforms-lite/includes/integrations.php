@@ -13,33 +13,34 @@ function wpforms_visual_composer_shortcode() {
 
 	$wpf = wpforms()->form->get(
 		'',
-		array(
+		[
 			'orderby' => 'title',
-		)
+		]
 	);
 
 	if ( ! empty( $wpf ) ) {
-		$forms = array(
+		$forms = [
 			esc_html__( 'Select a form to display', 'wpforms-lite' ) => '',
-		);
+		];
+
 		foreach ( $wpf as $form ) {
 			$forms[ $form->post_title ] = $form->ID;
 		}
 	} else {
-		$forms = array(
+		$forms = [
 			esc_html__( 'No forms found', 'wpforms-lite' ) => '',
-		);
+		];
 	}
 
 	vc_map(
-		array(
+		[
 			'name'        => esc_html__( 'WPForms', 'wpforms-lite' ),
 			'base'        => 'wpforms',
 			'icon'        => WPFORMS_PLUGIN_URL . 'assets/images/sullie-vc.png',
 			'category'    => esc_html__( 'Content', 'wpforms-lite' ),
 			'description' => esc_html__( 'Add your form', 'wpforms-lite' ),
-			'params'      => array(
-				array(
+			'params'      => [
+				[
 					'type'        => 'dropdown',
 					'heading'     => esc_html__( 'Form', 'wpforms-lite' ),
 					'param_name'  => 'id',
@@ -47,39 +48,39 @@ function wpforms_visual_composer_shortcode() {
 					'save_always' => true,
 					'description' => esc_html__( 'Select a form to add it to your post or page.', 'wpforms-lite' ),
 					'admin_label' => true,
-				),
-				array(
+				],
+				[
 					'type'        => 'dropdown',
 					'heading'     => esc_html__( 'Display Form Name', 'wpforms-lite' ),
 					'param_name'  => 'title',
-					'value'       => array(
+					'value'       => [
 						esc_html__( 'No', 'wpforms-lite' )  => 'false',
 						esc_html__( 'Yes', 'wpforms-lite' ) => 'true',
-					),
+					],
 					'save_always' => true,
 					'description' => esc_html__( 'Would you like to display the forms name?', 'wpforms-lite' ),
-					'dependency'  => array(
+					'dependency'  => [
 						'element'   => 'id',
 						'not_empty' => true,
-					),
-				),
-				array(
+					],
+				],
+				[
 					'type'        => 'dropdown',
 					'heading'     => esc_html__( 'Display Form Description', 'wpforms-lite' ),
 					'param_name'  => 'description',
-					'value'       => array(
+					'value'       => [
 						esc_html__( 'No', 'wpforms-lite' )  => 'false',
 						esc_html__( 'Yes', 'wpforms-lite' ) => 'true',
-					),
+					],
 					'save_always' => true,
 					'description' => esc_html__( 'Would you like to display the form description?', 'wpforms-lite' ),
-					'dependency'  => array(
+					'dependency'  => [
 						'element'   => 'id',
 						'not_empty' => true,
-					),
-				),
-			),
-		)
+					],
+				],
+			],
+		]
 	);
 }
 add_action( 'vc_before_init', 'wpforms_visual_composer_shortcode' );
@@ -96,7 +97,7 @@ function wpforms_visual_composer_shortcode_css() {
 		wp_enqueue_style(
 			'wpforms-full',
 			WPFORMS_PLUGIN_URL . 'assets/css/wpforms-full.css',
-			array(),
+			[],
 			WPFORMS_VERSION
 		);
 	}
@@ -105,7 +106,7 @@ function wpforms_visual_composer_shortcode_css() {
 		wp_enqueue_style(
 			'wpforms-base',
 			WPFORMS_PLUGIN_URL . 'assets/css/wpforms-base.css',
-			array(),
+			[],
 			WPFORMS_VERSION
 		);
 	}

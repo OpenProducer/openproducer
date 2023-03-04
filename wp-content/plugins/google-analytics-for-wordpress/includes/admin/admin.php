@@ -85,7 +85,7 @@ add_action( 'admin_menu', 'monsterinsights_admin_menu' );
  */
 function monsterinsights_woocommerce_menu_item() {
 	// Add "Insights" sub menu item for WooCommerce Analytics menu
-	if ( class_exists( 'WooCommerce' ) && ! apply_filters( 'monsterinsights_disable_woo_analytics_menu', false ) ) {
+	if ( class_exists( 'WooCommerce' ) ) {
 		if ( class_exists( 'MonsterInsights_eCommerce' ) ) {
 			add_submenu_page( 'wc-admin&path=/analytics/overview', __( 'Insights', 'google-analytics-for-wordpress' ), __( 'Insights', 'google-analytics-for-wordpress' ), 'monsterinsights_view_dashboard', admin_url( 'admin.php?page=monsterinsights_reports#/ecommerce' ), '', 2 );
 		} else {

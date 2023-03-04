@@ -12,7 +12,7 @@
 				],
 			]
 		),
-		'https://wpforms.com/docs/how-to-set-up-and-use-hcaptcha-in-wpforms'
+		esc_url( wpforms_utm_link( 'https://wpforms.com/docs/how-to-set-up-and-use-hcaptcha-in-wpforms/', 'Settings - Captcha', 'hCaptcha Documentation' ) )
 	);
 	?>
 </p>

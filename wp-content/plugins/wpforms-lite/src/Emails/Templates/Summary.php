@@ -27,9 +27,9 @@ class Summary extends General {
 	 */
 	protected function get_header_image() {
 
-		$img = array(
+		$img = [
 			'url' => \wpforms_setting( 'email-header-image' ),
-		);
+		];
 
 		if ( ! empty( $img['url'] ) ) {
 			return $img;
@@ -37,17 +37,17 @@ class Summary extends General {
 
 		// Set specific percentage WPForms logo width for modern email clients.
 		$this->set_args(
-			array(
-				'style' => array(
+			[
+				'style' => [
 					'header_image_max_width' => '45%',
-				),
-			)
+				],
+			]
 		);
 
 		// Set specific WPForms logo width in pixels for MS Outlook and old email clients.
-		return array(
+		return [
 			'url'   => \WPFORMS_PLUGIN_URL . 'assets/images/logo.png',
 			'width' => 250,
-		);
+		];
 	}
 }

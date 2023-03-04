@@ -24,7 +24,7 @@ class WPForms_Settings {
 	public function __construct() {
 
 		// Maybe load settings page.
-		add_action( 'admin_init', array( $this, 'init' ) );
+		add_action( 'admin_init', [ $this, 'init' ] );
 	}
 
 	/**
@@ -48,8 +48,8 @@ class WPForms_Settings {
 		// Determine the current active settings tab.
 		$this->view = isset( $_GET['view'] ) ? sanitize_key( wp_unslash( $_GET['view'] ) ) : 'general'; // phpcs:ignore WordPress.CSRF.NonceVerification
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueues' ) );
-		add_action( 'wpforms_admin_page', array( $this, 'output' ) );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueues' ] );
+		add_action( 'wpforms_admin_page', [ $this, 'output' ] );
 
 		// Monitor custom tables.
 		$this->monitor_custom_tables();
@@ -86,10 +86,10 @@ class WPForms_Settings {
 
 		// Get registered fields and current settings.
 		$fields   = $this->get_registered_settings( $current_view );
-		$settings = get_option( 'wpforms_settings', array() );
+		$settings = get_option( 'wpforms_settings', [] );
 
 		// Views excluded from saving list.
-		$exclude_views = apply_filters( 'wpforms_settings_exclude_view', array(), $fields, $settings );
+		$exclude_views = apply_filters( 'wpforms_settings_exclude_view', [], $fields, $settings );
 
 		if ( is_array( $exclude_views ) && in_array( $current_view, $exclude_views, true ) ) {
 			// Run a custom save processing for excluded views.
@@ -106,7 +106,7 @@ class WPForms_Settings {
 		foreach ( $fields as $id => $field ) {
 
 			// Certain field types are not valid for saving and are skipped.
-			$exclude = apply_filters( 'wpforms_settings_exclude_type', array( 'content', 'license', 'providers' ) );
+			$exclude = apply_filters( 'wpforms_settings_exclude_type', [ 'content', 'license', 'providers' ] );
 
 			if ( empty( $field['type'] ) || in_array( $field['type'], $exclude, true ) ) {
 				continue;
@@ -285,7 +285,7 @@ class WPForms_Settings {
 								],
 							]
 						),
-						'https://wpforms.com/docs/how-to-choose-an-include-form-styling-setting/'
+						esc_url( wpforms_utm_link( 'https://wpforms.com/docs/how-to-choose-an-include-form-styling-setting/', 'settings-license', 'Form Styling Documentation' ) )
 					),
 					'type'      => 'select',
 					'choicesjs' => true,
@@ -323,7 +323,7 @@ class WPForms_Settings {
 								],
 							]
 						),
-						'https://wpforms.com/docs/how-to-create-gdpr-compliant-forms/'
+						esc_url( wpforms_utm_link( 'https://wpforms.com/docs/how-to-create-gdpr-compliant-forms/', 'settings-license', 'GDPR Documentation' ) )
 					),
 					'type' => 'checkbox',
 				],
@@ -351,7 +351,7 @@ class WPForms_Settings {
 								],
 							]
 						),
-						'https://wpforms.com/docs/a-complete-guide-to-wpforms-settings/#email'
+						esc_url( wpforms_utm_link( 'https://wpforms.com/docs/a-complete-guide-to-wpforms-settings/#email', 'Settings - Email', 'Optimize Email Sending Documentation' ) )
 					),
 					'type' => 'checkbox',
 				],
@@ -378,6 +378,9 @@ class WPForms_Settings {
 					'desc'    => esc_html__( 'Customize the background color of the HTML email template.', 'wpforms-lite' ),
 					'type'    => 'color',
 					'default' => '#e9eaec',
+					'data'    => [
+						'fallback-color' => wpforms_setting( 'email-background-color', '#e9eaec' ),
+					],
 				],
 				'email-carbon-copy'      => [
 					'id'   => 'email-carbon-copy',
@@ -394,7 +397,7 @@ class WPForms_Settings {
 						esc_html__( '%1$s These messages are displayed to the users as they fill out a form in real-time. Messages can include plain text and/or %2$sSmart Tags%3$s.', 'wpforms-lite' ),
 						'<h4>' . esc_html__( 'Validation Messages', 'wpforms-lite' )
 						. '</h4><p>',
-						'<a href="https://wpforms.com/docs/how-to-use-smart-tags-in-wpforms/#smart-tags" target="_blank" rel="noopener noreferrer">',
+						'<a href="' . esc_url( wpforms_utm_link( 'https://wpforms.com/docs/how-to-use-smart-tags-in-wpforms/#smart-tags', 'Settings - Validation', 'Smart Tag Documentation' ) ) . '" target="_blank" rel="noopener noreferrer">',
 						'</a>'
 					),
 					'type'     => 'content',
@@ -553,7 +556,7 @@ class WPForms_Settings {
 	 */
 	public function get_settings_fields( $view = '' ) {
 
-		$fields   = array();
+		$fields   = [];
 		$settings = $this->get_registered_settings( $view );
 
 		foreach ( $settings as $id => $args ) {
@@ -583,7 +586,7 @@ class WPForms_Settings {
 
 			<?php
 			if ( wpforms()->is_pro() && class_exists( 'WPForms_License', false ) ) {
-				wpforms()->license->notices( true );
+				wpforms()->get( 'license' )->notices( true );
 			}
 			?>
 

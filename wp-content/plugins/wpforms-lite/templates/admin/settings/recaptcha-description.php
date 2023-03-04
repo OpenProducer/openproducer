@@ -40,7 +40,7 @@
 				],
 			]
 		),
-		'https://wpforms.com/docs/how-to-set-up-and-use-recaptcha-in-wpforms/'
+		esc_url( wpforms_utm_link( 'https://wpforms.com/docs/how-to-set-up-and-use-recaptcha-in-wpforms/', 'Settings - Captcha', 'reCAPTCHA Documentation' ) )
 	);
 	?>
 </p>

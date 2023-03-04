@@ -25,7 +25,7 @@ class Analytics {
 	 *
 	 * @var array
 	 */
-	private $config = array(
+	private $config = [
 		'lite_plugin'         => 'google-analytics-for-wordpress/googleanalytics.php',
 		'lite_wporg_url'      => 'https://wordpress.org/plugins/google-analytics-for-wordpress/',
 		'lite_download_url'   => 'https://downloads.wordpress.org/plugin/google-analytics-for-wordpress.zip',
@@ -35,7 +35,7 @@ class Analytics {
 		'mi_onboarding'       => 'admin.php?page=monsterinsights-onboarding',
 		'mi_addons'           => 'admin.php?page=monsterinsights_settings#/addons',
 		'mi_forms'            => 'admin.php?page=monsterinsights_reports#/forms',
-	);
+	];
 
 	/**
 	 * Runtime data used for generating page HTML.
@@ -44,7 +44,7 @@ class Analytics {
 	 *
 	 * @var array
 	 */
-	private $output_data = array();
+	private $output_data = [];
 
 	/**
 	 * Constructor.
@@ -68,7 +68,7 @@ class Analytics {
 	public function hooks() {
 
 		if ( wp_doing_ajax() ) {
-			add_action( 'wp_ajax_wpforms_analytics_page_check_plugin_status', array( $this, 'ajax_check_plugin_status' ) );
+			add_action( 'wp_ajax_wpforms_analytics_page_check_plugin_status', [ $this, 'ajax_check_plugin_status' ] );
 		}
 
 		// Check what page we are on.
@@ -79,10 +79,10 @@ class Analytics {
 			return;
 		}
 
-		add_action( 'admin_init', array( $this, 'redirect_to_mi_forms' ) );
+		add_action( 'admin_init', [ $this, 'redirect_to_mi_forms' ] );
 		add_filter( 'wpforms_admin_header', '__return_false' );
-		add_action( 'wpforms_admin_page', array( $this, 'output' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'wpforms_admin_page', [ $this, 'output' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 
 		// Hook for addons.
 		do_action( 'wpforms_admin_pages_analytics_hooks' );
@@ -108,7 +108,7 @@ class Analytics {
 		wp_enqueue_script(
 			'wpforms-lity',
 			WPFORMS_PLUGIN_URL . 'assets/lib/lity/lity.min.js',
-			array( 'jquery' ),
+			[ 'jquery' ],
 			'3.0.0',
 			true
 		);
@@ -116,7 +116,7 @@ class Analytics {
 		wp_enqueue_script(
 			'wpforms-admin-page-analytics',
 			WPFORMS_PLUGIN_URL . "assets/js/components/admin/pages/mi-analytics{$min}.js",
-			array( 'jquery' ),
+			[ 'jquery' ],
 			WPFORMS_VERSION,
 			true
 		);
@@ -392,7 +392,7 @@ class Analytics {
 	 */
 	protected function get_data_step_install() {
 
-		$step                = array();
+		$step                = [];
 		$step['heading']     = esc_html__( 'Install & Activate MonsterInsights', 'wpforms-lite' );
 		$step['description'] = esc_html__( 'Track form impressions and conversions.', 'wpforms-lite' );
 
@@ -436,7 +436,7 @@ class Analytics {
 	 */
 	protected function get_data_step_setup() {
 
-		$step = array();
+		$step = [];
 
 		$this->output_data['plugin_setup'] = false;
 		if ( $this->output_data['plugin_activated'] ) {
@@ -468,7 +468,7 @@ class Analytics {
 	 */
 	protected function get_data_step_addon() {
 
-		$step = array();
+		$step = [];
 
 		$step['icon']          = 'step-3.svg';
 		$step['section_class'] = $this->output_data['plugin_setup'] ? '' : 'grey';
@@ -518,19 +518,19 @@ class Analytics {
 			! wpforms_current_user_can()
 		) {
 			wp_send_json_error(
-				array(
+				[
 					'error' => esc_html__( 'You do not have permission.', 'wpforms-lite' ),
-				)
+				]
 			);
 		}
 
-		$result = array();
+		$result = [];
 
 		if ( ! function_exists( 'MonsterInsights' ) || ! function_exists( 'monsterinsights_get_ua' ) ) {
 			wp_send_json_error(
-				array(
+				[
 					'error' => esc_html__( 'Plugin unavailable.', 'wpforms-lite' ),
-				)
+				]
 			);
 		}
 

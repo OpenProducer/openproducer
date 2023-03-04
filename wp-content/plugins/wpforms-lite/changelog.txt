@@ -1,5 +1,48 @@
 == Changelog ==
 
+= 1.8.0.2 =
+- Changed: Updated DOMPurify library to 3.0.1.
+- Fixed: An error occurred when the DreamHost Panel Login plugin and WPForms Lite were both active and WPForms Pro was activated.
+- Fixed: Form template block in the Form Builder could overflow the container on smaller screen sizes.
+- Fixed: Long links in the HTML email messages did not wrap and caused overflow issues.
+- Fixed: Google reCAPTCHA v2 could not be reset on server-side validation failure.
+
+= 1.8.0.1 =
+- Added: Prevent spam submissions using the new Cloudflare Turnstile anti-spam integration. You can find it on the Settings > CAPTCHA page.
+- Changed: Non-public taxonomies should not be displayed in Dynamic Choices' available sources.
+- Changed: External usage of removed PHP classes is now handled gracefully without generating fatal errors.
+- Changed: The performance of the Email field validation is improved when using an allowlist or denylist.
+- Changed: Updated DOMPurify library to 2.4.3.
+- Fixed: The Dropdown field text indentation was incorrect in the Form Builder in Firefox.
+- Fixed: Various notification modals' titles had inconsistent sizes in the Form Builder.
+- Fixed: Validation errors in various modals were inconsistent in the Form Builder.
+- Fixed: When duplicating an inactive field, the settings of the active field are now removed properly.
+- Fixed: Some cache files were unnecessarily re-downloaded on the front end.
+- Fixed: Users with roles other than Administrator could not add the reCAPTCHA/hCaptcha field and dismiss notices even if they had sufficient permissions.
+- Fixed: Number Slider field validation failed if a maximum value was not a multiple of steps..
+- Fixed: HTML markup in the Default Text of Paragraph Text fields was not being displayed on the front end and in the Form Builder preview.
+
+= 1.7.9.1 =
+- Fixed: Incorrect spacing around the Submit button in the Form Builder was fixed.
+- Fixed: Missing assets were added to the plugin.
+
+= 1.7.9 =
+- Added: Icon Choices feature for Checkboxes and Multiple Choice fields - a selection of 2000+ icons can now be used with your choices!
+- Changed: Avoid rendering the WPForms Import admin page if the user lacks `unfiltered_html` capability.
+- Changed: Respect site settings for displaying avatars on the Revisions screen in the Form Builder.
+- Changed: Color picker fields in the Form Builder are now correctly handling default colors.
+- Changed: In the form Notifications you can now set up the Reply-To Name value in addition to the Reply-To Email using a special format.
+- Changed: Updated jquery-confirm library to 3.3.4.
+- Fixed: Prevent field duplication in the Form Builder performed multiple times when clicking fast inside the confirmation modal.
+- Fixed: Action links were rendered on two lines in the admin dashboard widget.
+- Fixed: PHP notices were generated when form locations logic ran for unregistered post types.
+- Fixed: The Embed modal performance in the Form Builder was improved a lot when there are a ton of pages on a site.
+- Fixed: The confirmation message for non-AJAX form submissions wasn't wrapped into the main form container.
+- Fixed: Improved compatibility with Elementor popups v3.9+.
+- Fixed: Notification email suggestion didn't work properly in WordPress installed in a subdomain.
+- Fixed: `{page_title}` smart tag was conflicting with the wpSEO plugin.
+- Fixed: Better compatibility with the Popup Maker plugin.
+
 = 1.7.8 =
 - Added: All anti-spam protection settings are grouped in one place in the Form Builder > Settings for easier access.
 - Changed: Recently added Form Templates are now available in the "New Templates" category.

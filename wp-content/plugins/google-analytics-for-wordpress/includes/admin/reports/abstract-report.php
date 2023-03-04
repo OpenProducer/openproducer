@@ -171,14 +171,18 @@ class MonsterInsights_Report {
 		if ( ! $this->is_valid_date_range( $start, $end ) ) {
 			return array(
 				'success' => false,
-				'error'   => __( 'Invalid date range.', 'google-analytics-for-wordpress' ),
-				'data'    => array(),
+				'error'   => __( 'Whoops! No data found for this date range', 'google-analytics-for-wordpress' ),
+				'data'    => array(
+					'type' => 'INVALID_DATE_RANGE',
+				),
 			);
 		}
 
 		if ( ( $start !== $this->default_start_date() || $end !== $this->default_end_date() ) && ! monsterinsights_is_pro_version() ) {
-			$start = $this->default_start_date();
-			$end   = $this->default_end_date();
+			// On lite version, the date range is blocked with upgrade to pro message and this conflicts with getting YIR report.
+			// $start = $this->default_start_date();
+			// $end   = $this->default_end_date();
+
 			// return array(
 			// 	'success' => false,
 			// 	'error'   => __( 'Please upgrade to MonsterInsights Pro to use custom date ranges.', 'google-analytics-for-wordpress' ),

@@ -7,7 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'MC4WP_API' => $baseDir . '/includes/api/class-api.php',
     'MC4WP_API_Connection_Exception' => $baseDir . '/includes/api/class-connection-exception.php',
     'MC4WP_API_Exception' => $baseDir . '/includes/api/class-exception.php',
     'MC4WP_API_Resource_Not_Found_Exception' => $baseDir . '/includes/api/class-resource-not-found-exception.php',

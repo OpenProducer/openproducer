@@ -20,6 +20,7 @@ class WPForms_Review {
 
 		// Admin footer text.
 		add_filter( 'admin_footer_text', [ $this, 'admin_footer' ], 1, 2 );
+		add_action( 'in_admin_footer', [ $this, 'promote_wpforms' ] );
 	}
 
 	/**
@@ -221,7 +222,7 @@ class WPForms_Review {
 			$url  = 'https://wordpress.org/support/plugin/wpforms-lite/reviews/?filter=5#new-post';
 			$text = sprintf(
 				wp_kses( /* translators: $1$s - WPForms plugin name; $2$s - WP.org review link; $3$s - WP.org review link. */
-					__( 'Please rate %1$s <a href="%2$s" target="_blank" rel="noopener noreferrer">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href="%3$s" target="_blank" rel="noopener">WordPress.org</a> to help us spread the word. Thank you from the WPForms team!', 'wpforms-lite' ),
+					__( 'Please rate %1$s <a href="%2$s" target="_blank" rel="noopener noreferrer">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href="%3$s" target="_blank" rel="noopener">WordPress.org</a> to help us spread the word.', 'wpforms-lite' ),
 					[
 						'a' => [
 							'href'   => [],
@@ -239,6 +240,76 @@ class WPForms_Review {
 		return $text;
 	}
 
+	/**
+	 * Pre-footer promotion block, displayed on all WPForms admin pages except Form Builder.
+	 *
+	 * @since 1.8.0
+	 */
+	public function promote_wpforms() {
+
+		// Some 3rd-party addons may use page slugs that start with `wpforms-` (e.g. WPForms Views),
+		// so we should define exact pages we want the footer to be displayed on instead
+		// of targeting any page that looks like a WPForms page.
+		$plugin_pages = [
+			'wpforms-about',
+			'wpforms-addons',
+			'wpforms-analytics',
+			'wpforms-community',
+			'wpforms-entries',
+			'wpforms-overview',
+			'wpforms-settings',
+			'wpforms-smtp',
+			'wpforms-templates',
+			'wpforms-tools',
+		];
+
+		// phpcs:ignore WordPress.Security.NonceVerification
+		$current_page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
+
+		if ( ! in_array( $current_page, $plugin_pages, true ) ) {
+			return;
+		}
+
+		$links = [
+			[
+				'url'    => wpforms()->is_pro() ?
+					wpforms_utm_link(
+						'https://wpforms.com/account/support/',
+						'Plugin Footer',
+						'Contact Support'
+					) : 'https://wordpress.org/support/plugin/wpforms-lite/',
+				'text'   => __( 'Support', 'wpforms-lite' ),
+				'target' => '_blank',
+			],
+			[
+				'url'    => wpforms_utm_link(
+					'https://wpforms.com/docs/',
+					'Plugin Footer',
+					'Plugin Documentation'
+				),
+				'text'   => __( 'Docs', 'wpforms-lite' ),
+				'target' => '_blank',
+			],
+			[
+				'url'    => 'https://www.facebook.com/groups/461389447755778',
+				'text'   => __( 'VIP Circle', 'wpforms-lite' ),
+				'target' => '_blank',
+			],
+			[
+				'url'  => admin_url( 'admin.php?page=wpforms-about' ),
+				'text' => __( 'Free Plugins', 'wpforms-lite' ),
+			],
+		];
+
+		echo wpforms_render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			'admin/promotion',
+			[
+				'title' => __( 'Made with ♥ by the WPForms Team', 'wpforms-lite' ),
+				'links' => $links,
+			],
+			true
+		);
+	}
 }
 
 new WPForms_Review();

@@ -24,12 +24,12 @@ class WPForms_Widget extends WP_Widget {
 	public function __construct() {
 
 		// Widget defaults.
-		$this->defaults = array(
+		$this->defaults = [
 			'title'      => '',
 			'form_id'    => '',
 			'show_title' => false,
 			'show_desc'  => false,
-		);
+		];
 
 		// Widget Slug.
 		$widget_slug = 'wpforms-widget';
@@ -42,9 +42,9 @@ class WPForms_Widget extends WP_Widget {
 		];
 
 		// Widget controls.
-		$control_ops = array(
+		$control_ops = [
 			'id_base' => $widget_slug,
-		);
+		];
 
 		// Load widget.
 		parent::__construct( $widget_slug, esc_html_x( 'WPForms', 'Widget', 'wpforms-lite' ), $widget_ops, $control_ops );

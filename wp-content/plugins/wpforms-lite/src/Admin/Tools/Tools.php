@@ -32,7 +32,7 @@ class Tools {
 	 *
 	 * @var null|\WPForms\Admin\Tools\Views\View
 	 */
-	private $view = null;
+	private $view;
 
 	/**
 	 * The active view slug.
@@ -50,13 +50,12 @@ class Tools {
 	 */
 	public function init() {
 
-		if ( $this->is_tools_page() ) {
-
-			$this->init_view();
-			$this->hooks();
-
+		if ( ! $this->is_tools_page() ) {
+			return;
 		}
 
+		$this->init_view();
+		$this->hooks();
 	}
 
 	/**
@@ -68,7 +67,8 @@ class Tools {
 	 */
 	private function is_tools_page() {
 
-		$page = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : ''; //phpcs:ignore WordPress.Security
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$page = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : '';
 
 		// Only load if we are actually on the settings page.
 		return $page === self::SLUG;
@@ -84,7 +84,8 @@ class Tools {
 		$view_ids = array_keys( $this->get_views() );
 
 		// Determine the current active settings tab.
-		$this->active_view_slug = ! empty( $_GET['view'] ) ? sanitize_key( $_GET['view'] ) : 'import'; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$this->active_view_slug = ! empty( $_GET['view'] ) ? sanitize_key( $_GET['view'] ) : 'import';
 
 		// If the user tries to load an invalid view - fallback to the first available.
 		if (
@@ -152,7 +153,6 @@ class Tools {
 	 */
 	public function output() {
 		?>
-
 		<div id="wpforms-tools" class="wrap wpforms-admin-wrap wpforms-tools-tab-<?php echo esc_attr( $this->active_view_slug ); ?>">
 
 			<?php
@@ -169,7 +169,7 @@ class Tools {
 						'<a href="%1$s" class="%2$s">%3$s</a>',
 						esc_url( $view->get_link() ),
 						sanitize_html_class( $this->active_view_slug === $slug ? 'active' : '' ),
-						$view->get_label() //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						esc_html( $view->get_label() )
 					);
 					echo '</li>';
 				}

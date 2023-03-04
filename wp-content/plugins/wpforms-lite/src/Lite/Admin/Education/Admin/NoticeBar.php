@@ -64,7 +64,7 @@ class NoticeBar implements Education\EducationInterface {
 		echo wpforms_render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			'education/admin/notice-bar',
 			[
-				'upgrade_link' => wpforms_admin_upgrade_link( 'notice-bar' ),
+				'upgrade_link' => wpforms_admin_upgrade_link( 'notice-bar', 'Upgrade to WPForms Pro' ),
 			],
 			true
 		);

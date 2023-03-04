@@ -1,9 +1,9 @@
 === Font Awesome ===
 Contributors: fontawesome, mlwilkerson, robmadole, frrrances, deathnfudge
-Stable tag: 4.3.1
+Stable tag: 4.3.2
 Tags: font, awesome, fontawesome, font-awesome, icon, svg, webfont
 Requires at least: 4.7
-Tested up to: 6.0.2
+Tested up to: 6.1.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -161,6 +161,9 @@ You can get more information about all the available settings and troubleshootin
 
 
 == Changelog ==
+
+= 4.3.2 =
+* Security Fix: escape shortcode attribute values.
 
 = 4.3.1 =
 * Increase network request timeout to accommodate some slow-running Icon Chooser searches.

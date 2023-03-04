@@ -34,6 +34,15 @@ class Integration extends API {
 	const LITE_CONNECT_ENTRIES_COUNT_OPTION = 'wpforms_lite_connect_entries_count';
 
 	/**
+	 * Post meta name to store the total count of Lite Connect form entries.
+	 *
+	 * @since 1.7.9
+	 *
+	 * @var string
+	 */
+	const LITE_CONNECT_FORM_ENTRIES_COUNT_META = 'wpforms_lite_connect_form_entries_count';
+
+	/**
 	 * Integration constructor.
 	 *
 	 * @since 1.7.4
@@ -212,6 +221,20 @@ class Integration extends API {
 	public static function get_entries_count() {
 
 		return (int) get_option( self::LITE_CONNECT_ENTRIES_COUNT_OPTION, 0 );
+	}
+
+	/**
+	 * Get the Lite Connect form entries count.
+	 *
+	 * @since 1.7.9
+	 *
+	 * @param int $form_id The form ID.
+	 *
+	 * @return int The form entries count.
+	 */
+	public static function get_form_entries_count( $form_id ) {
+
+		return (int) get_post_meta( $form_id, self::LITE_CONNECT_FORM_ENTRIES_COUNT_META, true );
 	}
 
 	/**

@@ -105,7 +105,7 @@ class Community {
 			'title'          => esc_html__( 'WPForms Translators Community', 'wpforms-lite' ),
 			'description'    => esc_html__( 'We\'re building a community of translators and i18n experts to translate WPForms. Sign up to our translator community newsletter to learn more and get information on how you can contribute!', 'wpforms-lite' ),
 			'button_text'    => esc_html__( 'Join Translators Community', 'wpforms-lite' ),
-			'button_link'    => 'https://wpforms.com/translator-community-signup/?utm_source=WordPress&amp;utm_medium=Community&amp;utm_campaign=' . esc_attr( $type ) . '&amp;utm_content=Translators',
+			'button_link'    => 'https://wpforms.com/translate/?utm_source=WordPress&amp;utm_medium=Community&amp;utm_campaign=' . esc_attr( $type ) . '&amp;utm_content=Translators',
 			'cover_bg_color' => '#F2FAED',
 			'cover_img'      => 'translators.png',
 			'cover_img2x'    => 'translators@2x.png',

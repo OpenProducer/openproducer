@@ -280,30 +280,43 @@ class Fields {
 	 *
 	 * @since 1.6.6
 	 *
-	 * @return array|false Captcha field data.
+	 * @return array Captcha field data.
 	 */
 	private function get_captcha() {
 
 		$captcha_settings = wpforms_get_captcha_settings();
 
 		if ( empty( $captcha_settings['provider'] ) ) {
-			return false;
+			return [];
 		}
 
+		$captcha = [
+			'hcaptcha'  => [
+				'name' => 'hCaptcha',
+				'icon' => 'fa-question-circle-o',
+			],
+			'recaptcha' => [
+				'name' => 'reCAPTCHA',
+				'icon' => 'fa-google',
+			],
+			'turnstile' => [
+				'name' => 'Turnstile',
+				'icon' => 'fa-question-circle-o',
+			],
+		];
+
 		if ( ! empty( $captcha_settings['site_key'] ) || ! empty( $captcha_settings['secret_key'] ) ) {
-			$captcha_name    = $captcha_settings['provider'] === 'hcaptcha' ? esc_html__( 'hCaptcha', 'wpforms-lite' ) : esc_html__( 'reCAPTCHA', 'wpforms-lite' );
-			$captcha_name_en = $captcha_settings['provider'] === 'hcaptcha' ? 'hCaptcha' : 'reCAPTCHA';
-			$captcha_icon    = $captcha_settings['provider'] === 'hcaptcha' ? 'fa-question-circle-o' : 'fa-google';
+			$captcha_name = $captcha[ $captcha_settings['provider'] ]['name'];
+			$captcha_icon = $captcha[ $captcha_settings['provider'] ]['icon'];
 		} else {
-			$captcha_name    = esc_html__( 'CAPTCHA', 'wpforms-lite' );
-			$captcha_name_en = 'CAPTCHA';
-			$captcha_icon    = 'fa-question-circle-o';
+			$captcha_name = 'CAPTCHA';
+			$captcha_icon = 'fa-question-circle-o';
 		}
 
 		return [
 			'icon'    => $captcha_icon,
 			'name'    => $captcha_name,
-			'name_en' => $captcha_name_en,
+			'name_en' => $captcha_name,
 			'type'    => 'captcha_' . $captcha_settings['provider'],
 			'group'   => 'standard',
 			'order'   => 180,

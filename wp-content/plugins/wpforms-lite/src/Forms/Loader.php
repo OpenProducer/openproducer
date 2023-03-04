@@ -32,9 +32,9 @@ class Loader {
 	 */
 	public function __construct() {
 
-		$core_class_names = array(
+		$core_class_names = [
 			'Preview',
-		);
+		];
 
 		$class_names = \apply_filters( 'wpforms_forms_classes_available', $core_class_names );
 

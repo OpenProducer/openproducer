@@ -136,12 +136,10 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 		 * Constructor
 		 */
 		public function __construct() {
-
-			require UAGB_DIR . 'classes/class-uagb-config.php';
 			require UAGB_DIR . 'classes/class-uagb-block-helper.php';
 			require UAGB_DIR . 'classes/class-uagb-block-js.php';
 
-			self::$block_list      = UAGB_Config::get_block_attributes();
+			self::$block_list      = UAGB_Block_Module::get_blocks_info();
 			self::$file_generation = self::allow_file_generation();
 		}
 
@@ -303,7 +301,7 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 			}
 			if ( '' !== $path && null !== $view ) {
 				?>
-				<svg xmlns="https://www.w3.org/2000/svg" viewBox= "<?php echo esc_html( $view ); ?>"><path d="<?php echo esc_html( $path ); ?>"></path></svg>
+				<svg xmlns="https://www.w3.org/2000/svg" viewBox= "<?php echo esc_attr( $view ); ?>"><path d="<?php echo esc_attr( $path ); ?>"></path></svg>
 				<?php
 			}
 		}

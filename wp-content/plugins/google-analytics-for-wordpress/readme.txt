@@ -3,8 +3,8 @@ Contributors: chriscct7, smub
 Donate link: http://www.wpbeginner.com/wpbeginner-needs-your-help/
 Tags: WordPress analytics, google analytics, google analytics dashboard, google analytics widget, WooCommerce stats, analytics dashboard, universal google analytics, statistics, tracking, stats, google, google analytics by yoast, ga, monster insights, monsterinsights, universal analytics, web stats, ecommerce, ecommerce tracking
 Requires at least: 4.8.0
-Tested up to: 6.1
-Stable tag: 8.10.1
+Tested up to: 6.1.1
+Stable tag: 8.12.1
 Requires PHP: 5.6
 License: GPL v3
 
@@ -241,7 +241,7 @@ After reading this exhaustive feature list, you can probably imagine why Monster
 
 Give MonsterInsights a try.
 
-Want to unlock even more features? <a href="?utm_source=wprepo&utm_medium=link&utm_campaign=liteversion" rel="friend">Upgrade to our Pro version</a>.
+Want to unlock even more features? <a href="https://www.monsterinsights.com/?utm_source=wprepo&utm_medium=link&utm_campaign=liteversion" rel="friend">Upgrade to our Pro version</a>.
 
 >Simple, yet powerful. Amazing piece of plugin, does exactly what expected and even more.<br>
 > Matt Jaworski
@@ -298,6 +298,20 @@ You can also learn about other <a href="http://www.wpbeginner.com/category/plugi
 4. Want more features? <a href="https://www.monsterinsights.com/?utm_source=wprepo&utm_medium=link&utm_campaign=liteversion">Purchase MonsterInsights Pro</a>!
 
 == Changelog ==
+= 8.12.1: Jan 12, 2023 =
+- Fix: We made updates to authentication
+
+= 8.12.0: Jan 12, 2023 =
+- Enhancement: We updated and fixed some UI/UX elements to make MonsterInsights easier to use
+- Enhancement: We optimized our Javascript code to work better with minification plugins
+- Enhancement: We optimized our Javascript code to work better with minification plugins
+- Enhancement: We optimized the Javascript code to work nicely with minification plugins
+- Enhancement: We optimized our code to work better with PHP8
+
+= 8.11.0: Dec 12, 2022 =
+- New: With our limited-time-only Year in Review report you’ll be able to see how your site performed in 2022 and how to improve in 2023. This report will be automatically available from January 1 to January 14, 2023, inside the Reports section of MonsterInsights.
+- Enhancement: We optimized our media addon events.
+
 = 8.10.1: Nov 09, 2022 =
 - Fix: We fixed a bug in our auto-update logic when it encounters double digit version numbers. 
 

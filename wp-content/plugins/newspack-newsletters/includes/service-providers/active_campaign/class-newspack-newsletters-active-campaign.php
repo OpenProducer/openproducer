@@ -34,6 +34,20 @@ final class Newspack_Newsletters_Active_Campaign extends \Newspack_Newsletters_S
 	private $contact_data = [];
 
 	/**
+	 * Whether the provider has support to tags and tags based Subscription Lists.
+	 *
+	 * @var boolean
+	 */
+	public static $support_tags = false;
+
+	/**
+	 * Provider name.
+	 *
+	 * @var string
+	 */
+	public $name = 'ActiveCampaign';
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -42,6 +56,8 @@ final class Newspack_Newsletters_Active_Campaign extends \Newspack_Newsletters_S
 
 		add_action( 'save_post_' . Newspack_Newsletters::NEWSPACK_NEWSLETTERS_CPT, [ $this, 'save' ], 10, 3 );
 		add_action( 'wp_trash_post', [ $this, 'trash' ], 10, 1 );
+
+		add_action( 'newspack_newsletters_subscription_lists_metabox_after_tag', [ $this, 'lists_metabox_notice' ] );
 
 		parent::__construct( $this );
 	}
@@ -178,6 +194,244 @@ final class Newspack_Newsletters_Active_Campaign extends \Newspack_Newsletters_S
 	}
 
 	/**
+	 * Retrieve the ESP's tag ID from its name
+	 *
+	 * @param string  $tag_name The tag.
+	 * @param boolean $create_if_not_found Whether to create a new tag if not found. Default to true.
+	 * @param string  $list_id The List ID. Not needed for Active Campaign.
+	 * @return int|WP_Error The tag ID on success. WP_Error on failure.
+	 */
+	public function get_tag_id( $tag_name, $create_if_not_found = true, $list_id = null ) {
+		$tag_name = (string) $tag_name;
+		$search   = $this->api_v3_request(
+			'tags',
+			'GET',
+			[
+				'query' => [
+					'search' => $tag_name,
+				],
+			]
+		);
+		if ( ! empty( $search['tags'] ) ) {
+			foreach ( $search['tags'] as $found_tag ) {
+				if ( ! empty( $found_tag['tag'] ) && $tag_name === $found_tag['tag'] ) {
+					return (int) $found_tag['id'];
+				}
+			}
+		}
+
+		// Tag was not found.
+		if ( ! $create_if_not_found ) {
+			return new WP_Error(
+				'newspack_newsletter_tag_not_found'
+			);
+		}
+
+		$created = $this->create_tag( $tag_name );
+
+		return (int) $created['id'];
+	}
+
+	/**
+
+	 * Retrieve the ESP's tag name from its ID
+	 *
+	 * @param int    $tag_id The tag ID.
+	 * @param string $list_id The List ID.
+	 * @return string|WP_Error The tag name on success. WP_Error on failure.
+	 */
+	public function get_tag_by_id( $tag_id, $list_id = null ) {
+		$search = $this->api_v3_request(
+			sprintf( 'tags/%d', $tag_id )
+		);
+		if ( ! empty( $search['tag'] ) && ! empty( $search['tag']['tag'] ) ) {
+			return $search['tag']['tag'];
+		}
+		return new WP_Error(
+			'newspack_newsletter_tag_not_found'
+		);
+	}
+
+	/**
+	 * Get the IDs of the tags associated with a contact.
+	 *
+	 * @param string $email The contact email.
+	 * @return array|WP_Error The tag IDs on success. WP_Error on failure.
+	 */
+	public function get_contact_tags_ids( $email ) {
+		$contact_data = $this->get_contact_data( $email );
+		if ( is_wp_error( $contact_data ) ) {
+			return $contact_data;
+		}
+		$result = $this->api_v3_request(
+			sprintf( 'contacts/%d/contactTags', $contact_data['id'] ),
+			'GET'
+		);
+
+		return array_values(
+			array_map(
+				function( $tag ) {
+					return (int) $tag['tag'];
+				},
+				$result['contactTags']
+			)
+		);
+
+	}
+
+	/**
+	 * Create a Tag on the provider
+	 *
+	 * @param string $tag The Tag name.
+	 * @param string $list_id The List ID. Not needed for Active Campaign.
+	 * @return array|WP_Error The tag representation with at least 'id' and 'name' keys on succes. WP_Error on failure.
+	 */
+	public function create_tag( $tag, $list_id = null ) {
+		$tag_info = [
+			'tag' => [
+				'tag'         => $tag,
+				'tagType'     => 'contact',
+				'description' => 'Created by Newspack Newsletters to manage subscription lists',
+			],
+		];
+
+		$created = $this->api_v3_request(
+			'tags',
+			'POST',
+			[
+				'body' => wp_json_encode( $tag_info ),
+			]
+		);
+		if ( is_array( $created ) && ! empty( $created['tag'] ) && ! empty( $created['tag']['id'] ) ) {
+			$created['tag']['name'] = $created['tag']['tag'];
+			return $created['tag'];
+		}
+		return new WP_Error(
+			'newspack_newsletters_error_creating_tag',
+			! empty( $created['error'] ) ? $created['error'] : ''
+		);
+	}
+
+	/**
+	 * Add a tag to a contact
+	 *
+	 * @param string     $email The contact email.
+	 * @param string|int $tag The tag ID retrieved with get_tag_id() or the the tag string.
+	 * @param string     $list_id The List ID. Not needed for Active Campaign.
+	 * @return true|WP_Error
+	 */
+	public function add_tag_to_contact( $email, $tag, $list_id = null ) {
+		$existing_contact = $this->get_contact_data( $email );
+		if ( is_wp_error( $existing_contact ) ) {
+			return $existing_contact;
+		}
+		if ( ! is_integer( $tag ) ) {
+			$tag = $this->get_tag_id( (string) $tag );
+			if ( is_wp_error( $tag ) ) {
+				return $tag;
+			}
+		}
+
+		$contact_tag = [
+			'contactTag' => [
+				'contact' => (int) $existing_contact['id'],
+				'tag'     => $tag,
+			],
+		];
+
+		$created = $this->api_v3_request(
+			'contactTags',
+			'POST',
+			[
+				'body' => wp_json_encode( $contact_tag ),
+			]
+		);
+
+		if ( is_array( $created ) && ! empty( $created['contacts'] ) ) {
+			return true;
+		}
+
+		return new WP_Error(
+			'newspack_newsletter_error_adding_tag_to_contact',
+			! empty( $created['message'] ) ? $created['message'] : ''
+		);
+
+	}
+
+	/**
+	 * Remove a tag from a contact
+	 *
+	 * @param string     $email The contact email.
+	 * @param string|int $tag The tag ID retrieved with get_tag_id() or the the tag string.
+	 * @param string     $list_id The List ID. Not needed for Active Campaign.
+	 * @return true|WP_Error
+	 */
+	public function remove_tag_from_contact( $email, $tag, $list_id = null ) {
+		$existing_contact = $this->get_contact_data( $email );
+		if ( is_wp_error( $existing_contact ) ) {
+			return $existing_contact;
+		}
+		if ( ! is_integer( $tag ) ) {
+			$tag = $this->get_tag_id( (string) $tag, false );
+			if ( is_wp_error( $tag ) ) {
+				return $tag;
+			}
+		}
+
+		$contact_tag_id = $this->get_contact_tag_id( $email, $tag );
+
+		if ( is_wp_error( $contact_tag_id ) ) {
+			return $contact_tag_id;
+		}
+
+		$deleted = $this->api_v3_request(
+			sprintf( 'contactTags/%d', $contact_tag_id ),
+			'DELETE'
+		);
+
+		if ( is_array( $deleted ) && empty( $deleted ) ) {
+			return true;
+		}
+
+		return new WP_Error(
+			'newspack_newsletter_error_removing_tag_from_contact',
+			! empty( $deleted['message'] ) ? $deleted['message'] : ''
+		);
+
+	}
+
+	/**
+	 * Get the ContactTag relationship ID from the provider
+	 *
+	 * @param string $email The contact email.
+	 * @param int    $tag_id The Tag ID retrieved with get_tag_id.
+	 * @return int|WP_Error The ID on success. WP_Error on failure.
+	 */
+	private function get_contact_tag_id( $email, $tag_id ) {
+		$existing_contact = $this->get_contact_data( $email );
+		if ( is_wp_error( $existing_contact ) ) {
+			return $existing_contact;
+		}
+
+		$contact_tags = $this->api_v3_request(
+			sprintf( 'contacts/%d/contactTags', (int) $existing_contact['id'] ),
+			'GET'
+		);
+
+		if ( is_array( $contact_tags ) && ! empty( $contact_tags['contactTags'] ) ) {
+			foreach ( $contact_tags['contactTags'] as $contact_tag ) {
+				if ( (int) $tag_id === (int) $contact_tag['tag'] ) {
+					return (int) $contact_tag['id'];
+				}
+			}
+		}
+
+		return new WP_Error(
+			'newspack_newsletter_error_fetching_contact_tags'
+		);
+	}
+
+	/**
 	 * Set the API credentials for the service provider.
 	 *
 	 * @param array $credentials API credentials.
@@ -214,27 +468,6 @@ final class Newspack_Newsletters_Active_Campaign extends \Newspack_Newsletters_S
 		unset( $lists['result_output'] );
 		$this->lists = array_values( $lists );
 		return $this->lists;
-	}
-
-	/**
-	 * Get fields.
-	 *
-	 * @return array|WP_Error List os existing fields or error.
-	 */
-	public function get_fields() {
-		if ( null !== $this->fields ) {
-			return $this->fields;
-		}
-		$fields = $this->api_v1_request( 'list_field_view', 'GET', [ 'query' => [ 'ids' => 'all' ] ] );
-		if ( is_wp_error( $fields ) ) {
-			return $fields;
-		}
-		// Remove result metadata.
-		unset( $fields['result_code'] );
-		unset( $fields['result_message'] );
-		unset( $fields['result_output'] );
-		$this->fields = array_values( $fields );
-		return $this->fields;
 	}
 
 	/**
@@ -684,33 +917,27 @@ final class Newspack_Newsletters_Active_Campaign extends \Newspack_Newsletters_S
 	}
 
 	/**
-	 * Get data type ID for a given field.
-	 *
-	 * Possible values:
-	 *  1 = Text Field,
-	 *  2 = Text Box (textarea),
-	 *  3 = Checkbox,
-	 *  4 = Radio,
-	 *  5 = Dropdown,
-	 *  6 = Hidden field,
-	 *  7 = List Box,
-	 *  9 = Date
+	 * Get data type for a given field.
 	 *
 	 * @param string $field_name The field name.
 	 *
 	 * @return int Data type ID.
 	 */
 	private static function get_metadata_type( $field_name ) {
-		switch ( $field_name ) {
-			case 'NP_Registration Date':
-			case 'NP_Last Payment Date':
-			case 'NP_Next Payment Date':
-			case 'NP_Current Subscription End Date':
-			case 'NP_Current Subscription Start Date':
-				return 9;
-			default:
-				return 1;
+		$date_fields = [
+			'Registration Date',
+			'Last Payment Date',
+			'Next Payment Date',
+			'Current Subscription End Date',
+			'Current Subscription Start Date',
+		];
+
+		foreach ( $date_fields as $date_field ) {
+			if ( str_contains( $date_field, $field_name ) ) {
+				return 'date';
+			}
 		}
+		return 'text';
 	}
 
 	/**
@@ -722,6 +949,7 @@ final class Newspack_Newsletters_Active_Campaign extends \Newspack_Newsletters_S
 	 *    @type string   $email    Contact email address.
 	 *    @type string   $name     Contact name. Optional.
 	 *    @type string[] $metadata Contact additional metadata. Optional.
+	 *    @type string[] $tags     Contact tags. Optional.
 	 * }
 	 * @param string|false $list_id      List to add the contact to.
 	 *
@@ -763,27 +991,48 @@ final class Newspack_Newsletters_Active_Campaign extends \Newspack_Newsletters_S
 		}
 
 		/** Register metadata fields. */
-		if ( isset( $contact['metadata'] ) && is_array( $contact['metadata'] ) && ! empty( $contact['metadata'] ) ) {
-			$existing_fields = $this->get_fields();
+		if ( ! empty( $contact['metadata'] ) ) {
+			$existing_fields = $this->get_all_contact_fields();
 			foreach ( $contact['metadata'] as $field_title => $value ) {
-				$field_pers_tag = strtoupper( str_replace( '-', '_', sanitize_title( $field_title ) ) );
+				$field_perstag = strtoupper( str_replace( '-', '_', sanitize_title( $field_title ) ) );
 				/** For optimization, don't add the field if it already exists. */
-				if ( is_wp_error( $existing_fields ) || false === array_search( $field_pers_tag, array_column( $existing_fields, 'perstag' ) ) ) {
-					$this->api_v1_request(
-						'list_field_add',
+				if ( is_wp_error( $existing_fields ) || false === array_search( $field_perstag, array_column( $existing_fields, 'perstag' ) ) ) {
+					$field_res = $this->api_v3_request(
+						'fields',
 						'POST',
 						[
-							'body' => [
-								'p[0]'    => 0, // Associate with all lists.
-								'title'   => $field_title,
-								'req'     => 0, // Whether it's a required field.
-								'type'    => self::get_metadata_type( $field_title ),
-								'perstag' => $field_pers_tag,
-							],
+							'body' => wp_json_encode(
+								[
+									'field' => [
+										'title'   => $field_title,
+										'type'    => self::get_metadata_type( $field_title ),
+										'perstag' => $field_perstag,
+										'visible' => 1,
+									],
+								]
+							),
+						]
+					);
+					if ( \is_wp_error( $field_res ) ) {
+						return $field_res;
+					}
+					/** Set list relation. */
+					$this->api_v3_request(
+						'fieldRels',
+						'POST',
+						[
+							'body' => wp_json_encode(
+								[
+									'fieldRel' => [
+										'field' => $field_res['field']['id'],
+										'relid' => 0,
+									],
+								]
+							),
 						]
 					);
 				}
-				$payload[ 'field[%' . $field_pers_tag . '%,0]' ] = (string) $value; // Per ESP documentation, "leave 0 as is".
+				$payload[ 'field[%' . $field_perstag . '%,0]' ] = (string) $value; // Per ESP documentation, "leave 0 as is".
 			}
 		}
 		$result = $this->api_v1_request(
@@ -793,7 +1042,15 @@ final class Newspack_Newsletters_Active_Campaign extends \Newspack_Newsletters_S
 				'body' => $payload,
 			]
 		);
-		return is_wp_error( $result ) ? $result : [ 'id' => $result['subscriber_id'] ];
+
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		}
+
+		// On success, clear cached contact data to make sure we get updated data next time we need.
+		$this->clear_contact_data( $contact['email'] );
+
+		return [ 'id' => $result['subscriber_id'] ];
 	}
 
 	/**
@@ -907,6 +1164,29 @@ final class Newspack_Newsletters_Active_Campaign extends \Newspack_Newsletters_S
 	}
 
 	/**
+	 * Update a contact tags.
+	 *
+	 * @param string   $email          Contact email address.
+	 * @param string[] $tags_to_add    Array of tags to add to the contact.
+	 * @param string[] $tags_to_remove Array of tags to remove from the contact.
+	 *
+	 * @return true|WP_Error True if the contact was updated or error.
+	 */
+	public function update_contact_tags( $email, $tags_to_add = [], $tags_to_remove = [] ) {
+		$existing_contact = $this->get_contact_data( $email );
+		if ( is_wp_error( $existing_contact ) ) {
+			return $existing_contact;
+		}
+		foreach ( $tags_to_add as $tag_add ) {
+			$this->add_tag_to_contact( $email, $tag_add );
+		}
+		foreach ( $tags_to_remove as $tag_remove ) {
+			$this->remove_tag_from_contact( $email, $tag_remove );
+		}
+		return true;
+	}
+
+	/**
 	 * Get the list of contact metadata fields.
 	 *
 	 * @param number $offset Offset for pagination.
@@ -994,5 +1274,64 @@ final class Newspack_Newsletters_Active_Campaign extends \Newspack_Newsletters_S
 			$contact_data['metadata'] = $contact_fields;
 		}
 		return $contact_data;
+	}
+
+	/**
+	 * Clears cached Contact data
+	 *
+	 * @param string $email The contact email.
+	 * @return void
+	 */
+	public function clear_contact_data( $email ) {
+		if ( isset( $this->contact_data[ $email ] ) ) {
+			unset( $this->contact_data[ $email ] );
+		}
+	}
+
+	/**
+	 * Get the provider specific labels
+	 *
+	 * This allows us to make reference to provider specific features in the way the user is used to see them in the provider's UI
+	 *
+	 * @return array
+	 */
+	public static function get_labels() {
+		return array_merge(
+			parent::get_labels(),
+			[
+				'name' => 'Active Campaign',
+			]
+		);
+	}
+
+	/**
+	 * Add a notice to the Subscription Lists metabox letting the user know that they have to manually create the Segment
+	 *
+	 * @param array $settings The List settings.
+	 * @return void
+	 */
+	public function lists_metabox_notice( $settings ) {
+		if ( $settings['tag_name'] ) {
+			?>
+			<p class="subscription-list-warning">
+				<?php
+				echo wp_kses(
+					sprintf(
+						/* translators: %1$s and %2$s are opening and closing link tag to Active Campaign documentation. */
+						__( 'Note for Active Campaign: You need to manually create a segment using the above tag to be able to send campaigns to this list. %1$sLearn more%2$s', 'newspack-newsletters' ),
+						'<a href="https://help.activecampaign.com/hc/en-us/articles/221483407-How-to-create-segments-in-ActiveCampaign" target="_blank">',
+						'</a>'
+					),
+					[
+						'a' => [
+							'href'   => [],
+							'target' => [],
+						],
+					]
+				);
+				?>
+			</p>
+			<?php
+		}
 	}
 }

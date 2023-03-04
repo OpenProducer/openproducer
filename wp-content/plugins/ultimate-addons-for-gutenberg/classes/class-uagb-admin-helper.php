@@ -80,12 +80,6 @@ if ( ! class_exists( 'UAGB_Admin_Helper' ) ) {
 				),
 			);
 
-			$setting_data = get_option( 'spectra_settings_data' );
-
-			if ( ! $setting_data ) {
-				update_option( 'spectra_settings_data', $options );
-			}
-
 			return $options;
 		}
 
@@ -135,8 +129,6 @@ if ( ! class_exists( 'UAGB_Admin_Helper' ) ) {
 
 			$blocks       = UAGB_Helper::$block_list;
 			$saved_blocks = self::get_admin_settings_option( '_uagb_blocks' );
-
-			update_option( 'spectra_saved_blocks_settings', $saved_blocks );
 
 			if ( is_array( $blocks ) ) {
 				foreach ( $blocks as $slug => $data ) {
@@ -193,8 +185,9 @@ if ( ! class_exists( 'UAGB_Admin_Helper' ) ) {
 			$is_already_icon_list = false;
 			$is_already_button    = false;
 			$is_already_faq       = false;
+			$blocks_info          = UAGB_Block_Module::get_blocks_info();
 
-			foreach ( UAGB_Config::$block_attributes as $key => $block ) {
+			foreach ( $blocks_info as $key => $block ) {
 
 				$block_name = str_replace( 'uagb/', '', $key );
 

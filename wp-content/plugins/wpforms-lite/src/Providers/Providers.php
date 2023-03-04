@@ -44,25 +44,28 @@ class Providers {
 	 */
 	public function register( Provider\Core $provider ) {
 
-		\add_filter( 'wpforms_providers_available', array( $provider, 'register_provider' ) );
+		add_filter( 'wpforms_providers_available', [ $provider, 'register_provider' ] );
 
 		// WPForms > Settings > Integrations page.
 		$integration = $provider->get_page_integrations();
-		if ( null !== $integration ) {
-			\add_action( 'wpforms_settings_providers', array( $integration, 'display' ), $provider::PRIORITY, 2 );
+
+		if ( $integration !== null ) {
+			add_action( 'wpforms_settings_providers', [ $integration, 'display' ], $provider::PRIORITY, 2 );
 		}
 
 		// Editing Single Form > Form Builder.
 		$form_builder = $provider->get_form_builder();
-		if ( null !== $form_builder ) {
-			\add_action( 'wpforms_providers_panel_sidebar', array( $form_builder, 'display_sidebar' ), $provider::PRIORITY );
-			\add_action( 'wpforms_providers_panel_content', array( $form_builder, 'display_content' ), $provider::PRIORITY );
+
+		if ( $form_builder !== null ) {
+			add_action( 'wpforms_providers_panel_sidebar', [ $form_builder, 'display_sidebar' ], $provider::PRIORITY );
+			add_action( 'wpforms_providers_panel_content', [ $form_builder, 'display_content' ], $provider::PRIORITY );
 		}
 
 		// Process entry submission.
 		$process = $provider->get_process();
-		if ( null !== $process ) {
-			\add_action( 'wpforms_process_complete', array( $process, 'process' ), 5, 4 );
+
+		if ( $process !== null ) {
+			add_action( 'wpforms_process_complete', [ $process, 'process' ], 5, 4 );
 		}
 	}
 

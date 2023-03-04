@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							'br' => [],
 						]
 					),
-					'https://wpforms.com/docs/creating-first-form/#display-form'
+					esc_url( wpforms_utm_link( 'https://wpforms.com/docs/creating-first-form/#display-form', 'WPForms Challenge Block', 'Add A Block' ) )
 				);
 				?>
 			</p>

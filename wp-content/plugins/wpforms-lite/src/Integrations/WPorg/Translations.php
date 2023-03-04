@@ -79,6 +79,7 @@ class Translations implements IntegrationInterface {
 							'plugins' => [
 								'wpforms-lite/wpforms.php' => $plugin_data,
 							],
+							'active'  => [],
 						]
 					),
 					'locale'  => wp_json_encode( get_available_languages() ),

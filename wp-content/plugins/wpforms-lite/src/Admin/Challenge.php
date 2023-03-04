@@ -469,7 +469,7 @@ class Challenge {
 
 		static $can_start = null;
 
-		if ( ! is_null( $can_start ) ) {
+		if ( $can_start !== null ) {
 			return $can_start;
 		}
 
@@ -492,7 +492,7 @@ class Challenge {
 			$can_start = false;
 		}
 
-		if ( is_null( $can_start ) ) {
+		if ( $can_start === null ) {
 			$can_start = true;
 		}
 

@@ -1,4 +1,4 @@
-/* global wpforms_builder, wpf, WPFormsBuilder, WPForms */
+/* global wpforms_builder, wpf, WPFormsBuilder, WPForms, md5 */
 
 'use strict';
 
@@ -56,9 +56,10 @@ var WPFormsInternalInformationField = window.WPFormsInternalInformationField || 
 		 */
 		bindUIActionsFields: function() {
 
-			WPForms.Admin.Builder.DragFields.fieldDragDisable( $( '.internal-information-not-draggable' ), false );
+			app.dragDisable();
 
 			$builder
+				.on( 'wpformsFieldAdd', app.dragDisable )
 				.on( 'input', '.wpforms-field-option-row-heading input[type="text"]', app.headingUpdates )
 				.on( 'input', '.wpforms-field-option-row-expanded-description textarea', app.expandedDescriptionUpdates )
 				.on( 'input', '.wpforms-field-option-row-cta-label input[type="text"]', app.ctaButtonLabelUpdates )
@@ -97,18 +98,24 @@ var WPFormsInternalInformationField = window.WPFormsInternalInformationField || 
 		 * Replace checkboxes.
 		 *
 		 * @since 1.7.6
+		 * @since 1.7.9 Added ID parameter.
 		 *
 		 * @param {string} description Expanded description.
+		 * @param {int}    id          Field ID.
 		 *
 		 * @returns {string} Expanded description with checkboxes HTML.
 		 */
-		replaceCheckboxes: function( description ) {
+		replaceCheckboxes: function( description, id ) {
 
-			let lines    = description.split( /\r?\n/ ),
+			const lines  = description.split( /\r?\n/ ),
 				replaced = [],
 				needle   = '[] ';
 
+			let lineNumber = -1;
+
 			for ( let line of lines ) {
+
+				lineNumber++;
 				line = line.trim();
 
 				if ( ! line.startsWith( needle ) ) {
@@ -117,13 +124,25 @@ var WPFormsInternalInformationField = window.WPFormsInternalInformationField || 
 					continue;
 				}
 
-				line  = line.replace( '[] ', '<div class="wpforms-field-internal-information-checkbox-wrap"><div class="wpforms-field-internal-information-checkbox-input"><input type="checkbox" name="" value="1" class="wpforms-internal-field-checkbox" disabled /></div><div class="wpforms-field-internal-information-checkbox-label">' );
-				line += '</div></div>';
+				const hash = md5( line ),
+					name = `iif-${id}-${hash}-${lineNumber}`;
+
+				line = line.replace( '[] ', `<div class="wpforms-field-internal-information-checkbox-wrap"><div class="wpforms-field-internal-information-checkbox-input"><input type="checkbox" name="${name}" value="1" class="wpforms-field-internal-information-checkbox" /></div><div class="wpforms-field-internal-information-checkbox-label">` );				line += '</div></div>';
 
 				replaced.push( line );
 			}
 
 			return ( wpf.wpautop( replaced.join( '\n' ) ) ).replace( /<br \/>\n$/, '' );
+		},
+
+		/**
+		 * Do not allow field to be draggable.
+		 *
+		 * @since 1.7.9
+		 */
+		dragDisable: function() {
+
+			WPForms.Admin.Builder.DragFields.fieldDragDisable( $( '.internal-information-not-draggable' ), false );
 		},
 
 		/**
@@ -159,7 +178,7 @@ var WPFormsInternalInformationField = window.WPFormsInternalInformationField || 
 				label            = $options.find( '.wpforms-field-option-row-cta-label input[type="text"]' ).val().length !== 0 ? $options.find( '.wpforms-field-option-row-cta-label input[type="text"]' ).val() : wpforms_builder.empty_label,
 				$expandable      = $wrapper.find( '.wpforms-field-internal-information-row-expanded-description' );
 
-			let newLines = app.replaceCheckboxes( value );
+			const newLines = app.replaceCheckboxes( value, id );
 
 			WPFormsBuilder.updateDescription( $wrapper.find( '.expanded-description' ), newLines );
 
@@ -286,7 +305,7 @@ var WPFormsInternalInformationField = window.WPFormsInternalInformationField || 
 				return;
 			}
 
-			data.value = app.replaceCheckboxes( data.value );
+			data.value = app.replaceCheckboxes( data.value, data.id );
 
 			WPFormsBuilder.updateDescription( data.descField, data.value );
 		},

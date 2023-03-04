@@ -520,7 +520,7 @@ class EventDriven {
 			'welcome-message'        => [
 				'id'        => 'welcome-message',
 				'title'     => esc_html__( 'Welcome to WPForms!', 'wpforms-lite' ),
-				'content'   => esc_html__( 'We’re grateful that you chose WPForms for your website! Now that you’ve installed the plugin, you’re less than 5 minutes away from publishing your first form. To make it easy, we’ve got 500+ form templates to get you started!', 'wpforms-lite' ),
+				'content'   => esc_html__( 'We’re grateful that you chose WPForms for your website! Now that you’ve installed the plugin, you’re less than 5 minutes away from publishing your first form. To make it easy, we’ve got 600+ form templates to get you started!', 'wpforms-lite' ),
 				'btns'      => [
 					'main' => [
 						'url'  => admin_url( 'admin.php?page=wpforms-builder' ),

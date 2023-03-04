@@ -120,6 +120,7 @@ trait ContentInput {
 			'allowed_html'           => array_keys( $this->get_allowed_html_tags() ),
 			'invalid_elements'       => $this->get_invalid_elements(),
 			'quicktags_buttons'      => $this->get_quicktags_buttons(),
+			'body_class'             => $this->get_editor_body_class(),
 		];
 
 		$strings = $this->add_supported_field_type( $strings, $this->type );
@@ -454,6 +455,7 @@ trait ContentInput {
 				'relative_urls'          => false,
 				'remove_script_host'     => false,
 				'object_resizing'        => false,
+				'body_class'             => $this->get_editor_body_class(),
 			],
 			'quicktags'        => [
 				'buttons' => $this->get_quicktags_buttons(),
@@ -562,5 +564,17 @@ trait ContentInput {
 		 * @param array $allowed_tags Allowed tags.
 		 */
 		return (array) apply_filters( 'wpforms_builder_content_input_get_allowed_html_tags', wpforms_get_allowed_html_tags_for_richtext_field() );
+	}
+
+	/**
+	 * Get editor body class.
+	 *
+	 * @since 1.7.9
+	 *
+	 * @return string
+	 */
+	private function get_editor_body_class() {
+
+		return 'wpforms-content-field-editor-body';
 	}
 }

@@ -150,7 +150,7 @@ function monsterinsights_automatic_updates( $update, $item ) {
 	$current_major   = monsterinsights_get_major_version( $current_version );
 	$new_major       = monsterinsights_get_major_version( $new_version );
 
-	// If the opt in update allows major updates but there is no major version update, return early.
+	// If this is a major update, and they have opted in to all updates, then autoupdate
 	if ( version_compare( $current_major, $new_major, '<' ) ) {
 		if ( $automatic_updates === 'all' ) {
 			return true;
@@ -159,7 +159,7 @@ function monsterinsights_automatic_updates( $update, $item ) {
 		}
 	}
 
-	// If the opt in update allows minor updates but there is no minor version update, return early.
+	// If this is a minor update, and they have opted in to all updates or minor updates, then autoupdate
 	if ( version_compare( $current_major, $new_major, '==' ) && version_compare( $current_version, $new_version, '<' ) ) {
 		if ( $automatic_updates === 'all' || $automatic_updates === 'minor' ) {
 			return true;
@@ -168,7 +168,7 @@ function monsterinsights_automatic_updates( $update, $item ) {
 		}
 	}
 
-	// All our checks have passed - this plugin can be updated!
+	// Otherwise stick with default value
 	return $update;
 }
 

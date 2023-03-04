@@ -142,7 +142,7 @@ class LiteConnect extends \WPForms\Integrations\LiteConnect\LiteConnect {
 							'strong' => [],
 						]
 					),
-					esc_url( wpforms_admin_upgrade_link( 'settings-lite-connect-disabled' ) )
+					esc_url( wpforms_admin_upgrade_link( 'settings-lite-connect-disabled', 'Upgrade to WPForms Pro text Link' ) )
 				),
 			],
 		];

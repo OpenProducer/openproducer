@@ -62,7 +62,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						],
 					]
 				),
-				'https://wpforms.com/terms/'
+				esc_url( wpforms_utm_link( 'https://wpforms.com/terms/', 'Lite Connect Modal', 'Terms of Service' ) )
 			);
 			?>
 		</footer>

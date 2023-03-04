@@ -84,6 +84,11 @@ class Loader {
 			'name' => 'Forms\Locator',
 			'id'   => 'locator',
 		];
+
+		$this->classes[] = [
+			'name' => 'Forms\IconChoices',
+			'id'   => 'icon_choices',
+		];
 	}
 
 	/**
@@ -148,7 +153,7 @@ class Loader {
 				'hook' => 'admin_init',
 			],
 			[
-				'name' => 'Admin\Settings\Captcha',
+				'name' => 'Admin\Settings\Captcha\Page',
 				'hook' => 'admin_init',
 			],
 			[

@@ -37,7 +37,7 @@ if ( $plugin_allow && $action === 'activate' ) {
 	$btn_classes[] = ! wpforms()->is_pro() ? 'wpforms-upgrade-modal' : '';
 ?>
 	<a
-		href="<?php echo esc_url( wpforms_admin_upgrade_link( 'settings-license', 'Geolocation%20Addon' ) ); ?>"
+		href="<?php echo esc_url( wpforms_admin_upgrade_link( 'Settings - Geolocation', 'Geolocation Addon' ) ); ?>"
 		target="_blank"
 		rel="noopener noreferrer"
 		class="<?php echo esc_attr( implode( ' ', array_filter( $btn_classes ) ) ); ?>">

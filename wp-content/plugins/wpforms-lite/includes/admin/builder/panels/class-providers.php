@@ -87,13 +87,13 @@ class WPForms_Builder_Panel_Providers extends WPForms_Builder_Panel {
 			echo '<div class="wpforms-alert wpforms-alert-info">';
 			echo wp_kses(
 				__( 'You need to <a href="#" class="wpforms-panel-switch" data-panel="setup">setup your form</a> before you can manage these settings.', 'wpforms-lite' ),
-				array(
-					'a' => array(
-						'href'       => array(),
-						'class'      => array(),
-						'data-panel' => array(),
-					),
-				)
+				[
+					'a' => [
+						'href'       => [],
+						'class'      => [],
+						'data-panel' => [],
+					],
+				]
 			);
 			echo '</div>';
 
@@ -115,11 +115,11 @@ class WPForms_Builder_Panel_Providers extends WPForms_Builder_Panel {
 					wp_kses(
 						/* translators: %s - plugin admin area Addons page. */
 						__( 'It seems you do not have any marketing addons activated. You can head over to the <a href="%s">Addons page</a> to install and activate the addon for your provider.', 'wpforms-lite' ),
-						array(
-							'a' => array(
-								'href' => array(),
-							),
-						)
+						[
+							'a' => [
+								'href' => [],
+							],
+						]
 					),
 					esc_url( admin_url( 'admin.php?page=wpforms-addons' ) )
 				) .

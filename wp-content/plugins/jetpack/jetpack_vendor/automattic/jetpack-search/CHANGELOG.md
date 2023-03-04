@@ -5,6 +5,65 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.31.6] - 2023-01-30
+### Changed
+- Increased Jetpack Search filters caching from one hour to four hours [#28632]
+
+## [0.31.5] - 2023-01-26
+### Changed
+- Minor internal updates.
+
+## [0.31.4] - 2023-01-23
+### Changed
+- Start using utilities from Status package to detect whether a site is private or "coming-soon" (unlaunched). [#28328]
+
+### Fixed
+- Clean up JavaScript eslint issues. [#28441]
+
+## [0.31.3] - 2023-01-11
+### Changed
+- Updated package dependencies.
+
+## [0.31.2] - 2022-12-19
+### Changed
+- Updated package dependencies. [#27887, #27916, #27962]
+
+### Fixed
+- Declare field `REST_Controller->plan`. [#27949]
+- Improve PHP 8.2 compatibility. [#27968]
+
+## [0.31.1] - 2022-12-06
+### Changed
+- Updated package dependencies. [#27340, #27688, #27696, #27697]
+
+## [0.31.0] - 2022-11-28
+### Added
+- Add an optional global flag that prevents instant search from modifying the url as the search query is being written or modified. [#27264]
+- Add prompt for Jetpack Search Free plan upgrade for users who exceed limits. [#27462]
+- Search: Add checkmark icon for resolved topics [#27586]
+
+### Changed
+- Suggest free Jetpack Search plan instead of the paid one to classic search users [#27372]
+- Updated package dependencies. [#26069]
+
+## [0.30.2] - 2022-11-10
+### Changed
+- Updated package dependencies. [#27319]
+
+### Fixed
+- Jetpack Search: Fixed link to language support documentation [#27287]
+
+## [0.30.1] - 2022-11-07
+### Changed
+- Updated package dependencies. [#27278]
+
+## [0.30.0] - 2022-11-01
+### Added
+- Search: add blog ID filtering and `blogIdFilteringLabels` option [#27120]
+
+### Changed
+- Updated package dependencies. [#27089]
+
 ## [0.29.2] - 2022-10-26
 ### Fixed
 - Search: Fix typo in CTA [#27044]
@@ -592,6 +651,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated package dependencies.
 - Update PHPUnit configs to include just what needs coverage rather than include everything then try to exclude stuff that doesn't.
 
+[0.31.6]: https://github.com/Automattic/jetpack-search/compare/v0.31.5...v0.31.6
+[0.31.5]: https://github.com/Automattic/jetpack-search/compare/v0.31.4...v0.31.5
+[0.31.4]: https://github.com/Automattic/jetpack-search/compare/v0.31.3...v0.31.4
+[0.31.3]: https://github.com/Automattic/jetpack-search/compare/v0.31.2...v0.31.3
+[0.31.2]: https://github.com/Automattic/jetpack-search/compare/v0.31.1...v0.31.2
+[0.31.1]: https://github.com/Automattic/jetpack-search/compare/v0.31.0...v0.31.1
+[0.31.0]: https://github.com/Automattic/jetpack-search/compare/v0.30.2...v0.31.0
+[0.30.2]: https://github.com/Automattic/jetpack-search/compare/v0.30.1...v0.30.2
+[0.30.1]: https://github.com/Automattic/jetpack-search/compare/v0.30.0...v0.30.1
+[0.30.0]: https://github.com/Automattic/jetpack-search/compare/v0.29.2...v0.30.0
 [0.29.2]: https://github.com/Automattic/jetpack-search/compare/v0.29.1...v0.29.2
 [0.29.1]: https://github.com/Automattic/jetpack-search/compare/v0.29.0...v0.29.1
 [0.29.0]: https://github.com/Automattic/jetpack-search/compare/v0.28.0...v0.29.0

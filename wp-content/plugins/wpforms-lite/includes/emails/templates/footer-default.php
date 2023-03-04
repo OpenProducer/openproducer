@@ -6,7 +6,9 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 $background_color = wpforms_setting( 'email-background-color', '#e9eaec' );
 ?>

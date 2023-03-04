@@ -163,7 +163,7 @@ class LiteConnect implements Education\EducationInterface {
 			'jquery-confirm',
 			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.confirm/jquery-confirm.min.js',
 			[ 'jquery' ],
-			'3.3.2',
+			'3.3.4',
 			true
 		);
 
@@ -171,7 +171,7 @@ class LiteConnect implements Education\EducationInterface {
 			'jquery-confirm',
 			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.confirm/jquery-confirm.min.css',
 			[],
-			'3.3.2'
+			'3.3.4'
 		);
 
 		// FontAwesome.

@@ -70,9 +70,10 @@ class Notifications implements EducationInterface {
 				'subsection'  => $id,
 				'pro_badge'   => true,
 				'data'        => [
-					'action'  => 'upgrade',
-					'name'    => esc_html__( 'File Upload Attachments', 'wpforms-lite' ),
-					'licence' => 'pro',
+					'action'      => 'upgrade',
+					'name'        => esc_html__( 'File Upload Attachments', 'wpforms-lite' ),
+					'utm-content' => 'File Upload Attachments',
+					'licence'     => 'pro',
 				],
 				'attrs'       => [
 					'disabled' => 'disabled',
@@ -94,9 +95,10 @@ class Notifications implements EducationInterface {
 				'subsection'  => $id,
 				'pro_badge'   => true,
 				'data'        => [
-					'action'  => 'upgrade',
-					'name'    => esc_html__( 'Entry CSV Attachment', 'wpforms-lite' ),
-					'licence' => 'pro',
+					'action'      => 'upgrade',
+					'name'        => esc_html__( 'Entry CSV Attachment', 'wpforms-lite' ),
+					'utm-content' => 'Entry CSV Attachment',
+					'licence'     => 'pro',
 				],
 				'attrs'       => [
 					'disabled' => 'disabled',

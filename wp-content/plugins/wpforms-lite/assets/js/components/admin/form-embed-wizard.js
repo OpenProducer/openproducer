@@ -1,4 +1,4 @@
-/* global wpforms_admin_form_embed_wizard, WPFormsBuilder, ajaxurl, WPFormsChallenge, wpforms_builder */
+/* global wpforms_admin_form_embed_wizard, WPFormsBuilder, ajaxurl, WPFormsChallenge, wpforms_builder, WPForms */
 
 /**
  * Form Embed Wizard function.
@@ -23,13 +23,15 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 	 * Runtime variables.
 	 *
 	 * @since 1.6.2
+	 * @since 1.7.9 Added `lastEmbedSearchPageTerm` property.
 	 *
 	 * @type {object}
 	 */
 	var vars = {
-		formId:            0,
-		isBuilder:         false,
-		isChallengeActive: false,
+		formId:                  0,
+		isBuilder:               false,
+		isChallengeActive:       false,
+		lastEmbedSearchPageTerm: '',
 	};
 
 	/**
@@ -75,6 +77,7 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 		 * Window load.
 		 *
 		 * @since 1.6.2
+		 * @since 1.7.9 Initialize 'Select Pages' ChoicesJS.
 		 */
 		load: function() {
 
@@ -87,6 +90,8 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 			if ( vars.isBuilder ) {
 				app.initialStateToggle();
 			}
+
+			app.initSelectPagesChoicesJS();
 		},
 
 		/**
@@ -106,7 +111,7 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 				$sectionBtns:       $( '#wpforms-admin-form-embed-wizard-section-btns' ),
 				$sectionGo:         $( '#wpforms-admin-form-embed-wizard-section-go' ),
 				$newPageTitle:      $( '#wpforms-admin-form-embed-wizard-new-page-title' ),
-				$selectPage:        $( '#wpforms-admin-form-embed-wizard-select-page' ),
+				$selectPage:        $( '#wpforms-setting-form-embed-wizard-choicesjs-select-pages' ),
 				$videoTutorial:     $( '#wpforms-admin-form-embed-wizard-tutorial' ),
 				$sectionToggles:    $( '#wpforms-admin-form-embed-wizard-section-toggles' ),
 				$sectionGoBack:     $( '#wpforms-admin-form-embed-wizard-section-goback' ),
@@ -114,6 +119,8 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 				$shortcodeInput:    $( '#wpforms-admin-form-embed-wizard-shortcode' ),
 				$shortcodeCopy:     $( '#wpforms-admin-form-embed-wizard-shortcode-copy' ),
 			};
+
+			el.$selectPageContainer = el.$selectPage.parents( 'span.choicesjs-select-wrap' );
 
 			// Detect the form builder screen and store the flag.
 			vars.isBuilder = typeof WPFormsBuilder !== 'undefined';
@@ -123,6 +130,29 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 
 			// Are the pages exists?
 			vars.pagesExists = el.$wizard.data( 'pages-exists' ) === 1;
+		},
+
+		/**
+		 * Init ChoicesJS for "Select Pages" field in embed.
+		 *
+		 * @since 1.7.9
+		 */
+		initSelectPagesChoicesJS: function() {
+
+			if ( el.$selectPage.length <= 0 ) {
+				return;
+			}
+
+			const useAjax = el.$selectPage.data( 'use_ajax' ) === 1;
+
+			WPForms.Admin.Builder.WPFormsChoicesJS.setup(
+				el.$selectPage[0],
+				{},
+				{
+					action: 'wpforms_admin_form_embed_wizard_search_pages_choicesjs',
+					nonce: useAjax ? wpforms_admin_form_embed_wizard.nonce : null,
+				}
+			);
 		},
 
 		/**
@@ -176,13 +206,13 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 
 				// Create a new page.
 				case 'create-page':
-					el.$selectPage.hide();
+					el.$selectPageContainer.hide();
 					el.$contentCreatePage.show();
 					break;
 
 				// Let's Go!
 				case 'go':
-					if ( el.$selectPage.is( ':visible' ) && el.$selectPage.val() === '' ) {
+					if ( el.$selectPageContainer.is( ':visible' ) && el.$selectPage.val() === '' ) {
 						return;
 					}
 					$btn.prop( 'disabled', true );
@@ -314,7 +344,7 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 				el.$contentInitial.show();
 				el.$contentSelectPage.hide();
 				el.$contentCreatePage.hide();
-				el.$selectPage.show();
+				el.$selectPageContainer.show();
 				el.$newPageTitle.show();
 				el.$sectionBtns.show();
 				el.$sectionGo.hide();
@@ -322,7 +352,7 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 				el.$contentInitial.hide();
 				el.$contentSelectPage.hide();
 				el.$contentCreatePage.show();
-				el.$selectPage.hide();
+				el.$selectPageContainer.hide();
 				el.$newPageTitle.show();
 				el.$sectionBtns.hide();
 				el.$sectionGo.show();
@@ -397,7 +427,7 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 				formId: vars.formId,
 			};
 
-			if ( el.$selectPage.is( ':visible' ) ) {
+			if ( el.$selectPageContainer.is( ':visible' ) ) {
 				data.pageId = el.$selectPage.val();
 			}
 
@@ -456,7 +486,7 @@ var WPFormsFormEmbedWizard = window.WPFormsFormEmbedWizard || ( function( docume
 				el.$sectionGo.hide();
 			}
 			el.$newPageTitle.show();
-			el.$selectPage.show();
+			el.$selectPageContainer.show();
 
 			el.$wizardContainer.fadeIn();
 		},

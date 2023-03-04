@@ -117,7 +117,7 @@ add_filter( 'the_permalink_rss', 'monsterinsights_rss_link_tagger', 99 );
  * Checks used for loading the frontend scripts/admin bar button.
  */
 function monsterinsights_prevent_loading_frontend_reports() {
-	return ! current_user_can( 'monsterinsights_view_dashboard' ) || monsterinsights_get_option( 'hide_admin_bar_reports' ) || function_exists( 'monsterinsights_is_reports_page' ) && monsterinsights_is_reports_page() || function_exists( 'monsterinsights_is_settings_page' ) && monsterinsights_is_settings_page();
+	return ! current_user_can( 'monsterinsights_view_dashboard' ) || monsterinsights_get_option( 'hide_admin_bar_reports' );
 }
 
 /**

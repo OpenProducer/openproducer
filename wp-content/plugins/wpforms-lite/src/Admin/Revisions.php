@@ -299,6 +299,7 @@ class Revisions {
 			'current_version_url' => $this->get_url(),
 			'author_id'           => $this->form->post_author,
 			'revisions'           => [],
+			'show_avatars'        => get_option( 'show_avatars' ),
 		];
 
 		$revisions = wp_get_post_revisions( $this->form_id );

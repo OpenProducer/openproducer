@@ -41,7 +41,7 @@ class Capabilities {
 	 *
 	 * @return bool
 	 */
-	public function current_user_can( $caps = array(), $id = 0 ) {
+	public function current_user_can( $caps = [], $id = 0 ) {
 
 		return \current_user_can( \wpforms_get_capability_manage_options() );
 	}

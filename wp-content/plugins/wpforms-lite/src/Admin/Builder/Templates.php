@@ -64,7 +64,7 @@ class Templates {
 	private function allow_load() {
 
 		// Load for certain places only.
-		$allow = wp_doing_ajax() || wpforms_is_admin_page( 'builder' ) || wpforms_is_admin_page( 'templates' );
+		$allow = wpforms_current_user_can( [ 'create_forms', 'edit_forms' ] ) && ( wpforms_is_admin_ajax() || wpforms_is_admin_page( 'builder' ) || wpforms_is_admin_page( 'templates' ) );
 
 		/**
 		 * Whether to allow the form templates functionality to load.
@@ -636,6 +636,17 @@ class Templates {
 		$new['meta']             = isset( $form_data['meta'] ) ? $form_data['meta'] : [];
 		$new['meta']['template'] = $template['id'];
 
+		/**
+		 * Allow modifying form data when a new template is applied.
+		 *
+		 * @since 1.7.9
+		 *
+		 * @param array $new       Updated form data.
+		 * @param array $form_data Current form data.
+		 * @param array $template  Template data.
+		 */
+		$new = (array) apply_filters( 'wpforms_admin_builder_templates_apply_to_existing_form_modify_data',  $new, $form_data, $template );
+
 		// Update the form with new data.
 		$form['post_content'] = wpforms_encode( $new );
 
@@ -834,7 +845,7 @@ class Templates {
 					</p>
 				</div>
 				<div class="wpforms-template-upgrade-button">
-					<a href="<?php echo esc_url( wpforms_admin_upgrade_link( $medium ) ); ?>" class="wpforms-btn wpforms-btn-orange wpforms-btn-md" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Upgrade to PRO', 'wpforms-lite' ); ?></a>
+					<a href="<?php echo esc_url( wpforms_admin_upgrade_link( $medium, 'Upgrade to Pro' ) ); ?>" class="wpforms-btn wpforms-btn-orange wpforms-btn-md" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Upgrade to PRO', 'wpforms-lite' ); ?></a>
 				</div>
 			</div>
 		</script>

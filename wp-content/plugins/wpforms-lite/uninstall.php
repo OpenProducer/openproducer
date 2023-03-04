@@ -60,6 +60,15 @@ $wpdb->query( 'DROP TABLE IF EXISTS ' . \WPForms\Tasks\Meta::get_table_name() );
 // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 $wpdb->query( 'DROP TABLE IF EXISTS ' . \WPForms\Logger\Repository::get_table_name() );
 
+/**
+ * Delete tables that might be created by "Add-ons".
+ *
+ * 1. Form Locker.
+ * 2. User Journey.
+ */
+$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'wpforms_form_locker_email_verification' );
+$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'wpforms_user_journey' );
+
 // Delete Preview page.
 $preview_page = get_option( 'wpforms_preview_page', false );
 

@@ -14,6 +14,7 @@ use Automattic\Jetpack\Plugins_Installer;
 use Automattic\Jetpack\Stats\Options as Stats_Options;
 use Automattic\Jetpack\Status\Host;
 use Automattic\Jetpack\Status\Visitor;
+use Automattic\Jetpack\Waf\Waf_Compatibility;
 
 /**
  * Disable direct access.
@@ -1204,7 +1205,6 @@ class Jetpack_Core_Json_Api_Endpoints {
 			REST_Connector::get_user_permissions_error_msg(),
 			array( 'status' => rest_authorization_required_code() )
 		);
-
 	}
 
 	/**
@@ -1224,7 +1224,6 @@ class Jetpack_Core_Json_Api_Endpoints {
 			REST_Connector::get_user_permissions_error_msg(),
 			array( 'status' => rest_authorization_required_code() )
 		);
-
 	}
 
 	/**
@@ -1389,7 +1388,7 @@ class Jetpack_Core_Json_Api_Endpoints {
 	 * @return array|WP_Error WP_Error returned if connection test does not succeed.
 	 */
 	public static function jetpack_connection_test() {
-		jetpack_require_lib( 'debugger' );
+		require_once JETPACK__PLUGIN_DIR . '_inc/lib/debugger.php';
 		$cxntests = new Jetpack_Cxn_Tests();
 
 		if ( $cxntests->pass() ) {
@@ -1457,7 +1456,7 @@ class Jetpack_Core_Json_Api_Endpoints {
 	public static function jetpack_connection_test_for_external() {
 		// Since we are running this test for inclusion in the WP.com testing suite, let's not try to run them as part of these results.
 		add_filter( 'jetpack_debugger_run_self_test', '__return_false' );
-		jetpack_require_lib( 'debugger' );
+		require_once JETPACK__PLUGIN_DIR . '_inc/lib/debugger.php';
 		$cxntests = new Jetpack_Cxn_Tests();
 
 		if ( $cxntests->pass() ) {
@@ -2273,6 +2272,13 @@ class Jetpack_Core_Json_Api_Endpoints {
 			),
 
 			// WAF.
+			'jetpack_waf_automatic_rules'          => array(
+				'description'       => esc_html__( 'Enable automatic rules - Protect your site against untrusted traffic sources with automatic security rules.', 'jetpack' ),
+				'type'              => 'boolean',
+				'default'           => Waf_Compatibility::get_default_automatic_rules_option(),
+				'validate_callback' => __CLASS__ . '::validate_boolean',
+				'jp_group'          => 'waf',
+			),
 			'jetpack_waf_ip_list'                  => array(
 				'description'       => esc_html__( 'Allow / Block list - Block or allow a specific request IP.', 'jetpack' ),
 				'type'              => 'boolean',
@@ -2730,6 +2736,13 @@ class Jetpack_Core_Json_Api_Endpoints {
 				'validate_callback' => __CLASS__ . '::validate_boolean',
 				'jp_group'          => 'stats',
 			),
+			'enable_calypso_stats'                 => array(
+				'description'       => esc_html__( 'Preview the new Jetpack Stats experience (Experimental).', 'jetpack' ),
+				'type'              => 'boolean',
+				'default'           => 0,
+				'validate_callback' => __CLASS__ . '::validate_boolean',
+				'jp_group'          => 'stats',
+			),
 			'roles'                                => array(
 				'description'       => esc_html__( 'Select the roles that will be able to view stats reports.', 'jetpack' ),
 				'type'              => 'array',
@@ -2885,7 +2898,6 @@ class Jetpack_Core_Json_Api_Endpoints {
 				'validate_callback' => __CLASS__ . '::validate_boolean',
 				'jp_group'          => 'videopress',
 			),
-
 		);
 
 		// Add modules to list so they can be toggled.
@@ -4105,6 +4117,7 @@ class Jetpack_Core_Json_Api_Endpoints {
 	 * @return true|WP_Error Returns true if the user has the required capability, else a WP_Error object.
 	 */
 	public static function activate_crm_extensions_permission_check() {
+		// phpcs:ignore WordPress.WP.Capabilities.Unknown
 		if ( current_user_can( 'admin_zerobs_manage_options' ) ) {
 			return true;
 		}

@@ -51,10 +51,6 @@
 
 /********* Mixins *********/
 /********* Generic styles *********/
-* {
-  box-sizing: border-box;
-}
-
 body {
   min-height: 100%;
   margin: 0;
@@ -492,6 +488,7 @@ body {
   outline-color: #101517;
 }
 .jp-recommendations-banner__notice-dismiss .jp-recommendations-banner__svg-dismiss {
-  margin-inline-end: 0.25rem;
+  -webkit-margin-end: 0.25rem;
+          margin-inline-end: 0.25rem;
   fill: currentColor;
 }

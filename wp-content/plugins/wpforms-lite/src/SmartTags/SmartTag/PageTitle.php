@@ -37,13 +37,27 @@ class PageTitle extends SmartTag {
 			return wp_kses_post( is_page() ? get_the_title( get_the_ID() ) : get_bloginfo( 'name' ) );
 		}
 
+		return $this->get_wp_title();
+	}
+
+	/**
+	 * Retrieve a page title based on `wp_title()`.
+	 *
+	 * @since 1.7.9
+	 *
+	 * @return string
+	 */
+	private function get_wp_title() {
+
 		global $wp_filter;
 
 		// Back up all callbacks.
-		$callbacks = $wp_filter['wp_title']->callbacks;
+		$callbacks = isset( $wp_filter['wp_title']->callbacks ) ? $wp_filter['wp_title']->callbacks : [];
 
-		// Unset all callbacks.
-		$wp_filter['wp_title']->callbacks = [];
+		if ( ! empty( $callbacks ) ) {
+			// Unset all callbacks.
+			$wp_filter['wp_title']->callbacks = [];
+		}
 
 		// Get the raw value.
 		$title = trim( wp_title( '', false ) );
@@ -54,8 +68,10 @@ class PageTitle extends SmartTag {
 		$title = esc_html( $title );
 		$title = capital_P_dangit( $title );
 
-		// Restore all callbacks.
-		$wp_filter['wp_title']->callbacks = $callbacks;
+		if ( ! empty( $callbacks ) ) {
+			// Restore all callbacks.
+			$wp_filter['wp_title']->callbacks = $callbacks;
+		}
 
 		return $title;
 	}

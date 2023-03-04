@@ -31,13 +31,11 @@ class UsageTracking implements IntegrationInterface {
 		/**
 		 * Whether the Usage Tracking code is allowed to be loaded.
 		 *
-		 * Description.
-		 *
 		 * @since 1.6.1
 		 *
 		 * @param bool $var Boolean value.
 		 */
-		return (bool) apply_filters( 'wpforms_usagetracking_is_allowed', true );
+		return (bool) apply_filters( 'wpforms_usagetracking_is_allowed', true ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 	}
 
 	/**
@@ -52,13 +50,11 @@ class UsageTracking implements IntegrationInterface {
 		/**
 		 * Whether the Usage Tracking is enabled.
 		 *
-		 * Description.
-		 *
 		 * @since 1.6.1
 		 *
 		 * @param bool $var Boolean value taken from the DB.
 		 */
-		return (bool) apply_filters( 'wpforms_integrations_usagetracking_is_enabled', wpforms_setting( self::SETTINGS_SLUG ) );
+		return (bool) apply_filters( 'wpforms_integrations_usagetracking_is_enabled', wpforms_setting( self::SETTINGS_SLUG ) );  // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 	}
 
 	/**
@@ -139,12 +135,13 @@ class UsageTracking implements IntegrationInterface {
 
 		global $wpdb;
 
-		$theme_data      = wp_get_theme();
-		$activated_dates = get_option( 'wpforms_activated', [] );
-		$first_form_date = get_option( 'wpforms_forms_first_created' );
-		$forms           = $this->get_all_forms();
-		$forms_total     = count( $forms );
-		$entries_total   = $this->get_entries_total();
+		$theme_data        = wp_get_theme();
+		$activated_dates   = get_option( 'wpforms_activated', [] );
+		$first_form_date   = get_option( 'wpforms_forms_first_created' );
+		$forms             = $this->get_all_forms();
+		$forms_total       = count( $forms );
+		$entries_total     = $this->get_entries_total();
+		$form_fields_count = $this->get_form_fields_count( $forms );
 
 		$data = [
 			// Generic data (environment).
@@ -168,12 +165,14 @@ class UsageTracking implements IntegrationInterface {
 			'wpforms_version'                => WPFORMS_VERSION,
 			'wpforms_license_key'            => wpforms_get_license_key(),
 			'wpforms_license_type'           => $this->get_license_type(),
+			'wpforms_license_status'         => $this->get_license_status(),
 			'wpforms_is_pro'                 => wpforms()->is_pro(),
 			'wpforms_entries_avg'            => $this->get_entries_avg( $forms_total, $entries_total ),
 			'wpforms_entries_total'          => $entries_total,
 			'wpforms_entries_last_7days'     => $this->get_entries_total( '7days' ),
 			'wpforms_entries_last_30days'    => $this->get_entries_total( '30days' ),
 			'wpforms_forms_total'            => $forms_total,
+			'wpforms_form_fields_count'      => $form_fields_count,
 			'wpforms_challenge_stats'        => get_option( 'wpforms_challenge', [] ),
 			'wpforms_lite_installed_date'    => $this->get_installed( $activated_dates, 'lite' ),
 			'wpforms_pro_installed_date'     => $this->get_installed( $activated_dates, 'pro' ),
@@ -194,14 +193,27 @@ class UsageTracking implements IntegrationInterface {
 	}
 
 	/**
-	 * Get license type.
+	 * Get the license type.
 	 *
 	 * @since 1.6.1
 	 * @since 1.7.2 Clarified the license type.
+	 * @since 1.7.9 Return only the license type, not the status.
 	 *
 	 * @return string
 	 */
 	private function get_license_type() {
+
+		return wpforms()->is_pro() ? wpforms_get_license_type() : 'lite';
+	}
+
+	/**
+	 * Get the license status.
+	 *
+	 * @since 1.7.9
+	 *
+	 * @return string
+	 */
+	private function get_license_status() {
 
 		if ( ! wpforms()->is_pro() ) {
 			return 'lite';
@@ -224,6 +236,11 @@ class UsageTracking implements IntegrationInterface {
 
 		if ( wpforms_setting( 'is_invalid', false, 'wpforms_license' ) ) {
 			return 'invalid';
+		}
+
+		// The correct type is returned in get_license_type(), so we "collapse" them here to a single value.
+		if ( in_array( $license_type, [ 'basic', 'plus', 'pro', 'elite', 'ultimate', 'agency' ], true ) ) {
+			$license_type = 'correct';
 		}
 
 		return $license_type;
@@ -571,6 +588,35 @@ class UsageTracking implements IntegrationInterface {
 	}
 
 	/**
+	 * Forms field occurrences.
+	 *
+	 * @since 1.7.9
+	 *
+	 * @param array $forms List of forms.
+	 *
+	 * @return array List of field occurrences in all forms created.
+	 */
+	private function get_form_fields_count( $forms ) {
+
+		// Bail early, in case there are no forms created yet!
+		if ( empty( $forms ) ) {
+			return [];
+		}
+
+		$fields         = array_map(
+			static function( $form ) {
+
+				return isset( $form->post_content['fields'] ) ? $form->post_content['fields'] : [];
+			},
+			$forms
+		);
+		$fields_flatten = array_merge( [], ...$fields );
+		$field_types    = array_column( $fields_flatten, 'type' );
+
+		return array_count_values( $field_types );
+	}
+
+	/**
 	 * Average entries count.
 	 *
 	 * @since 1.6.1
@@ -594,14 +640,14 @@ class UsageTracking implements IntegrationInterface {
 	 */
 	private function get_all_forms() {
 
-		$forms = wpforms()->form->get( '' );
+		$forms = wpforms()->get( 'form' )->get( '' );
 
 		if ( ! is_array( $forms ) ) {
 			return [];
 		}
 
 		return array_map(
-			static function ( $form ) {
+			static function( $form ) {
 
 				$form->post_content = wpforms_decode( $form->post_content );
 

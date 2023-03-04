@@ -19,20 +19,20 @@ class WPForms_Field_GDPR_Checkbox extends WPForms_Field {
 		$this->type     = 'gdpr-checkbox';
 		$this->icon     = 'fa-check-square-o';
 		$this->order    = 500;
-		$this->defaults = array(
-			1 => array(
+		$this->defaults = [
+			1 => [
 				'label'   => esc_html__( 'I consent to having this website store my submitted information so they can respond to my inquiry.', 'wpforms-lite' ),
 				'value'   => '',
 				'image'   => '',
 				'default' => '',
-			),
-		);
+			],
+		];
 
 		// Set field to default to required.
-		add_filter( 'wpforms_field_new_required', array( $this, 'field_default_required' ), 10, 2 );
+		add_filter( 'wpforms_field_new_required', [ $this, 'field_default_required' ], 10, 2 );
 
 		// Define additional field properties.
-		add_filter( 'wpforms_field_properties_gdpr-checkbox', array( $this, 'field_properties' ), 5, 3 );
+		add_filter( 'wpforms_field_properties_gdpr-checkbox', [ $this, 'field_properties' ], 5, 3 );
 	}
 
 	/**
@@ -76,43 +76,43 @@ class WPForms_Field_GDPR_Checkbox extends WPForms_Field {
 		unset( $properties['inputs']['primary'] );
 
 		// Set input container (ul) properties.
-		$properties['input_container'] = array(
-			'class' => array(),
-			'data'  => array(),
-			'attr'  => array(),
+		$properties['input_container'] = [
+			'class' => [],
+			'data'  => [],
+			'attr'  => [],
 			'id'    => "wpforms-{$form_id}-field_{$field_id}",
-		);
+		];
 
 		// Set input properties.
 		foreach ( $choices as $key => $choice ) {
 
-			$properties['inputs'][ $key ] = array(
-				'container' => array(
-					'attr'  => array(),
-					'class' => array( "choice-{$key}" ),
-					'data'  => array(),
+			$properties['inputs'][ $key ] = [
+				'container' => [
+					'attr'  => [],
+					'class' => [ "choice-{$key}" ],
+					'data'  => [],
 					'id'    => '',
-				),
-				'label'     => array(
-					'attr'  => array(
+				],
+				'label'     => [
+					'attr'  => [
 						'for' => "wpforms-{$form_id}-field_{$field_id}_{$key}",
-					),
-					'class' => array( 'wpforms-field-label-inline' ),
-					'data'  => array(),
+					],
+					'class' => [ 'wpforms-field-label-inline' ],
+					'data'  => [],
 					'id'    => '',
 					'text'  => $choice['label'],
-				),
-				'attr'      => array(
+				],
+				'attr'      => [
 					'name'  => "wpforms[fields][{$field_id}][]",
 					'value' => $choice['label'],
-				),
-				'class'     => array(),
-				'data'      => array(),
+				],
+				'class'     => [],
+				'data'      => [],
 				'id'        => "wpforms-{$form_id}-field_{$field_id}_{$key}",
 				'image'     => '',
 				'required'  => ! empty( $field['required'] ) ? 'required' : '',
 				'default'   => '',
-			);
+			];
 		}
 
 		// Required class for pagebreak validation.
@@ -144,11 +144,11 @@ class WPForms_Field_GDPR_Checkbox extends WPForms_Field {
 		$this->field_element(
 			'text',
 			$field,
-			array(
+			[
 				'type'  => 'hidden',
 				'slug'  => 'required',
 				'value' => '1',
-			)
+			]
 		);
 
 		// -------------------------------------------------------------------//
@@ -159,9 +159,9 @@ class WPForms_Field_GDPR_Checkbox extends WPForms_Field {
 		$this->field_option(
 			'basic-options',
 			$field,
-			array(
+			[
 				'markup' => 'open',
-			)
+			]
 		);
 
 		// Label.
@@ -171,9 +171,9 @@ class WPForms_Field_GDPR_Checkbox extends WPForms_Field {
 		$this->field_option(
 			'choices',
 			$field,
-			array(
+			[
 				'label' => esc_html__( 'Agreement', 'wpforms-lite' ),
-			)
+			]
 		);
 
 		// Description.
@@ -183,9 +183,9 @@ class WPForms_Field_GDPR_Checkbox extends WPForms_Field {
 		$this->field_option(
 			'basic-options',
 			$field,
-			array(
+			[
 				'markup' => 'close',
-			)
+			]
 		);
 
 		// -------------------------------------------------------------------//
@@ -299,12 +299,12 @@ class WPForms_Field_GDPR_Checkbox extends WPForms_Field {
 	 */
 	public function format( $field_id, $field_submit, $form_data ) {
 
-		wpforms()->process->fields[ $field_id ] = array(
+		wpforms()->process->fields[ $field_id ] = [
 			'name'  => ! empty( $form_data['fields'][ $field_id ]['label'] ) ? sanitize_text_field( $form_data['fields'][ $field_id ]['label'] ) : '',
 			'value' => $form_data['fields'][ $field_id ]['choices'][1]['label'],
 			'id'    => absint( $field_id ),
 			'type'  => $this->type,
-		);
+		];
 	}
 }
 

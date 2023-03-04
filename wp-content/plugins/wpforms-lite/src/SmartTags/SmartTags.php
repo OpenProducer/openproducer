@@ -225,7 +225,7 @@ class SmartTags {
 				$smart_tag_object
 			);
 
-			if ( ! is_null( $value ) ) {
+			if ( $value !== null ) {
 				$content = $this->replace( $smart_tag, $value, $content );
 			}
 

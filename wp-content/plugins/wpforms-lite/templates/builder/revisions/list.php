@@ -8,6 +8,7 @@
  * @var string $current_version_url The URL to load the current form version.
  * @var string $author_id           Current form author ID.
  * @var array  $revisions           A list of all form revisions.
+ * @var string $show_avatars        Whether the site settings for showing avatars is enabled.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,9 +19,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class='wpforms-revisions-content'>
 	<div class="wpforms-revision-current-version<?php echo esc_attr( $active_class ); ?>">
 		<a href="<?php echo esc_url( $current_version_url ); ?>">
-			<div class='wpforms-revision-gravatar'>
-				<?php echo get_avatar( $author_id, 40 ); ?>
-			</div>
+			<?php if ( $show_avatars ) : ?>
+				<div class="wpforms-revision-gravatar">
+					<?php echo get_avatar( $author_id, 40 ); ?>
+				</div>
+			<?php endif; ?>
 
 			<div class='wpforms-revision-details'>
 				<p class='wpforms-revision-created'>
@@ -46,9 +49,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<li class="wpforms-revision<?php echo esc_attr( $revision['active_class'] ); ?>">
 				<a href="<?php echo esc_url( $revision['url'] ); ?>">
-					<div class='wpforms-revision-gravatar'>
-						<?php echo get_avatar( $revision['author_id'], 40 ); ?>
-					</div>
+					<?php if ( $show_avatars ) : ?>
+						<div class="wpforms-revision-gravatar">
+							<?php echo get_avatar( $revision['author_id'], 40 ); ?>
+						</div>
+					<?php endif; ?>
 
 					<div class='wpforms-revision-details'>
 						<p class='wpforms-revision-created'>

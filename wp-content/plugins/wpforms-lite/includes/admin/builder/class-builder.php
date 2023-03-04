@@ -369,7 +369,7 @@ class WPForms_Builder {
 			'jquery-confirm',
 			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.confirm/jquery-confirm.min.css',
 			null,
-			'3.3.2'
+			'3.3.4'
 		);
 
 		wp_enqueue_style(
@@ -401,7 +401,7 @@ class WPForms_Builder {
 			'jquery-confirm',
 			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.confirm/jquery-confirm.min.js',
 			[ 'jquery' ],
-			'3.3.2'
+			'3.3.4'
 		);
 
 		wp_enqueue_script(
@@ -443,7 +443,7 @@ class WPForms_Builder {
 			'dom-purify',
 			WPFORMS_PLUGIN_URL . 'assets/lib/purify.min.js',
 			[],
-			'2.4.0'
+			'3.0.1'
 		);
 
 		if ( wp_is_mobile() ) {
@@ -465,9 +465,25 @@ class WPForms_Builder {
 		);
 
 		wp_enqueue_script(
+			'wpforms-builder-choicesjs',
+			WPFORMS_PLUGIN_URL . "assets/js/admin/builder/wpforms-choicesjs{$min}.js",
+			[ 'jquery', 'choicesjs' ],
+			WPFORMS_VERSION
+		);
+
+		wp_enqueue_script(
 			'wpforms-builder',
 			WPFORMS_PLUGIN_URL . "assets/js/admin-builder{$min}.js",
-			[ 'wpforms-utils', 'wpforms-admin-builder-templates', 'jquery-ui-sortable', 'jquery-ui-draggable', 'tooltipster', 'jquery-confirm' ],
+			[
+				'wpforms-utils',
+				'wpforms-admin-builder-templates',
+				'jquery-ui-sortable',
+				'jquery-ui-draggable',
+				'tooltipster',
+				'jquery-confirm',
+				'choicesjs',
+				'wpforms-builder-choicesjs',
+			],
 			WPFORMS_VERSION
 		);
 
@@ -647,6 +663,7 @@ class WPForms_Builder {
 			'something_went_wrong'           => esc_html__( 'Something went wrong', 'wpforms-lite' ),
 			'field_cannot_be_reordered'      => esc_html__( 'This field cannot be moved.', 'wpforms-lite' ),
 			'empty_label'                    => esc_html__( 'Empty Label', 'wpforms-lite' ),
+			'no_pages_found'                 => esc_html__( 'No results found', 'wpforms-lite' ),
 		];
 
 		$strings['disable_entries'] = sprintf(
@@ -882,6 +899,16 @@ class WPForms_Builder {
 		if ( $this->form && wp_revisions_enabled( $this->form ) ) {
 			$builder_classes[] = 'wpforms-revisions-enabled';
 		}
+
+		/**
+		 * Allow to modify builder container classes.
+		 *
+		 * @since 1.7.9
+		 *
+		 * @param array $classes   List of classes.
+		 * @param array $form_data Form data and settings.
+		 */
+		$builder_classes = (array) apply_filters( 'wpforms_builder_output_classes', $builder_classes, $this->form_data );
 
 		/**
 		 * Allow developers to add content before the top toolbar in the Form Builder.

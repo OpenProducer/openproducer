@@ -112,6 +112,7 @@ WPForms.Admin.Builder.ContentField = WPForms.Admin.Builder.ContentField || ( fun
 				.on( 'click', '.wpforms-expandable-editor .insert-media', app.onInsertMediaButtonClicked )
 				.on( 'click', '.wpforms-expandable-editor .mce-toolbar button, .wpforms-expandable-editor .quicktags-toolbar input', app.onContentUpdated )
 				.on( 'input', '.wpforms-expandable-editor .wp-editor-area', app.onContentUpdated )
+				.on( 'click', '.wpforms-expandable-editor .wp-switch-editor.switch-html', app.setTextareaVisible )
 				.on( 'click', '.wpforms-panel-content-wrap .wpforms-field', app.hideImageToolbar );
 		},
 
@@ -156,6 +157,11 @@ WPForms.Admin.Builder.ContentField = WPForms.Admin.Builder.ContentField || ( fun
 		 * @param {object} data  Layout field data.
 		 */
 		layoutChanged: function( event, data ) {
+
+			// If the reason of the layout change was the duplication of content field inside layout, do not proceed.
+			if ( typeof app.duplicatedFieldContent !== 'undefined' ) {
+				return;
+			}
 
 			if ( data.fieldId > 0 ) {
 				app.resetFieldsInLayout( data.fieldId );
@@ -204,7 +210,7 @@ WPForms.Admin.Builder.ContentField = WPForms.Admin.Builder.ContentField || ( fun
 		},
 
 		/**
-		 * Traverse all cotent fields and reset only those which are inside layout field with given ID.
+		 * Traverse all content fields and reset only those which are inside layout field with given ID.
 		 *
 		 * @param {int} layoutFieldId Layout field ID.
 		 */
@@ -477,6 +483,18 @@ WPForms.Admin.Builder.ContentField = WPForms.Admin.Builder.ContentField || ( fun
 		},
 
 		/**
+		 * Set textarea visible when user clicks Text editor tab.
+		 *
+		 * @since 1.7.9
+		 */
+		setTextareaVisible: function() {
+
+			let textareaID = $( this ).data( 'wp-editor-id' );
+
+			$( `#${textareaID}` ).css( 'visibility', 'visible' );
+		},
+
+		/**
 		 * Hide image toolbar when user click other field.
 		 *
 		 * @since 1.7.8
@@ -575,8 +593,10 @@ WPForms.Admin.Builder.ContentField = WPForms.Admin.Builder.ContentField || ( fun
 					plugins: wpforms_builder.content_field.content_editor_plugins.join(),
 					toolbar: wpforms_builder.content_field.content_editor_toolbar.join(),
 					imagetools_toolbar: 'rotateleft rotateright | flipv fliph | editimage imageoptions',
-					content_css: wpforms_builder.content_field.content_editor_css_url,
+					content_css: wpforms_builder.content_field.content_editor_css_url + '?' + new Date().getTime(), // https://www.tiny.cloud/docs-4x/configure/content-appearance/#browsercaching
 					invalid_elements: wpforms_builder.content_field.invalid_elements,
+					wp_shortcut_labels: window.wp?.editor?.getDefaultSettings?.()?.tinymce?.wp_shortcut_labels,
+					body_class: wpforms_builder.content_field.body_class,
 					init_instance_callback: function( instance ) {
 
 						instance.setContent( typeof value !== 'undefined' ? value : wpforms_builder.content_field.editor_default_value );
@@ -657,7 +677,7 @@ WPForms.Admin.Builder.ContentField = WPForms.Admin.Builder.ContentField || ( fun
 				return content;
 			}
 
-			return app._pluginManager._do_shcode( content );
+			return app._pluginManager?._do_shcode?.( content ) ?? content;
 		},
 	};
 

@@ -78,8 +78,8 @@ class WPForms_Builder_Panel_Setup extends WPForms_Builder_Panel {
 						],
 					]
 				),
-				esc_url( wpforms_utm_link( 'https://wpforms.com/docs/how-to-create-a-custom-form-template/', 'builder-templates', 'Create Your Own Template' ) ),
-				esc_url( wpforms_utm_link( 'https://wpforms.com/form-template-suggestion/', 'builder-templates', 'Form Template Suggestion' ) )
+				esc_url( wpforms_utm_link( 'https://wpforms.com/docs/how-to-create-a-custom-form-template/', 'builder-templates', 'Create Your Own Template Documentation' ) ),
+				esc_url( wpforms_utm_link( 'https://wpforms.com/form-template-suggestion/', 'builder-templates', 'Suggest a Template' ) )
 			);
 			?>
 		</p>
