@@ -1,22 +1,22 @@
 <?php return array(
     'root' => array(
+        'name' => 'automattic/newspack-blocks',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
+        'reference' => '12128b8ff05206ce33aa0fcd48fb2036dabbceff',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '5aff45433191148b3fe2fc2f6dd60e959c944a07',
-        'name' => 'automattic/newspack-blocks',
         'dev' => false,
     ),
     'versions' => array(
         'automattic/newspack-blocks' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
+            'reference' => '12128b8ff05206ce33aa0fcd48fb2036dabbceff',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '5aff45433191148b3fe2fc2f6dd60e959c944a07',
             'dev_requirement' => false,
         ),
     ),

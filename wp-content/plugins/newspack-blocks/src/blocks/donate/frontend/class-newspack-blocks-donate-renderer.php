@@ -8,6 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 require_once NEWSPACK_BLOCKS__PLUGIN_DIR . 'src/blocks/donate/frontend/class-newspack-blocks-donate-renderer-frequency-based.php';
+require_once NEWSPACK_BLOCKS__PLUGIN_DIR . 'src/blocks/donate/frontend/class-newspack-blocks-donate-renderer-tiers-based.php';
 
 /**
  * Server-side rendering of the `newspack-blocks/donate` block.
@@ -34,6 +35,9 @@ class Newspack_Blocks_Donate_Renderer {
 			case 'frequency-based':
 				$filename = 'frequencyBased';
 				break;
+			case 'tiers-based':
+				$filename = 'tiersBased';
+				break;
 			default:
 				$filename = false;
 				break;
@@ -48,7 +52,7 @@ class Newspack_Blocks_Donate_Renderer {
 			Newspack_Blocks::SCRIPT_HANDLES[ $handle_slug ],
 			$script_data['script_path'],
 			$dependencies,
-			$script_data['version'],
+			NEWSPACK_BLOCKS__VERSION,
 			true
 		);
 
@@ -78,13 +82,18 @@ class Newspack_Blocks_Donate_Renderer {
 			return '';
 		}
 
-		if ( $configuration['is_rendering_streamlined_block'] ) {
+		if ( $configuration['is_rendering_stripe_payment_form'] ) {
 			self::enqueue_scripts( 'streamlined' );
 		}
 
 		Newspack_Blocks::enqueue_view_assets( 'donate' );
 
-		self::enqueue_scripts( 'frequency-based' );
-		return Newspack_Blocks_Donate_Renderer_Frequency_Based::render( $attributes );
+		if ( $configuration['is_tier_based_layout'] ) {
+			self::enqueue_scripts( 'tiers-based' );
+			return Newspack_Blocks_Donate_Renderer_Tiers_Based::render( $attributes );
+		} else {
+			self::enqueue_scripts( 'frequency-based' );
+			return Newspack_Blocks_Donate_Renderer_Frequency_Based::render( $attributes );
+		}
 	}
 }

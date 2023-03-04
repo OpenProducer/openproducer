@@ -81,17 +81,11 @@ abstract class Wizard {
 	 * Load up common JS/CSS for wizards.
 	 */
 	public function enqueue_scripts_and_styles() {
-		if ( filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) !== $this->slug ) {
+		if ( filter_input( INPUT_GET, 'page', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) !== $this->slug ) {
 			return;
 		}
 
 		Newspack::load_common_assets();
-
-		// Tachyons atomic CSS framework (http://tachyons.io/).
-		wp_enqueue_style( // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-			'tachyons',
-			'https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css'
-		);
 
 		// This script is just used for making newspack data available in JS vars.
 		// It should not actually load a JS file.
@@ -111,7 +105,7 @@ abstract class Wizard {
 			],
 			'homepage'       => get_edit_post_link( get_option( 'page_on_front', false ) ),
 			'site'           => get_site_url(),
-			'support'        => esc_url( 'https://newspack.pub/support/' ),
+			'support'        => esc_url( 'https://newspack.com/support/' ),
 			'support_email'  => $support_email,
 		];
 

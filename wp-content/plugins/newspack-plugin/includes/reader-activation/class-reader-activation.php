@@ -84,6 +84,8 @@ final class Reader_Activation {
 			\add_filter( 'retrieve_password_notification_email', [ __CLASS__, 'password_reset_configuration' ], 10, 4 );
 			\add_action( 'lostpassword_post', [ __CLASS__, 'set_password_reset_mail_content_type' ] );
 			\add_filter( 'lostpassword_errors', [ __CLASS__, 'rate_limit_lost_password' ], 10, 2 );
+			\add_filter( 'woocommerce_checkout_customer_id', [ __CLASS__, 'associate_existing_woo_users_with_transactions_on_checkout' ] );
+			\add_filter( 'woocommerce_checkout_posted_data', [ __CLASS__, 'dont_force_registration_for_existing_woo_users' ], 11 );
 		}
 	}
 
@@ -124,6 +126,7 @@ final class Reader_Activation {
 			'newspack_reader_activation_data',
 			$script_data
 		);
+		\wp_script_add_data( self::SCRIPT_HANDLE, 'async', true );
 		\wp_script_add_data( self::SCRIPT_HANDLE, 'amp-plus', true );
 
 		/**
@@ -169,13 +172,14 @@ final class Reader_Activation {
 			'terms_text'                  => __( 'By signing up, you agree to our Terms and Conditions.', 'newspack' ),
 			'terms_url'                   => '',
 			'sync_esp'                    => true,
+			'metadata_prefix'             => Newspack_Newsletters::get_metadata_prefix(),
 			'sync_esp_delete'             => true,
 			'active_campaign_master_list' => '',
+			'mailchimp_audience_id'       => '',
 			'emails'                      => Emails::get_emails( array_values( Reader_Activation_Emails::EMAIL_TYPES ), false ),
 			'sender_name'                 => Emails::get_from_name(),
 			'sender_email_address'        => Emails::get_from_email(),
 			'contact_email_address'       => Emails::get_reply_to_email(),
-			'plugins_configured'          => self::is_woocommerce_active(),
 		];
 
 		/**
@@ -215,6 +219,15 @@ final class Reader_Activation {
 			return null;
 		}
 		$value = \get_option( self::OPTIONS_PREFIX . $name, $config[ $name ] );
+
+		// If fetching terms URL, set the default here as \get_permalink and \get_post_status aren't available on the init hook.
+		if ( 'terms_url' === $name && empty( $value ) ) {
+			$privacy_policy_page_id = \get_option( 'wp_page_for_privacy_policy' );
+			if ( ! empty( $privacy_policy_page_id ) && 'publish' === \get_post_status( $privacy_policy_page_id ) ) {
+				$value = \get_permalink( $privacy_policy_page_id );
+			}
+		}
+
 		// Use default value type for casting bool option value.
 		if ( is_bool( $config[ $name ] ) ) {
 			$value = (bool) $value;
@@ -238,6 +251,10 @@ final class Reader_Activation {
 		if ( is_bool( $value ) ) {
 			$value = intval( $value );
 		}
+		if ( 'metadata_prefix' === $key ) {
+			return Newspack_Newsletters::update_metadata_prefix( $value );
+		}
+
 		return \update_option( self::OPTIONS_PREFIX . $key, $value );
 	}
 
@@ -247,7 +264,13 @@ final class Reader_Activation {
 	 * @return boolean True if all required plugins are active, otherwise false.
 	 */
 	public static function is_woocommerce_active() {
-		return class_exists( 'WooCommerce' ) && class_exists( 'WC_Subscriptions' );
+		$is_active = Donations::is_woocommerce_suite_active();
+
+		if ( \is_wp_error( $is_active ) ) {
+			return false;
+		}
+
+		return $is_active;
 	}
 
 	/**
@@ -270,7 +293,7 @@ final class Reader_Activation {
 		}
 
 		if ( $is_enabled ) {
-			$is_enabled = self::get_setting( 'enabled' );
+			$is_enabled = (bool) \get_option( self::OPTIONS_PREFIX . 'enabled', true );
 		}
 
 		/**
@@ -729,7 +752,7 @@ final class Reader_Activation {
 			$placeholder = __( 'Enter your email address', 'newspack' );
 		}
 		?>
-		<input class="nphp" tabindex="-1" aria-hidden="true" name="email" type="email" placeholder="<?php echo \esc_attr( $placeholder ); ?>" />
+		<input class="nphp" tabindex="-1" aria-hidden="true" name="email" type="email" autocomplete="off" placeholder="<?php echo \esc_attr( $placeholder ); ?>" />
 		<?php
 	}
 
@@ -1159,7 +1182,7 @@ final class Reader_Activation {
 
 		$user = \get_user_by( 'email', $email );
 		if ( ( ! $user && 'register' !== $action ) || ( $user && ! self::is_user_reader( $user ) ) ) {
-			return self::send_auth_form_response( new \WP_Error( 'unauthorized', __( "We couldn't find an account registered to this email address. Please confirm that you entered the correct email, or sign up for a new account.", 'newspack' ) ) );
+			return self::send_auth_form_response( new \WP_Error( 'unauthorized', __( "We couldn't find a reader account registered to this email address. Please confirm that you entered the correct email, or sign up for a new account.", 'newspack' ) ) );
 		}
 
 		$payload = [
@@ -1330,7 +1353,7 @@ final class Reader_Activation {
 			}
 
 			if ( \is_wp_error( $user_id ) ) {
-				Logger::log( 'User registration failed: ' . $user_id->get_error_message() );
+				Logger::error( 'User registration failed: ' . $user_id->get_error_message() );
 				return $user_id;
 			}
 
@@ -1509,6 +1532,41 @@ final class Reader_Activation {
 			\update_user_meta( $user_data->ID, self::LAST_EMAIL_DATE, time() );
 		}
 		return $errors;
+	}
+
+	/**
+	 * If a reader tries to make a recurring donation with an email address that
+	 * has been previously registered, automatically associate the transaction with the user.
+	 *
+	 * @param int $customer_id Current customer ID.
+	 * @return int Modified $customer_id
+	 */
+	public static function associate_existing_woo_users_with_transactions_on_checkout( $customer_id ) {
+		$billing_email = filter_input( INPUT_POST, 'billing_email', FILTER_SANITIZE_EMAIL );
+		if ( $billing_email ) {
+			$customer = \get_user_by( 'email', $billing_email );
+			if ( $customer ) {
+				$customer_id = $customer->ID;
+			}
+		}
+		return $customer_id;
+	}
+
+	/**
+	 * Don't force account registration/login on Woo purchases for existing users.
+	 *
+	 * @param array $data Array of Woo checkout data.
+	 * @return array Modified $data.
+	 */
+	public static function dont_force_registration_for_existing_woo_users( $data ) {
+		$email    = $data['billing_email'];
+		$customer = \get_user_by( 'email', $email );
+		if ( $customer ) {
+			$data['createaccount'] = 0;
+			\add_filter( 'woocommerce_checkout_registration_required', '__return_false', 9999 );
+		}
+
+		return $data;
 	}
 }
 Reader_Activation::init();

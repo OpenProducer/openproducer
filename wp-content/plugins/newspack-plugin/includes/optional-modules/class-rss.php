@@ -94,7 +94,7 @@ class RSS {
 		];
 
 		if ( ! $feed_post ) {
-			$query_feed = filter_input( INPUT_GET, self::FEED_QUERY_ARG, FILTER_SANITIZE_STRING );
+			$query_feed = filter_input( INPUT_GET, self::FEED_QUERY_ARG, FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 			if ( ! $query_feed ) {
 				return false;
 			}
@@ -417,7 +417,7 @@ class RSS {
 	 * @param int $feed_post_id The post ID of feed.
 	 */
 	public static function save_settings( $feed_post_id ) {
-		$nonce = filter_input( INPUT_POST, 'newspack_rss_enhancements_nonce', FILTER_SANITIZE_STRING );
+		$nonce = filter_input( INPUT_POST, 'newspack_rss_enhancements_nonce', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		if ( ! $nonce || ! wp_verify_nonce( $nonce, 'newspack_rss_enhancements_nonce' ) ) {
 			return;
 		}
@@ -508,7 +508,7 @@ class RSS {
 		}
 
 		$query->set( 'posts_per_rss', absint( $settings['num_items_in_feed'] ) );
-		
+
 		$query->set( 'offset', absint( $settings['offset'] ) );
 
 		if ( ! empty( $settings['timeframe'] ) ) {
@@ -586,10 +586,14 @@ class RSS {
 			if ( $thumbnail_id ) {
 				$thumbnail_data = wp_get_attachment_image_src( $thumbnail_id, 'full' );
 				if ( $thumbnail_data ) {
+					$caption = get_the_post_thumbnail_caption();
 					?>
-					<media:description><?php echo esc_html( get_the_post_thumbnail_caption() ); ?></media:description>
-					<media:thumbnail url="<?php echo esc_url( $thumbnail_data[0] ); ?>" width="<?php echo esc_attr( $thumbnail_data[1] ); ?>" height="<?php echo esc_attr( $thumbnail_data[2] ); ?>" />
-					<media:content type="image/jpeg" url="<?php echo esc_url( $thumbnail_data[0] ); ?>" />
+					<media:content type="<?php echo esc_attr( get_post_mime_type( $thumbnail_id ) ); ?>" url="<?php echo esc_url( $thumbnail_data[0] ); ?>">
+						<?php if ( ! empty( $caption ) ) : ?>
+						<media:description><?php echo esc_html( $caption ); ?></media:description>
+						<?php endif; ?>
+						<media:thumbnail url="<?php echo esc_url( $thumbnail_data[0] ); ?>" width="<?php echo esc_attr( $thumbnail_data[1] ); ?>" height="<?php echo esc_attr( $thumbnail_data[2] ); ?>" />
+					</media:content>
 					<?php
 				}
 			}

@@ -47,7 +47,7 @@ class Connections_Wizard extends Wizard {
 	public function enqueue_scripts_and_styles() {
 		parent::enqueue_scripts_and_styles();
 
-		if ( filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) !== $this->slug ) {
+		if ( filter_input( INPUT_GET, 'page', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) !== $this->slug ) {
 			return;
 		}
 
@@ -64,8 +64,18 @@ class Connections_Wizard extends Wizard {
 			[
 				'can_connect_google'   => OAuth::is_proxy_configured( 'google' ),
 				'can_connect_fivetran' => OAuth::is_proxy_configured( 'fivetran' ),
+				'can_use_webhooks'     => defined( 'NEWSPACK_EXPERIMENTAL_WEBHOOKS' ) && NEWSPACK_EXPERIMENTAL_WEBHOOKS,
 			]
 		);
 		\wp_enqueue_script( 'newspack-connections-wizard' );
+
+		\wp_register_style(
+			'newspack-connections-wizard',
+			Newspack::plugin_url() . '/dist/connections.css',
+			$this->get_style_dependencies(),
+			NEWSPACK_PLUGIN_VERSION
+		);
+		\wp_style_add_data( 'newspack-connections-wizard', 'rtl', 'replace' );
+		\wp_enqueue_style( 'newspack-connections-wizard' );
 	}
 }

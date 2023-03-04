@@ -4,6 +4,7 @@
  * Based on woocommerce/templates/myaccount/form-edit-account.php.
  *
  * @package Newspack
+ * @version 7.0.1
  */
 
 namespace Newspack;
@@ -29,6 +30,7 @@ if ( isset( $_GET['is_error'] ) ) { // phpcs:ignore WordPress.Security.NonceVeri
 }
 
 $without_password = true === Reader_Activation::is_reader_without_password( $user );
+$is_reader        = true === Reader_Activation::is_user_reader( $user );
 ?>
 
 <?php
@@ -94,6 +96,10 @@ endif;
 	</a>
 </div>
 
+<?php
+if ( $is_reader ) :
+	?>
+
 <div class="woocommerce-card woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 	<a href="<?php echo '?' . \esc_attr( $newspack_delete_account_arg ) . '=' . \esc_attr( \wp_create_nonce( $newspack_delete_account_arg ) ); ?>" class="is-destructive">
 		<span class="woocommerce-card__content">
@@ -105,6 +111,11 @@ endif;
 			</span>
 		</span>
 	</a>
+	<p>
+		<?php \esc_html_e( 'Deleting your account will also cancel any newsletter subscriptions and recurring payments.', 'newspack' ); ?>
+	</p>
 </div>
+
+<?php endif; ?>
 
 <?php \do_action( 'newspack_woocommerce_after_edit_account_form' ); ?>

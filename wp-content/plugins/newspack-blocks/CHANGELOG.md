@@ -1,3 +1,149 @@
+# [1.63.0](https://github.com/Automattic/newspack-blocks/compare/v1.62.0...v1.63.0) (2023-02-28)
+
+
+### Bug Fixes
+
+* attribute types for custom author fields ([#1365](https://github.com/Automattic/newspack-blocks/issues/1365)) ([483e49c](https://github.com/Automattic/newspack-blocks/commit/483e49cd2923ad0d9f0e5c8030df23e8e64138cb))
+* remove mark background in Newspack blocks ([#1363](https://github.com/Automattic/newspack-blocks/issues/1363)) ([295b7d1](https://github.com/Automattic/newspack-blocks/commit/295b7d18df51f4bb6991c415d5e288af0dbb647f))
+
+
+### Features
+
+* **donate-block:** native wc subs ([#1359](https://github.com/Automattic/newspack-blocks/issues/1359)) ([9834aa0](https://github.com/Automattic/newspack-blocks/commit/9834aa0ade7d74fe2ab832ccdd96859917ca2ac0))
+
+# [1.63.0-alpha.1](https://github.com/Automattic/newspack-blocks/compare/v1.62.0...v1.63.0-alpha.1) (2023-02-17)
+
+
+### Bug Fixes
+
+* attribute types for custom author fields ([#1365](https://github.com/Automattic/newspack-blocks/issues/1365)) ([483e49c](https://github.com/Automattic/newspack-blocks/commit/483e49cd2923ad0d9f0e5c8030df23e8e64138cb))
+* remove mark background in Newspack blocks ([#1363](https://github.com/Automattic/newspack-blocks/issues/1363)) ([295b7d1](https://github.com/Automattic/newspack-blocks/commit/295b7d18df51f4bb6991c415d5e288af0dbb647f))
+
+
+### Features
+
+* **donate-block:** native wc subs ([#1359](https://github.com/Automattic/newspack-blocks/issues/1359)) ([9834aa0](https://github.com/Automattic/newspack-blocks/commit/9834aa0ade7d74fe2ab832ccdd96859917ca2ac0))
+
+# [1.62.0](https://github.com/Automattic/newspack-blocks/compare/v1.61.0...v1.62.0) (2023-02-16)
+
+
+### Bug Fixes
+
+* show HPP dates in correct timezone in editor ([#1348](https://github.com/Automattic/newspack-blocks/issues/1348)) ([1f3245f](https://github.com/Automattic/newspack-blocks/commit/1f3245f6f93c8982ea43539a999a0defba7489b1))
+
+
+### Features
+
+* **hpb:** fetch priority attr; attrs filtering; remove disableImageLazyLoad UI ([#1351](https://github.com/Automattic/newspack-blocks/issues/1351)) ([386ae33](https://github.com/Automattic/newspack-blocks/commit/386ae33749bf1f35ccc058425c7c943ed96d890b))
+
+# [1.62.0-alpha.1](https://github.com/Automattic/newspack-blocks/compare/v1.61.0...v1.62.0-alpha.1) (2023-01-26)
+
+
+### Bug Fixes
+
+* show HPP dates in correct timezone in editor ([#1348](https://github.com/Automattic/newspack-blocks/issues/1348)) ([1f3245f](https://github.com/Automattic/newspack-blocks/commit/1f3245f6f93c8982ea43539a999a0defba7489b1))
+
+
+### Features
+
+* **hpb:** fetch priority attr; attrs filtering; remove disableImageLazyLoad UI ([#1351](https://github.com/Automattic/newspack-blocks/issues/1351)) ([386ae33](https://github.com/Automattic/newspack-blocks/commit/386ae33749bf1f35ccc058425c7c943ed96d890b))
+
+# [1.61.0](https://github.com/Automattic/newspack-blocks/compare/v1.60.1...v1.61.0) (2023-01-25)
+
+
+### Bug Fixes
+
+* **donate-stripe:** initialize Stripe only if element is visible ([#1344](https://github.com/Automattic/newspack-blocks/issues/1344)) ([207bff7](https://github.com/Automattic/newspack-blocks/commit/207bff7cadca0102e02f152875425ca608149cfe))
+* **HPB:** author query if CAP is unavailable ([#1336](https://github.com/Automattic/newspack-blocks/issues/1336)) ([b3ad96f](https://github.com/Automattic/newspack-blocks/commit/b3ad96f0112e05c8f7530c2e632e7a1754d760cc))
+* make author block font sizing more specific ([#1343](https://github.com/Automattic/newspack-blocks/issues/1343)) ([a84034f](https://github.com/Automattic/newspack-blocks/commit/a84034f81c0d04ddbfe4eeb52fbcaac33d2ef158))
+* make sure correct avatar is loaded when guests and users share IDs ([#1339](https://github.com/Automattic/newspack-blocks/issues/1339)) ([ebab2eb](https://github.com/Automattic/newspack-blocks/commit/ebab2eb9a3695336c394f01dd6835b46b248732c))
+
+
+### Features
+
+* **homepage-posts-block:** filter image sizes based on the maximum image width ([#1322](https://github.com/Automattic/newspack-blocks/issues/1322)) ([6bed199](https://github.com/Automattic/newspack-blocks/commit/6bed1993216c31705e1ff59b55b1119aee13c4fc))
+
+# [1.61.0-alpha.1](https://github.com/Automattic/newspack-blocks/compare/v1.60.1...v1.61.0-alpha.1) (2023-01-25)
+
+
+### Bug Fixes
+
+* **donate-stripe:** initialize Stripe only if element is visible ([#1344](https://github.com/Automattic/newspack-blocks/issues/1344)) ([207bff7](https://github.com/Automattic/newspack-blocks/commit/207bff7cadca0102e02f152875425ca608149cfe))
+* **HPB:** author query if CAP is unavailable ([#1336](https://github.com/Automattic/newspack-blocks/issues/1336)) ([b3ad96f](https://github.com/Automattic/newspack-blocks/commit/b3ad96f0112e05c8f7530c2e632e7a1754d760cc))
+* make author block font sizing more specific ([#1343](https://github.com/Automattic/newspack-blocks/issues/1343)) ([a84034f](https://github.com/Automattic/newspack-blocks/commit/a84034f81c0d04ddbfe4eeb52fbcaac33d2ef158))
+* make sure correct avatar is loaded when guests and users share IDs ([#1339](https://github.com/Automattic/newspack-blocks/issues/1339)) ([ebab2eb](https://github.com/Automattic/newspack-blocks/commit/ebab2eb9a3695336c394f01dd6835b46b248732c))
+
+
+### Features
+
+* **homepage-posts-block:** filter image sizes based on the maximum image width ([#1322](https://github.com/Automattic/newspack-blocks/issues/1322)) ([6bed199](https://github.com/Automattic/newspack-blocks/commit/6bed1993216c31705e1ff59b55b1119aee13c4fc))
+
+## [1.60.1](https://github.com/Automattic/newspack-blocks/compare/v1.60.0...v1.60.1) (2023-01-12)
+
+
+### Bug Fixes
+
+* use release version number instead of filemtime for JS asset versions ([623b620](https://github.com/Automattic/newspack-blocks/commit/623b620ffa50c8bd7907188db7529b44cfdf9209))
+
+## [1.60.1-hotfix.1](https://github.com/Automattic/newspack-blocks/compare/v1.60.0...v1.60.1-hotfix.1) (2023-01-12)
+
+
+### Bug Fixes
+
+* use release version number instead of filemtime for JS asset versions ([623b620](https://github.com/Automattic/newspack-blocks/commit/623b620ffa50c8bd7907188db7529b44cfdf9209))
+
+# [1.60.0](https://github.com/Automattic/newspack-blocks/compare/v1.59.1...v1.60.0) (2023-01-09)
+
+
+### Bug Fixes
+
+* allow all img tag attributes in avatar output ([#1333](https://github.com/Automattic/newspack-blocks/issues/1333)) ([2f57019](https://github.com/Automattic/newspack-blocks/commit/2f570192c4fc4e29a7b532c53309bdcef5cab9cb))
+
+
+### Features
+
+* **donate block:** tiers layout ([#1311](https://github.com/Automattic/newspack-blocks/issues/1311)) ([9228ee4](https://github.com/Automattic/newspack-blocks/commit/9228ee46e4059fecb0a964919a295a72f5691032))
+* **donate:** additional fields on the form ([#1330](https://github.com/Automattic/newspack-blocks/issues/1330)) ([1f6869d](https://github.com/Automattic/newspack-blocks/commit/1f6869d2c11c374eda7e56e9aa1425383d9dcd97))
+* handle 'other' reader revenue platform in the editor ([0e6ca8a](https://github.com/Automattic/newspack-blocks/commit/0e6ca8a4e78f66db35e9d95a1ba9810a08aeaebb))
+* unregister Jetpack Subscriptions block to avoid confusion with Newspack blocks ([#1337](https://github.com/Automattic/newspack-blocks/issues/1337)) ([7dab5fc](https://github.com/Automattic/newspack-blocks/commit/7dab5fcff9bcf38636becc030bdab1c612a8d0ab))
+
+# [1.60.0-alpha.2](https://github.com/Automattic/newspack-blocks/compare/v1.60.0-alpha.1...v1.60.0-alpha.2) (2022-12-22)
+
+
+### Features
+
+* **donate:** additional fields on the form ([#1330](https://github.com/Automattic/newspack-blocks/issues/1330)) ([1f6869d](https://github.com/Automattic/newspack-blocks/commit/1f6869d2c11c374eda7e56e9aa1425383d9dcd97))
+* unregister Jetpack Subscriptions block to avoid confusion with Newspack blocks ([#1337](https://github.com/Automattic/newspack-blocks/issues/1337)) ([7dab5fc](https://github.com/Automattic/newspack-blocks/commit/7dab5fcff9bcf38636becc030bdab1c612a8d0ab))
+
+# [1.60.0-alpha.1](https://github.com/Automattic/newspack-blocks/compare/v1.59.1...v1.60.0-alpha.1) (2022-12-20)
+
+
+### Bug Fixes
+
+* allow all img tag attributes in avatar output ([#1333](https://github.com/Automattic/newspack-blocks/issues/1333)) ([2f57019](https://github.com/Automattic/newspack-blocks/commit/2f570192c4fc4e29a7b532c53309bdcef5cab9cb))
+
+
+### Features
+
+* **donate block:** tiers layout ([#1311](https://github.com/Automattic/newspack-blocks/issues/1311)) ([9228ee4](https://github.com/Automattic/newspack-blocks/commit/9228ee46e4059fecb0a964919a295a72f5691032))
+* handle 'other' reader revenue platform in the editor ([0e6ca8a](https://github.com/Automattic/newspack-blocks/commit/0e6ca8a4e78f66db35e9d95a1ba9810a08aeaebb))
+
+## [1.59.1](https://github.com/Automattic/newspack-blocks/compare/v1.59.0...v1.59.1) (2022-12-12)
+
+
+### Bug Fixes
+
+* **donate:** override defaults with manual config ([#1313](https://github.com/Automattic/newspack-blocks/issues/1313)) ([637284f](https://github.com/Automattic/newspack-blocks/commit/637284f4e42868125785a7139f440a364fc516e8))
+* update CI orb newspack-scripts ([a6675b7](https://github.com/Automattic/newspack-blocks/commit/a6675b780e58f995bea6bc4c58fa11c56a99679f))
+
+## [1.59.1-alpha.1](https://github.com/Automattic/newspack-blocks/compare/v1.59.0...v1.59.1-alpha.1) (2022-12-01)
+
+
+### Bug Fixes
+
+* **donate:** override defaults with manual config ([#1313](https://github.com/Automattic/newspack-blocks/issues/1313)) ([637284f](https://github.com/Automattic/newspack-blocks/commit/637284f4e42868125785a7139f440a364fc516e8))
+* update CI orb newspack-scripts ([a6675b7](https://github.com/Automattic/newspack-blocks/commit/a6675b780e58f995bea6bc4c58fa11c56a99679f))
+
 # [1.59.0](https://github.com/Automattic/newspack-blocks/compare/v1.58.1...v1.59.0) (2022-11-14)
 
 

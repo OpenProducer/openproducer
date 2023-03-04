@@ -39,6 +39,7 @@ namespace Stripe;
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
  * @property \Stripe\StripeObject $metadata Set of <a href="https://stripe.com/docs/api/metadata">key-value pairs</a> that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
  * @property null|int $next_pending_invoice_item_invoice Specifies the approximate timestamp on which any pending invoice items will be billed according to the schedule provided at <code>pending_invoice_item_interval</code>.
+ * @property null|string|\Stripe\Account $on_behalf_of The account (if any) the charge was made on behalf of for charges associated with this subscription. See the Connect documentation for details.
  * @property null|\Stripe\StripeObject $pause_collection If specified, payment collection for this subscription will be paused.
  * @property null|\Stripe\StripeObject $payment_settings Payment settings passed on to invoices created by the subscription.
  * @property null|\Stripe\StripeObject $pending_invoice_item_interval Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling <a href="https://stripe.com/docs/api#create_invoice">Create an invoice</a> for the given subscription at the specified interval.
@@ -50,6 +51,7 @@ namespace Stripe;
  * @property null|string|\Stripe\TestHelpers\TestClock $test_clock ID of the test clock this subscription belongs to.
  * @property null|\Stripe\StripeObject $transfer_data The account (if any) the subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
  * @property null|int $trial_end If the subscription has a trial, the end of that trial.
+ * @property null|\Stripe\StripeObject $trial_settings Settings related to subscription trials.
  * @property null|int $trial_start If the subscription has a trial, the beginning of that trial.
  */
 class Subscription extends ApiResource
@@ -76,6 +78,7 @@ class Subscription extends ApiResource
     const STATUS_INCOMPLETE = 'incomplete';
     const STATUS_INCOMPLETE_EXPIRED = 'incomplete_expired';
     const STATUS_PAST_DUE = 'past_due';
+    const STATUS_PAUSED = 'paused';
     const STATUS_TRIALING = 'trialing';
     const STATUS_UNPAID = 'unpaid';
 
@@ -124,6 +127,23 @@ class Subscription extends ApiResource
     {
         $url = $this->instanceUrl();
         list($response, $opts) = $this->_request('delete', $url, $params, $opts);
+        $this->refreshFrom($response, $opts);
+
+        return $this;
+    }
+
+    /**
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Subscription the resumed subscription
+     */
+    public function resume($params = null, $opts = null)
+    {
+        $url = $this->instanceUrl() . '/resume';
+        list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
 
         return $this;

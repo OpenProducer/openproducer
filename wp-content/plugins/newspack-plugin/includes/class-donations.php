@@ -69,6 +69,7 @@ class Donations {
 			add_action( 'woocommerce_checkout_update_order_meta', [ __CLASS__, 'woocommerce_checkout_update_order_meta' ] );
 			add_filter( 'woocommerce_billing_fields', [ __CLASS__, 'woocommerce_billing_fields' ] );
 			add_filter( 'pre_option_woocommerce_enable_guest_checkout', [ __CLASS__, 'disable_guest_checkout' ] );
+			add_action( 'woocommerce_check_cart_items', [ __CLASS__, 'handle_cart' ] );
 			add_filter( 'amp_skip_post', [ __CLASS__, 'should_skip_amp' ], 10, 2 );
 		}
 	}
@@ -254,6 +255,29 @@ class Donations {
 	}
 
 	/**
+	 * Get the donation product ID for the order.
+	 *
+	 * @param int $order_id Order ID.
+	 *
+	 * @return int|false The donation product ID or false.
+	 */
+	public static function get_order_donation_product_id( $order_id ) {
+		$donation_products = self::get_donation_product_child_products_ids();
+		if ( empty( array_filter( $donation_products ) ) ) {
+			return;
+		}
+		$order          = new \WC_Order( $order_id );
+		$order_items    = $order->get_items();
+		$donation_items = array_filter(
+			$order_items,
+			function ( $item ) use ( $donation_products ) {
+				return in_array( $item->get_product_id(), $donation_products, true );
+			}
+		);
+		return ! empty( $donation_items ) ? array_values( $donation_items )[0]->get_product_id() : false;
+	}
+
+	/**
 	 * Get the donation settings.
 	 *
 	 * @return Array of donation settings or WP_Error if WooCommerce is not set up.
@@ -350,6 +374,8 @@ class Donations {
 			self::update_donation_product( [ 'minimumDonation' => $settings['minimumDonation'] ] );
 		}
 
+		$parsed_settings['platform'] = self::get_platform_slug();
+
 		return $parsed_settings;
 	}
 
@@ -384,6 +410,24 @@ class Donations {
 	 */
 	public static function is_recurring( $frequency ) {
 		return 'once' !== $frequency;
+	}
+
+	/**
+	 * Map donation frequency code to a human readable string.
+	 *
+	 * @param string $frequency Frequency code.
+	 */
+	public static function get_donation_name_by_frequency( $frequency ) {
+		switch ( $frequency ) {
+			case 'once':
+				return __( 'One-Time Donation', 'newspack' );
+			case 'month':
+				return __( 'Monthly Donation', 'newspack' );
+			case 'year':
+				return __( 'Yearly Donation', 'newspack' );
+			default:
+				return __( 'Donation', 'newspack' );
+		}
 	}
 
 	/**
@@ -521,6 +565,13 @@ class Donations {
 	}
 
 	/**
+	 * Is the donation platform set to 'other'?
+	 */
+	public static function is_platform_other() {
+		return 'other' === self::get_platform_slug();
+	}
+
+	/**
 	 * Handle submission of the donation form.
 	 */
 	public static function process_donation_form() {
@@ -532,20 +583,20 @@ class Donations {
 		}
 
 		// Parse values from the form.
-		$donation_frequency = filter_input( INPUT_GET, 'donation_frequency', FILTER_SANITIZE_STRING );
+		$donation_frequency = filter_input( INPUT_GET, 'donation_frequency', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		if ( ! $donation_frequency ) {
 			return;
 		}
-		$donation_value = filter_input( INPUT_GET, 'donation_value_' . $donation_frequency, FILTER_SANITIZE_STRING );
+		$donation_value = filter_input( INPUT_GET, 'donation_value_' . $donation_frequency, FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		if ( ! $donation_value ) {
-			$donation_value = filter_input( INPUT_GET, 'donation_value_' . $donation_frequency . '_untiered', FILTER_SANITIZE_STRING );
+			$donation_value = filter_input( INPUT_GET, 'donation_value_' . $donation_frequency . '_untiered', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 
 			if ( ! $donation_value ) {
 				return;
 			}
 		}
 		if ( 'other' === $donation_value ) {
-			$donation_value = filter_input( INPUT_GET, 'donation_value_' . $donation_frequency . '_other', FILTER_SANITIZE_STRING );
+			$donation_value = filter_input( INPUT_GET, 'donation_value_' . $donation_frequency . '_other', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 			if ( ! $donation_value ) {
 				return;
 			}
@@ -764,7 +815,7 @@ class Donations {
 	 * @param Array $form_fields WC form fields.
 	 */
 	public static function woocommerce_billing_fields( $form_fields ) {
-		$params = filter_input_array( INPUT_GET, FILTER_SANITIZE_STRING );
+		$params = filter_input_array( INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 
 		if ( is_array( $params ) ) {
 			foreach ( $params as $param => $value ) {
@@ -803,7 +854,7 @@ class Donations {
 	 * @param String $order_id WC order id.
 	 */
 	public static function woocommerce_checkout_update_order_meta( $order_id ) {
-		$params = filter_input_array( INPUT_POST, FILTER_SANITIZE_STRING );
+		$params = filter_input_array( INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 
 		if ( is_array( $params ) ) {
 			foreach ( $params as $param => $value ) {
@@ -838,6 +889,22 @@ class Donations {
 			return $has_stripe_keys;
 		}
 		return false;
+	}
+
+	/**
+	 * Manipulate WC's cart, if needed.
+	 * If WC is not the donations platform, the donation products should not be buyable.
+	 */
+	public static function handle_cart() {
+		if ( self::is_platform_wc() ) {
+			return;
+		}
+		$donation_products_ids = array_values( self::get_donation_product_child_products_ids() );
+		foreach ( WC()->cart->cart_contents as $prod_in_cart ) {
+			if ( isset( $prod_in_cart['product_id'] ) && in_array( $prod_in_cart['product_id'], $donation_products_ids ) ) {
+				WC()->cart->remove_cart_item( $prod_in_cart['key'] );
+			}
+		}
 	}
 }
 Donations::init();

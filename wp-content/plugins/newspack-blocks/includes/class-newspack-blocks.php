@@ -16,6 +16,7 @@ class Newspack_Blocks {
 	const SCRIPT_HANDLES = [
 		'streamlined'     => 'newspack-blocks-donate-streamlined',
 		'frequency-based' => 'newspack-blocks-donate-frequency-based',
+		'tiers-based'     => 'newspack-blocks-donate-tiers-based',
 	];
 
 	/**
@@ -215,14 +216,15 @@ class Newspack_Blocks {
 			);
 
 			$localized_data = [
-				'patterns'                       => self::get_patterns_for_post_type( get_post_type() ),
-				'posts_rest_url'                 => rest_url( 'newspack-blocks/v1/newspack-blocks-posts' ),
-				'specific_posts_rest_url'        => rest_url( 'newspack-blocks/v1/newspack-blocks-specific-posts' ),
-				'authors_rest_url'               => rest_url( 'newspack-blocks/v1/authors' ),
-				'assets_path'                    => plugins_url( '/src/assets', NEWSPACK_BLOCKS__PLUGIN_FILE ),
-				'post_subtitle'                  => get_theme_support( 'post-subtitle' ),
-				'is_rendering_streamlined_block' => self::is_rendering_streamlined_block(),
-				'iframe_accepted_file_mimes'     => self::iframe_accepted_file_mimes(),
+				'patterns'                         => self::get_patterns_for_post_type( get_post_type() ),
+				'posts_rest_url'                   => rest_url( 'newspack-blocks/v1/newspack-blocks-posts' ),
+				'specific_posts_rest_url'          => rest_url( 'newspack-blocks/v1/newspack-blocks-specific-posts' ),
+				'authors_rest_url'                 => rest_url( 'newspack-blocks/v1/authors' ),
+				'assets_path'                      => plugins_url( '/src/assets', NEWSPACK_BLOCKS__PLUGIN_FILE ),
+				'post_subtitle'                    => get_theme_support( 'post-subtitle' ),
+				'is_rendering_stripe_payment_form' => self::is_rendering_stripe_payment_form(),
+				'can_render_tiers_based_layout'    => self::can_render_tiers_based_layout(),
+				'iframe_accepted_file_mimes'       => self::iframe_accepted_file_mimes(),
 			];
 
 			if ( class_exists( 'WP_REST_Newspack_Author_List_Controller' ) ) {
@@ -263,7 +265,7 @@ class Newspack_Blocks {
 	 *
 	 * @return bool True if it can.
 	 */
-	public static function is_rendering_streamlined_block() {
+	public static function is_rendering_stripe_payment_form() {
 		if (
 			class_exists( 'Newspack\Donations' )
 			&& method_exists( 'Newspack\Donations', 'can_use_streamlined_donate_block' )
@@ -272,6 +274,18 @@ class Newspack_Blocks {
 			return \Newspack\Donations::can_use_streamlined_donate_block() && \Newspack\Donations::is_platform_stripe();
 		}
 		return false;
+	}
+
+	/**
+	 * Can the tiers-based layout of the Donate block be rendered?
+	 */
+	public static function can_render_tiers_based_layout() {
+		if ( method_exists( '\Newspack\AMP_Enhancements', 'is_amp_plus_configured' ) ) {
+			return \Newspack\AMP_Enhancements::is_amp_plus_configured();
+		} else {
+			return ! is_plugin_active( 'amp/amp.php' );
+		}
+		return true;
 	}
 
 	/**
@@ -416,55 +430,67 @@ class Newspack_Blocks {
 	public static function image_size_for_orientation( $orientation = 'landscape' ) {
 		$sizes = array(
 			'landscape' => array(
-				'large'  => array(
+				'large'        => array(
 					1200,
 					900,
 				),
-				'medium' => array(
+				'medium'       => array(
 					800,
 					600,
 				),
-				'small'  => array(
+				'intermediate' => array(
+					600,
+					450,
+				),
+				'small'        => array(
 					400,
 					300,
 				),
-				'tiny'   => array(
+				'tiny'         => array(
 					200,
 					150,
 				),
 			),
 			'portrait'  => array(
-				'large'  => array(
+				'large'        => array(
 					900,
 					1200,
 				),
-				'medium' => array(
+				'medium'       => array(
 					600,
 					800,
 				),
-				'small'  => array(
+				'intermediate' => array(
+					450,
+					600,
+				),
+				'small'        => array(
 					300,
 					400,
 				),
-				'tiny'   => array(
+				'tiny'         => array(
 					150,
 					200,
 				),
 			),
 			'square'    => array(
-				'large'  => array(
+				'large'        => array(
 					1200,
 					1200,
 				),
-				'medium' => array(
+				'medium'       => array(
 					800,
 					800,
 				),
-				'small'  => array(
+				'intermediate' => array(
+					600,
+					600,
+				),
+				'small'        => array(
 					400,
 					400,
 				),
-				'tiny'   => array(
+				'tiny'         => array(
 					200,
 					200,
 				),
@@ -495,6 +521,10 @@ class Newspack_Blocks {
 		add_image_size( 'newspack-article-block-landscape-medium', 800, 600, true );
 		add_image_size( 'newspack-article-block-portrait-medium', 600, 800, true );
 		add_image_size( 'newspack-article-block-square-medium', 800, 800, true );
+
+		add_image_size( 'newspack-article-block-landscape-intermediate', 600, 450, true );
+		add_image_size( 'newspack-article-block-portrait-intermediate', 450, 600, true );
+		add_image_size( 'newspack-article-block-square-intermediate', 600, 600, true );
 
 		add_image_size( 'newspack-article-block-landscape-small', 400, 300, true );
 		add_image_size( 'newspack-article-block-portrait-small', 300, 400, true );
@@ -602,11 +632,13 @@ class Newspack_Blocks {
 				$args['category__not_in'] = $category_exclusions;
 			}
 
+			$is_co_authors_plus_active = class_exists( 'CoAuthors_Guest_Authors' );
+
 			if ( $authors && count( $authors ) ) {
 				$co_authors_names = [];
 				$author_names     = [];
 
-				if ( class_exists( 'CoAuthors_Guest_Authors' ) ) {
+				if ( $is_co_authors_plus_active ) {
 					$co_authors_guest_authors = new CoAuthors_Guest_Authors();
 
 					foreach ( $authors as $index => $author_id ) {
@@ -655,21 +687,23 @@ class Newspack_Blocks {
 				} elseif ( empty( $co_authors_names ) && count( $authors ) ) {
 					$args['author__in'] = $authors;
 
-					// Don't get any posts that are attributed to other CAP guest authors.
-					$args['tax_query'] = [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-						[
-							'relation' => 'OR',
+					if ( $is_co_authors_plus_active ) {
+						// Don't get any posts that are attributed to other CAP guest authors.
+						$args['tax_query'] = [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 							[
-								'taxonomy' => 'author',
-								'operator' => 'NOT EXISTS',
+								'relation' => 'OR',
+								[
+									'taxonomy' => 'author',
+									'operator' => 'NOT EXISTS',
+								],
+								[
+									'field'    => 'name',
+									'taxonomy' => 'author',
+									'terms'    => $author_names,
+								],
 							],
-							[
-								'field'    => 'name',
-								'taxonomy' => 'author',
-								'terms'    => $author_names,
-							],
-						],
-					];
+						];
+					}
 				} else {
 					// The query contains both WP users and CAP guest authors. We need to filter the SQL query.
 					self::$filter_clauses = [
@@ -713,19 +747,8 @@ class Newspack_Blocks {
 		if ( function_exists( 'coauthors_posts_links' ) && ! empty( get_coauthors() ) ) {
 			$authors = get_coauthors();
 			foreach ( $authors as $author ) {
-				// Check if this is a guest author post type.
-				if ( 'guest-author' === get_post_type( $author->ID ) ) {
-					// If yes, make sure the author actually has an avatar set; otherwise, coauthors_get_avatar returns a featured image.
-					if ( get_post_thumbnail_id( $author->ID ) ) {
-						$author->avatar = coauthors_get_avatar( $author, 48 );
-					} else {
-						// If there is no avatar, force it to return the current fallback image.
-						$author->avatar = get_avatar( ' ' );
-					}
-				} else {
-					$author->avatar = coauthors_get_avatar( $author, 48 );
-				}
-				$author->url = get_author_posts_url( $author->ID, $author->user_nicename );
+				$author->avatar = coauthors_get_avatar( $author, 48 );
+				$author->url    = get_author_posts_url( $author->ID, $author->user_nicename );
 			}
 			return $authors;
 		}
@@ -1382,6 +1405,5 @@ class Newspack_Blocks {
 			return 'white';
 		}
 	}
-
 }
 Newspack_Blocks::init();

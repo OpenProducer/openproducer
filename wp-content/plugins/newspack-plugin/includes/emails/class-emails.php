@@ -213,6 +213,9 @@ class Emails {
 
 		if ( 'string' === gettype( $config_name ) ) {
 			$email_config = self::get_email_config_by_type( $config_name );
+		} elseif ( 'integer' === gettype( $config_name ) ) {
+			$email_config = self::serialize_email( null, $config_name );
+			$config_name  = \get_post_meta( $config_name, self::EMAIL_CONFIG_NAME_META, true );
 		} else {
 			return false;
 		}
@@ -325,12 +328,17 @@ class Emails {
 		if ( ! $html_payload || empty( $html_payload ) ) {
 			return false;
 		}
+		$edit_link = '';
+		$post_link = get_edit_post_link( $post_id, '' );
+		if ( $post_link ) {
+			// Make the edit link relative.
+			$edit_link = str_replace( site_url(), '', $post_link );
+		}
 		$serialized_email = [
 			'label'          => $email_config['label'],
 			'description'    => $email_config['description'],
 			'post_id'        => $post_id,
-			// Make the edit link relative.
-			'edit_link'      => str_replace( site_url(), '', get_edit_post_link( $post_id, '' ) ),
+			'edit_link'      => $edit_link,
 			'subject'        => get_the_title( $post_id ),
 			'from_name'      => isset( $email_config['from_name'] ) ? $email_config['from_name'] : self::get_from_name(),
 			'from_email'     => isset( $email_config['from_email'] ) ? $email_config['from_email'] : self::get_from_email(),
@@ -350,21 +358,19 @@ class Emails {
 	 * @return string Email address used as the sender for Newspack emails.
 	 */
 	public static function get_from_email() {
-		$from_email = get_option( Reader_Activation::OPTIONS_PREFIX . 'sender_email_address', '' );
-		if ( empty( $from_email ) ) {
-			// Get the site domain and get rid of www.
-			$sitename   = wp_parse_url( network_home_url(), PHP_URL_HOST );
-			$from_email = 'no-reply@';
+		// Get the site domain and get rid of www.
+		$sitename   = wp_parse_url( network_home_url(), PHP_URL_HOST );
+		$from_email = 'no-reply@';
 
-			if ( null !== $sitename ) {
-				if ( 'www.' === substr( $sitename, 0, 4 ) ) {
-					$sitename = substr( $sitename, 4 );
-				}
-
-				$from_email .= $sitename;
+		if ( null !== $sitename ) {
+			if ( 'www.' === substr( $sitename, 0, 4 ) ) {
+				$sitename = substr( $sitename, 4 );
 			}
+			$from_email .= $sitename;
 		}
-
+		if ( Reader_Activation::is_enabled() ) {
+			$from_email = get_option( Reader_Activation::OPTIONS_PREFIX . 'sender_email_address', $from_email );
+		}
 		return apply_filters( 'newspack_from_email', $from_email );
 	}
 
@@ -374,7 +380,10 @@ class Emails {
 	 * @return string
 	 */
 	public static function get_reply_to_email() {
-		$reply_to_email = get_option( Reader_Activation::OPTIONS_PREFIX . 'contact_email_address', self::get_from_email() );
+		$reply_to_email = get_bloginfo( 'admin_email' );
+		if ( Reader_Activation::is_enabled() ) {
+			$reply_to_email = get_option( Reader_Activation::OPTIONS_PREFIX . 'contact_email_address', self::get_from_email() );
+		}
 		return apply_filters( 'newspack_reply_to_email', $reply_to_email );
 	}
 
@@ -386,7 +395,10 @@ class Emails {
 	 * @return string Name used as the sender for Newspack emails.
 	 */
 	public static function get_from_name() {
-		$from_name = get_option( Reader_Activation::OPTIONS_PREFIX . 'sender_name', get_bloginfo( 'name' ) );
+		$from_name = get_bloginfo( 'name' );
+		if ( Reader_Activation::is_enabled() ) {
+			$from_name = get_option( Reader_Activation::OPTIONS_PREFIX . 'sender_name', $from_name );
+		}
 		return apply_filters( 'newspack_from_name', $from_name );
 	}
 
@@ -416,7 +428,7 @@ class Emails {
 		} else {
 			$email_post_data = self::load_email_template( $type );
 			if ( ! $email_post_data ) {
-				Logger::log( 'Error: could not retrieve template for type: ' . $type );
+				Logger::error( 'Error: could not retrieve template for type: ' . $type );
 				return false;
 			}
 			$email_post_data['post_status'] = 'publish';
@@ -474,7 +486,7 @@ class Emails {
 		if ( $was_sent ) {
 			return \rest_ensure_response( [] );
 		} else {
-			return new WP_Error(
+			return new \WP_Error(
 				'newspack_test_email_not_sent',
 				__( 'Test email was not sent.', 'newspack' )
 			);

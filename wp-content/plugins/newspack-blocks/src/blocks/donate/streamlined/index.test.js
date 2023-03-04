@@ -11,7 +11,7 @@ const createDOM = settings => {
 	const parentElement = document.createElement( 'div' );
 	parentElement.innerHTML = `
 		<style>.stripe-payment--hidden {display:none;}</style>
-		<form data-settings="${ encode( JSON.stringify( settings ) ) }">
+		<form data-streamlined-config="${ encode( JSON.stringify( settings ) ) }">
 			<div class='frequencies'>
 				<div class='frequency'>
 					<input type="radio" value="once" id="once" name="donation_frequency">
@@ -115,15 +115,16 @@ describe( 'Streamlined Donate block processing', () => {
 			'/wp-json/newspack-blocks/v1/donate',
 			{
 				body: {
-					tokenData: 'abc',
+					stripe_source_id: 'src_123',
+					stripe_tokenization_method: 'card',
 					amount: 7.52,
 					email: 'foo@bar.com',
 					full_name: 'Bax',
 					frequency: 'month',
 					newsletter_opt_in: false,
 					clientId: 'amp-123',
-					payment_method_id: 'pm_123',
 					origin: null,
+					additional_fields: [],
 				},
 			},
 			'post'

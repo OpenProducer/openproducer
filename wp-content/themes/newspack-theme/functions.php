@@ -259,12 +259,15 @@ if ( ! function_exists( 'newspack_setup' ) ) :
 		add_theme_support( 'responsive-embeds' );
 
 		// Make our theme AMP/PWA Native
-		add_theme_support( 'amp' , [
-			'service_worker' => [
-				'cdn_script_caching'   => true,
-				'google_fonts_caching' => true,
-			],
-		] );
+		add_theme_support(
+			'amp',
+			[
+				'service_worker' => [
+					'cdn_script_caching'   => true,
+					'google_fonts_caching' => true,
+				],
+			]
+		);
 
 		// Add custom theme support - post subtitle
 		add_theme_support( 'post-subtitle' );
@@ -421,23 +424,29 @@ function newspack_scripts() {
 
 	wp_enqueue_style( 'newspack-print-style', get_template_directory_uri() . '/styles/print.css', array(), wp_get_theme()->get( 'Version' ), 'print' );
 
+	$newspack_l10n = array(
+		'open_search'         => esc_html__( 'Open Search', 'newspack' ),
+		'close_search'        => esc_html__( 'Close Search', 'newspack' ),
+		'expand_comments'     => esc_html__( 'Expand Comments', 'newspack' ),
+		'collapse_comments'   => esc_html__( 'Collapse Comments', 'newspack' ),
+		'show_order_details'  => esc_html__( 'Show details', 'newspack' ),
+		'hide_order_details'  => esc_html__( 'Hide details', 'newspack' ),
+		'open_dropdown_menu'  => esc_html__( 'Open dropdown menu', 'newspack' ),
+		'close_dropdown_menu' => esc_html__( 'Close dropdown menu', 'newspack' ),
+		'is_amp'              => newspack_is_amp(),
+	);
+
 	if ( ! newspack_is_amp() ) {
 		if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );
 		}
 
-		$newspack_l10n = array(
-			'open_search'        => esc_html__( 'Open Search', 'newspack' ),
-			'close_search'       => esc_html__( 'Close Search', 'newspack' ),
-			'expand_comments'    => esc_html__( 'Expand Comments', 'newspack' ),
-			'collapse_comments'  => esc_html__( 'Collapse Comments', 'newspack' ),
-			'show_order_details' => esc_html__( 'Show details', 'newspack' ),
-			'hide_order_details' => esc_html__( 'Hide details', 'newspack' ),
-		);
-
 		wp_enqueue_script( 'newspack-amp-fallback', get_theme_file_uri( '/js/dist/amp-fallback.js' ), array(), wp_get_theme()->get( 'Version' ), true );
 		wp_localize_script( 'newspack-amp-fallback', 'newspackScreenReaderText', $newspack_l10n );
 	}
+
+	wp_enqueue_script( 'newspack-menu-accessibility', get_theme_file_uri( '/js/dist/menu-accessibility.js' ), array(), wp_get_theme()->get( 'Version' ), true );
+	wp_localize_script( 'newspack-menu-accessibility', 'newspackScreenReaderText', $newspack_l10n );
 
 	if ( class_exists( '\Newspack\AMP_Enhancements' ) && \Newspack\AMP_Enhancements::is_amp_plus_configured() ) {
 		wp_enqueue_script( 'newspack-amp-plus', get_theme_file_uri( '/js/dist/amp-plus.js' ), array(), wp_get_theme()->get( 'Version' ), true );
@@ -603,7 +612,7 @@ add_action( 'enqueue_block_editor_assets', 'newspack_enqueue_scripts' );
 
 /**
  * Check for additional allowed blocks
- * 
+ *
  * Add this flag to the wp-config.php to allow more blocks, formatted in a array --
  * for example: `define( 'NEWSPACK_FSE_BLOCKS_ALLOWED', ['core/avatar', 'core/loginout'] );`
  *
@@ -771,9 +780,9 @@ function newspack_filter_admin_body_class( $classes ) {
 		$classes .= ' no-sidebar';
 	}
 
-	if ( 
-		'single-feature.php' === newspack_check_current_template() 
-		|| 'no-header-footer.php'  === newspack_check_current_template() 
+	if (
+		'single-feature.php' === newspack_check_current_template()
+		|| 'no-header-footer.php' === newspack_check_current_template()
 	) {
 		$classes .= ' newspack-single-column-template';
 	} elseif ( 'single-wide.php' === newspack_check_current_template() ) {
@@ -881,6 +890,16 @@ function newspack_register_meta() {
 	register_post_meta(
 		'post',
 		'newspack_hide_updated_date',
+		array(
+			'show_in_rest' => true,
+			'single'       => true,
+			'type'         => 'boolean',
+		)
+	);
+
+	register_post_meta(
+		'post',
+		'newspack_show_updated_date',
 		array(
 			'show_in_rest' => true,
 			'single'       => true,
@@ -1022,7 +1041,7 @@ function newspack_typography_css_wrap() {
 		<?php echo newspack_custom_typography_css(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 	</style>
 
-<?php
+	<?php
 }
 add_action( 'wp_head', 'newspack_typography_css_wrap' );
 
@@ -1082,11 +1101,11 @@ function newspack_truncate_text( $content, $length, $after = '...' ) {
 }
 
  /**
- * Returns an array of 'acceptable' avatar tags, to use with wp_kses().
- */
+  * Returns an array of 'acceptable' avatar tags, to use with wp_kses().
+  */
 function newspack_sanitize_avatars() {
 	$avatar_args = array(
-		'img' => array(
+		'img'      => array(
 			'class'  => true,
 			'src'    => true,
 			'alt'    => true,
@@ -1117,12 +1136,16 @@ function newspack_get_featured_image_post_types() {
  */
 function newspack_get_post_toggle_post_types() {
 	$hide_date_post_types = [];
+	$show_date_post_types = [];
 	if ( true === get_theme_mod( 'post_updated_date', false ) ) {
 		$hide_date_post_types[] = 'post';
+	} else {
+		$show_date_post_types[] = 'post';
 	}
 
 	return array(
 		'hide_date'          => $hide_date_post_types,
+		'show_date'          => $show_date_post_types,
 		'hide_title'         => [ 'page' ],
 		'show_share_buttons' => function_exists( 'sharing_display' ) ? [ 'page' ] : [],
 	);
