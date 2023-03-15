@@ -26,6 +26,24 @@ final class Newspack_Popups_Model {
 	protected static $inline_placements = [ 'inline', 'above_header', 'archives' ];
 
 	/**
+	 * List of hooks that can be used to insert hidden inputs in forms that will be rendered inside a popup.
+	 *
+	 * @var array
+	 */
+	protected static $form_hooks = [
+		'newspack_registration_before_form_fields',
+		'newspack_newsletters_subscribe_block_before_form_fields',
+		'newspack_blocks_donate_before_form_fields',
+	];
+
+	/**
+	 * Attribute to temporarily hold the current popup ID and use it in the form_hooks.
+	 *
+	 * @var ?int
+	 */
+	protected static $form_hooks_popup_id;
+
+	/**
 	 * Retrieve all Popups (first 100).
 	 *
 	 * @param  boolean $include_unpublished Whether to include unpublished posts.
@@ -70,7 +88,7 @@ final class Newspack_Popups_Model {
 	 * @param string  $taxonomy Taxonomy slug.
 	 */
 	public static function set_popup_terms( $id, $terms, $taxonomy ) {
-		$popup = self::retrieve_popup_by_id( $id, true );
+		$popup = self::retrieve_popup_by_id( $id, false, true );
 		if ( ! $popup ) {
 			return new \WP_Error(
 				'newspack_popups_popup_doesnt_exist',
@@ -107,7 +125,7 @@ final class Newspack_Popups_Model {
 	 * @param array   $options Array of options to update.
 	 */
 	public static function set_popup_options( $id, $options ) {
-		$popup = self::retrieve_popup_by_id( $id, true );
+		$popup = self::retrieve_popup_by_id( $id, false, true );
 		if ( ! $popup ) {
 			return new \WP_Error(
 				'newspack_popups_popup_doesnt_exist',
@@ -222,27 +240,27 @@ final class Newspack_Popups_Model {
 			$post_object,
 			false,
 			[
-				'background_color'               => filter_input( INPUT_GET, 'n_bc', FILTER_SANITIZE_STRING ),
+				'background_color'               => filter_input( INPUT_GET, 'n_bc', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
 				'display_title'                  => filter_input( INPUT_GET, 'n_ti', FILTER_VALIDATE_BOOLEAN ),
 				'hide_border'                    => filter_input( INPUT_GET, 'n_hb', FILTER_VALIDATE_BOOLEAN ),
 				'large_border'                   => filter_input( INPUT_GET, 'n_lb', FILTER_VALIDATE_BOOLEAN ),
-				'frequency'                      => filter_input( INPUT_GET, 'n_fr', FILTER_SANITIZE_STRING ),
-				'frequency_max'                  => filter_input( INPUT_GET, 'n_fm', FILTER_SANITIZE_STRING ),
-				'frequency_start'                => filter_input( INPUT_GET, 'n_fs', FILTER_SANITIZE_STRING ),
-				'frequency_between'              => filter_input( INPUT_GET, 'n_fb', FILTER_SANITIZE_STRING ),
-				'frequency_reset'                => filter_input( INPUT_GET, 'n_ft', FILTER_SANITIZE_STRING ),
-				'overlay_color'                  => filter_input( INPUT_GET, 'n_oc', FILTER_SANITIZE_STRING ),
-				'overlay_opacity'                => filter_input( INPUT_GET, 'n_oo', FILTER_SANITIZE_STRING ),
-				'overlay_size'                   => filter_input( INPUT_GET, 'n_os', FILTER_SANITIZE_STRING ),
+				'frequency'                      => filter_input( INPUT_GET, 'n_fr', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
+				'frequency_max'                  => filter_input( INPUT_GET, 'n_fm', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
+				'frequency_start'                => filter_input( INPUT_GET, 'n_fs', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
+				'frequency_between'              => filter_input( INPUT_GET, 'n_fb', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
+				'frequency_reset'                => filter_input( INPUT_GET, 'n_ft', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
+				'overlay_color'                  => filter_input( INPUT_GET, 'n_oc', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
+				'overlay_opacity'                => filter_input( INPUT_GET, 'n_oo', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
+				'overlay_size'                   => filter_input( INPUT_GET, 'n_os', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
 				'no_overlay_background'          => filter_input( INPUT_GET, 'n_bg', FILTER_VALIDATE_BOOLEAN ),
-				'placement'                      => filter_input( INPUT_GET, 'n_pl', FILTER_SANITIZE_STRING ),
-				'trigger_type'                   => filter_input( INPUT_GET, 'n_tt', FILTER_SANITIZE_STRING ),
-				'trigger_delay'                  => filter_input( INPUT_GET, 'n_td', FILTER_SANITIZE_STRING ),
-				'trigger_scroll_progress'        => filter_input( INPUT_GET, 'n_ts', FILTER_SANITIZE_STRING ),
-				'trigger_blocks_count'           => filter_input( INPUT_GET, 'n_tb', FILTER_SANITIZE_STRING ),
-				'archive_insertion_posts_count'  => filter_input( INPUT_GET, 'n_ac', FILTER_SANITIZE_STRING ),
+				'placement'                      => filter_input( INPUT_GET, 'n_pl', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
+				'trigger_type'                   => filter_input( INPUT_GET, 'n_tt', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
+				'trigger_delay'                  => filter_input( INPUT_GET, 'n_td', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
+				'trigger_scroll_progress'        => filter_input( INPUT_GET, 'n_ts', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
+				'trigger_blocks_count'           => filter_input( INPUT_GET, 'n_tb', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
+				'archive_insertion_posts_count'  => filter_input( INPUT_GET, 'n_ac', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
 				'archive_insertion_is_repeating' => filter_input( INPUT_GET, 'n_ar', FILTER_VALIDATE_BOOLEAN ),
-				'utm_suppression'                => filter_input( INPUT_GET, 'n_ut', FILTER_SANITIZE_STRING ),
+				'utm_suppression'                => filter_input( INPUT_GET, 'n_ut', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
 			]
 		);
 	}
@@ -250,18 +268,23 @@ final class Newspack_Popups_Model {
 	/**
 	 * Retrieve popup CPT post by ID.
 	 *
+	 * The query for prompts relies on the dynamic default value of the post_status parameter.
+	 * In admin context, it will include the drafts, and in non-admin context it will only return published posts.
+	 *
 	 * @param string $post_id Post id.
-	 * @param bool   $include_drafts Include drafts.
+	 * @param bool   $use_default_status_query Whether to rely on the default behavior of the post_status parameter. If false, only published posts will be returned.
+	 * @param bool   $include_unpublished Whether to include unpublished prompts. $use_default_status_query must be false.
 	 * @return object Popup object.
 	 */
-	public static function retrieve_popup_by_id( $post_id, $include_drafts = false ) {
+	public static function retrieve_popup_by_id( $post_id, $use_default_status_query = false, $include_unpublished = false ) {
 		$args = [
 			'post_type'      => Newspack_Popups::NEWSPACK_POPUPS_CPT,
 			'posts_per_page' => 1,
 			'p'              => $post_id,
 		];
-		if ( false === $include_drafts ) {
-			$args['post_status'] = 'publish';
+
+		if ( false === $use_default_status_query ) {
+			$args['post_status'] = $include_unpublished ? [ 'draft', 'pending', 'future', 'publish' ] : 'publish';
 		}
 
 		$popups = self::retrieve_popups_with_query( new WP_Query( $args ) );
@@ -372,6 +395,7 @@ final class Newspack_Popups_Model {
 			'selected_segment_id'            => get_post_meta( $id, 'selected_segment_id', true ),
 			'post_types'                     => get_post_meta( $id, 'post_types', true ),
 			'archive_page_types'             => get_post_meta( $id, 'archive_page_types', true ),
+			'additional_classes'             => get_post_meta( $id, 'additional_classes', true ),
 			'excluded_categories'            => get_post_meta( $id, 'excluded_categories', true ),
 			'excluded_tags'                  => get_post_meta( $id, 'excluded_tags', true ),
 		];
@@ -416,6 +440,7 @@ final class Newspack_Popups_Model {
 				'selected_segment_id'            => '',
 				'post_types'                     => self::get_default_popup_post_types(),
 				'archive_page_types'             => self::get_supported_archive_page_types(),
+				'additional_classes'             => '',
 				'excluded_categories'            => [],
 				'excluded_tags'                  => [],
 			]
@@ -1054,6 +1079,47 @@ final class Newspack_Popups_Model {
 	}
 
 	/**
+	 * Adds a hook to print a hidden field with the current popup ID in forms redendered inside the popup.
+	 *
+	 * @param array $popup The popup data.
+	 * @return void
+	 */
+	protected static function add_form_hooks( $popup ) {
+		self::$form_hooks_popup_id = $popup['id'];
+		foreach ( self::$form_hooks as $hook ) {
+			add_action( $hook, [ __CLASS__, 'print_form_hidden_fields' ] );
+		}
+	}
+
+	/**
+	 * Removes the hook to print a hidden field with the current popup ID in forms redendered inside the popup.
+	 *
+	 * @param array $popup The popup data.
+	 * @return void
+	 */
+	protected static function remove_form_hooks( $popup ) {
+		self::$form_hooks_popup_id = null;
+		foreach ( self::$form_hooks as $hook ) {
+			remove_action( $hook, [ __CLASS__, 'print_form_hidden_fields' ] );
+		}
+	}
+
+	/**
+	 * Prints a hidden field with the current popup ID.
+	 *
+	 * @return void
+	 */
+	public static function print_form_hidden_fields() {
+		?>
+			<input
+				name="newspack_popup_id"
+				type="hidden"
+				value="<?php echo esc_attr( self::$form_hooks_popup_id ); ?>"
+			/>
+		<?php
+	}
+
+	/**
 	 * Generate markup for an inline popup.
 	 *
 	 * @param string $popup The popup object.
@@ -1065,9 +1131,11 @@ final class Newspack_Popups_Model {
 		do_action( 'newspack_campaigns_before_campaign_render', $popup );
 		$blocks = parse_blocks( $popup['content'] );
 		$body   = '';
+		self::add_form_hooks( $popup );
 		foreach ( $blocks as $block ) {
 			$body .= render_block( $block );
 		}
+		self::remove_form_hooks( $popup );
 		do_action( 'newspack_campaigns_after_campaign_render', $popup );
 
 		$element_id           = self::get_uniqid();
@@ -1084,6 +1152,7 @@ final class Newspack_Popups_Model {
 		$classes[]            = $hide_border ? 'newspack-lightbox-no-border' : null;
 		$classes[]            = $large_border ? 'newspack-lightbox-large-border' : null;
 		$classes[]            = $is_newsletter_prompt ? 'newspack-newsletter-prompt-inline' : null;
+		$classes              = array_merge( $classes, explode( ' ', $popup['options']['additional_classes'] ) );
 
 		$analytics_events = self::get_analytics_events( $popup, $body, $element_id );
 		if ( ! empty( $analytics_events ) ) {
@@ -1140,9 +1209,11 @@ final class Newspack_Popups_Model {
 		do_action( 'newspack_campaigns_before_campaign_render', $popup );
 		$blocks = parse_blocks( $popup['content'] );
 		$body   = '';
+		self::add_form_hooks( $popup );
 		foreach ( $blocks as $block ) {
 			$body .= render_block( $block );
 		}
+		self::remove_form_hooks( $popup );
 		do_action( 'newspack_campaigns_after_campaign_render', $popup );
 
 		$element_id            = self::get_uniqid();
@@ -1152,7 +1223,7 @@ final class Newspack_Popups_Model {
 		$large_border          = $popup['options']['large_border'];
 		$overlay_opacity       = absint( $popup['options']['overlay_opacity'] ) / 100;
 		$overlay_color         = $popup['options']['overlay_color'];
-		$overlay_size          = $popup['options']['overlay_size'];
+		$overlay_size          = 'full' === $popup['options']['overlay_size'] ? 'full-width' : $popup['options']['overlay_size'];
 		$no_overlay_background = $popup['options']['no_overlay_background'];
 		$hidden_fields         = self::get_hidden_fields( $popup );
 		$is_newsletter_prompt  = self::has_newsletter_prompt( $popup );
@@ -1164,6 +1235,7 @@ final class Newspack_Popups_Model {
 		$classes[]             = $is_newsletter_prompt ? 'newspack-newsletter-prompt-overlay' : null;
 		$classes[]             = $no_overlay_background ? 'newspack-lightbox-no-overlay' : null;
 		$classes[]             = $has_featured_image ? 'newspack-lightbox-featured-image' : null;
+		$classes               = array_merge( $classes, explode( ' ', $popup['options']['additional_classes'] ) );
 		$wrapper_classes       = [ 'newspack-popup-wrapper' ];
 		$wrapper_classes[]     = 'publish' !== $popup['status'] ? 'newspack-inactive-popup-status' : null;
 		$is_scroll_triggered   = 'scroll' === $popup['options']['trigger_type'];
@@ -1212,8 +1284,17 @@ final class Newspack_Popups_Model {
 				</div>
 			</div>
 			<?php if ( ! $no_overlay_background ) : ?>
+				<?php if ( Newspack_Popups_Settings::enable_dismiss_overlays_on_background_tap() ) : ?>
+					<form class="popup-dismiss-form <?php echo esc_attr( self::get_form_class( 'dismiss', $element_id ) ); ?> popup-action-form <?php echo esc_attr( self::get_form_class( 'action', $element_id ) ); ?>"
+					method="POST"
+					action-xhr="<?php echo esc_url( $endpoint ); ?>"
+					target="_top">
+						<?php echo $hidden_fields; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<button style="opacity: <?php echo floatval( $overlay_opacity ); ?>;background-color:<?php echo esc_attr( $overlay_color ); ?>;" class="newspack-lightbox-shim" on="tap:<?php echo esc_attr( $element_id ); ?>.hide"></button>
+					</form>
+				<?php else : ?>
 				<div style="opacity: <?php echo floatval( $overlay_opacity ); ?>;background-color:<?php echo esc_attr( $overlay_color ); ?>;" class="newspack-lightbox-shim"></div>
-				</form>
+				<?php endif; ?>
 			<?php endif; ?>
 		</amp-layout>
 		<?php if ( $is_scroll_triggered ) : ?>

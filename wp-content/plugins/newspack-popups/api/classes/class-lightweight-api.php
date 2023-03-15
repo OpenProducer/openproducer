@@ -73,15 +73,16 @@ class Lightweight_API {
 	 * Constructor.
 	 *
 	 * @param string|null $nonce If API is being instantiated directly by WP, it needs nonce verification.
+	 * @param boolean     $ignore_referer_validation If API is being instantiated directly by WP, it does not need to check referer.
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function __construct( $nonce = null ) {
-		if ( $this->is_a_web_crawler() ) {
+	public function __construct( $nonce = null, $ignore_referer_validation = false ) {
+		if ( $this->is_a_web_crawler() && ! $ignore_referer_validation ) {
 			header( 'X-Robots-Tag: noindex' );
 			exit;
 		}
-		if ( ! $this->verify_referer( $nonce ) ) {
+		if ( ! $this->verify_referer( $nonce ) && ! $ignore_referer_validation ) {
 			$this->error( 'invalid_referer' );
 		}
 		if ( $this->is_debug_enabled() ) {
@@ -104,6 +105,11 @@ class Lightweight_API {
 		if ( ! file_exists( WP_CONTENT_DIR . '/object-cache.php' ) || ( defined( 'IS_TEST_ENV' ) && IS_TEST_ENV ) ) {
 			$this->ignore_cache = true;
 		}
+
+		if ( $this->is_cache_disabled() ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$this->ignore_cache     = true;
+			$this->debug['nocache'] = true;
+		}
 	}
 
 	/**
@@ -113,6 +119,15 @@ class Lightweight_API {
 	 */
 	public function is_debug_enabled() {
 		return isset( $_REQUEST['debug'] ) || ( defined( 'NEWSPACK_POPUPS_DEBUG' ) && NEWSPACK_POPUPS_DEBUG ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	}
+
+	/**
+	 * Whether caching is disabled via newspack-popups-config.php or URL param.
+	 *
+	 * @return boolean
+	 */
+	public function is_cache_disabled() {
+		return isset( $_REQUEST['nocache'] ) || ( defined( 'NEWSPACK_POPUPS_NOCACHE' ) && NEWSPACK_POPUPS_NOCACHE ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	}
 
 	/**
@@ -1008,9 +1023,7 @@ class Lightweight_API {
 		);
 
 		// Rebuild cache.
-		if ( ! $this->ignore_cache ) {
-			wp_cache_set( 'reader_events', array_merge( $cached_events, $filtered_events ), $client_id );
-		}
+		wp_cache_set( 'reader_events', array_merge( $cached_events, $filtered_events ), $client_id );
 
 		$this->update_debug_events( $filtered_events );
 
@@ -1150,7 +1163,7 @@ class Lightweight_API {
 				$all_events
 			);
 
-			// Set a cache version for future validation.
+			// Rebuild cache.
 			wp_cache_set( 'reader_events', $all_events, $client_id );
 
 			$this->update_debug_events( $all_events );

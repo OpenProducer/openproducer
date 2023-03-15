@@ -1,3 +1,175 @@
+# [2.14.0](https://github.com/Automattic/newspack-popups/compare/v2.13.0...v2.14.0) (2023-03-14)
+
+
+### Bug Fixes
+
+* avoid notice on php 8 ([6fde157](https://github.com/Automattic/newspack-popups/commit/6fde157a8f09d3828c486dae3011a84434a23223))
+* prevent PHP warning when previewing prompts ([5a85939](https://github.com/Automattic/newspack-popups/commit/5a859396e6399575b90b9b6b7550ddb2c6d89e9a))
+
+
+### Features
+
+* add popup info to donation block ([85ec525](https://github.com/Automattic/newspack-popups/commit/85ec5257e2fbdb0700f9959ea4b34dba0ab2f41a))
+* add popup info to donation block ([7a01172](https://github.com/Automattic/newspack-popups/commit/7a01172655c285e6e9d51f34c494e58a1364363d))
+* add popups ids to forms in prompts ([b41aff9](https://github.com/Automattic/newspack-popups/commit/b41aff913999a91cc057260d8eaee39f377319ae))
+* allow overlays to be dismissed on background tap ([#1062](https://github.com/Automattic/newspack-popups/issues/1062)) ([97a040b](https://github.com/Automattic/newspack-popups/commit/97a040b3afe8f8d448eb257a1132064cc744ff71))
+
+# [2.14.0-alpha.1](https://github.com/Automattic/newspack-popups/compare/v2.13.0...v2.14.0-alpha.1) (2023-03-03)
+
+
+### Bug Fixes
+
+* avoid notice on php 8 ([6fde157](https://github.com/Automattic/newspack-popups/commit/6fde157a8f09d3828c486dae3011a84434a23223))
+* prevent PHP warning when previewing prompts ([5a85939](https://github.com/Automattic/newspack-popups/commit/5a859396e6399575b90b9b6b7550ddb2c6d89e9a))
+
+
+### Features
+
+* add popup info to donation block ([85ec525](https://github.com/Automattic/newspack-popups/commit/85ec5257e2fbdb0700f9959ea4b34dba0ab2f41a))
+* add popup info to donation block ([7a01172](https://github.com/Automattic/newspack-popups/commit/7a01172655c285e6e9d51f34c494e58a1364363d))
+* add popups ids to forms in prompts ([b41aff9](https://github.com/Automattic/newspack-popups/commit/b41aff913999a91cc057260d8eaee39f377319ae))
+* allow overlays to be dismissed on background tap ([#1062](https://github.com/Automattic/newspack-popups/issues/1062)) ([97a040b](https://github.com/Automattic/newspack-popups/commit/97a040b3afe8f8d448eb257a1132064cc744ff71))
+
+# [2.13.0](https://github.com/Automattic/newspack-popups/compare/v2.12.0...v2.13.0) (2023-02-21)
+
+
+### Features
+
+* add feature to disable reader data caching via flag ([#1049](https://github.com/Automattic/newspack-popups/issues/1049)) ([cabe310](https://github.com/Automattic/newspack-popups/commit/cabe3105b8d2bd395435135d1a04e118b4133ec8))
+
+# [2.12.0](https://github.com/Automattic/newspack-popups/compare/v2.11.0...v2.12.0) (2023-02-16)
+
+
+### Bug Fixes
+
+* force invalid "full" size value to correct "full-width" value ([#1043](https://github.com/Automattic/newspack-popups/issues/1043)) ([131aba8](https://github.com/Automattic/newspack-popups/commit/131aba82ab98ab6633af5be847c75c15aa9d1693))
+
+
+### Features
+
+* add prune data CLI command ([486ea9f](https://github.com/Automattic/newspack-popups/commit/486ea9fccf213fe9bc5741561484ba604bc42d9c))
+
+# [2.12.0-alpha.1](https://github.com/Automattic/newspack-popups/compare/v2.11.0...v2.12.0-alpha.1) (2023-01-26)
+
+
+### Bug Fixes
+
+* force invalid "full" size value to correct "full-width" value ([#1043](https://github.com/Automattic/newspack-popups/issues/1043)) ([131aba8](https://github.com/Automattic/newspack-popups/commit/131aba82ab98ab6633af5be847c75c15aa9d1693))
+
+
+### Features
+
+* add prune data CLI command ([486ea9f](https://github.com/Automattic/newspack-popups/commit/486ea9fccf213fe9bc5741561484ba604bc42d9c))
+
+# [2.11.0](https://github.com/Automattic/newspack-popups/compare/v2.10.0...v2.11.0) (2023-01-25)
+
+
+### Features
+
+* add prune data CLI command ([#1042](https://github.com/Automattic/newspack-popups/issues/1042)) ([6535f4b](https://github.com/Automattic/newspack-popups/commit/6535f4bc994ee89fb477e88ea3e9780d6730ddbf))
+
+# [2.11.0-alpha.1](https://github.com/Automattic/newspack-popups/compare/v2.10.0...v2.11.0-alpha.1) (2023-01-13)
+
+
+### Features
+
+* add prune data CLI command ([#1042](https://github.com/Automattic/newspack-popups/issues/1042)) ([6535f4b](https://github.com/Automattic/newspack-popups/commit/6535f4bc994ee89fb477e88ea3e9780d6730ddbf))
+
+# [2.10.0](https://github.com/Automattic/newspack-popups/compare/v2.9.2...v2.10.0) (2023-01-09)
+
+
+### Bug Fixes
+
+* allow every pageview frequency for overlays in editor ([#1036](https://github.com/Automattic/newspack-popups/issues/1036)) ([d792ea6](https://github.com/Automattic/newspack-popups/commit/d792ea6d6d41075f7227d08fb23a161a693d4211))
+* hide the 'Prompts Visible' button in the admin panel ([a443eca](https://github.com/Automattic/newspack-popups/commit/a443ecaf84d3464c3c9f44e519aef83b0b0dfea5))
+
+
+### Features
+
+* add export cli command ([#1021](https://github.com/Automattic/newspack-popups/issues/1021)) ([835f117](https://github.com/Automattic/newspack-popups/commit/835f1174d597a2dd55b766ac3db6103b5491748f))
+* add new field for custom CSS classes ([#1025](https://github.com/Automattic/newspack-popups/issues/1025)) ([364351b](https://github.com/Automattic/newspack-popups/commit/364351b0c6bd06dd3a3afc49841bfee78cd2fc61))
+* add the Importer basic CLI command ([#1026](https://github.com/Automattic/newspack-popups/issues/1026)) ([8aa5ac2](https://github.com/Automattic/newspack-popups/commit/8aa5ac219ed3c6a6fab180af47a8b6df2f1813b9))
+* allow admins to toggle prompts ([#1012](https://github.com/Automattic/newspack-popups/issues/1012)) ([7ed1d88](https://github.com/Automattic/newspack-popups/commit/7ed1d88d781835700379cb0bd8c9f4c633955697))
+* CLI command to add ras defaults segments and prompts ([#1032](https://github.com/Automattic/newspack-popups/issues/1032)) ([7cf8898](https://github.com/Automattic/newspack-popups/commit/7cf88985e2792482bc6e013d5d79de655341ab86))
+* Improved import and export cli commands ([#1029](https://github.com/Automattic/newspack-popups/issues/1029)) ([e8d3a22](https://github.com/Automattic/newspack-popups/commit/e8d3a22245c520776c29cc2e49d317cc78b9b671))
+
+# [2.10.0-alpha.2](https://github.com/Automattic/newspack-popups/compare/v2.10.0-alpha.1...v2.10.0-alpha.2) (2022-12-22)
+
+
+### Bug Fixes
+
+* allow every pageview frequency for overlays in editor ([#1036](https://github.com/Automattic/newspack-popups/issues/1036)) ([d792ea6](https://github.com/Automattic/newspack-popups/commit/d792ea6d6d41075f7227d08fb23a161a693d4211))
+
+
+### Features
+
+* CLI command to add ras defaults segments and prompts ([#1032](https://github.com/Automattic/newspack-popups/issues/1032)) ([7cf8898](https://github.com/Automattic/newspack-popups/commit/7cf88985e2792482bc6e013d5d79de655341ab86))
+
+# [2.10.0-alpha.1](https://github.com/Automattic/newspack-popups/compare/v2.9.2...v2.10.0-alpha.1) (2022-12-20)
+
+
+### Bug Fixes
+
+* hide the 'Prompts Visible' button in the admin panel ([a443eca](https://github.com/Automattic/newspack-popups/commit/a443ecaf84d3464c3c9f44e519aef83b0b0dfea5))
+
+
+### Features
+
+* add export cli command ([#1021](https://github.com/Automattic/newspack-popups/issues/1021)) ([835f117](https://github.com/Automattic/newspack-popups/commit/835f1174d597a2dd55b766ac3db6103b5491748f))
+* add new field for custom CSS classes ([#1025](https://github.com/Automattic/newspack-popups/issues/1025)) ([364351b](https://github.com/Automattic/newspack-popups/commit/364351b0c6bd06dd3a3afc49841bfee78cd2fc61))
+* add the Importer basic CLI command ([#1026](https://github.com/Automattic/newspack-popups/issues/1026)) ([8aa5ac2](https://github.com/Automattic/newspack-popups/commit/8aa5ac219ed3c6a6fab180af47a8b6df2f1813b9))
+* allow admins to toggle prompts ([#1012](https://github.com/Automattic/newspack-popups/issues/1012)) ([7ed1d88](https://github.com/Automattic/newspack-popups/commit/7ed1d88d781835700379cb0bd8c9f4c633955697))
+* Improved import and export cli commands ([#1029](https://github.com/Automattic/newspack-popups/issues/1029)) ([e8d3a22](https://github.com/Automattic/newspack-popups/commit/e8d3a22245c520776c29cc2e49d317cc78b9b671))
+
+## [2.9.2](https://github.com/Automattic/newspack-popups/compare/v2.9.1...v2.9.2) (2022-12-20)
+
+
+### Bug Fixes
+
+* prevent API bot exit without referer ([#1035](https://github.com/Automattic/newspack-popups/issues/1035)) ([bc8ec5b](https://github.com/Automattic/newspack-popups/commit/bc8ec5bea8d0ecacab7f5deec9e747dfc5141e37))
+
+## [2.9.2-hotfix.1](https://github.com/Automattic/newspack-popups/compare/v2.9.1...v2.9.2-hotfix.1) (2022-12-20)
+
+
+### Bug Fixes
+
+* prevent API bot exit without referer ([b9f5c56](https://github.com/Automattic/newspack-popups/commit/b9f5c5646580f7f354dac1279a33a7398bc6491c))
+
+## [2.9.1](https://github.com/Automattic/newspack-popups/compare/v2.9.0...v2.9.1) (2022-12-20)
+
+
+### Bug Fixes
+
+* temporarily remove cd filter ([#1034](https://github.com/Automattic/newspack-popups/issues/1034)) ([c2c7f8e](https://github.com/Automattic/newspack-popups/commit/c2c7f8e47b1f738eea6c625db23e0314bd29066a))
+
+# [2.9.0](https://github.com/Automattic/newspack-popups/compare/v2.8.3...v2.9.0) (2022-12-12)
+
+
+### Bug Fixes
+
+* **ga:** add custom dimensions via Newspack instead of a remote config ([#1014](https://github.com/Automattic/newspack-popups/issues/1014)) ([fc49f4d](https://github.com/Automattic/newspack-popups/commit/fc49f4de92ae17ea42e73421e61a6c69f843a8b2)), closes [#325](https://github.com/Automattic/newspack-popups/issues/325)
+* update CI orb newspack-scripts ([2bec2ad](https://github.com/Automattic/newspack-popups/commit/2bec2ad608cd543e0e4223b00fe73925bcb2857a))
+
+
+### Features
+
+* create Json schemas ([#1019](https://github.com/Automattic/newspack-popups/issues/1019)) ([b244f9e](https://github.com/Automattic/newspack-popups/commit/b244f9e526cb3a18df6e6d5b69dbb7ca6224b7ee))
+* support custom class names on inline prompt blocks ([#1015](https://github.com/Automattic/newspack-popups/issues/1015)) ([853de19](https://github.com/Automattic/newspack-popups/commit/853de19c974a70edba88d31487bb791e810f8876))
+
+# [2.9.0-alpha.1](https://github.com/Automattic/newspack-popups/compare/v2.8.3...v2.9.0-alpha.1) (2022-12-01)
+
+
+### Bug Fixes
+
+* **ga:** add custom dimensions via Newspack instead of a remote config ([#1014](https://github.com/Automattic/newspack-popups/issues/1014)) ([fc49f4d](https://github.com/Automattic/newspack-popups/commit/fc49f4de92ae17ea42e73421e61a6c69f843a8b2)), closes [#325](https://github.com/Automattic/newspack-popups/issues/325)
+* update CI orb newspack-scripts ([2bec2ad](https://github.com/Automattic/newspack-popups/commit/2bec2ad608cd543e0e4223b00fe73925bcb2857a))
+
+
+### Features
+
+* create Json schemas ([#1019](https://github.com/Automattic/newspack-popups/issues/1019)) ([b244f9e](https://github.com/Automattic/newspack-popups/commit/b244f9e526cb3a18df6e6d5b69dbb7ca6224b7ee))
+* support custom class names on inline prompt blocks ([#1015](https://github.com/Automattic/newspack-popups/issues/1015)) ([853de19](https://github.com/Automattic/newspack-popups/commit/853de19c974a70edba88d31487bb791e810f8876))
+
 ## [2.8.3](https://github.com/Automattic/newspack-popups/compare/v2.8.2...v2.8.3) (2022-11-16)
 
 

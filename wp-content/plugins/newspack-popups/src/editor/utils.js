@@ -33,6 +33,7 @@ export const optionsFieldsSelector = select => {
 		selected_segment_id,
 		post_types,
 		archive_page_types,
+		additional_classes,
 		excluded_categories,
 		excluded_tags,
 	} = meta || {};
@@ -51,7 +52,7 @@ export const optionsFieldsSelector = select => {
 		frequency_reset,
 		overlay_color,
 		overlay_opacity,
-		overlay_size,
+		overlay_size: 'full' === overlay_size ? 'full-width' : overlay_size,
 		no_overlay_background,
 		placement,
 		trigger_type,
@@ -65,6 +66,7 @@ export const optionsFieldsSelector = select => {
 		isOverlay,
 		post_types,
 		archive_page_types,
+		additional_classes,
 		excluded_categories,
 		excluded_tags,
 	};
