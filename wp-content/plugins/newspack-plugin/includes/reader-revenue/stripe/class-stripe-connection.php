@@ -618,10 +618,10 @@ class Stripe_Connection {
 				}
 			}
 			if ( ! isset( $prices_mapped['month'] ) ) {
-				$prices_mapped['month'] = self::create_donation_product( __( 'Newspack Monthly Donation', 'newspack' ), 'month' );
+				$prices_mapped['month'] = self::create_donation_product( __( 'OpenProducer Monthly Donation', 'newspack' ), 'month' );
 			}
 			if ( ! isset( $prices_mapped['year'] ) ) {
-				$prices_mapped['year'] = self::create_donation_product( __( 'Newspack Annual Donation', 'newspack' ), 'year' );
+				$prices_mapped['year'] = self::create_donation_product( __( 'OpenProducer Annual Donation', 'newspack' ), 'year' );
 			}
 			return $prices_mapped;
 		} catch ( \Throwable $e ) {
@@ -718,7 +718,7 @@ class Stripe_Connection {
 				'name'        => $data['name'],
 				'description' => sprintf(
 					// Translators: %s is the customer's full name.
-					__( 'Name: %s, Description: Newspack Donor', 'newspack-plugin' ),
+					__( 'Name: %s, Description: OpenProducer Donor', 'newspack-plugin' ),
 					$data['name']
 				),
 			];
@@ -796,7 +796,7 @@ class Stripe_Connection {
 			$payment_intent_payload = [
 				'amount'      => $amount_raw,
 				'customer'    => $customer['id'],
-				'description' => __( 'Newspack One-Time Donation', 'newspack-blocks' ),
+				'description' => __( 'OpenProducer One-Time Donation', 'newspack-blocks' ),
 			];
 
 			// To create a WC Subscription, a source is needed to make future charges,
@@ -826,7 +826,7 @@ class Stripe_Connection {
 					$payment_intent_payload['setup_future_usage'] = 'off_session';
 				}
 				// Default description, to be updated with order ID once it's created.
-				$payment_intent_payload['description'] = __( 'Newspack Donation', 'newspack' );
+				$payment_intent_payload['description'] = __( 'OpenProducer Donation', 'newspack' );
 				$payment_intent_payload['metadata']    = $payment_metadata;
 				$payment_intent                        = self::create_payment_intent( $payment_intent_payload );
 
