@@ -6,7 +6,7 @@ if (!class_exists('BVCallbackBase')) :
 class BVCallbackBase {
 
 	public static $wing_infos = array("BRAND_WING_VERSION" => '1.0',
-		"DB_WING_VERSION" => '1.1',
+		"DB_WING_VERSION" => '1.2',
 		"ACCOUNT_WING_VERSION" => '1.1',
 		"MISC_WING_VERSION" => '1.2',
 		"FS_WING_VERSION" => '1.2',

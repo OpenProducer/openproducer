@@ -251,11 +251,11 @@ class BVFSCallback extends BVCallbackBase {
 			$this->stream = $stream_init_info['stream'];
 			switch ($request->method) {
 			case "scanfilesglob":
-				$initdir = urldecode($params['initdir']);
-				$offset = intval(urldecode($params['offset']));
-				$limit = intval(urldecode($params['limit']));
-				$bsize = intval(urldecode($params['bsize']));
-				$regex = urldecode($params['regex']);
+				$initdir = $params['initdir'];
+				$offset = intval($params['offset']);
+				$limit = intval($params['limit']);
+				$bsize = intval($params['bsize']);
+				$regex = $params['regex'];
 				$recurse = true;
 				if (array_key_exists('recurse', $params) && $params["recurse"] == "false") {
 					$recurse = false;
@@ -268,11 +268,11 @@ class BVFSCallback extends BVCallbackBase {
 				if (array_key_exists('dir_options', $params)) {
 					$dir_options = $params['dir_options'];
 				}
-				$bsize = intval(urldecode($params['bsize']));
+				$bsize = intval($params['bsize']);
 				foreach($dir_options as $option) {
-					$dir = urldecode($option['dir']);
-					$offset = intval(urldecode($option['offset']));
-					$limit = intval(urldecode($option['limit']));
+					$dir = $option['dir'];
+					$offset = intval($option['offset']);
+					$limit = intval($option['limit']);
 					$recurse = true;
 					if (array_key_exists('recurse', $option) && $option["recurse"] == "false") {
 						$recurse = false;
@@ -289,9 +289,9 @@ class BVFSCallback extends BVCallbackBase {
 				break;
 			case "getfilesstats":
 				$files = $params['files'];
-				$offset = intval(urldecode($params['offset']));
-				$limit = intval(urldecode($params['limit']));
-				$bsize = intval(urldecode($params['bsize']));
+				$offset = intval($params['offset']);
+				$limit = intval($params['limit']);
+				$bsize = intval($params['bsize']);
 				$md5 = false;
 				if (array_key_exists('md5', $params)) {
 					$md5 = true;
@@ -300,9 +300,9 @@ class BVFSCallback extends BVCallbackBase {
 				break;
 			case "sendmanyfiles":
 				$files = $params['files'];
-				$offset = intval(urldecode($params['offset']));
-				$limit = intval(urldecode($params['limit']));
-				$bsize = intval(urldecode($params['bsize']));
+				$offset = intval($params['offset']);
+				$limit = intval($params['limit']);
+				$bsize = intval($params['bsize']);
 				$resp = $this->uploadFiles($files, $offset, $limit, $bsize);
 				break;
 			case "filelist":

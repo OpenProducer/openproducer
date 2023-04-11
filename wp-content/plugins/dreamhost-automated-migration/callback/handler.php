@@ -31,6 +31,11 @@ if (!class_exists('BVCallbackHandler')) :
 		}
 
 		public function execute($resp = array()) {
+			$params = $this->request->params;
+			if (array_key_exists('disable_global_cache', $params)) {
+				$GLOBALS['_wp_using_ext_object_cache'] = false;
+			}
+
 			$this->routeRequest();
 			$resp = array(
 				"request_info" => $this->request->info(),

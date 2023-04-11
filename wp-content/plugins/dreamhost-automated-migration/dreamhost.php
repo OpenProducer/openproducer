@@ -5,7 +5,7 @@ Plugin URI: https://www.dreamhost.com
 Description: The easiest way to migrate your site to DreamHost.
 Author: DreamHost
 Author URI: https://www.dreamhost.com
-Version: 4.78
+Version: 4.97
 Network: True
  */
 
@@ -57,6 +57,8 @@ add_action('wp_footer', array($wp_action, 'footerHandler'), 100);
 add_action('clear_bv_services_config', array($wp_action, 'clear_bv_services_config'));
 ##SOADDUNINSTALLACTION##
 
+##DISABLE_OTHER_OPTIMIZATION_PLUGINS##
+
 ##WPCLIMODULE##
 if (is_admin()) {
 	require_once dirname( __FILE__ ) . '/wp_admin.php';
@@ -64,6 +66,7 @@ if (is_admin()) {
 	add_action('admin_init', array($wpadmin, 'initHandler'));
 	add_filter('all_plugins', array($wpadmin, 'initBranding'));
 	add_filter('plugin_row_meta', array($wpadmin, 'hidePluginDetails'), 10, 2);
+	add_filter('debug_information', array($wpadmin, 'handlePluginHealthInfo'), 10, 1);
 	if ($bvsiteinfo->isMultisite()) {
 		add_action('network_admin_menu', array($wpadmin, 'menu'));
 	} else {
@@ -73,12 +76,16 @@ if (is_admin()) {
 	add_action('admin_head', array($wpadmin, 'removeAdminNotices'), 3);
 	##ACTIVATEWARNING##
 	add_action('admin_enqueue_scripts', array($wpadmin, 'dhsecAdminMenu'));
-	##SOADMINMENU##
+	##ALPURGECACHEFUNCTION##
+	##ALADMINMENU##
 }
-
 
 if ((array_key_exists('bvreqmerge', $_POST)) || (array_key_exists('bvreqmerge', $_GET))) {
 	$_REQUEST = array_merge($_GET, $_POST);
+}
+
+if ($bvinfo->hasValidDBVersion()) {
+	##ACTLOGMODULE##
 }
 
 if ((array_key_exists('bvplugname', $_REQUEST)) && ($_REQUEST['bvplugname'] == "dreamhost")) {
@@ -138,7 +145,7 @@ if ((array_key_exists('bvplugname', $_REQUEST)) && ($_REQUEST['bvplugname'] == "
 	if ($bvinfo->hasValidDBVersion()) {
 		##PROTECTMODULE##
 		##DYNSYNCMODULE##
-		##ACTLOGMODULE##
 	}
 	##WPAUTOUPDATEBLOCKMODULE##
+	##HIDEPLUGINUPDATEMODULE##
 }

@@ -55,7 +55,7 @@ if (!class_exists('DHWPAction')) :
 			$bvfooter = $this->settings->getOption($this->bvinfo->badgeinfo);
 			if ($bvfooter) {
 				echo '<div style="max-width:150px;min-height:70px;margin:0 auto;text-align:center;position:relative;">
-					<a href='.$bvfooter['badgeurl'].' target="_blank" ><img src="'.plugins_url($bvfooter['badgeimg'], __FILE__).'" alt="'.$bvfooter['badgealt'].'" /></a></div>';
+					<a href='.esc_url($bvfooter['badgeurl']).' target="_blank" ><img src="'.esc_url(plugins_url($bvfooter['badgeimg'], __FILE__)).'" alt="'.esc_attr($bvfooter['badgealt']).'" /></a></div>';
 			}
 		}
 	}

@@ -181,7 +181,7 @@ if (!class_exists('BVCallbackRequest')) :
 					}
 
 					if (array_key_exists('memset', $in_params)) {
-						$val = intval(urldecode($in_params['memset']));
+						$val = intval($in_params['memset']);
 						@ini_set('memory_limit', $val.'M');
 					}
 

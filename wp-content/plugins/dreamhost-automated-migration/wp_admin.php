@@ -37,11 +37,11 @@ class DHWPAdmin {
 		if (array_key_exists('bvnonce', $_REQUEST) &&
 				wp_verify_nonce($_REQUEST['bvnonce'], "bvnonce") &&
 				array_key_exists('blogvaultkey', $_REQUEST) &&
-				(strlen($_REQUEST['blogvaultkey']) == 64) &&
+				(strlen(DHAccount::sanitizeKey($_REQUEST['blogvaultkey'])) == 64) &&
 				(array_key_exists('page', $_REQUEST) &&
 				$_REQUEST['page'] == $this->bvinfo->plugname)) {
 			$keys = str_split($_REQUEST['blogvaultkey'], 32);
-			DHAccount::addAccount($this->settings, DHAccount::sanitizeKey($keys[0]), DHAccount::sanitizeKey($keys[1]));
+			DHAccount::addAccount($this->settings, $keys[0], $keys[1]);
 			if (array_key_exists('redirect', $_REQUEST)) {
 				$location = $_REQUEST['redirect'];
 				wp_redirect($this->bvinfo->appUrl().'/migration/'.$location);
@@ -56,7 +56,7 @@ class DHWPAdmin {
 
 	public function menu() {
 		$brand = $this->bvinfo->getBrandInfo();
-		if (!$brand || (!array_key_exists('hide', $brand) && !array_key_exists('hide_from_menu', $brand))) {
+		if (!is_array($brand) || (!array_key_exists('hide', $brand) && !array_key_exists('hide_from_menu', $brand))) {
 			$bname = $this->bvinfo->getBrandName();
 			$icon = $this->bvinfo->getBrandIcon();
 			add_menu_page($bname, $bname, 'manage_options', $this->bvinfo->plugname,
@@ -68,7 +68,7 @@ class DHWPAdmin {
 		$brand = $this->bvinfo->getBrandInfo();
 		$bvslug = $this->bvinfo->slug;
 
-		if ($slug === $bvslug && $brand && array_key_exists('hide_plugin_details', $brand)){
+		if ($slug === $bvslug && is_array($brand) && array_key_exists('hide_plugin_details', $brand)) {
 			foreach ($plugin_metas as $pluginKey => $pluginValue) {
 				if (strpos($pluginValue, sprintf('>%s<', translate('View details')))) {
 					unset($plugin_metas[$pluginKey]);
@@ -88,7 +88,7 @@ class DHWPAdmin {
 
 	public function dhsecAdminMenu($hook) {
 		if ($hook === 'toplevel_page_dreamhost') {
-			wp_register_style('bvdh_form-styles', plugins_url('assets/css/style.css',__FILE__ ));
+			wp_register_style('bvdh_form-styles', plugins_url('assets/css/style.css', __FILE__));
 			wp_enqueue_style('bvdh_form-styles');
 		}
 	}
@@ -127,18 +127,18 @@ class DHWPAdmin {
 		$bvnonce = wp_create_nonce("bvnonce");
 		$secret = DHRecover::defaultSecret($this->settings);
 		$public = DHAccount::getApiPublicKey($this->settings);
-		$tags = "<input type='hidden' name='url' value='".$this->siteinfo->wpurl()."'/>\n".
-				"<input type='hidden' name='homeurl' value='".$this->siteinfo->homeurl()."'/>\n".
-				"<input type='hidden' name='siteurl' value='".$this->siteinfo->siteurl()."'/>\n".
-				"<input type='hidden' name='dbsig' value='".$this->siteinfo->dbsig(false)."'/>\n".
-				"<input type='hidden' name='plug' value='".$this->bvinfo->plugname."'/>\n".
-				"<input type='hidden' name='adminurl' value='".$this->mainUrl()."'/>\n".
-				"<input type='hidden' name='bvversion' value='".$this->bvinfo->version."'/>\n".
-	 			"<input type='hidden' name='serverip' value='".$_SERVER["SERVER_ADDR"]."'/>\n".
-				"<input type='hidden' name='abspath' value='".ABSPATH."'/>\n".
-				"<input type='hidden' name='secret' value='".$secret."'/>\n".
-				"<input type='hidden' name='public' value='".$public."'/>\n".
-				"<input type='hidden' name='bvnonce' value='".$bvnonce."'/>\n";
+		$tags = "<input type='hidden' name='url' value='".esc_attr($this->siteinfo->wpurl())."'/>\n".
+				"<input type='hidden' name='homeurl' value='".esc_attr($this->siteinfo->homeurl())."'/>\n".
+				"<input type='hidden' name='siteurl' value='".esc_attr($this->siteinfo->siteurl())."'/>\n".
+				"<input type='hidden' name='dbsig' value='".esc_attr($this->siteinfo->dbsig(false))."'/>\n".
+				"<input type='hidden' name='plug' value='".esc_attr($this->bvinfo->plugname)."'/>\n".
+				"<input type='hidden' name='adminurl' value='".esc_attr($this->mainUrl())."'/>\n".
+				"<input type='hidden' name='bvversion' value='".esc_attr($this->bvinfo->version)."'/>\n".
+	 			"<input type='hidden' name='serverip' value='".esc_attr($_SERVER["SERVER_ADDR"])."'/>\n".
+				"<input type='hidden' name='abspath' value='".esc_attr(ABSPATH)."'/>\n".
+				"<input type='hidden' name='secret' value='".esc_attr($secret)."'/>\n".
+				"<input type='hidden' name='public' value='".esc_attr($public)."'/>\n".
+				"<input type='hidden' name='bvnonce' value='".esc_attr($bvnonce)."'/>\n";
 		return $tags;
 	}
 
@@ -147,7 +147,7 @@ class DHWPAdmin {
 		if (!DHAccount::isConfigured($this->settings) && $hook_suffix == 'index.php' ) {
 ?>
 			<div id="message" class="updated" style="padding: 8px; font-size: 16px; background-color: #dff0d8">
-						<a class="button-primary" href="<?php echo $this->mainUrl(); ?>">Activate DreamHost Automated Migration</a>
+						<a class="button-primary" href="<?php echo esc_url($this->mainUrl()); ?>">Activate DreamHost Automated Migration</a>
 						&nbsp;&nbsp;&nbsp;<b>Almost Done:</b> Activate your DreamHost account to migrate your site.
 			</div>
 <?php
@@ -166,7 +166,7 @@ class DHWPAdmin {
 		}
 
 		$brand = $this->bvinfo->getBrandInfo();
-		if ($brand) {
+		if (is_array($brand)) {
 			if (array_key_exists('hide', $brand)) {
 				unset($plugins[$slug]);
 			} else {

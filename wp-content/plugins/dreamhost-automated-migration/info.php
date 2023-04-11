@@ -10,7 +10,7 @@ if (!class_exists('DHInfo')) :
 		public $badgeinfo = 'dhbadge';
 		public $ip_header_option = 'dhipheader';
 		public $brand_option = 'dhbrand';
-		public $version = '4.78';
+		public $version = '4.97';
 		public $webpage = 'https://www.dreamhost.com';
 		public $appurl = 'https://migrate.blogvault.net';
 		public $slug = 'dreamhost-automated-migration/dreamhost.php';
@@ -18,6 +18,8 @@ if (!class_exists('DHInfo')) :
 		public $logo = '../assets/img/dreamhost.png';
 		public $brand_icon = '/assets/img/favicon.ico';
 		public $services_option_name = 'BVSERVICESOPTIONNAME';
+		public $author = 'DreamHost';
+		public $title = 'DreamHost Automated Migration';
 
 		const DB_VERSION = '3';
 
@@ -66,7 +68,7 @@ if (!class_exists('DHInfo')) :
 
 		public function getBrandName() {
 			$brand = $this->getBrandInfo();
-			if ($brand && array_key_exists('menuname', $brand)) {
+			if (is_array($brand) && array_key_exists('menuname', $brand)) {
 				return $brand['menuname'];
 			}
 		  
@@ -75,7 +77,7 @@ if (!class_exists('DHInfo')) :
 
 		public function getBrandIcon() {
 			$brand = $this->getBrandInfo();
-			if ($brand && array_key_exists('brand_icon', $brand)) {
+			if (is_array($brand) && array_key_exists('brand_icon', $brand)) {
 				return $brand['brand_icon'];
 			}
 			return $this->brand_icon;
@@ -91,7 +93,7 @@ if (!class_exists('DHInfo')) :
 				return BV_APP_URL;
 			} else {
 				$brand = $this->getBrandInfo();
-				if ($brand && array_key_exists('appurl', $brand)) {
+				if (is_array($brand) && array_key_exists('appurl', $brand)) {
 					return $brand['appurl'];
 				}
 				return $this->appurl;
@@ -105,11 +107,16 @@ if (!class_exists('DHInfo')) :
 
 		public function isValidEnvironment(){
 			$bvsiteinfo = new DHWPSiteInfo();
-			$siteurl = $bvsiteinfo->siteurl();
 			$bvconfig = $this->config;
-			if ($bvconfig && array_key_exists("abspath", $bvconfig) &&
-					array_key_exists("siteurl", $bvconfig) && !empty($siteurl)) {
-				return ($bvconfig["abspath"] == ABSPATH && $bvconfig["siteurl"] == $siteurl);
+
+			if (is_multisite()) {
+				return true;
+			} elseif ($bvconfig && array_key_exists("siteurl_scheme", $bvconfig)) {
+				$siteurl = $bvsiteinfo->siteurl('', $bvconfig["siteurl_scheme"]);
+				if (array_key_exists("abspath", $bvconfig) &&
+						array_key_exists("siteurl", $bvconfig) && !empty($siteurl)) {
+					return ($bvconfig["abspath"] == ABSPATH && $bvconfig["siteurl"] == $siteurl);
+				}
 			}
 			return true;
 		}

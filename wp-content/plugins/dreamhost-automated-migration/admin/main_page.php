@@ -1,10 +1,10 @@
 <header class="header-container">
-	<img class="dreamhost-logo" src="<?php echo plugins_url("/../assets/img/dreamhost-logo.png", __FILE__); ?>">
-	<img class="blogvault-logo" src="<?php echo plugins_url("/../assets/img/blogvault-logo.png", __FILE__); ?>">
+	<img class="dreamhost-logo" src="<?php echo esc_url(plugins_url("/../assets/img/dreamhost-logo.png", __FILE__)); ?>">
+	<img class="blogvault-logo" src="<?php echo esc_url(plugins_url("/../assets/img/blogvault-logo.png", __FILE__)); ?>">
 </header>
 <main class="text-center">
 	<div class="card">
-		<form action="<?php echo $this->bvinfo->appUrl(); ?>/migration/migrate" method="post" name="signup">
+		<form action="<?php echo esc_url($this->bvinfo->appUrl()); ?>/migration/migrate" method="post" name="signup">
 			<h1 class="card-title">Migrate your site to DreamHost</h1>
 			<p>The DreamHost automated migration plugin makes moving sites to the DreamHost platform effortless.
 				 It doesn't matter if you're a qualified developer or someone teaching yourself for the first time,

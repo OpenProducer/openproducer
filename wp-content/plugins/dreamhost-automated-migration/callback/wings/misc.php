@@ -204,6 +204,14 @@ class BVMiscCallback extends BVCallbackBase {
 				$resp['taxonomies'] = $taxonomy_result['taxonomies'];
 			}
 			break;
+		case "permalink":
+			if (array_key_exists('post_ids', $params)) {
+				$resp = array();
+				foreach ( $params['post_ids'] as $id ) {
+					$resp[$id]['url'] = get_permalink($id);
+				}
+			}
+			break;
 		default:
 			$resp = false;
 		}
