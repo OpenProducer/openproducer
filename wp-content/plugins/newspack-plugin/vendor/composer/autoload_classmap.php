@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Newspack\\AMP_Enhancements' => $baseDir . '/includes/class-amp-enhancements.php',
+    'Newspack\\AMP_Polyfills' => $baseDir . '/includes/polyfills/class-amp-polyfills.php',
     'Newspack\\API' => $baseDir . '/includes/class-api.php',
     'Newspack\\API\\Plugins_Controller' => $baseDir . '/includes/api/class-plugins-controller.php',
     'Newspack\\API\\Wizards_Controller' => $baseDir . '/includes/api/class-wizards-controller.php',
@@ -99,6 +100,7 @@ return array(
     'Newspack\\Syndication_Wizard' => $baseDir . '/includes/wizards/class-syndication-wizard.php',
     'Newspack\\Theme_Manager' => $baseDir . '/includes/class-theme-manager.php',
     'Newspack\\Twitter_Pixel' => $baseDir . '/includes/tracking/class-twitter-pixel.php',
+    'Newspack\\WC_Memberships' => $baseDir . '/includes/plugins/class-wc-memberships.php',
     'Newspack\\Wizard' => $baseDir . '/includes/wizards/class-wizard.php',
     'Newspack\\Wizards' => $baseDir . '/includes/class-wizards.php',
     'Newspack\\WooCommerce_Configuration_Manager' => $baseDir . '/includes/configuration_managers/class-woocommerce-configuration-manager.php',

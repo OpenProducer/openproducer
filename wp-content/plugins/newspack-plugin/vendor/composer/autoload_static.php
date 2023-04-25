@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitca0996e67c5790d6ec51baf67af0880d
+class ComposerStaticInitedf626d70fa89251c7a9e30548cc2bc5
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -96,6 +96,7 @@ class ComposerStaticInitca0996e67c5790d6ec51baf67af0880d
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Newspack\\AMP_Enhancements' => __DIR__ . '/../..' . '/includes/class-amp-enhancements.php',
+        'Newspack\\AMP_Polyfills' => __DIR__ . '/../..' . '/includes/polyfills/class-amp-polyfills.php',
         'Newspack\\API' => __DIR__ . '/../..' . '/includes/class-api.php',
         'Newspack\\API\\Plugins_Controller' => __DIR__ . '/../..' . '/includes/api/class-plugins-controller.php',
         'Newspack\\API\\Wizards_Controller' => __DIR__ . '/../..' . '/includes/api/class-wizards-controller.php',
@@ -187,6 +188,7 @@ class ComposerStaticInitca0996e67c5790d6ec51baf67af0880d
         'Newspack\\Syndication_Wizard' => __DIR__ . '/../..' . '/includes/wizards/class-syndication-wizard.php',
         'Newspack\\Theme_Manager' => __DIR__ . '/../..' . '/includes/class-theme-manager.php',
         'Newspack\\Twitter_Pixel' => __DIR__ . '/../..' . '/includes/tracking/class-twitter-pixel.php',
+        'Newspack\\WC_Memberships' => __DIR__ . '/../..' . '/includes/plugins/class-wc-memberships.php',
         'Newspack\\Wizard' => __DIR__ . '/../..' . '/includes/wizards/class-wizard.php',
         'Newspack\\Wizards' => __DIR__ . '/../..' . '/includes/class-wizards.php',
         'Newspack\\WooCommerce_Configuration_Manager' => __DIR__ . '/../..' . '/includes/configuration_managers/class-woocommerce-configuration-manager.php',
@@ -199,9 +201,9 @@ class ComposerStaticInitca0996e67c5790d6ec51baf67af0880d
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitca0996e67c5790d6ec51baf67af0880d::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitca0996e67c5790d6ec51baf67af0880d::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitca0996e67c5790d6ec51baf67af0880d::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitedf626d70fa89251c7a9e30548cc2bc5::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitedf626d70fa89251c7a9e30548cc2bc5::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitedf626d70fa89251c7a9e30548cc2bc5::$classMap;
 
         }, null, ClassLoader::class);
     }

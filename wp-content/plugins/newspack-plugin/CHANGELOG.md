@@ -1,3 +1,171 @@
+# [1.113.0](https://github.com/Automattic/newspack-plugin/compare/v1.112.1...v1.113.0) (2023-04-24)
+
+
+### Features
+
+* **reader-registration:** add recaptcha panel in the editor ([#2397](https://github.com/Automattic/newspack-plugin/issues/2397)) ([336ee94](https://github.com/Automattic/newspack-plugin/commit/336ee942f31cba9613f2c3065c7475165ee5fa9d))
+
+# [1.113.0-alpha.1](https://github.com/Automattic/newspack-plugin/compare/v1.112.1...v1.113.0-alpha.1) (2023-04-13)
+
+
+### Features
+
+* **reader-registration:** add recaptcha panel in the editor ([#2397](https://github.com/Automattic/newspack-plugin/issues/2397)) ([336ee94](https://github.com/Automattic/newspack-plugin/commit/336ee942f31cba9613f2c3065c7475165ee5fa9d))
+
+## [1.112.1](https://github.com/Automattic/newspack-plugin/compare/v1.112.0...v1.112.1) (2023-04-12)
+
+
+### Bug Fixes
+
+* sync reader to ESP on subscription update ([#2401](https://github.com/Automattic/newspack-plugin/issues/2401)) ([cdc8799](https://github.com/Automattic/newspack-plugin/commit/cdc8799957fabed3b3ac473083bbabd6e5aefa16))
+
+# [1.112.0](https://github.com/Automattic/newspack-plugin/compare/v1.111.1...v1.112.0) (2023-04-10)
+
+
+### Bug Fixes
+
+* add pre push hook ([#2395](https://github.com/Automattic/newspack-plugin/issues/2395)) ([04a6e57](https://github.com/Automattic/newspack-plugin/commit/04a6e5727332aa19fd88ba8ae822d9f00e8ab684))
+* Avoid falal error on Reader Revenue wizard ([#2382](https://github.com/Automattic/newspack-plugin/issues/2382)) ([646d212](https://github.com/Automattic/newspack-plugin/commit/646d212d7e4f3df022a472c30dfa052aa8795f48))
+* bail silently when recaptcha key is not set ([#2363](https://github.com/Automattic/newspack-plugin/issues/2363)) ([de18369](https://github.com/Automattic/newspack-plugin/commit/de183695019b3e29f5f404ed3faace976ca3b86d))
+* don't show gate unless attached to a specific post ([#2400](https://github.com/Automattic/newspack-plugin/issues/2400)) ([c45097c](https://github.com/Automattic/newspack-plugin/commit/c45097ca4ec6ba1682254093ef50b978e1a74ca2))
+* if My Account is set to shown in RAS, show in Customizer at all breakpoints ([#2379](https://github.com/Automattic/newspack-plugin/issues/2379)) ([1052923](https://github.com/Automattic/newspack-plugin/commit/10529238fe0475c9f4933231d4f037f7687559af))
+* **memberships:** remove content filters from excerpt ([#2398](https://github.com/Automattic/newspack-plugin/issues/2398)) ([987df5b](https://github.com/Automattic/newspack-plugin/commit/987df5b88868018a86dfee0ce0e9f0db5876dc23))
+* **stripe-sync-script:** process only customers with successful transactions ([#2355](https://github.com/Automattic/newspack-plugin/issues/2355)) ([1020663](https://github.com/Automattic/newspack-plugin/commit/1020663c0dbe1cfd81679d0ce1cca716a795993e))
+
+
+### Features
+
+* **amp-deprecation:** polyfill amp-vimeo tag ([#2372](https://github.com/Automattic/newspack-plugin/issues/2372)) ([4a70b65](https://github.com/Automattic/newspack-plugin/commit/4a70b65470f62c89135d1dc5f27d4060989b736a))
+* **amp:** polyfill lightbox effect ([#2324](https://github.com/Automattic/newspack-plugin/issues/2324)) ([b31288c](https://github.com/Automattic/newspack-plugin/commit/b31288c3bf1538889f9ba6c0e49e62bca5ebe2d0))
+* **memberships:** content gate page ([#2366](https://github.com/Automattic/newspack-plugin/issues/2366)) ([15026ab](https://github.com/Automattic/newspack-plugin/commit/15026ab36f118a0447d882f42ff0b2ca148266c1))
+* **memberships:** overlay style for content gate ([#2377](https://github.com/Automattic/newspack-plugin/issues/2377)) ([dd2ff5c](https://github.com/Automattic/newspack-plugin/commit/dd2ff5c8fe177d5cac8a5af5dadb50e77bb127b9))
+* **popups:** support disabled segments ([#2376](https://github.com/Automattic/newspack-plugin/issues/2376)) ([bfd65b2](https://github.com/Automattic/newspack-plugin/commit/bfd65b23dc5da98f692efcceb738c512b85b8f4b))
+
+# [1.112.0-alpha.5](https://github.com/Automattic/newspack-plugin/compare/v1.112.0-alpha.4...v1.112.0-alpha.5) (2023-04-10)
+
+
+### Bug Fixes
+
+* don't show gate unless attached to a specific post ([#2400](https://github.com/Automattic/newspack-plugin/issues/2400)) ([c45097c](https://github.com/Automattic/newspack-plugin/commit/c45097ca4ec6ba1682254093ef50b978e1a74ca2))
+
+# [1.112.0-alpha.4](https://github.com/Automattic/newspack-plugin/compare/v1.112.0-alpha.3...v1.112.0-alpha.4) (2023-04-05)
+
+
+### Bug Fixes
+
+* **memberships:** remove content filters from excerpt ([#2398](https://github.com/Automattic/newspack-plugin/issues/2398)) ([987df5b](https://github.com/Automattic/newspack-plugin/commit/987df5b88868018a86dfee0ce0e9f0db5876dc23))
+
+# [1.112.0-alpha.3](https://github.com/Automattic/newspack-plugin/compare/v1.112.0-alpha.2...v1.112.0-alpha.3) (2023-04-04)
+
+
+### Bug Fixes
+
+* add pre push hook ([#2395](https://github.com/Automattic/newspack-plugin/issues/2395)) ([04a6e57](https://github.com/Automattic/newspack-plugin/commit/04a6e5727332aa19fd88ba8ae822d9f00e8ab684))
+* Avoid falal error on Reader Revenue wizard ([#2382](https://github.com/Automattic/newspack-plugin/issues/2382)) ([646d212](https://github.com/Automattic/newspack-plugin/commit/646d212d7e4f3df022a472c30dfa052aa8795f48))
+
+
+### Features
+
+* **memberships:** overlay style for content gate ([#2377](https://github.com/Automattic/newspack-plugin/issues/2377)) ([dd2ff5c](https://github.com/Automattic/newspack-plugin/commit/dd2ff5c8fe177d5cac8a5af5dadb50e77bb127b9))
+
+# [1.112.0-alpha.2](https://github.com/Automattic/newspack-plugin/compare/v1.112.0-alpha.1...v1.112.0-alpha.2) (2023-04-03)
+
+
+### Bug Fixes
+
+* **amp:** improved iframe polyfill and include vimeo ([592eba7](https://github.com/Automattic/newspack-plugin/commit/592eba753eea728f830cf6e65666a912b0319f81))
+
+## [1.111.1](https://github.com/Automattic/newspack-plugin/compare/v1.111.0...v1.111.1) (2023-04-03)
+
+
+### Bug Fixes
+
+* **amp:** improved iframe polyfill and include vimeo ([592eba7](https://github.com/Automattic/newspack-plugin/commit/592eba753eea728f830cf6e65666a912b0319f81))
+
+# [1.111.0](https://github.com/Automattic/newspack-plugin/compare/v1.110.0...v1.111.0) (2023-03-28)
+
+
+### Features
+
+* (perfmatters) add fonts settings to defaults ([#2370](https://github.com/Automattic/newspack-plugin/issues/2370)) ([025595f](https://github.com/Automattic/newspack-plugin/commit/025595f63916ccc44faeadd7807bf76fc26c600e))
+
+# [1.110.0](https://github.com/Automattic/newspack-plugin/compare/v1.109.0...v1.110.0) (2023-03-27)
+
+
+### Bug Fixes
+
+* **ads:** proper usage of useEffect cleanup function ([#2335](https://github.com/Automattic/newspack-plugin/issues/2335)) ([58e4c10](https://github.com/Automattic/newspack-plugin/commit/58e4c10c212a294137128071fae5a9463cf3d3e6))
+* **cli:** setup config path ([6de5d36](https://github.com/Automattic/newspack-plugin/commit/6de5d3624e17a62da1e2fb1fbb6abac472c866a5))
+* **data-events:** mailchimp metadata keys ([#2331](https://github.com/Automattic/newspack-plugin/issues/2331)) ([de82e06](https://github.com/Automattic/newspack-plugin/commit/de82e063c5461354e6b65da2627411022a44b859))
+* **modal-checkout:** provide conversion URL for ESP ([feca20d](https://github.com/Automattic/newspack-plugin/commit/feca20df57f483ee5bb159b74a05c3245890a4b7))
+* only show perfmatters notice if defaults are used ([bdae0b2](https://github.com/Automattic/newspack-plugin/commit/bdae0b2a452d870579c886b6283289dac4be957a))
+* **perfmatters:** add twitter.com to JS delay list ([34bac52](https://github.com/Automattic/newspack-plugin/commit/34bac52e258f1f464e100998e77e9c91bcce858e))
+* post-release merge conflict ([3d03cd2](https://github.com/Automattic/newspack-plugin/commit/3d03cd256ef3513596c03c6001f6d6a8c1b769e8))
+* show handoff to finish Newspack setup only if setup is incomplete ([#2343](https://github.com/Automattic/newspack-plugin/issues/2343)) ([b0a85ef](https://github.com/Automattic/newspack-plugin/commit/b0a85efe181b33d00ce1b98d93f1bb7d1aee8874))
+* toggling settings section ([#2349](https://github.com/Automattic/newspack-plugin/issues/2349)) ([87d5218](https://github.com/Automattic/newspack-plugin/commit/87d5218bc599f38221def09abf5f866fd9894379))
+* **webhooks:** endpoint requests modal label ([#2332](https://github.com/Automattic/newspack-plugin/issues/2332)) ([fd99ff2](https://github.com/Automattic/newspack-plugin/commit/fd99ff27ceda43f6fb28b5c57ef398a7b7601905))
+* **webhooks:** grid layout ([4aa898f](https://github.com/Automattic/newspack-plugin/commit/4aa898fa1f52cc5ff759d7a7aded79925b973ede))
+* **wizards:** broken rendering in WP 6.2 ([a6cef5a](https://github.com/Automattic/newspack-plugin/commit/a6cef5a1f2fc785f31cc2c478ebde7791db1c2f9))
+
+
+### Features
+
+* add GA4 donation events ([#2326](https://github.com/Automattic/newspack-plugin/issues/2326)) ([a1377a2](https://github.com/Automattic/newspack-plugin/commit/a1377a26300caa8d3eb0eae4afbc5817667ec74a))
+* Add GA4 Newsletters subscriptions events ([#2330](https://github.com/Automattic/newspack-plugin/issues/2330)) ([86ffc66](https://github.com/Automattic/newspack-plugin/commit/86ffc66c62492801c57bc06aeb20b9d0ce4e5fb5))
+* Add popup events to GA4 ([#2337](https://github.com/Automattic/newspack-plugin/issues/2337)) ([62c738e](https://github.com/Automattic/newspack-plugin/commit/62c738e86c9599ed166b908bd827a3d8d09597b6))
+* Add popups donation events ([#2310](https://github.com/Automattic/newspack-plugin/issues/2310)) ([53e0c4a](https://github.com/Automattic/newspack-plugin/commit/53e0c4afdef1a564cd7069ff63f9afeca77327ad))
+* **amp-deprecation:** polyfills for amp-img, amp-iframe, amp-fit-text, amp-youtube ([#2308](https://github.com/Automattic/newspack-plugin/issues/2308)) ([7419cd5](https://github.com/Automattic/newspack-plugin/commit/7419cd5977e4a226669f4a23f05e576945bd9bd0))
+* **health-check:** mark some plugins as supported ([#2329](https://github.com/Automattic/newspack-plugin/issues/2329)) ([c1774e3](https://github.com/Automattic/newspack-plugin/commit/c1774e3d42bec0f3f51e265613fd5ca84d49c27b))
+
+# [1.110.0-alpha.1](https://github.com/Automattic/newspack-plugin/compare/v1.109.0...v1.110.0-alpha.1) (2023-03-24)
+
+
+### Bug Fixes
+
+* **ads:** proper usage of useEffect cleanup function ([#2335](https://github.com/Automattic/newspack-plugin/issues/2335)) ([58e4c10](https://github.com/Automattic/newspack-plugin/commit/58e4c10c212a294137128071fae5a9463cf3d3e6))
+* **cli:** setup config path ([6de5d36](https://github.com/Automattic/newspack-plugin/commit/6de5d3624e17a62da1e2fb1fbb6abac472c866a5))
+* **data-events:** mailchimp metadata keys ([#2331](https://github.com/Automattic/newspack-plugin/issues/2331)) ([de82e06](https://github.com/Automattic/newspack-plugin/commit/de82e063c5461354e6b65da2627411022a44b859))
+* **modal-checkout:** provide conversion URL for ESP ([feca20d](https://github.com/Automattic/newspack-plugin/commit/feca20df57f483ee5bb159b74a05c3245890a4b7))
+* only show perfmatters notice if defaults are used ([bdae0b2](https://github.com/Automattic/newspack-plugin/commit/bdae0b2a452d870579c886b6283289dac4be957a))
+* **perfmatters:** add twitter.com to JS delay list ([34bac52](https://github.com/Automattic/newspack-plugin/commit/34bac52e258f1f464e100998e77e9c91bcce858e))
+* post-release merge conflict ([3d03cd2](https://github.com/Automattic/newspack-plugin/commit/3d03cd256ef3513596c03c6001f6d6a8c1b769e8))
+* show handoff to finish Newspack setup only if setup is incomplete ([#2343](https://github.com/Automattic/newspack-plugin/issues/2343)) ([b0a85ef](https://github.com/Automattic/newspack-plugin/commit/b0a85efe181b33d00ce1b98d93f1bb7d1aee8874))
+* toggling settings section ([#2349](https://github.com/Automattic/newspack-plugin/issues/2349)) ([87d5218](https://github.com/Automattic/newspack-plugin/commit/87d5218bc599f38221def09abf5f866fd9894379))
+* **webhooks:** endpoint requests modal label ([#2332](https://github.com/Automattic/newspack-plugin/issues/2332)) ([fd99ff2](https://github.com/Automattic/newspack-plugin/commit/fd99ff27ceda43f6fb28b5c57ef398a7b7601905))
+* **webhooks:** grid layout ([4aa898f](https://github.com/Automattic/newspack-plugin/commit/4aa898fa1f52cc5ff759d7a7aded79925b973ede))
+* **wizards:** broken rendering in WP 6.2 ([a6cef5a](https://github.com/Automattic/newspack-plugin/commit/a6cef5a1f2fc785f31cc2c478ebde7791db1c2f9))
+
+
+### Features
+
+* add GA4 donation events ([#2326](https://github.com/Automattic/newspack-plugin/issues/2326)) ([a1377a2](https://github.com/Automattic/newspack-plugin/commit/a1377a26300caa8d3eb0eae4afbc5817667ec74a))
+* Add GA4 Newsletters subscriptions events ([#2330](https://github.com/Automattic/newspack-plugin/issues/2330)) ([86ffc66](https://github.com/Automattic/newspack-plugin/commit/86ffc66c62492801c57bc06aeb20b9d0ce4e5fb5))
+* Add popup events to GA4 ([#2337](https://github.com/Automattic/newspack-plugin/issues/2337)) ([62c738e](https://github.com/Automattic/newspack-plugin/commit/62c738e86c9599ed166b908bd827a3d8d09597b6))
+* Add popups donation events ([#2310](https://github.com/Automattic/newspack-plugin/issues/2310)) ([53e0c4a](https://github.com/Automattic/newspack-plugin/commit/53e0c4afdef1a564cd7069ff63f9afeca77327ad))
+* **amp-deprecation:** polyfills for amp-img, amp-iframe, amp-fit-text, amp-youtube ([#2308](https://github.com/Automattic/newspack-plugin/issues/2308)) ([7419cd5](https://github.com/Automattic/newspack-plugin/commit/7419cd5977e4a226669f4a23f05e576945bd9bd0))
+* **health-check:** mark some plugins as supported ([#2329](https://github.com/Automattic/newspack-plugin/issues/2329)) ([c1774e3](https://github.com/Automattic/newspack-plugin/commit/c1774e3d42bec0f3f51e265613fd5ca84d49c27b))
+
+# [1.109.0](https://github.com/Automattic/newspack-plugin/compare/v1.108.0...v1.109.0) (2023-03-24)
+
+
+### Features
+
+* **amp-deprecation:** polyfills for amp-img, amp-iframe, amp-fit-text, amp-youtube ([#2308](https://github.com/Automattic/newspack-plugin/issues/2308)) ([29b043b](https://github.com/Automattic/newspack-plugin/commit/29b043bdc25795fea4be08cebdf07894057888f8))
+
+# [1.108.0](https://github.com/Automattic/newspack-plugin/compare/v1.107.1...v1.108.0) (2023-03-20)
+
+
+### Features
+
+* **perfmatters:** add ads, recaptcha JS to script delay list ([#2354](https://github.com/Automattic/newspack-plugin/issues/2354)) ([e8d1703](https://github.com/Automattic/newspack-plugin/commit/e8d1703b8333bd110456fcbd30f36edd8208801c))
+
+## [1.107.1](https://github.com/Automattic/newspack-plugin/compare/v1.107.0...v1.107.1) (2023-03-15)
+
+
+### Bug Fixes
+
+* prevent page auto-scroll when RAS is enabled ([3cdfb45](https://github.com/Automattic/newspack-plugin/commit/3cdfb45338352ff5d8bbe3cf66a41667266cbd80))
+
 # [1.107.0](https://github.com/Automattic/newspack-plugin/compare/v1.106.0...v1.107.0) (2023-03-14)
 
 

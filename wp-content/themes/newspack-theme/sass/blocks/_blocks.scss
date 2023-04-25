@@ -2,7 +2,6 @@
 @use '../mixins/mixins-master';
 @use '../mixins/utilities';
 @use '../variables-site/colors';
-@use '../variables-site/fonts';
 @use '../variables-site/structure';
 
 /* !Block styles */
@@ -114,16 +113,32 @@
 				margin-left: 0;
 				margin-right: 0;
 			}
+
+			&.wp-block-columns .alignwide {
+				width: 100%;
+			}
 		}
 
 		.wp-block-cover,
 		.wp-block-group {
 			&.alignfull,
 			&.alignwide {
-				> div > *:not( .alignfull, .alignwide ) {
+				> div > *:not( .alignfull ):not( .alignwide ) {
 					margin-left: auto;
 					margin-right: auto;
 					max-width: 1200px;
+				}
+			}
+		}
+
+		.wp-block-column {
+			.wp-block-cover,
+			.wp-block-group {
+				&.alignfull,
+				&.alignwide {
+					> div > *:not( .alignfull ):not( .alignwide ) {
+						max-width: 100%;
+					}
 				}
 			}
 		}
@@ -235,7 +250,7 @@ p.has-background {
 				font-size: 0.9rem;
 			}
 			.entry-meta {
-				font-size: fonts.$font__size-xs;
+				font-size: var( --newspack-theme-font-size-xs );
 			}
 			.entry-wrapper {
 				padding: 20px 36px;
@@ -303,7 +318,7 @@ p.has-background {
 .mobile-sidebar {
 	//! Newspack Profile block
 	.wp-block-newspack-blocks-author-profile {
-		font-size: fonts.$font__size-sm;
+		font-size: var( --newspack-theme-font-size-sm );
 	}
 }
 
@@ -406,7 +421,7 @@ p.has-background {
 
 	blockquote p,
 	&.is-style-solid-color blockquote p {
-		font-size: fonts.$font__size-lg;
+		font-size: var( --newspack-theme-font-size-lg );
 	}
 
 	p {
@@ -420,16 +435,16 @@ p.has-background {
 		}
 
 		@include utilities.media( tablet ) {
-			font-size: fonts.$font__size-lg;
+			font-size: var( --newspack-theme-font-size-lg );
 		}
 	}
 
-	&.has-text-align-right:not( .alignleft, .alignright ),
-	&.has-text-align-left:not( .alignleft, .alignright ) {
+	&.has-text-align-right:not( .alignleft ):not( .alignright ),
+	&.has-text-align-left:not( .alignleft ):not( .alignright ) {
 		p {
-			font-size: fonts.$font__size-lg;
+			font-size: var( --newspack-theme-font-size-lg );
 			@include utilities.media( tablet ) {
-				font-size: fonts.$font__size-lg;
+				font-size: var( --newspack-theme-font-size-lg );
 			}
 		}
 	}
@@ -437,8 +452,8 @@ p.has-background {
 	cite {
 		display: inline-block;
 		color: inherit;
-		font-family: fonts.$font__heading;
-		font-size: fonts.$font__size-xs;
+		font-family: var( --newspack-theme-font-heading );
+		font-size: var( --newspack-theme-font-size-xs );
 		opacity: 0.8;
 		line-height: 1.6;
 		text-transform: none;
@@ -473,7 +488,7 @@ p.has-background {
 				font-size: 1rem;
 
 				@include utilities.media( tablet ) {
-					font-size: fonts.$font__size-md;
+					font-size: var( --newspack-theme-font-size-md );
 				}
 
 				&:first-child {
@@ -558,12 +573,12 @@ p.has-background {
 	padding-left: 0;
 
 	.wp-block-latest-comments__comment {
-		font-size: fonts.$font__size-sm;
-		line-height: fonts.$font__line-height-body;
+		font-size: var( --newspack-theme-font-size-sm );
+		line-height: var( --newspack-theme-font-line-height-body );
 	}
 
 	.wp-block-latest-comments__comment-meta {
-		font-family: fonts.$font__heading;
+		font-family: var( --newspack-theme-font-heading );
 		font-weight: bold;
 
 		a,
@@ -644,9 +659,9 @@ p.has-background {
 
 	border: none;
 	border-radius: 5px;
-	font-family: fonts.$font__heading;
-	font-size: fonts.$font__size-sm;
-	line-height: fonts.$font__line-height-heading;
+	font-family: var( --newspack-theme-font-heading );
+	font-size: var( --newspack-theme-font-size-sm );
+	line-height: var( --newspack-theme-font-line-height-heading );
 	box-sizing: border-box;
 	font-weight: bold;
 	text-decoration: none;
@@ -659,10 +674,10 @@ p.has-background {
 }
 
 .wp-block-jetpack-button button.wp-block-button__link {
-	font-family: fonts.$font__heading;
-	font-size: fonts.$font__size-sm;
+	font-family: var( --newspack-theme-font-heading );
+	font-size: var( --newspack-theme-font-size-sm );
 	font-weight: bold;
-	line-height: fonts.$font__line-height-heading;
+	line-height: var( --newspack-theme-font-line-height-heading );
 	padding: ( structure.$size__spacing-unit * 0.76 ) structure.$size__spacing-unit;
 }
 
@@ -743,9 +758,9 @@ p.has-background {
 .wp-block-archives,
 .wp-block-categories {
 	li {
-		font-family: fonts.$font__heading;
+		font-family: var( --newspack-theme-font-heading );
 		font-weight: bold;
-		line-height: fonts.$font__line-height-heading;
+		line-height: var( --newspack-theme-font-line-height-heading );
 	}
 
 	&.aligncenter {
@@ -780,13 +795,13 @@ p.has-background {
 
 .wp-block-latest-posts {
 	li > a {
-		font-family: fonts.$font__heading;
+		font-family: var( --newspack-theme-font-heading );
 		font-weight: bold;
-		line-height: fonts.$font__line-height-heading;
+		line-height: var( --newspack-theme-font-line-height-heading );
 	}
 	time {
 		color: colors.$color__text-light;
-		font-family: fonts.$font__heading;
+		font-family: var( --newspack-theme-font-heading );
 	}
 	.wp-block-latest-posts__post-excerpt {
 		font-size: 0.8em;
@@ -814,19 +829,19 @@ p.has-background {
 
 //! Latest preformatted text
 .wp-block-preformatted {
-	font-size: fonts.$font__size-xs;
+	font-size: var( --newspack-theme-font-size-xs );
 	line-height: 1.8;
 	padding: structure.$size__spacing-unit;
 }
 
 .widget .wp-block-preformatted {
-	font-size: fonts.$font__size-sm;
+	font-size: var( --newspack-theme-font-size-sm );
 }
 
 //! Verse
 .wp-block-verse {
-	font-family: fonts.$font__body;
-	font-size: fonts.$font__size_base;
+	font-family: var( --newspack-theme-font-body );
+	font-size: var( --newspack-theme-font-size-base );
 	line-height: 1.8;
 }
 
@@ -847,11 +862,7 @@ p.has-background {
 	}
 
 	cite {
-		/*
-		 * This requires a rem-based font size calculation instead of our normal em-based one,
-		 * because the cite tag sometimes gets wrapped in a p tag. This is equivalent to $font-size_xs.
-		 */
-		font-size: calc( 1rem * #{fonts.$font__size-sm} );
+		font-size: 0.7rem;
 	}
 
 	&.is-large,
@@ -861,18 +872,14 @@ p.has-background {
 		border-left: none;
 
 		p {
-			font-size: fonts.$font__size-lg;
+			font-size: var( --newspack-theme-font-size-lg );
 			font-style: italic;
 			line-height: 1.4;
 		}
 
 		cite,
 		footer {
-			/*
-			 * This requires a rem-based font size calculation instead of our normal em-based one,
-			 * because the cite tag sometimes gets wrapped in a p tag. This is equivalent to $font-size_xs.
-			 */
-			font-size: calc( 1rem * #{fonts.$font__size-sm} );
+			font-size: 0.7rem;
 		}
 
 		@include utilities.media( tablet ) {
@@ -880,7 +887,7 @@ p.has-background {
 			padding: structure.$size__spacing-unit 0;
 
 			p {
-				font-size: fonts.$font__size-lg;
+				font-size: var( --newspack-theme-font-size-lg );
 			}
 		}
 	}
@@ -941,9 +948,9 @@ hr {
 
 		&::before {
 			color: colors.$color__text-light;
-			font-size: fonts.$font__size-lg;
-			letter-spacing: fonts.$font__size-sm;
-			padding-left: fonts.$font__size-sm;
+			font-size: var( --newspack-theme-font-size-lg );
+			letter-spacing: var( --newspack-theme-font-size-sm );
+			padding-left: var( --newspack-theme-font-size-sm );
 		}
 	}
 
@@ -984,8 +991,8 @@ hr {
 
 //! File
 .wp-block-file {
-	font-family: fonts.$font__heading;
-	font-size: fonts.$font__size-sm;
+	font-family: var( --newspack-theme-font-heading );
+	font-size: var( --newspack-theme-font-size-sm );
 
 	.wp-block-file__button {
 		display: table;
@@ -994,9 +1001,9 @@ hr {
 		border: none;
 		border-radius: 5px;
 		background: colors.$color__background-button;
-		font-family: fonts.$font__heading;
+		font-family: var( --newspack-theme-font-heading );
 		font-size: inherit;
-		line-height: fonts.$font__line-height-heading;
+		line-height: var( --newspack-theme-font-line-height-heading );
 		text-decoration: none;
 		font-weight: bold;
 		padding: ( structure.$size__spacing-unit * 0.75 ) structure.$size__spacing-unit;
@@ -1066,7 +1073,7 @@ hr {
 	border-radius: 0;
 
 	code {
-		font-size: fonts.$font__size-md;
+		font-size: var( --newspack-theme-font-size-md );
 		white-space: pre-wrap;
 		word-break: break-word;
 	}
@@ -1120,6 +1127,12 @@ hr {
 	margin-top: -32px;
 }
 
+.wp-block-cover {
+	.wp-block-group.has-background + .wp-block-group.has-background {
+		margin-top: unset;
+	}
+}
+
 // Remove space between full-width group block and header on homepage.
 .newspack-front-page.hide-homepage-title .entry-content > .wp-block-group.alignfull:first-child,
 .newspack-front-page.hide-homepage-title [id='pico'] > .wp-block-group.alignfull:first-child {
@@ -1160,7 +1173,7 @@ hr {
 		margin: 0;
 
 		&[id^='wp-block-jetpack-mailchimp'] {
-			font-size: fonts.$font__size-sm;
+			font-size: var( --newspack-theme-font-size-sm );
 		}
 	}
 
@@ -1169,7 +1182,7 @@ hr {
 	}
 
 	.wp-block-jetpack-mailchimp_notification {
-		font-size: fonts.$font__size-sm;
+		font-size: var( --newspack-theme-font-size-sm );
 		margin-top: calc( structure.$size__spacing-unit / 2 );
 
 		&.is-visible {
@@ -1295,30 +1308,30 @@ hr {
 
 //! Font Sizes
 .has-small-font-size {
-	font-size: fonts.$font__size-sm;
+	font-size: var( --newspack-theme-font-size-sm );
 }
 
 .has-normal-font-size {
-	font-size: fonts.$font__size_base;
+	font-size: var( --newspack-theme-font-size-base );
 }
 
 .has-large-font-size {
-	font-size: fonts.$font__size-lg;
+	font-size: var( --newspack-theme-font-size-lg );
 }
 
 .has-huge-font-size,
 .has-x-large-font-size {
-	font-size: fonts.$font__size-xl;
+	font-size: var( --newspack-theme-font-size-xl );
 }
 
 @include utilities.media( tablet ) {
 	.has-large-font-size {
-		font-size: fonts.$font__size-xl;
+		font-size: var( --newspack-theme-font-size-xl );
 	}
 
 	.has-huge-font-size,
 	.has-x-large-font-size {
-		font-size: fonts.$font__size-xxl;
+		font-size: var( --newspack-theme-font-size-xxl );
 	}
 }
 
@@ -1461,11 +1474,6 @@ $colors: (
 	.wp-block-image {
 		&.alignfull img {
 			width: 100vw;
-			max-width: 100vw;
-		}
-
-		&.alignwide {
-			max-width: 100vw;
 		}
 	}
 
@@ -1495,11 +1503,11 @@ $colors: (
 	//! Group & Cover Block
 	.entry .entry-content,
 	[id='pico'] {
-		> .wp-block-cover,
-		> .wp-block-group {
+		.wp-block-cover,
+		.wp-block-group {
 			&.alignfull,
 			&.alignwide {
-				> div > *:not( .alignfull, .alignwide ) {
+				> div > *:not( .alignfull ):not( .alignwide ) {
 					margin-left: auto;
 					margin-right: auto;
 					max-width: 780px;
@@ -1510,6 +1518,18 @@ $colors: (
 				margin-right: auto;
 				max-width: 100%;
 				width: calc( 50vw + 390px );
+			}
+		}
+
+		.wp-block-column {
+			.wp-block-cover,
+			.wp-block-group {
+				&.alignfull,
+				&.alignwide {
+					> div > *:not( .alignfull ):not( .alignwide ) {
+						max-width: 100%;
+					}
+				}
 			}
 		}
 	}
@@ -1523,8 +1543,8 @@ $colors: (
 	//! Add padding to some fullalign blocks to prevent text cut-offs.
 	.wp-block-pullquote,
 	.wp-block-table,
-	.wp-block-columns:not( .is-not-stacked-on-mobile ),
-	.wpnbha {
+	.entry-content > .wp-block-columns:not( .is-not-stacked-on-mobile ),
+	.entry-content > .wpnbha {
 		&.alignfull {
 			padding-left: structure.$size__spacing-unit;
 			padding-right: structure.$size__spacing-unit;
@@ -1532,7 +1552,7 @@ $colors: (
 	}
 
 	@include utilities.media( mobile ) {
-		.wp-block-columns.is-not-stacked-on-mobile.alignfull {
+		.entry-content > .wp-block-columns.is-not-stacked-on-mobile.alignfull {
 			padding-left: structure.$size__spacing-unit;
 			padding-right: structure.$size__spacing-unit;
 		}
@@ -1541,9 +1561,30 @@ $colors: (
 	// Make sure content in a full-width group block doesn't touch edges
 	.entry .entry-content > .wp-block-group,
 	[id='pico'] > .wp-block-group {
-		&.alignfull:not( .has-background, .is-style-border ) {
+		&.alignfull:not( .has-background ):not( .is-style-border ) {
 			padding-left: 5.5%;
 			padding-right: 5.5%;
+		}
+	}
+
+	// keep nested align-full elements from overflowing the container.
+	.entry .entry-content {
+		.wp-block-columns,
+		.wp-block-group,
+		.wp-block-cover {
+			.alignwide,
+			.alignfull {
+				margin-left: 0;
+				margin-right: 0;
+			}
+		}
+
+		.wp-block-group,
+		.wp-block-cover {
+			&.alignfull .alignwide {
+				margin-left: auto;
+				margin-right: auto;
+			}
 		}
 	}
 
