@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the WooCommerce Stripe Gateway plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Stripe Gateway 7.2.0\n"
+"Project-Id-Version: WooCommerce Stripe Gateway 7.3.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-gateway-stripe\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-03-09T04:18:47+00:00\n"
+"POT-Creation-Date: 2023-04-12T16:38:18+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: woocommerce-gateway-stripe\n"
@@ -45,9 +45,9 @@ msgstr ""
 
 #: includes/abstracts/abstract-wc-stripe-payment-gateway-voucher.php:249
 #: includes/abstracts/abstract-wc-stripe-payment-gateway-voucher.php:363
-#: includes/class-wc-stripe-intent-controller.php:448
+#: includes/class-wc-stripe-intent-controller.php:452
 #: includes/class-wc-stripe-webhook-handler.php:864
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:576
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:584
 msgid "Awaiting payment."
 msgstr ""
 
@@ -57,8 +57,8 @@ msgstr ""
 
 #: includes/abstracts/abstract-wc-stripe-payment-gateway-voucher.php:350
 #: includes/abstracts/abstract-wc-stripe-payment-gateway-voucher.php:382
-#: includes/class-wc-stripe-intent-controller.php:290
-#: includes/class-wc-stripe-intent-controller.php:358
+#: includes/class-wc-stripe-intent-controller.php:294
+#: includes/class-wc-stripe-intent-controller.php:362
 msgid "We're not able to process this payment. Please refresh the page and try again."
 msgstr ""
 
@@ -81,107 +81,107 @@ msgid "Save payment information to my account for future purchases."
 msgstr ""
 
 #. translators: 1) amount (including currency symbol)
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:338
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:345
 #: includes/payment-methods/class-wc-gateway-stripe-boleto.php:165
 #: includes/payment-methods/class-wc-gateway-stripe-oxxo.php:102
 msgid "Sorry, the minimum allowed order total is %1$s to use this payment method."
 msgstr ""
 
 #. translators: 1) blog name 2) order number
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:421
-#: includes/class-wc-stripe-intent-controller.php:411
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:428
+#: includes/class-wc-stripe-intent-controller.php:415
 #: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:535
 msgid "%1$s - Order %2$s"
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:464
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:471
 msgid "customer_name"
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:465
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:472
 msgid "customer_email"
 msgstr ""
 
 #. translators: transaction id
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:532
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:543
 msgid "Stripe charge awaiting payment: %s."
 msgstr ""
 
 #. translators: transaction id
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:539
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:550
 #: includes/class-wc-stripe-order-handler.php:294
 #: includes/class-wc-stripe-webhook-handler.php:413
 #: includes/class-wc-stripe-webhook-handler.php:466
 msgid "Stripe charge complete (Charge ID: %s)"
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:544
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:934
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:555
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:943
 msgid "Payment processing failed. Please retry."
 msgstr ""
 
 #. translators: transaction id
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:556
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:567
 msgid "Stripe charge authorized (Charge ID: %s). Process order to take payment, or cancel to remove the pre-authorization. Attempting to refund the order in part or in full will release the authorization and cancel the payment."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:718
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1883
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:729
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1898
 msgid "Sorry, we're not accepting prepaid cards at this time. Your credit card has not been charged. Please try with alternative payment method."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:812
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:823
 msgid "Invalid payment method. Please input a new card number."
 msgstr ""
 
 #. translators: %1$s is a stripe error message
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1095
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1104
 msgid "There was a problem initiating a refund: %1$s"
 msgstr ""
 
 #. translators: amount (including currency symbol)
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1109
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1118
 msgid "Pre-Authorization for %s voided."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1114
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1123
 msgid "The authorization was voided and the order cancelled. Click okay to continue, then refresh the page."
 msgstr ""
 
 #. translators: 1) amount (including currency symbol) 2) transaction id 3) refund message
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1128
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1137
 msgid "Refunded %1$s - Refund ID: %2$s - Reason: %3$s"
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1146
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1155
 msgid "There was a problem adding the payment method."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1848
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1863
 msgid "Please accept the terms and conditions first"
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1849
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1864
 msgid "Please fill in required checkout fields first"
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1884
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1899
 msgid "Please enter your IBAN account name."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1885
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1900
 msgid "Please enter your IBAN account number."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1886
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1901
 msgid "We couldn't initiate the payment. Please try again."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1897
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1912
 msgid "Billing First Name and Last Name are required."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1905
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:1920
 msgid "CPF/CNPJ is a required field"
 msgstr ""
 
@@ -483,8 +483,8 @@ msgstr ""
 
 #. translators: 1) card brand 2) last 4 digits
 #: includes/admin/class-wc-stripe-privacy.php:40
-#: includes/compat/trait-wc-stripe-subscriptions.php:587
-#: includes/compat/trait-wc-stripe-subscriptions.php:601
+#: includes/compat/trait-wc-stripe-subscriptions.php:685
+#: includes/compat/trait-wc-stripe-subscriptions.php:699
 msgid "N/A"
 msgstr ""
 
@@ -653,7 +653,7 @@ msgstr ""
 #: includes/admin/stripe-sepa-settings.php:36
 #: includes/admin/stripe-settings.php:33
 #: includes/admin/stripe-sofort-settings.php:36
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1189
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1205
 #: client/settings/payment-gateway-section/index.js:103
 #: client/settings/payment-settings/general-settings-section.js:92
 msgid "Description"
@@ -1327,32 +1327,32 @@ msgstr ""
 msgid "Card Code (CVC)"
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:559
+#: includes/class-wc-gateway-stripe.php:551
 msgid "This represents the fee Stripe collects for the transaction."
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:560
+#: includes/class-wc-gateway-stripe.php:552
 msgid "Stripe Fee:"
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:596
+#: includes/class-wc-gateway-stripe.php:588
 msgid "This represents the net total that will be credited to your Stripe bank account. This may be in the currency that is set in your Stripe account."
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:597
+#: includes/class-wc-gateway-stripe.php:589
 msgid "Stripe Payout:"
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:623
+#: includes/class-wc-gateway-stripe.php:615
 #: includes/class-wc-stripe-order-handler.php:153
 #: includes/class-wc-stripe-webhook-handler.php:256
-#: includes/compat/trait-wc-stripe-subscriptions.php:303
+#: includes/compat/trait-wc-stripe-subscriptions.php:306
 #: includes/payment-methods/class-wc-gateway-stripe-sepa.php:355
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1015
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1031
 msgid "Sorry, we are unable to process your payment at this time. Please retry later."
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:676
+#: includes/class-wc-gateway-stripe.php:668
 msgid ""
 "Almost there!\n"
 "\n"
@@ -1360,36 +1360,36 @@ msgid ""
 msgstr ""
 
 #. translators: %s is the order Id
-#: includes/class-wc-gateway-stripe.php:698
+#: includes/class-wc-gateway-stripe.php:690
 msgid "Payment Intent not found for order #%s"
 msgstr ""
 
 #. translators: 1) The error message that was received from Stripe.
-#: includes/class-wc-gateway-stripe.php:937
+#: includes/class-wc-gateway-stripe.php:929
 #: includes/class-wc-stripe-webhook-handler.php:897
 #: includes/class-wc-stripe-webhook-handler.php:948
 msgid "Stripe SCA authentication failed. Reason: %s"
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:938
+#: includes/class-wc-gateway-stripe.php:930
 msgid "Stripe SCA authentication failed."
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:1094
+#: includes/class-wc-gateway-stripe.php:1086
 msgid "customer bank statement"
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:1097
+#: includes/class-wc-gateway-stripe.php:1089
 msgid "shortened customer bank statement"
 msgstr ""
 
 #. translators: %1 field name, %2 Number of the maximum characters allowed
-#: includes/class-wc-gateway-stripe.php:1113
+#: includes/class-wc-gateway-stripe.php:1105
 msgid "The %1$s is invalid. The bank statement must contain only Latin characters, be between 5 and %2$u characters, contain at least one letter, and not contain any of the special characters: ' \" * &lt; &gt;"
 msgstr ""
 
 #. translators: %1$s Link to Stripe API details, %2$s Link to register a Stripe account
-#: includes/class-wc-gateway-stripe.php:1154
+#: includes/class-wc-gateway-stripe.php:1146
 msgid "Your API details can be obtained from your <a href=\"%1$s\">Stripe account</a>. Don’t have a Stripe account? <a href=\"%2$s\">Create one.</a>"
 msgstr ""
 
@@ -1485,17 +1485,17 @@ msgstr ""
 msgid "Attempting to update a Stripe customer without a customer ID."
 msgstr ""
 
-#: includes/class-wc-stripe-customer.php:385
+#: includes/class-wc-stripe-customer.php:380
 msgid "Unable to add payment source."
 msgstr ""
 
 #. translators: %1$s Name, %2$s Username.
-#: includes/class-wc-stripe-customer.php:688
+#: includes/class-wc-stripe-customer.php:683
 msgid "Name: %1$s, Username: %2$s"
 msgstr ""
 
 #. translators: %1$s Name.
-#: includes/class-wc-stripe-customer.php:692
+#: includes/class-wc-stripe-customer.php:687
 msgid "Name: %1$s, Guest"
 msgstr ""
 
@@ -1633,8 +1633,8 @@ msgid "We're not able to process this payment."
 msgstr ""
 
 #: includes/class-wc-stripe-intent-controller.php:84
-#: includes/class-wc-stripe-intent-controller.php:583
-#: includes/class-wc-stripe-intent-controller.php:643
+#: includes/class-wc-stripe-intent-controller.php:587
+#: includes/class-wc-stripe-intent-controller.php:647
 msgid "CSRF verification failed."
 msgstr ""
 
@@ -1647,35 +1647,35 @@ msgstr ""
 msgid "Payment verification error: %s"
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:202
+#: includes/class-wc-stripe-intent-controller.php:206
 msgid "Unable to verify your request. Please reload the page and try again."
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:242
+#: includes/class-wc-stripe-intent-controller.php:246
 msgid "Your card could not be set up for future usage."
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:259
+#: includes/class-wc-stripe-intent-controller.php:263
 msgid "Failed to save payment method."
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:468
+#: includes/class-wc-stripe-intent-controller.php:472
 msgid "We're not able to add this payment method. Please refresh the page and try again."
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:534
+#: includes/class-wc-stripe-intent-controller.php:538
 msgid "Unable to update UPE appearance values at this time."
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:589
-#: includes/class-wc-stripe-intent-controller.php:601
-#: includes/class-wc-stripe-intent-controller.php:661
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:910
+#: includes/class-wc-stripe-intent-controller.php:593
+#: includes/class-wc-stripe-intent-controller.php:605
+#: includes/class-wc-stripe-intent-controller.php:665
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:926
 msgid "We're not able to process this payment. Please try again later."
 msgstr ""
 
 #. translators: %1: transaction ID of the payment or a translated string indicating an unknown ID.
-#: includes/class-wc-stripe-intent-controller.php:597
+#: includes/class-wc-stripe-intent-controller.php:601
 msgid "A payment with ID %s was used in an attempt to pay for this order. This payment intent ID does not match any payments for this order, so it was ignored and the order was not updated."
 msgstr ""
 
@@ -1908,8 +1908,8 @@ msgstr ""
 #. translators: %s is the charge Id
 #. translators: %s is the stripe charge Id
 #: includes/compat/trait-wc-stripe-pre-orders.php:240
-#: includes/compat/trait-wc-stripe-subscriptions.php:335
-#: includes/compat/trait-wc-stripe-subscriptions.php:669
+#: includes/compat/trait-wc-stripe-subscriptions.php:343
+#: includes/compat/trait-wc-stripe-subscriptions.php:767
 msgid "Stripe charge awaiting authentication by user: %s."
 msgstr ""
 
@@ -1918,45 +1918,54 @@ msgstr ""
 msgid "Stripe Transaction Failed (%s)"
 msgstr ""
 
-#: includes/compat/trait-wc-stripe-subscriptions.php:78
+#: includes/compat/trait-wc-stripe-subscriptions.php:81
 msgid "Update the Payment Method used for all of my active subscriptions."
 msgstr ""
 
-#: includes/compat/trait-wc-stripe-subscriptions.php:252
+#: includes/compat/trait-wc-stripe-subscriptions.php:255
 msgid "Customer not found"
 msgstr ""
 
-#: includes/compat/trait-wc-stripe-subscriptions.php:326
+#: includes/compat/trait-wc-stripe-subscriptions.php:317
+msgid "The mandate used for this renewal payment is invalid. You may need to bring the customer back to your store and ask them to resubmit their payment information."
+msgstr ""
+
+#: includes/compat/trait-wc-stripe-subscriptions.php:334
 msgid "This transaction requires authentication."
 msgstr ""
 
-#: includes/compat/trait-wc-stripe-subscriptions.php:499
+#. translators: 1) a date in the format yyyy-mm-dd, e.g. 2021-09-21; 2) time in the 24-hour format HH:mm, e.g. 23:04
+#: includes/compat/trait-wc-stripe-subscriptions.php:354
+msgid "The customer must authorize this payment via the pre-debit notification sent to them by their card issuing bank, before %1$s at %2$s, when the charge will be attempted."
+msgstr ""
+
+#: includes/compat/trait-wc-stripe-subscriptions.php:523
 msgid "A \"Stripe Customer ID\" value is required."
 msgstr ""
 
-#: includes/compat/trait-wc-stripe-subscriptions.php:502
+#: includes/compat/trait-wc-stripe-subscriptions.php:526
 msgid "Invalid customer ID. A valid \"Stripe Customer ID\" must begin with \"cus_\"."
 msgstr ""
 
-#: includes/compat/trait-wc-stripe-subscriptions.php:512
+#: includes/compat/trait-wc-stripe-subscriptions.php:536
 msgid "Invalid source ID. A valid source \"Stripe Source ID\" must begin with \"src_\", \"pm_\", or \"card_\"."
 msgstr ""
 
 #. translators: 1) card brand 2) last 4 digits
-#: includes/compat/trait-wc-stripe-subscriptions.php:601
+#: includes/compat/trait-wc-stripe-subscriptions.php:699
 msgid "Via %1$s card ending in %2$s"
 msgstr ""
 
 #. translators: 1) last 4 digits of SEPA Direct Debit
-#: includes/compat/trait-wc-stripe-subscriptions.php:604
+#: includes/compat/trait-wc-stripe-subscriptions.php:702
 msgid "Via SEPA Direct Debit ending in %1$s"
 msgstr ""
 
-#: includes/compat/trait-wc-stripe-subscriptions.php:700
+#: includes/compat/trait-wc-stripe-subscriptions.php:798
 msgid "Your early renewal order was successful."
 msgstr ""
 
-#: includes/compat/trait-wc-stripe-subscriptions.php:713
+#: includes/compat/trait-wc-stripe-subscriptions.php:811
 msgid "Payment authorization for the renewal order was unsuccessful, please try again."
 msgstr ""
 
@@ -2233,72 +2242,72 @@ msgstr ""
 msgid "This payment method is not available on the selected country"
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:783
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:799
 msgid "Payment method successfully added."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:810
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:826
 msgid "Failed to add payment method."
 msgstr ""
 
 #. translators: localized exception message
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:881
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:897
 msgid "UPE payment failed: %s"
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1183
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1199
 msgid "Select payments available to customers at checkout. We'll only show your customers the most relevant payment methods based on their currency and location."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1187
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1203
 msgid "Method"
 msgstr ""
 
 #: build/upe_settings.js:1
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1188
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1204
 #: client/settings/account-details/index.js:36
 #: client/settings/account-details/index.js:51
 #: client/settings/account-details/index.js:76
 msgid "Enabled"
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1198
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1214
 msgid "enabled"
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1198
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1214
 msgid "disabled"
 msgstr ""
 
 #. translators: $1%s payment method ID, $2%s "enabled" or "disabled"
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1204
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1220
 msgid "The &quot;%1$s&quot; payment method is currently %2$s"
 msgstr ""
 
 #. translators: $1%s payment method label
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1210
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1226
 msgid "%1$s is not available to your customers when manual capture is enabled."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1221
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1237
 msgid "Yes"
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1221
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1237
 msgid "No"
 msgstr ""
 
 #: build/upe_settings.js:1
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1232
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1248
 #: client/settings/general-settings-section/section-footer.js:14
 msgid "Get more payment methods"
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1233
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1249
 msgid "You must save your changes."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1327
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1343
 msgid "We're not able to add this payment method. Please try again later."
 msgstr ""
 

@@ -4,16 +4,19 @@ body {
 p {
     line-height: 1.4;
 }
+#ctc_main .ui-button {
+    height: auto !important;
+}
 #ctc_main .ctc-clear {
     clear: both;
 }
-#ctc_main .clearfix:before, #ctc_main .clearfix:after {
+.clearfix:before, .clearfix:after {
     content: ' ';
     display: table;
     margin: 0;
     padding: 0;
 }
-#ctc_main .clearfix:after {
+.clearfix:after {
     clear: both;
 }
 #ctc_main .ie7 .clearfix {
@@ -323,7 +326,7 @@ a.ctc-recent-tab {
     right: -13px;
     transition: none !important;
     z-index: 999;
-    border: 3px solid #f9f9f9;
+    /*border: 3px solid #f9f9f9;*/
     -moz-border-radius: 16px;
     -webkit-border-radius: 16px;
     border-radius: 16px;
@@ -400,7 +403,7 @@ a.ctc-recent-tab {
     white-space: nowrap;
 }
 /* added in 1.5.4 because it is not being loaded by the admin */
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
     background-color: #DADADA;
     color: #212121;
 }
