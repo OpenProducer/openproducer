@@ -1,3 +1,17 @@
+# [1.43.0](https://github.com/Automattic/newspack-ads/compare/v1.42.5...v1.43.0) (2023-05-08)
+
+
+### Features
+
+* **gam:** support custom taxonomy targeting ([#647](https://github.com/Automattic/newspack-ads/issues/647)) ([3541e37](https://github.com/Automattic/newspack-ads/commit/3541e372e064eb2af0251f1a5797c15c9b778ce5))
+
+# [1.43.0-alpha.1](https://github.com/Automattic/newspack-ads/compare/v1.42.5...v1.43.0-alpha.1) (2023-04-28)
+
+
+### Features
+
+* **gam:** support custom taxonomy targeting ([#647](https://github.com/Automattic/newspack-ads/issues/647)) ([3541e37](https://github.com/Automattic/newspack-ads/commit/3541e372e064eb2af0251f1a5797c15c9b778ce5))
+
 ## [1.42.5](https://github.com/Automattic/newspack-ads/compare/v1.42.4...v1.42.5) (2023-04-11)
 
 
