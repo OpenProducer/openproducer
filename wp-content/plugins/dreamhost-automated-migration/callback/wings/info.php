@@ -10,7 +10,7 @@ class BVInfoCallback extends BVCallbackBase {
 	public $bvinfo;
 	public $bvapi;
 	
-	const INFO_WING_VERSION = 1.5;
+	const INFO_WING_VERSION = 1.6;
 
 	public function __construct($callback_handler) {
 		$this->db = $callback_handler->db;
@@ -464,6 +464,10 @@ class BVInfoCallback extends BVCallbackBase {
 			break;
 		case "gtsts":
 			$resp = $this->getStats();
+			break;
+		case "gtdbvariables":
+			$variable = (array_key_exists('variable', $params)) ? $variable : "";
+			$resp = $this->db->showDbVariables($variable);
 			break;
 		case "gtplgs":
 			$resp = $this->getPlugins();

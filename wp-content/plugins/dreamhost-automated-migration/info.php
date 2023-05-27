@@ -10,7 +10,7 @@ if (!class_exists('DHInfo')) :
 		public $badgeinfo = 'dhbadge';
 		public $ip_header_option = 'dhipheader';
 		public $brand_option = 'dhbrand';
-		public $version = '4.97';
+		public $version = '5.05';
 		public $webpage = 'https://www.dreamhost.com';
 		public $appurl = 'https://migrate.blogvault.net';
 		public $slug = 'dreamhost-automated-migration/dreamhost.php';
@@ -21,7 +21,7 @@ if (!class_exists('DHInfo')) :
 		public $author = 'DreamHost';
 		public $title = 'DreamHost Automated Migration';
 
-		const DB_VERSION = '3';
+		const DB_VERSION = '4';
 
 		public function __construct($settings) {
 			$this->settings = $settings;

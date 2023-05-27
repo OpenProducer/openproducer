@@ -4,7 +4,7 @@ Tags: dreamhost, migration
 Requires at least: 4.0
 Tested up to: 6.2
 Requires PHP: 5.4.0
-Stable tag: 4.97
+Stable tag: 5.05
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,16 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The DreamHost Automated Migration plugin makes migrating sites to the DreamHost platform effortless. Whether you are a developer with tons of experience moving sites or have never moved a site before, this plugin does all the hard work so that you don't have to. Move as many sites as you need, quickly and with minimal interaction.
 
+== FREQUENTLY ASKED QUESTIONS ==
+
+=Why do you need my email?=
+We require an email address to send you updates on the migration process, notify you of any errors that occur during the migration.
+
 == CHANGELOG ==
+= 5.05 =
+* Code Improvements for PHP 8.2 compatibility
+* Site Health BugFix
+
 = 4.97 =
 * Code Improvements
 * Sync Improvements

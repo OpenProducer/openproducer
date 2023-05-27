@@ -49,6 +49,7 @@ class DHWPDb {
 		return array_map(array($this, 'tableName'), $tables);
 	}
 
+
 	public function showTableStatus() {
 		return $this->getResult("SHOW TABLE STATUS");
 	}
@@ -57,8 +58,21 @@ class DHWPDb {
 		return $this->getResult("SHOW KEYS FROM $table;");
 	}
 
+	public function showDbVariables($variable) {
+		$variables = $this->getResult("Show variables like '%$variable%' ;");
+		$result = array();
+		foreach ($variables as $variable) {
+			$result[$variable["Variable_name"]] = $variable["Value"];
+		}
+		return $result;
+	}
+
 	public function describeTable($table) {
 		return $this->getResult("DESCRIBE $table;");
+	}
+	
+	public function showTableIndex($table) {
+		return $this->getResult("SHOW INDEX FROM $table");
 	}
 
 	public function checkTable($table, $type) {
@@ -216,8 +230,7 @@ class DHWPDb {
 	}
 
 	public function getMysqlVersion() {
-		global $wpdb;
-		return $wpdb->db_version();
+		return $this->showDbVariables('version')['version'];
 	}
 }
 endif;

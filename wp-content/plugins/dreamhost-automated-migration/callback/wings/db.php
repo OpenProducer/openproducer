@@ -8,10 +8,11 @@ class BVDBCallback extends BVCallbackBase {
 	public $db;
 	public $stream;
 	public $account;
+	public $siteinfo;
 
 	public static $bvTables = array("fw_requests", "lp_requests", "ip_store");
 
-	const DB_WING_VERSION = 1.2;
+	const DB_WING_VERSION = 1.3;
 
 	public function __construct($callback_handler) {
 		$this->db = $callback_handler->db;
@@ -138,6 +139,7 @@ class BVDBCallback extends BVCallbackBase {
 		foreach($tables as $table) {
 			$tname = $table;
 			$resp[$tname] = array("description" => $this->db->describeTable($table));
+			$resp[$tname]["primary_keys_index"] = $this->db->showTableIndex($table);
 		}
 		return $resp;
 	}
@@ -198,6 +200,7 @@ class BVDBCallback extends BVCallbackBase {
 			case "describetable":
 				$table = $params['table'];
 				$resp = array("table_description" => $db->describeTable($table));
+				$resp["primary_keys_index"] = $db->showTableIndex($table);
 				break;
 			case "checktable":
 				$table = $params['table'];

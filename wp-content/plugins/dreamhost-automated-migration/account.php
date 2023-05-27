@@ -110,7 +110,8 @@ if (!class_exists('DHAccount')) :
 			$accounts = self::allAccounts($settings);
 			$accounts_by_pattern = array();
 			foreach ($accounts as $pubkey => $value) {
-				if (array_key_exists($search_key, $value) && preg_match($search_pattern, $value[$search_key]) == 1) {
+				if (array_key_exists($search_key, $value) &&
+						DHHelper::safePregMatch($search_pattern, $value[$search_key]) == 1) {
 					$accounts_by_pattern[$pubkey] = $value;
 				}
 			}

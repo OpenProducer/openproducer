@@ -208,7 +208,7 @@ class BVHttpStream extends BVStream {
 		while (!feof($this->conn)) {
 			$line = fgets($this->conn, 4096);
 			if (1 == $state) {
-				if (!preg_match('/HTTP\/(\\d\\.\\d)\\s*(\\d+)\\s*(.*)/', $line, $m)) {
+				if (!DHHelper::safePregMatch('/HTTP\/(\\d\\.\\d)\\s*(\\d+)\\s*(.*)/', $line, $m)) {
 					$response['httperror'] = "Status code line invalid: ".htmlentities($line);
 					return $response;
 				}
@@ -223,7 +223,7 @@ class BVHttpStream extends BVStream {
 						$response['body'] = fread($this->conn, $conlen);
 					return $response;
 				}
-				if (!preg_match('/([^:]+):\\s*(.*)/', $line, $m)) {
+				if (!DHHelper::safePregMatch('/([^:]+):\\s*(.*)/', $line, $m)) {
 					// Skip to the next header
 					continue;
 				}
