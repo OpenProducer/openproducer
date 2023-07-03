@@ -1,3 +1,49 @@
+## [1.67.1](https://github.com/Automattic/newspack-newsletters/compare/v1.67.0...v1.67.1) (2023-07-03)
+
+
+### Bug Fixes
+
+* add a width to the email inputs to prevent overflow ([#1196](https://github.com/Automattic/newspack-newsletters/issues/1196)) ([058a14a](https://github.com/Automattic/newspack-newsletters/commit/058a14aaf42244a9bf71804f57a92c4ddf43fb1d))
+* allow public newsletters in author archives ([#1197](https://github.com/Automattic/newspack-newsletters/issues/1197)) ([d3eb018](https://github.com/Automattic/newspack-newsletters/commit/d3eb0184499e39520d1f4da30879994c98d24d11))
+* **subscribe-block:** allow spaces in submit button ([#1202](https://github.com/Automattic/newspack-newsletters/issues/1202)) ([5ad7ab5](https://github.com/Automattic/newspack-newsletters/commit/5ad7ab5ff6979752bfa30f5e5e1dcad9bd7bd26d))
+
+## [1.67.1-alpha.1](https://github.com/Automattic/newspack-newsletters/compare/v1.67.0...v1.67.1-alpha.1) (2023-06-22)
+
+
+### Bug Fixes
+
+* add a width to the email inputs to prevent overflow ([#1196](https://github.com/Automattic/newspack-newsletters/issues/1196)) ([058a14a](https://github.com/Automattic/newspack-newsletters/commit/058a14aaf42244a9bf71804f57a92c4ddf43fb1d))
+* allow public newsletters in author archives ([#1197](https://github.com/Automattic/newspack-newsletters/issues/1197)) ([d3eb018](https://github.com/Automattic/newspack-newsletters/commit/d3eb0184499e39520d1f4da30879994c98d24d11))
+* **subscribe-block:** allow spaces in submit button ([#1202](https://github.com/Automattic/newspack-newsletters/issues/1202)) ([5ad7ab5](https://github.com/Automattic/newspack-newsletters/commit/5ad7ab5ff6979752bfa30f5e5e1dcad9bd7bd26d))
+
+# [1.67.0](https://github.com/Automattic/newspack-newsletters/compare/v1.66.0...v1.67.0) (2023-06-19)
+
+
+### Bug Fixes
+
+* remove important flag from font size rules ([#1185](https://github.com/Automattic/newspack-newsletters/issues/1185)) ([39031fd](https://github.com/Automattic/newspack-newsletters/commit/39031fd6a2bad728eb13a3b5dbb6d655887a640b))
+
+
+### Features
+
+* optional comments support ([#1170](https://github.com/Automattic/newspack-newsletters/issues/1170)) ([d0b7878](https://github.com/Automattic/newspack-newsletters/commit/d0b7878dca45cf3bb3ed6a98563d79b5866653df))
+* **subscribe-form:** improve success message ([#1184](https://github.com/Automattic/newspack-newsletters/issues/1184)) ([4d11566](https://github.com/Automattic/newspack-newsletters/commit/4d11566a48a9e379616b341ff638d75e0e7e6a8d))
+* support non-stacking on mobile ([#1178](https://github.com/Automattic/newspack-newsletters/issues/1178)) ([e68068e](https://github.com/Automattic/newspack-newsletters/commit/e68068e003e8f2d903d116ae9182384ce376bafc))
+
+# [1.67.0-alpha.1](https://github.com/Automattic/newspack-newsletters/compare/v1.66.0...v1.67.0-alpha.1) (2023-06-08)
+
+
+### Bug Fixes
+
+* remove important flag from font size rules ([#1185](https://github.com/Automattic/newspack-newsletters/issues/1185)) ([39031fd](https://github.com/Automattic/newspack-newsletters/commit/39031fd6a2bad728eb13a3b5dbb6d655887a640b))
+
+
+### Features
+
+* optional comments support ([#1170](https://github.com/Automattic/newspack-newsletters/issues/1170)) ([d0b7878](https://github.com/Automattic/newspack-newsletters/commit/d0b7878dca45cf3bb3ed6a98563d79b5866653df))
+* **subscribe-form:** improve success message ([#1184](https://github.com/Automattic/newspack-newsletters/issues/1184)) ([4d11566](https://github.com/Automattic/newspack-newsletters/commit/4d11566a48a9e379616b341ff638d75e0e7e6a8d))
+* support non-stacking on mobile ([#1178](https://github.com/Automattic/newspack-newsletters/issues/1178)) ([e68068e](https://github.com/Automattic/newspack-newsletters/commit/e68068e003e8f2d903d116ae9182384ce376bafc))
+
 # [1.66.0](https://github.com/Automattic/newspack-newsletters/compare/v1.65.0...v1.66.0) (2023-06-05)
 
 
