@@ -10,7 +10,7 @@ if (!class_exists('BVCallbackRequest')) :
 		public $is_admin_ajax;
 		public $is_debug;
 		public $account;
-		public $calculated_mac;
+		public $settings;
 		public $sig;
 		public $time;
 		public $version;
@@ -18,10 +18,12 @@ if (!class_exists('BVCallbackRequest')) :
 		public $bvb64stream;
 		public $bvb64cksize;
 		public $checksum;
+		public $error = array();
 
-		public function __construct($account, $in_params) {
+		public function __construct($account, $in_params, $settings) {
 			$this->params = array();
 			$this->account = $account;
+			$this->settings = $settings;
 			$this->wing = $in_params['wing'];
 			$this->method = $in_params['bvMethod'];
 			$this->is_afterload = array_key_exists('afterload', $in_params);
@@ -84,7 +86,8 @@ if (!class_exists('BVCallbackRequest')) :
 			$info = array(
 				"requestedsig" => $this->sig,
 				"requestedtime" => $this->time,
-				"requestedversion" => $this->version
+				"requestedversion" => $this->version,
+				"error" => $this->error
 			);
 			if ($this->is_debug) {
 				$info["inreq"] = $this->params;
@@ -94,9 +97,6 @@ if (!class_exists('BVCallbackRequest')) :
 			}
 			if ($this->is_afterload) {
 				$info["afterload"] = true;
-			}
-			if ($this->calculated_mac) {
-				$info["calculated_mac"] = $this->calculated_mac;
 			}
 			return $info;
 		}
@@ -130,17 +130,8 @@ if (!class_exists('BVCallbackRequest')) :
 
 			if (array_key_exists('bvprms', $in_params) && isset($in_params['bvprms']) &&
 					array_key_exists('bvprmsmac', $in_params) && isset($in_params['bvprmsmac'])) {
-				$digest_algo = 'SHA1';
-				$sent_mac = DHAccount::sanitizeKey($in_params['bvprmsmac']);
 
-				if (array_key_exists('bvprmshshalgo', $in_params) && isset($in_params['bvprmshshalgo'])) {
-					$digest_algo = $in_params['bvprmshshalgo'];
-				}
-
-				$calculated_mac = hash_hmac($digest_algo, $in_params['bvprms'], $this->account->secret);
-				$this->calculated_mac = substr($calculated_mac, 0, 6);
-
-				if ($this->compare_mac($sent_mac, $calculated_mac) === true) {
+				if ($this->verify($in_params['bvprms'], base64_decode($in_params['bvprmsmac'])) === true) {
 
 					if (array_key_exists('b64', $in_params)) {
 						foreach ($in_params['b64'] as $key) {
@@ -192,22 +183,6 @@ if (!class_exists('BVCallbackRequest')) :
 			return false;
 		}
 
-		private function compare_mac($l_hash, $r_hash) {
-			if (!is_string($l_hash) || !is_string($r_hash)) {
-				return false;
-			}
-
-			if (strlen($l_hash) !== strlen($r_hash)) {
-				return false;
-			}
-
-			if (function_exists('hash_equals')) {
-				return hash_equals($l_hash, $r_hash);
-			} else {
-				return $l_hash === $r_hash;
-			}
-		}
-
 		public static function serialization_safe_decode($data) {
 			if (is_array($data)) {
 				$data = array_map(array('BVCallbackRequest', 'serialization_safe_decode'), $data);
@@ -216,6 +191,87 @@ if (!class_exists('BVCallbackRequest')) :
 			}
 
 			return $data;
+		}
+
+		public function authenticate() {
+			if (!$this->account) {
+				array_push($this->error, "ACCOUNT_NOT_FOUND");
+				return false;
+			}
+
+			$bv_last_recv_time = $this->settings->getOption('bvLastRecvTime');
+			if ($this->time < intval($bv_last_recv_time) - 300) {
+				return false;
+			}
+
+			$data = $this->method.$this->account->secret.$this->time.$this->version;
+			if (!$this->verify($data, base64_decode($this->sig))) {
+				return false;
+			}
+			$this->settings->updateOption('bvLastRecvTime', $this->time);
+
+			return 1;
+		}
+
+		public function verify($data, $sig) {
+			if (!function_exists('openssl_verify')) {
+				array_push($this->error, "OPENSSL_VERIFY_FUNC_NOT_FOUND");
+				return false;
+			}
+
+			$key_file = dirname( __FILE__ ) . '/../public_keys/m_public.pub';
+			if (!file_exists($key_file)) {
+				array_push($this->error, "PUBLIC_KEY_NOT_FOUND");
+				return false;
+			}
+			$public_key = file_get_contents($key_file);
+			if (!$public_key) {
+				array_push($this->error, "UNABLE_TO_LOAD_PUBLIC_KEY");
+				return false;
+			}
+
+			$verify = openssl_verify($data, $sig, $public_key);
+			if ($verify === 1) {
+				return true;
+			} elseif ($verify === 0) {
+				array_push($this->error, "INCORRECT_SIGNATURE");
+			} else {
+				array_push($this->error, "OPENSSL_VERIFY_FAILED");
+			}
+			return false;
+		}
+
+		public function corruptedParamsResp() {
+			$bvinfo = new DHInfo($this->settings);
+
+			return array(
+				"account_info" => $this->account->info(),
+				"request_info" => $this->info(),
+				"bvinfo" => $bvinfo->info(),
+				"statusmsg" => "BVPRMS_CORRUPTED"
+			);
+		}
+
+		public function authFailedResp() {
+			$api_public_key = DHAccount::getApiPublicKey($this->settings);
+			$default_secret = DHRecover::getDefaultSecret($this->settings);
+			$bvinfo = new DHInfo($this->settings);
+			$resp = array(
+				"request_info" => $this->info(),
+				"bvinfo" => $bvinfo->info(),
+				"statusmsg" => "FAILED_AUTH",
+				"api_pubkey" => substr($api_public_key, 0, 8),
+				"def_sigmatch" => substr(hash('sha1', $this->method.$default_secret.$this->time.$this->version), 0, 8)
+			);
+
+			if ($this->account) {
+				$resp["account_info"] = $this->account->info();
+				$resp["sigmatch"] = substr(hash('sha1', $this->method.$this->account->secret.$this->time.$this->version), 0, 6);
+			} else {
+				$resp["account_info"] = array("error" => "ACCOUNT_NOT_FOUND");
+			}
+
+			return $resp;
 		}
 	}
 endif;

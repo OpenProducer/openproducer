@@ -6,10 +6,9 @@ if (!class_exists('DHAccount')) :
 		public $settings;
 		public $public;
 		public $secret;
-		public $sig_match;
 		public static $api_public_key = 'bvApiPublic';
 		public static $accounts_list = 'bvAccountsList';
-	
+
 		public function __construct($settings, $public, $secret) {
 			$this->settings = $settings;
 			$this->public = $public;
@@ -160,34 +159,8 @@ if (!class_exists('DHAccount')) :
 
 		public function info() {
 			return array(
-				"public" => substr($this->public, 0, 6),
-				"sigmatch" => substr($this->sig_match, 0, 6)
+				"public" => substr($this->public, 0, 6)
 			);
-		}
-
-		public static function getSigMatch($request, $secret) {
-			$method = $request->method;
-			$time = $request->time;
-			$version = $request->version;
-			if ($request->is_sha1) {
-				$sig_match = sha1($method.$secret.$time.$version);
-			} else {
-				$sig_match = md5($method.$secret.$time.$version);
-			}
-			return $sig_match;
-		}
-
-		public function authenticate($request) {
-			$time = $request->time;
-			if ($time < intval($this->settings->getOption('bvLastRecvTime')) - 300) {
-				return false;
-			}
-			$this->sig_match = self::getSigMatch($request, $this->secret);
-			if ($this->sig_match !== $request->sig) {
-				return false;
-			}
-			$this->settings->updateOption('bvLastRecvTime', $time);
-			return 1;
 		}
 
 		public function updateInfo($info) {
