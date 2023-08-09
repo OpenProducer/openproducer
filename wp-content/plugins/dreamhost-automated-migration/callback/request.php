@@ -19,6 +19,8 @@ if (!class_exists('BVCallbackRequest')) :
 		public $bvb64cksize;
 		public $checksum;
 		public $error = array();
+		public $pubkey_name;
+		public $bvprmsmac;
 
 		public function __construct($account, $in_params, $settings) {
 			$this->params = array();
@@ -36,6 +38,9 @@ if (!class_exists('BVCallbackRequest')) :
 			$this->bvb64stream = isset($in_params['bvb64stream']);
 			$this->bvb64cksize = array_key_exists('bvb64cksize', $in_params) ? intval($in_params['bvb64cksize']) : false;
 			$this->checksum = array_key_exists('checksum', $in_params) ? $in_params['checksum'] : false;
+			$this->pubkey_name = !empty($in_params['pubkeyname']) ?
+					DHAccount::sanitizeKey($in_params['pubkeyname']) : 'm_public';
+			$this->bvprmsmac = !empty($in_params['bvprmsmac']) ? DHAccount::sanitizeKey($in_params['bvprmsmac']) : "";
 		}
 
 		public function isAPICall() {
@@ -128,10 +133,10 @@ if (!class_exists('BVCallbackRequest')) :
 				}
 			}
 
-			if (array_key_exists('bvprms', $in_params) && isset($in_params['bvprms']) &&
-					array_key_exists('bvprmsmac', $in_params) && isset($in_params['bvprmsmac'])) {
+			if (array_key_exists('bvprms', $in_params) && isset($in_params['bvprms'])) {
+				$calculated_mac = hash_hmac('SHA1', $in_params['bvprms'], $this->account->secret);
 
-				if ($this->verify($in_params['bvprms'], base64_decode($in_params['bvprmsmac'])) === true) {
+				if ($this->compare_mac($this->bvprmsmac, $calculated_mac) === true) {
 
 					if (array_key_exists('b64', $in_params)) {
 						foreach ($in_params['b64'] as $key) {
@@ -179,8 +184,23 @@ if (!class_exists('BVCallbackRequest')) :
 					return $params;
 				}
 			}
-
 			return false;
+		}
+
+		private function compare_mac($l_hash, $r_hash) {
+			if (!is_string($l_hash) || !is_string($r_hash)) {
+				return false;
+			}
+
+			if (strlen($l_hash) !== strlen($r_hash)) {
+				return false;
+			}
+
+			if (function_exists('hash_equals')) {
+				return hash_equals($l_hash, $r_hash);
+			} else {
+				return $l_hash === $r_hash;
+			}
 		}
 
 		public static function serialization_safe_decode($data) {
@@ -195,7 +215,7 @@ if (!class_exists('BVCallbackRequest')) :
 
 		public function authenticate() {
 			if (!$this->account) {
-				array_push($this->error, "ACCOUNT_NOT_FOUND");
+				$this->error["message"] = "ACCOUNT_NOT_FOUND";
 				return false;
 			}
 
@@ -204,7 +224,7 @@ if (!class_exists('BVCallbackRequest')) :
 				return false;
 			}
 
-			$data = $this->method.$this->account->secret.$this->time.$this->version;
+			$data = $this->method.$this->account->secret.$this->time.$this->version.$this->bvprmsmac;
 			if (!$this->verify($data, base64_decode($this->sig))) {
 				return false;
 			}
@@ -214,19 +234,20 @@ if (!class_exists('BVCallbackRequest')) :
 		}
 
 		public function verify($data, $sig) {
-			if (!function_exists('openssl_verify')) {
-				array_push($this->error, "OPENSSL_VERIFY_FUNC_NOT_FOUND");
+			if (!function_exists('openssl_verify') || !function_exists('openssl_pkey_get_public')) {
+				$this->error["message"] = "OPENSSL_FUNCS_NOT_FOUND";
 				return false;
 			}
 
-			$key_file = dirname( __FILE__ ) . '/../public_keys/m_public.pub';
+			$key_file = dirname( __FILE__ ) . '/../public_keys/' . $this->pubkey_name . '.pub';
 			if (!file_exists($key_file)) {
-				array_push($this->error, "PUBLIC_KEY_NOT_FOUND");
+				$this->error["message"] = "PUBLIC_KEY_NOT_FOUND";
 				return false;
 			}
-			$public_key = file_get_contents($key_file);
+			$public_key_str = file_get_contents($key_file);
+			$public_key = openssl_pkey_get_public($public_key_str);
 			if (!$public_key) {
-				array_push($this->error, "UNABLE_TO_LOAD_PUBLIC_KEY");
+				$this->error["message"] = "UNABLE_TO_LOAD_PUBLIC_KEY";
 				return false;
 			}
 
@@ -234,9 +255,10 @@ if (!class_exists('BVCallbackRequest')) :
 			if ($verify === 1) {
 				return true;
 			} elseif ($verify === 0) {
-				array_push($this->error, "INCORRECT_SIGNATURE");
+				$this->error["message"] = "INCORRECT_SIGNATURE";
+				$this->error["pubkey_sig"] = substr(hash('md5', $public_key_str), 0, 8);
 			} else {
-				array_push($this->error, "OPENSSL_VERIFY_FAILED");
+				$this->error["message"] = "OPENSSL_VERIFY_FAILED";
 			}
 			return false;
 		}

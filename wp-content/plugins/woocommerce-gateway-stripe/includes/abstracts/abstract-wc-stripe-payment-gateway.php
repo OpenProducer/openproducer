@@ -268,10 +268,22 @@ abstract class WC_Stripe_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * Check if we need to make gateways available.
 	 *
 	 * @since 4.1.3
+	 * @return bool
 	 */
 	public function is_available() {
 		if ( 'yes' === $this->enabled ) {
-			return $this->are_keys_set();
+
+			// Not available if the keys aren't set.
+			if ( ! $this->are_keys_set() ) {
+				return false;
+			}
+
+			// Not available if using live mode without SSL.
+			if ( $this->needs_ssl_setup() ) {
+				return false;
+			}
+
+			return true;
 		}
 
 		return parent::is_available();
@@ -507,9 +519,18 @@ abstract class WC_Stripe_Payment_Gateway extends WC_Payment_Gateway_CC {
 
 	/**
 	 * Store extra meta data for an order from a Stripe Response.
+	 *
+	 * @throws WC_Stripe_Exception
 	 */
 	public function process_response( $response, $order ) {
 		WC_Stripe_Logger::log( 'Processing response: ' . print_r( $response, true ) );
+
+		$potential_order = WC_Stripe_Helper::get_order_by_charge_id( $response->id );
+		if ( $potential_order && $potential_order->get_id() !== $order->get_id() ) {
+			WC_Stripe_Logger::log( 'Aborting, transaction already consumed by another order.' );
+			$localized_message = __( 'Payment processing failed. Please retry.', 'woocommerce-gateway-stripe' );
+			throw new WC_Stripe_Exception( print_r( $response, true ), $localized_message );
+		}
 
 		$order_id = $order->get_id();
 		$captured = ( isset( $response->captured ) && $response->captured ) ? 'yes' : 'no';
@@ -1751,7 +1772,7 @@ abstract class WC_Stripe_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 *
 	 * @return bool
 	 */
-	public function is_valid_pay_for_order_endpoint() {
+	public function is_valid_pay_for_order_endpoint(): bool {
 
 		// If not on the pay for order page, return false.
 		if ( ! is_wc_endpoint_url( 'order-pay' ) || ! isset( $_GET['key'] ) ) {
@@ -1772,16 +1793,41 @@ abstract class WC_Stripe_Payment_Gateway extends WC_Payment_Gateway_CC {
 			return false;
 		}
 
-		// If it's not a guest order, current user can pay but only if it's their own order,
-		// or they are an admin or shop manager.
-		$order_has_customer = ! empty( $order->get_customer_id() );
-		if ( $order_has_customer ) {
-			$is_order_owned_by_current_user = $order->get_customer_id() === get_current_user_id();
+		return current_user_can( 'pay_for_order', $order->get_id() );
+	}
 
-			return $is_order_owned_by_current_user || current_user_can( 'manage_woocommerce' );
+	/**
+	 * Checks if the current page is the order received page and the current user is allowed to manage the order.
+	 *
+	 * @return bool
+	 */
+	public function is_valid_order_received_endpoint(): bool {
+		// Verify nonce. Duplicated here in order to avoid PHPCS warnings.
+		if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( wc_clean( wp_unslash( $_GET['_wpnonce'] ) ), 'wc_stripe_process_redirect_order_nonce' ) ) {
+			return false;
 		}
 
-		return true;
+		// If not on the order-received page, return false.
+		if ( ! is_wc_endpoint_url( 'order-received' ) || ! isset( $_GET['key'] ) ) {
+			return false;
+		}
+
+		$order_id_from_order_key = absint( wc_get_order_id_by_order_key( wc_clean( wp_unslash( $_GET['key'] ) ) ) );
+		$order_id_from_query_var = isset( $_GET['order_id'] ) ? absint( wp_unslash( $_GET['order_id'] ) ) : null;
+
+		// If the order ID is not found or the order ID does not match the given order ID, return false.
+		if ( ! $order_id_from_order_key || ( $order_id_from_query_var !== $order_id_from_order_key ) ) {
+			return false;
+		}
+
+		$order = wc_get_order( $order_id_from_order_key );
+
+		// If the order doesn't need payment, return false.
+		if ( ! $order->needs_payment() ) {
+			return false;
+		}
+
+		return current_user_can( 'pay_for_order', $order->get_id() );
 	}
 
 	/**
@@ -1862,7 +1908,7 @@ abstract class WC_Stripe_Payment_Gateway extends WC_Payment_Gateway_CC {
 		}
 
 		// If no SSL bail.
-		if ( ! $this->testmode && ! is_ssl() ) {
+		if ( $this->needs_ssl_setup() ) {
 			WC_Stripe_Logger::log( 'Stripe live mode requires SSL.' );
 			return;
 		}
@@ -1961,5 +2007,15 @@ abstract class WC_Stripe_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$stripe_params = array_merge( $stripe_params, WC_Stripe_Helper::get_localized_messages() );
 
 		return $stripe_params;
+	}
+
+	/**
+	 * Whether the store needs to use SSL.
+	 *
+	 * @since 7.5.0
+	 * @return bool True if SSL is needed but not set.
+	 */
+	private function needs_ssl_setup() {
+		return ! $this->testmode && ! is_ssl();
 	}
 }

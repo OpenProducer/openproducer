@@ -152,6 +152,9 @@ class BVMiscCallback extends BVCallbackBase {
 			phpinfo();
 			die();
 			break;
+		case "wpnonce":
+			$resp = array("wpnonce" => wp_create_nonce($params["wpnonce_action"]));
+			break;
 		case "dlttrsnt":
 			$resp = array("dlttrsnt" => $settings->deleteTransient($params['key']));
 			break;

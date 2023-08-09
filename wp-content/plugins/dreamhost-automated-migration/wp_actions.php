@@ -27,7 +27,6 @@ if (!class_exists('DHWPAction')) :
 			} else {
 				DHAccount::setup($this->settings);
 			}
-			##ENABLECACHE##
 		}
 
 		public function deactivate() {

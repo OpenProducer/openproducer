@@ -11,7 +11,6 @@
 				 this plugin does all the hard work for you. Move as many sites as you need quickly, and with minimal interaction with support.
 			</p>
 			<hr class="my-4">
-			<?php $this->showErrors(); ?>
 			<div class="form-content">
 				<label class="email-label" required>Email</label>
 				<br>
