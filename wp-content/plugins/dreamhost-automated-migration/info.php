@@ -10,7 +10,7 @@ if (!class_exists('DHInfo')) :
 		public $badgeinfo = 'dhbadge';
 		public $ip_header_option = 'dhipheader';
 		public $brand_option = 'dhbrand';
-		public $version = '5.22';
+		public $version = '5.24';
 		public $webpage = 'https://www.dreamhost.com';
 		public $appurl = 'https://migrate.blogvault.net';
 		public $slug = 'dreamhost-automated-migration/dreamhost.php';

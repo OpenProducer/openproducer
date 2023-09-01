@@ -12,6 +12,7 @@ if (!class_exists('BVCallbackRequest')) :
 		public $account;
 		public $settings;
 		public $sig;
+		public $sighshalgo;
 		public $time;
 		public $version;
 		public $is_sha1;
@@ -21,6 +22,7 @@ if (!class_exists('BVCallbackRequest')) :
 		public $error = array();
 		public $pubkey_name;
 		public $bvprmsmac;
+		public $bvboundry;
 
 		public function __construct($account, $in_params, $settings) {
 			$this->params = array();
@@ -32,6 +34,7 @@ if (!class_exists('BVCallbackRequest')) :
 			$this->is_admin_ajax = array_key_exists('adajx', $in_params);
 			$this->is_debug = array_key_exists('bvdbg', $in_params);
 			$this->sig = $in_params['sig'];
+			$this->sighshalgo = !empty($in_params['sighshalgo']) ? $in_params['sighshalgo'] : null;
 			$this->time = intval($in_params['bvTime']);
 			$this->version = $in_params['bvVersion'];
 			$this->is_sha1 = array_key_exists('sha1', $in_params);
@@ -41,6 +44,7 @@ if (!class_exists('BVCallbackRequest')) :
 			$this->pubkey_name = !empty($in_params['pubkeyname']) ?
 					DHAccount::sanitizeKey($in_params['pubkeyname']) : 'm_public';
 			$this->bvprmsmac = !empty($in_params['bvprmsmac']) ? DHAccount::sanitizeKey($in_params['bvprmsmac']) : "";
+			$this->bvboundry = !empty($in_params['bvboundry']) ? $in_params['bvboundry'] : "";
 		}
 
 		public function isAPICall() {
@@ -134,7 +138,11 @@ if (!class_exists('BVCallbackRequest')) :
 			}
 
 			if (array_key_exists('bvprms', $in_params) && isset($in_params['bvprms'])) {
-				$calculated_mac = hash_hmac('SHA1', $in_params['bvprms'], $this->account->secret);
+				if (!empty($in_params['bvprmshshalgo']) && $in_params['bvprmshshalgo'] === 'sha256') {
+					$calculated_mac = hash_hmac('SHA256', $in_params['bvprms'], $this->account->secret);
+				} else {
+					$calculated_mac = hash_hmac('SHA1', $in_params['bvprms'], $this->account->secret);
+				}
 
 				if ($this->compare_mac($this->bvprmsmac, $calculated_mac) === true) {
 
@@ -225,7 +233,7 @@ if (!class_exists('BVCallbackRequest')) :
 			}
 
 			$data = $this->method.$this->account->secret.$this->time.$this->version.$this->bvprmsmac;
-			if (!$this->verify($data, base64_decode($this->sig))) {
+			if (!$this->verify($data, base64_decode($this->sig), $this->sighshalgo)) {
 				return false;
 			}
 			$this->settings->updateOption('bvLastRecvTime', $this->time);
@@ -233,7 +241,7 @@ if (!class_exists('BVCallbackRequest')) :
 			return 1;
 		}
 
-		public function verify($data, $sig) {
+		public function verify($data, $sig, $sighshalgo) {
 			if (!function_exists('openssl_verify') || !function_exists('openssl_pkey_get_public')) {
 				$this->error["message"] = "OPENSSL_FUNCS_NOT_FOUND";
 				return false;
@@ -251,7 +259,11 @@ if (!class_exists('BVCallbackRequest')) :
 				return false;
 			}
 
-			$verify = openssl_verify($data, $sig, $public_key);
+			if ($sighshalgo === 'sha256') {
+				$verify = openssl_verify($data, $sig, $public_key, OPENSSL_ALGO_SHA256);
+			} else {
+				$verify = openssl_verify($data, $sig, $public_key);
+			}
 			if ($verify === 1) {
 				return true;
 			} elseif ($verify === 0) {

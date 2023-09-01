@@ -10,7 +10,7 @@ class BVInfoCallback extends BVCallbackBase {
 	public $bvinfo;
 	public $bvapi;
 	
-	const INFO_WING_VERSION = 1.6;
+	const INFO_WING_VERSION = 1.8;
 
 	public function __construct($callback_handler) {
 		$this->db = $callback_handler->db;
@@ -45,6 +45,35 @@ class BVInfoCallback extends BVCallbackBase {
 		);
 	}
 
+	public function getLatestWooCommerceDB() {
+		$version = false;
+
+		if (defined('WC_ABSPATH') && file_exists(WC_ABSPATH . 'includes/class-wc-install.php')) {
+			include_once WC_ABSPATH . 'includes/class-wc-install.php';
+		}
+
+		if (class_exists('WC_Install')) {
+			$update_versions = array_keys(WC_Install::get_db_update_callbacks());
+			usort($update_versions, 'version_compare');
+			if (!empty($update_versions)) {
+				$version = end($update_versions);
+			}
+		}
+
+		return $version;
+	}
+
+	public function addDBInfoToPlugin($pdata, $plugin_file) {
+		switch ($plugin_file) {
+		case "woocommerce/woocommerce.php":
+			$pdata['current_db_version'] = $this->settings->getOption('woocommerce_db_version');
+			$pdata['latest_db_version'] = $this->getLatestWooCommerceDB();
+			break;
+		}
+
+		return $pdata;
+	}
+
 	public function getPlugins() {
 		if (!function_exists('get_plugins')) {
 			require_once (ABSPATH."wp-admin/includes/plugin.php");
@@ -59,6 +88,7 @@ class BVInfoCallback extends BVCallbackBase {
 				'active' => is_plugin_active($plugin_file),
 				'network' => $plugin_data['Network']
 			);
+			$pdata = $this->addDBInfoToPlugin($pdata, $plugin_file);
 			$result["plugins"][] = $pdata;
 		}
 		return $result;
@@ -155,7 +185,9 @@ class BVInfoCallback extends BVCallbackBase {
 			'custom_usermeta' => defined('CUSTOM_USERMETA_TABLE') ? CUSTOM_USERMETA_TABLE : null,
 			'locale' => get_locale(),
 			'wp_local_string' => $wp_local_package,
-			'charset_collate' => $db->getCharsetCollate()
+			'charset_collate' => $db->getCharsetCollate(),
+			'login_url' => wp_login_url(),
+			'admin_url' => get_admin_url() 
 		);
 		return $wp_info;
 	}
@@ -362,6 +394,16 @@ class BVInfoCallback extends BVCallbackBase {
 		return $result;
 	}
 
+	function getCoreHandler() {
+		global $wp_db_version;
+
+		$result = $this->getTransient('update_core');
+		$result['current_db_version'] = $this->settings->getOption('db_version');
+		$result['latest_db_version'] = $wp_db_version;
+		
+		return $result;
+	}
+
 	function getSiteInfo($args) {
 		$result = array();
 
@@ -384,7 +426,7 @@ class BVInfoCallback extends BVCallbackBase {
 			$result['themes'] = $this->getThemesHandler($args['themes']);
 
 		if (array_key_exists('core', $args))
-			$result['core'] = $this->getTransient('update_core');
+			$result['core'] = $this->getCoreHandler();
 
 		if (array_key_exists('sys', $args))
 			$result['sys'] = $this->getSystemInfo();

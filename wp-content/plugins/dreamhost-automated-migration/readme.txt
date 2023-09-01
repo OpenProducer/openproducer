@@ -4,7 +4,7 @@ Tags: dreamhost, migration
 Requires at least: 4.0
 Tested up to: 6.3
 Requires PHP: 5.4.0
-Stable tag: 5.22
+Stable tag: 5.24
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,10 @@ The DreamHost Automated Migration plugin makes migrating sites to the DreamHost 
 We require an email address to send you updates on the migration process, notify you of any errors that occur during the migration.
 
 == CHANGELOG ==
+= 5.24 =
+* SHA256 Support
+* Stream Improvements
+
 = 5.22 =
 * Code Improvements
 * Reduced Memory Footprint

@@ -69,15 +69,18 @@ if (!class_exists('BVRespStream')) :
 	}
 
 class BVRespStream extends BVStream {
+	public $bvboundry;
+
 	function __construct($request) {
 		parent::__construct($request);
+		$this->bvboundry = $request->bvboundry;
 	}
 
 	public function writeChunk($chunk) {
-		echo "ckckckckck".$chunk."ckckckckck";
+		echo $this->bvboundry . "ckckckckck" . $chunk . $this->bvboundry . "ckckckckck";
 	}
 	public function endStream() {
-		echo "rerererere";
+		echo $this->bvboundry . "rerererere";
 
 		return array();
 	}

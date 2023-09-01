@@ -7,10 +7,10 @@ class BVCallbackBase {
 
 	public static $wing_infos = array("BRAND_WING_VERSION" => '1.0',
 		"DB_WING_VERSION" => '1.3',
-		"ACCOUNT_WING_VERSION" => '1.1',
+		"ACCOUNT_WING_VERSION" => '1.2',
 		"MISC_WING_VERSION" => '1.2',
 		"FS_WING_VERSION" => '1.2',
-		"INFO_WING_VERSION" => '1.6',
+		"INFO_WING_VERSION" => '1.8',
 		);
 
 	public function objectToArray($obj) {

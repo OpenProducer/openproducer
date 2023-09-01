@@ -5,7 +5,7 @@ Plugin URI: https://www.dreamhost.com
 Description: The easiest way to migrate your site to DreamHost.
 Author: DreamHost
 Author URI: https://www.dreamhost.com
-Version: 5.22
+Version: 5.24
 Network: True
  */
 
