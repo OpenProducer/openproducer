@@ -25,7 +25,7 @@ function newspack_blocks_hpb_maximum_image_width() {
 		$site_content_width  = 1200;
 		$is_image_half_width = in_array( $attributes['mediaPosition'], [ 'left', 'right' ], true );
 		if ( 'grid' === $attributes['postLayout'] ) {
-			$columns = $attributes['columns'];
+			$columns = absint( $attributes['columns'] );
 			if ( $is_image_half_width ) {
 				// If the media position is on left or right, the image is 50% of the column width.
 				$columns = $columns * 2;
@@ -284,7 +284,14 @@ add_action( 'init', 'newspack_blocks_register_homepage_articles' );
 function newspack_blocks_format_avatars( $author_info ) {
 	$elements = array_map(
 		function ( $author ) {
-			return sprintf( '<a href="%s">%s</a>', $author->url, $author->avatar );
+			return sprintf(
+				'<a href="%s">%s</a>',
+				esc_url( $author->url ),
+				wp_kses(
+					$author->avatar,
+					Newspack_Blocks::get_sanitized_image_attributes()
+				)
+			);
 		},
 		$author_info
 	);
@@ -335,6 +342,40 @@ function newspack_blocks_format_byline( $author_info ) {
 	);
 
 	return implode( '', $elements );
+}
+
+/**
+ * Renders category markup plus filter.
+ *
+ * @param string $post_id Post ID.
+ */
+function newspack_blocks_format_categories( $post_id ) {
+	$category = false;
+	// Use Yoast primary category if set.
+	if ( class_exists( 'WPSEO_Primary_Term' ) ) {
+		$primary_term = new WPSEO_Primary_Term( 'category', $post_id );
+		$category_id  = $primary_term->get_primary_term();
+		if ( $category_id ) {
+			$category = get_term( $category_id );
+		}
+	}
+	if ( ! $category ) {
+		$categories_list = get_the_category();
+		if ( ! empty( $categories_list ) ) {
+			$category = $categories_list[0];
+		}
+	}
+
+	$category_link      = get_category_link( $category->term_id );
+	$category_formatted = esc_html( $category->name );
+
+	if ( ! empty( $category_link ) ) {
+		$category_formatted = '<a href="' . esc_attr( $category_link ) . '">' . esc_html( $category->name ) . '</a>';
+	}
+
+	if ( $category ) {
+		return apply_filters( 'newspack_blocks_categories', $category_formatted );
+	}
 }
 
 /**

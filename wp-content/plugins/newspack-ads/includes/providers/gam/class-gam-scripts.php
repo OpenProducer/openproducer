@@ -109,6 +109,7 @@ final class GAM_Scripts {
 				'unique_id'        => $unique_id,
 				'name'             => esc_attr( $ad_unit['name'] ),
 				'code'             => esc_attr( $ad_unit['code'] ),
+				'path'             => $ad_unit['path'],
 				'sizes'            => $sizes,
 				'fluid'            => (bool) $ad_unit['fluid'],
 				'fixed_height'     => $fixed_height,
@@ -285,8 +286,16 @@ final class GAM_Scripts {
 							slotSizes = slotSizes.concat( 'fluid' );
 						}
 
+						var codeParts = [ ad_config['network_code'] ];
+						if ( ad_unit.path && ad_unit.path.length ) {
+							codeParts = codeParts.concat( ad_unit.path.map( function( parent ) {
+								return parent['code'];
+							} ) );
+						}
+						codeParts.push( ad_unit['code'] );
+						var code = '/' + codeParts.join( '/' );
 						defined_ad_units[ container_id ] = googletag.defineSlot(
-							'/' + ad_config['network_code'] + '/' + ad_unit['code'],
+							code,
 							slotSizes,
 							container_id
 						).addService( googletag.pubads() );
@@ -329,6 +338,15 @@ final class GAM_Scripts {
 						?>
 						if ( ad_unit['sticky'] ) {
 							mapping.addSize( [600, 0], baseSizes );
+							var stickyContainer = container.parentNode;
+							var stickyClose = stickyContainer.querySelector( 'button.newspack_sticky_ad__close' );
+							var initialBodyPadding = document.body.style.paddingBottom;
+							if ( stickyClose ) {
+								stickyClose.addEventListener( 'click', function() {
+									stickyContainer.parentNode.removeChild( stickyContainer );
+									document.body.style.paddingBottom = initialBodyPadding;
+								} );
+							}
 						}
 						<?php
 						// On viewports smaller than the smallest ad size, don't show any ads.
@@ -399,34 +417,23 @@ final class GAM_Scripts {
 					} );
 					<?php
 					/**
-					 * Handle Sticky Ads.
+					 * Handle Sticky Ads Rendering.
 					 */
 					?>
-					if ( ad_unit.sticky ) {
-						var stickyContainer = container.parentNode;
-						var stickyClose = stickyContainer.querySelector( 'button.newspack_sticky_ad__close' );
-						var initialBodyPadding = document.body.style.paddingBottom;
-						if ( stickyClose ) {
-							stickyClose.addEventListener( 'click', function() {
-								stickyContainer.parentNode.removeChild( stickyContainer );
-								document.body.style.paddingBottom = initialBodyPadding;
-							} );
+					googletag.pubads().addEventListener( 'slotRenderEnded', function( event ) {
+						var container = document.getElementById( event.slot.getSlotElementId() );
+						if ( ! container ) {
+							return;
 						}
-						googletag.pubads().addEventListener( 'slotRenderEnded', function( event ) {
-							var container = document.getElementById( event.slot.getSlotElementId() );
-							if ( ! container ) {
-								return;
-							}
-							var ad_unit = container.ad_unit;
-							if ( ! ad_unit || ! ad_unit.sticky ) {
-								return;
-							}
-							if ( ! event.isEmpty && document.body.clientWidth <= 600 ) {
-								stickyContainer.style.display = 'flex';
-								document.body.style.paddingBottom = stickyContainer.clientHeight + 'px';
-							}
-						} );
-					}
+						var ad_unit = container.ad_unit;
+						if ( ! ad_unit || ! ad_unit.sticky ) {
+							return;
+						}
+						if ( ! event.isEmpty && document.body.clientWidth <= 600 ) {
+							stickyContainer.style.display = 'flex';
+							document.body.style.paddingBottom = stickyContainer.clientHeight + 'px';
+						}
+					} );
 					<?php
 					/**
 					 * Sticky header & sticky ad handling.

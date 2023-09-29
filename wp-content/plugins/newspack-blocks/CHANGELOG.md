@@ -1,3 +1,69 @@
+## [1.75.1](https://github.com/Automattic/newspack-blocks/compare/v1.75.0...v1.75.1) (2023-09-28)
+
+
+### Bug Fixes
+
+* **checkout-button:** handle 10+ product variations ([#1536](https://github.com/Automattic/newspack-blocks/issues/1536)) ([5df5065](https://github.com/Automattic/newspack-blocks/commit/5df5065011d6779a689358844212628757b6b5b9))
+* query for CAP terms ([#1535](https://github.com/Automattic/newspack-blocks/issues/1535)) ([49406b9](https://github.com/Automattic/newspack-blocks/commit/49406b9bf1075897939cad2e4c30f34efcf841da))
+
+# [1.75.0](https://github.com/Automattic/newspack-blocks/compare/v1.74.2...v1.75.0) (2023-09-25)
+
+
+### Features
+
+* add category filter for the categories in the blocks ([#1528](https://github.com/Automattic/newspack-blocks/issues/1528)) ([ebbfce9](https://github.com/Automattic/newspack-blocks/commit/ebbfce99dd78521fe5624be81df43c3ba3f8c731))
+
+# [1.75.0-alpha.3](https://github.com/Automattic/newspack-blocks/compare/v1.75.0-alpha.2...v1.75.0-alpha.3) (2023-09-19)
+
+
+### Bug Fixes
+
+* undefined variable error ([#1534](https://github.com/Automattic/newspack-blocks/issues/1534)) ([b0ed7f9](https://github.com/Automattic/newspack-blocks/commit/b0ed7f911982f914678c466c07bc5f0659aaca86))
+
+## [1.74.2](https://github.com/Automattic/newspack-blocks/compare/v1.74.1...v1.74.2) (2023-09-19)
+
+
+### Bug Fixes
+
+* undefined variable error ([#1534](https://github.com/Automattic/newspack-blocks/issues/1534)) ([b0ed7f9](https://github.com/Automattic/newspack-blocks/commit/b0ed7f911982f914678c466c07bc5f0659aaca86))
+
+## [1.74.1](https://github.com/Automattic/newspack-blocks/compare/v1.74.0...v1.74.1) (2023-09-18)
+
+
+### Bug Fixes
+
+* harden usage and output of attribute values ([#1530](https://github.com/Automattic/newspack-blocks/issues/1530)) ([c157395](https://github.com/Automattic/newspack-blocks/commit/c15739539d73884b36284e9d1c2eb854202269f8))
+
+# [1.74.0](https://github.com/Automattic/newspack-blocks/compare/v1.73.0...v1.74.0) (2023-08-24)
+
+
+### Bug Fixes
+
+* make sure carousels without images aren't collapsed ([#1511](https://github.com/Automattic/newspack-blocks/issues/1511)) ([ee8c1cd](https://github.com/Automattic/newspack-blocks/commit/ee8c1cd8f181b97d2795ec6c6aa69283cf4067a9))
+* reduce post carousel font size for 5-6 slides ([#1510](https://github.com/Automattic/newspack-blocks/issues/1510)) ([daabad4](https://github.com/Automattic/newspack-blocks/commit/daabad4635925bb5e1a432102b65149f3b9ec71a))
+* support account creation on modal checkout ([#1516](https://github.com/Automattic/newspack-blocks/issues/1516)) ([51ae19d](https://github.com/Automattic/newspack-blocks/commit/51ae19d30f7b60428ebc293189e18d8a4abf5b76))
+
+
+### Features
+
+* Merge pull request [#1509](https://github.com/Automattic/newspack-blocks/issues/1509) from Automattic/master ([1280d07](https://github.com/Automattic/newspack-blocks/commit/1280d073b7ff12af84c7dc9907a80918e778038a))
+
+# [1.74.0-alpha.2](https://github.com/Automattic/newspack-blocks/compare/v1.74.0-alpha.1...v1.74.0-alpha.2) (2023-08-24)
+
+
+### Bug Fixes
+
+* make sure carousels without images aren't collapsed ([#1511](https://github.com/Automattic/newspack-blocks/issues/1511)) ([ee8c1cd](https://github.com/Automattic/newspack-blocks/commit/ee8c1cd8f181b97d2795ec6c6aa69283cf4067a9))
+* reduce post carousel font size for 5-6 slides ([#1510](https://github.com/Automattic/newspack-blocks/issues/1510)) ([daabad4](https://github.com/Automattic/newspack-blocks/commit/daabad4635925bb5e1a432102b65149f3b9ec71a))
+* support account creation on modal checkout ([#1516](https://github.com/Automattic/newspack-blocks/issues/1516)) ([51ae19d](https://github.com/Automattic/newspack-blocks/commit/51ae19d30f7b60428ebc293189e18d8a4abf5b76))
+
+# [1.74.0-alpha.1](https://github.com/Automattic/newspack-blocks/compare/v1.73.0...v1.74.0-alpha.1) (2023-08-17)
+
+
+### Features
+
+* Merge pull request [#1509](https://github.com/Automattic/newspack-blocks/issues/1509) from Automattic/master ([1280d07](https://github.com/Automattic/newspack-blocks/commit/1280d073b7ff12af84c7dc9907a80918e778038a))
+
 # [1.73.0](https://github.com/Automattic/newspack-blocks/compare/v1.72.2...v1.73.0) (2023-07-17)
 
 
