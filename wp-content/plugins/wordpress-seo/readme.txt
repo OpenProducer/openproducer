@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.3
-Stable tag: 21.0
+Stable tag: 21.2
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -340,29 +340,43 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 21.0 =
+= 21.2 =
 
-Release date: 2023-08-22
+Release date: 2023-09-19
 
-We're thrilled to announce Yoast SEO 21.0! This update is geared at making your SEO journey smoother and more successful. We're introducing our first step into AI with automatic titles and meta description generation in Yoast SEO Premium. Find out more about what's new in Yoast SEO 21.0 in [our release post](https://yoa.st/release-22-8-23)!
-
-#### Other
-
-* Sets the WordPress tested up to version to 6.3.
-
-= 20.13 =
-
-Release date: 2023-08-08
-
-Please welcome Yoast SEO 20.13! We've focused on enhancing compatibility and performance, making your SEO efforts smoother and more effective. We've also improved compatibility with WordPress 6.3. Find out more about what's new in Yoast SEO 20.13 in [our release post](https://yoa.st/release-8-8-23)!
+Yoast SEO 21.2 is out today! In this release, we've improved the naming of several features and enhanced the sidebar in the block editor, making it easier to use. Find out more about what's new in Yoast SEO 21.2 in [our release post](https://yoa.st/release-19-9-23)!
 
 #### Enhancements
 
-* Ensures that the Google, Facebook and Twitter Preview modals are compatible with WordPress 6.3.
+* Renames Google preview to Search appearance in the metabox and sidebar.
+
+#### Bugfixes
+
+* Fixes a bug where, even if `Show author archives without posts in search results` is enabled, the archive page would have a `noindex` in the `robots` metatag.
+* Fixes a bug where notices about incorrect calls to `wpdb::prepare` would be thrown on Yoast SEO Premium activation.
+* Fixes a bug where pagination meta tags would be wrong when using Query Loop Block with custom query variables.
+* Fixes a bug where the redirect notification would mention "posts" when a tag was deleted or trashed.
+* Fixing a bug where adding special characters like "»" as a title separator would break the RSS feed.
 
 #### Other
 
-* Sets the WordPress tested up to version to 6.3.
+* Sets the minimum supported WordPress version to 6.2.
+
+= 21.1 =
+
+Release date: 2023-09-05
+
+Here's Yoast SEO 21.1! After the AI release, we're back with an update filled with fixes and enhancements to improve your SEO work. Check it out! Find out more about what's new in Yoast SEO 21.1 in [our release post](https://yoa.st/release-5-9-23)!
+
+#### Bugfixes
+
+* Fixes a bug where an error could occur when an indexable was outdated. Props to @jaimearroyonavia.
+* Fixes a bug where the cleanup routine would throw an error when on multisites.
+* Fixes a bug where the notification for a new content type in the notification center would not be dismissed when installing Elementor and reviewing the new content types.
+
+#### Other
+
+* Adds an attribute to the link "See who contributed to" to open in a new browser tab, located in the General tab. Props to @nathanwritescode-uk.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

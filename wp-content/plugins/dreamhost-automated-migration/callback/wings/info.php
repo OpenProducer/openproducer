@@ -185,9 +185,7 @@ class BVInfoCallback extends BVCallbackBase {
 			'custom_usermeta' => defined('CUSTOM_USERMETA_TABLE') ? CUSTOM_USERMETA_TABLE : null,
 			'locale' => get_locale(),
 			'wp_local_string' => $wp_local_package,
-			'charset_collate' => $db->getCharsetCollate(),
-			'login_url' => wp_login_url(),
-			'admin_url' => get_admin_url() 
+			'charset_collate' => $db->getCharsetCollate()
 		);
 		return $wp_info;
 	}
