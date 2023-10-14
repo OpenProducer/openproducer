@@ -76,6 +76,28 @@ function get_form_id() {
 }
 
 /**
+ * Render a honeypot field to guard against bot form submissions. Note that
+ * this field is named `email` to hopefully catch more bots who might be
+ * looking for such fields, where as the "real" field is named "npe".
+ *
+ * Not rendered if reCAPTCHA is enabled as it's a superior spam protection.
+ *
+ * @param string $placeholder Placeholder text to render in the field.
+ */
+function render_honeypot_field( $placeholder = '' ) {
+	if ( method_exists( 'Newspack\Recaptcha', 'can_use_captcha' ) && \Newspack\Recaptcha::can_use_captcha() ) {
+		return;
+	}
+
+	if ( empty( $placeholder ) ) {
+		$placeholder = __( 'Enter your email address', 'newspack-plugin' );
+	}
+	?>
+	<input class="nphp" tabindex="-1" aria-hidden="true" name="email" type="email" autocomplete="off" placeholder="<?php echo \esc_attr( $placeholder ); ?>" />
+	<?php
+}
+
+/**
  * Render Registration Block.
  *
  * @param array[] $attrs Block attributes.
@@ -108,7 +130,7 @@ function render_block( $attrs ) {
 	if ( empty( $available_lists ) ) {
 		return;
 	}
-	
+
 	$provider = \Newspack_Newsletters::get_service_provider();
 
 	// Enqueue scripts.
@@ -238,20 +260,12 @@ function render_block( $attrs ) {
 						placeholder="<?php echo \esc_attr( $attrs['placeholder'] ); ?>"
 						value="<?php echo esc_attr( $email ); ?>"
 					/>
-					<input
-						class="nphp"
-						tabindex="-1"
-						aria-hidden="true"
-						type="email"
-						name="email"
-						autocomplete="email"
-						placeholder="<?php echo \esc_attr( $attrs['placeholder'] ); ?>"
-						value=""
-					/>
+					<?php render_honeypot_field( $attrs['placeholder'] ); ?>
 					<?php if ( $provider && 'mailchimp' === $provider->service && $attrs['mailchimpDoubleOptIn'] ) : ?>
 						<input type="hidden" name="double_optin" value="1" />
 					<?php endif; ?>
-					<input type="submit" value="<?php echo \esc_attr( $attrs['label'] ); ?>" />
+
+					<input class="<?php echo \esc_attr( get_block_button_classes( $attrs ) ); ?>"type="submit" value="<?php echo \esc_attr( $attrs['label'] ); ?>" style="<?php echo \esc_attr( get_block_button_styles( $attrs ) ); ?>" />
 				</div>
 			</form>
 		<?php endif; ?>
@@ -287,6 +301,83 @@ function get_block_classes( $attrs = [] ) {
 		$classes[] = 'multiple-lists';
 	}
 	return implode( ' ', $classes );
+}
+
+/**
+ * Check if button text is set to the default color.
+ *
+ * @param array $attrs Block attributes.
+ *
+ * @return bool Whether text color is default.
+ */
+function is_button_text_default( $attrs = [] ) {
+	if ( '#ffffff' === $attrs['textColor'] ) {
+		return true;
+	}
+	return false;
+}
+
+/**
+ * Check if button background is set to the default color.
+ *
+ * @param array $attrs Block attributes.
+ *
+ * @return bool Whether background color is default.
+ */
+function is_button_background_default( $attrs = [] ) {
+	if ( '#dd3333' === $attrs['backgroundColor'] ) {
+		return true;
+	}
+	return false;
+}
+
+/**
+ * Utility to assemble the class for a server-side rendered block button.
+ *
+ * @param array $attrs Block attributes.
+ *
+ * @return string Class list separated by spaces.
+ */
+function get_block_button_classes( $attrs = [] ) {
+	$classes[] = 'submit-button';
+
+	if ( ! is_button_text_default( $attrs ) ) {
+		$classes[] = 'has-text-color';
+	}
+
+	if ( ! is_button_background_default( $attrs ) ) {
+		$classes[] = 'has-background-color';
+	}
+
+	if ( '' !== $attrs['backgroundColorName'] ) {
+		$classes[] = 'has-' . $attrs['backgroundColorName'] . '-background-color';
+	}
+
+	if ( '' !== $attrs['textColorName'] ) {
+		$classes[] = 'has-' . $attrs['textColorName'] . '-color';
+	}
+
+	return implode( ' ', $classes );
+}
+
+/**
+ * Utility to assemble the styles for a server-side rendered block button.
+ *
+ * @param array $attrs Block attributes.
+ *
+ * @return string Class list separated by spaces.
+ */
+function get_block_button_styles( $attrs = [] ) {
+	$style = '';
+
+	if ( ! is_button_text_default( $attrs ) ) {
+		$style .= 'color: ' . $attrs['textColor'] . ';';
+	}
+
+	if ( ! is_button_background_default( $attrs ) ) {
+		$style .= 'background-color: ' . $attrs['backgroundColor'] . ';';
+	}
+	return $style;
 }
 
 /**
