@@ -1,3 +1,37 @@
+# [2.24.0](https://github.com/Automattic/newspack-popups/compare/v2.23.1...v2.24.0) (2023-10-09)
+
+
+### Bug Fixes
+
+* **data-api:** handle errored default donation settings ([#1224](https://github.com/Automattic/newspack-popups/issues/1224)) ([76b70b6](https://github.com/Automattic/newspack-popups/commit/76b70b636b3f45f7fa7826073afc5eabaadaa461))
+
+
+### Features
+
+* newsletter subscription list criteria ([#1218](https://github.com/Automattic/newspack-popups/issues/1218)) ([22961a3](https://github.com/Automattic/newspack-popups/commit/22961a39db38d5d64a2839091497aee8fa6f40e5))
+* remove GA related code ([#1220](https://github.com/Automattic/newspack-popups/issues/1220)) ([cb2ce82](https://github.com/Automattic/newspack-popups/commit/cb2ce82919cca4ca9f6812cf445d71982b8e3cab))
+
+# [2.24.0-alpha.3](https://github.com/Automattic/newspack-popups/compare/v2.24.0-alpha.2...v2.24.0-alpha.3) (2023-09-29)
+
+
+### Bug Fixes
+
+* **data-api:** handle errored default donation settings ([#1224](https://github.com/Automattic/newspack-popups/issues/1224)) ([76b70b6](https://github.com/Automattic/newspack-popups/commit/76b70b636b3f45f7fa7826073afc5eabaadaa461))
+
+# [2.24.0-alpha.2](https://github.com/Automattic/newspack-popups/compare/v2.24.0-alpha.1...v2.24.0-alpha.2) (2023-09-29)
+
+
+### Features
+
+* newsletter subscription list criteria ([#1218](https://github.com/Automattic/newspack-popups/issues/1218)) ([22961a3](https://github.com/Automattic/newspack-popups/commit/22961a39db38d5d64a2839091497aee8fa6f40e5))
+
+# [2.24.0-alpha.1](https://github.com/Automattic/newspack-popups/compare/v2.23.1...v2.24.0-alpha.1) (2023-09-28)
+
+
+### Features
+
+* remove GA related code ([#1220](https://github.com/Automattic/newspack-popups/issues/1220)) ([cb2ce82](https://github.com/Automattic/newspack-popups/commit/cb2ce82919cca4ca9f6812cf445d71982b8e3cab))
+
 ## [2.23.1](https://github.com/Automattic/newspack-popups/compare/v2.23.0...v2.23.1) (2023-09-13)
 
 

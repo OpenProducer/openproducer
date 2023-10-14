@@ -1,3 +1,31 @@
+## [1.75.5](https://github.com/Automattic/newspack-blocks/compare/v1.75.4...v1.75.5) (2023-10-12)
+
+
+### Bug Fixes
+
+* always show email address for order summaries ([#1554](https://github.com/Automattic/newspack-blocks/issues/1554)) ([33952d1](https://github.com/Automattic/newspack-blocks/commit/33952d1dd8a879d26566b09c4cc3b8f132d54014))
+
+## [1.75.4](https://github.com/Automattic/newspack-blocks/compare/v1.75.3...v1.75.4) (2023-10-10)
+
+
+### Bug Fixes
+
+* match thankyou template when using existing customer email ([#1550](https://github.com/Automattic/newspack-blocks/issues/1550)) ([4b0dbf2](https://github.com/Automattic/newspack-blocks/commit/4b0dbf29a98aa7b95b0cda30e4bd03c3ea31285b))
+
+## [1.75.3](https://github.com/Automattic/newspack-blocks/compare/v1.75.2...v1.75.3) (2023-10-10)
+
+
+### Bug Fixes
+
+* **donate:** reset "other" value when switching tiers ([#1549](https://github.com/Automattic/newspack-blocks/issues/1549)) ([844505f](https://github.com/Automattic/newspack-blocks/commit/844505fdefb445e4d68b5a1df5b980d4eae21e0e))
+
+## [1.75.2](https://github.com/Automattic/newspack-blocks/compare/v1.75.1...v1.75.2) (2023-10-04)
+
+
+### Bug Fixes
+
+* allow order details wrapper to render ([#1547](https://github.com/Automattic/newspack-blocks/issues/1547)) ([b76f196](https://github.com/Automattic/newspack-blocks/commit/b76f196dc4b73d881237c3c015d60db00ee49877))
+
 ## [1.75.1](https://github.com/Automattic/newspack-blocks/compare/v1.75.0...v1.75.1) (2023-09-28)
 
 

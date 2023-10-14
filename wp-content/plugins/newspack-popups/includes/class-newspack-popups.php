@@ -877,17 +877,6 @@ final class Newspack_Popups {
 	}
 
 	/**
-	 * Should tracking code be inserted?
-	 * We shouldn't be tracking analytics in the dashboard or on the front-end by admin/editor users.
-	 */
-	public static function is_tracking() {
-		if ( is_admin() || self::is_user_admin() ) {
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * Create campaign.
 	 *
 	 * @param string $name New campaign name.
