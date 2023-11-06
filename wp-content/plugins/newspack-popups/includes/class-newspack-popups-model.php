@@ -44,6 +44,13 @@ final class Newspack_Popups_Model {
 	protected static $form_hooks_popup_id;
 
 	/**
+	 * The current popup.
+	 *
+	 * @var array|null
+	 */
+	protected static $current_popup = null;
+
+	/**
 	 * Retrieve all Popups (first 100).
 	 *
 	 * @param  boolean $include_unpublished Whether to include unpublished posts.
@@ -976,7 +983,17 @@ final class Newspack_Popups_Model {
 				<?php echo do_shortcode( $body ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</div>
 		<?php
+		self::$current_popup = null;
 		return ob_get_clean();
+	}
+
+	/**
+	 * Return the current popup.
+	 *
+	 * @return array|null The current popup or null if it's not set.
+	 */
+	public static function get_current_popup() {
+		return self::$current_popup;
 	}
 
 	/**
@@ -997,10 +1014,7 @@ final class Newspack_Popups_Model {
 			$popup = Newspack_Popups_Presets::retrieve_preset_popup( Newspack_Popups::preset_popup_id() );
 		}
 
-		if ( self::is_overlay( $popup ) && self::is_overlay( $popup ) && has_block( 'newspack-blocks/homepage-articles', $popup['content'] ) ) {
-			add_filter( 'newspack_blocks_homepage_enable_duplication', '__return_true' );
-			add_filter( 'newspack_blocks_homepage_shown_rendered_posts', '__return_true' );
-		}
+		self::$current_popup = $popup;
 
 		if ( ! self::is_overlay( $popup ) ) {
 			return self::generate_inline_popup( $popup );
@@ -1084,12 +1098,7 @@ final class Newspack_Popups_Model {
 			<div id="page-position-marker_<?php echo esc_attr( $element_id ); ?>" class="page-position-marker" style="position: absolute; top: <?php echo esc_attr( $popup['options']['trigger_scroll_progress'] ); ?>%"></div>
 		<?php endif; ?>
 		<?php
-		if ( self::is_overlay( $popup ) && has_block( 'newspack-blocks/homepage-articles', $popup['content'] ) ) {
-			add_filter( 'newspack_blocks_homepage_enable_duplication', '__return_false' );
-			add_filter( 'newspack_blocks_homepage_shown_rendered_posts', '__return_false' );
-		}
-		?>
-		<?php
+		self::$current_popup = null;
 		return ob_get_clean();
 	}
 

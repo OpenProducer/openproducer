@@ -28,6 +28,7 @@ return array(
     'Newspack\\Dashboard' => $baseDir . '/includes/wizards/class-dashboard.php',
     'Newspack\\Data_Events' => $baseDir . '/includes/data-events/class-data-events.php',
     'Newspack\\Data_Events\\Api' => $baseDir . '/includes/data-events/class-api.php',
+    'Newspack\\Data_Events\\Connectors\\ActiveCampaign' => $baseDir . '/includes/data-events/connectors/class-activecampaign.php',
     'Newspack\\Data_Events\\Connectors\\GA4' => $baseDir . '/includes/data-events/connectors/ga4/class-ga4.php',
     'Newspack\\Data_Events\\Connectors\\GA4\\Event' => $baseDir . '/includes/data-events/connectors/ga4/class-event.php',
     'Newspack\\Data_Events\\Connectors\\Mailchimp' => $baseDir . '/includes/data-events/connectors/class-mailchimp.php',

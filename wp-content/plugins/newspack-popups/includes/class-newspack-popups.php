@@ -93,6 +93,7 @@ final class Newspack_Popups {
 		add_action( 'transition_post_status', [ __CLASS__, 'prevent_default_category_on_publish' ], 10, 3 );
 		add_action( 'pre_delete_term', [ __CLASS__, 'prevent_default_category_on_term_delete' ], 10, 2 );
 		add_filter( 'show_admin_bar', [ __CLASS__, 'show_admin_bar' ], 10, 2 ); // phpcs:ignore WordPressVIPMinimum.UserExperience.AdminBarRemoval.RemovalDetected
+		add_filter( 'newspack_blocks_should_deduplicate', [ __CLASS__, 'newspack_blocks_should_deduplicate' ], 10, 2 );
 
 		include_once dirname( __FILE__ ) . '/class-newspack-popups-model.php';
 		include_once dirname( __FILE__ ) . '/class-newspack-segments-migration.php';
@@ -106,6 +107,22 @@ final class Newspack_Popups {
 		include_once dirname( __FILE__ ) . '/class-newspack-popups-view-as.php';
 		include_once dirname( __FILE__ ) . '/class-newspack-popups-data-api.php';
 		include_once dirname( __FILE__ ) . '/class-newspack-popups-criteria.php';
+	}
+
+	/**
+	 * Handle deduplication of "Homepage Posts" block from Newspack Blocks.
+	 *
+	 * @param boolean $deduplicate Whether to deduplicate.
+	 * @param array   $attributes  Block attributes.
+	 *
+	 * @return boolean
+	 */
+	public static function newspack_blocks_should_deduplicate( $deduplicate, $attributes ) {
+		$current_popup = Newspack_Popups_Model::get_current_popup();
+		if ( $current_popup && Newspack_Popups_Model::is_overlay( $current_popup ) ) {
+			$deduplicate = false;
+		}
+		return $deduplicate;
 	}
 
 	/**

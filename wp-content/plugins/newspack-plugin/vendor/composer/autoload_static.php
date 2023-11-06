@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit5537ece71ccffcadecbb54ebb49d6480
+class ComposerStaticInit582cb5abda364a22706872ea9deac068
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -115,6 +115,7 @@ class ComposerStaticInit5537ece71ccffcadecbb54ebb49d6480
         'Newspack\\Dashboard' => __DIR__ . '/../..' . '/includes/wizards/class-dashboard.php',
         'Newspack\\Data_Events' => __DIR__ . '/../..' . '/includes/data-events/class-data-events.php',
         'Newspack\\Data_Events\\Api' => __DIR__ . '/../..' . '/includes/data-events/class-api.php',
+        'Newspack\\Data_Events\\Connectors\\ActiveCampaign' => __DIR__ . '/../..' . '/includes/data-events/connectors/class-activecampaign.php',
         'Newspack\\Data_Events\\Connectors\\GA4' => __DIR__ . '/../..' . '/includes/data-events/connectors/ga4/class-ga4.php',
         'Newspack\\Data_Events\\Connectors\\GA4\\Event' => __DIR__ . '/../..' . '/includes/data-events/connectors/ga4/class-event.php',
         'Newspack\\Data_Events\\Connectors\\Mailchimp' => __DIR__ . '/../..' . '/includes/data-events/connectors/class-mailchimp.php',
@@ -202,9 +203,9 @@ class ComposerStaticInit5537ece71ccffcadecbb54ebb49d6480
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit5537ece71ccffcadecbb54ebb49d6480::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit5537ece71ccffcadecbb54ebb49d6480::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit5537ece71ccffcadecbb54ebb49d6480::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit582cb5abda364a22706872ea9deac068::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit582cb5abda364a22706872ea9deac068::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit582cb5abda364a22706872ea9deac068::$classMap;
 
         }, null, ClassLoader::class);
     }
