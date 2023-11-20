@@ -7,6 +7,19 @@
 
 namespace Distributor\Utils;
 
+use Distributor\DistributorPost;
+
+/**
+ * Determine if this is a development install of Distributor.
+ *
+ * @since 2.0.0
+ *
+ * @return bool True if this is a development install, false otherwise.
+ */
+function is_development_version() {
+	return file_exists( DT_PLUGIN_PATH . 'composer.lock' );
+}
+
 /**
  * Determine if we are on VIP
  *
@@ -20,79 +33,35 @@ function is_vip_com() {
 /**
  * Determine if Gutenberg is being used.
  *
- * There are several possible variations that need to be accounted for:
- *
- *  - WordPress 4.9, Gutenberg plugin is not active.
- *  - WordPress 4.9, Gutenberg plugin is active.
- *  - WordPress 5.0, block editor by default.
- *  - WordPress 5.0, Classic editor plugin active, using classic editor.
- *  - WordPress 5.0, Classic editor plugin active, using the block editor.
+ * This duplicates the check from `use_block_editor_for_post()` in WordPress
+ * but removes the check for the `meta-box-loader` querystring parameter as
+ * it is not required for Distributor.
  *
  * @since  1.2
  * @since  1.7 Update Gutenberg plugin sniff to avoid deprecated function.
  *             Update Classic Editor sniff to account for mu-plugins.
+ * @since  2.0 Duplicate the check from WordPress Core's `use_block_editor_for_post()`.
  *
- * @param object $post The post object.
- * @return boolean
+ * @param int|WP_Post $post The post ID or object.
+ * @return boolean Whether post is using the block editor/Gutenberg.
  */
 function is_using_gutenberg( $post ) {
-	global $wp_version;
-
-	$gutenberg_available = function_exists( 'gutenberg_pre_init' );
-	$version_5_plus      = version_compare( $wp_version, '5', '>=' );
-
-	if ( ! $gutenberg_available && ! $version_5_plus ) {
-		return false;
-	}
-
 	$post = get_post( $post );
 
 	if ( ! $post ) {
 		return false;
 	}
 
-	// This duplicates the check from `use_block_editor_for_post()` as of WP 5.0.
-	// We duplicate this here to remove the $_GET['meta-box-loader'] check
-	if ( function_exists( 'use_block_editor_for_post_type' ) ) {
-		// The posts page can't be edited in the block editor.
-		if ( absint( get_option( 'page_for_posts' ) ) === $post->ID && empty( $post->post_content ) ) {
-			return false;
-		}
-
-		// Make sure this post type supports Gutenberg
-		$use_block_editor = use_block_editor_for_post_type( $post->post_type );
-
-		/** This filter is documented in wp-admin/includes/post.php */
-		return apply_filters( 'use_block_editor_for_post', $use_block_editor, $post );
+	// The posts page can't be edited in the block editor.
+	if ( absint( get_option( 'page_for_posts' ) ) === $post->ID && empty( $post->post_content ) ) {
+		return false;
 	}
 
-	// This duplicates the check from `has_blocks()` as of WP 5.2.
-	if ( ! empty( $post->post_content ) ) {
-		return false !== strpos( (string) $post->post_content, '<!-- wp:' );
-	}
+	// Make sure this post type supports Gutenberg
+	$use_block_editor = dt_use_block_editor_for_post_type( $post->post_type );
 
-	$use_block_editor = false;
-
-	if ( class_exists( 'Classic_Editor' ) && is_callable( array( 'Classic_Editor', 'init_actions' ) ) ) {
-		$allow_site_override = true;
-		if ( is_multisite() ) {
-			$use_block_editor    = in_array( get_site_option( 'classic-editor-replace', 'block' ), array( 'no-replace', 'block' ), true );
-			$allow_site_override = ( get_site_option( 'classic-editor-allow-sites', 'allow' ) === 'allow' );
-		}
-		if (
-			$allow_site_override &&
-			get_option( 'classic-editor-replace' )
-		) {
-			$use_block_editor = in_array( get_option( 'classic-editor-replace', 'block' ), array( 'no-replace', 'block' ), true );
-		}
-	}
-
-	if ( $use_block_editor && is_a( $post, '\WP_Post' ) && class_exists( '\Gutenberg_Ramp' ) ) {
-		$gutenberg_ramp   = \Gutenberg_Ramp::get_instance();
-		$use_block_editor = $gutenberg_ramp->gutenberg_should_load( $post );
-	}
-
-	return $use_block_editor;
+	/** This filter is documented in wp-admin/includes/post.php */
+	return apply_filters( 'use_block_editor_for_post', $use_block_editor, $post );
 }
 
 /**
@@ -150,6 +119,9 @@ function check_license_key( $email, $license_key ) {
 		[
 			// phpcs:ignore WordPressVIPMinimum.Performance.RemoteRequestTimeout.timeout_timeout
 			'timeout' => 10,
+			'headers' => [
+				'X-Distributor-Version' => DT_VERSION,
+			],
 			'body'    => [
 				'license_key' => $license_key,
 				'email'       => $email,
@@ -187,6 +159,21 @@ function is_dt_debug() {
  * @param array $meta Array of meta as key => value
  */
 function set_meta( $post_id, $meta ) {
+	/**
+	 * Fires before Distributor sets post meta.
+	 *
+	 * All sent meta is included in the `$meta` array, including excluded keys.
+	 * Any excluded keys returned in this filter will be subsequently removed
+	 * from the saved meta data.
+	 *
+	 * @since 2.0.0
+	 * @hook dt_before_set_meta
+	 *
+	 * @param {array} $meta          All received meta for the post
+	 * @param {int}   $post_id       Post ID
+	 */
+	$meta = apply_filters( 'dt_before_set_meta', $meta, $post_id );
+
 	$existing_meta = get_post_meta( $post_id );
 	$excluded_meta = excluded_meta();
 
@@ -224,6 +211,7 @@ function set_meta( $post_id, $meta ) {
 	 *
 	 * @since 1.3.8
 	 * @hook dt_after_set_meta
+	 * @tutorial snippets
 	 *
 	 * @param {array} $meta          All received meta for the post
 	 * @param {array} $existing_meta Existing meta for the post
@@ -325,6 +313,7 @@ function distributable_post_types( $output = 'names' ) {
 	 *
 	 * @since 1.0.0
 	 * @hook distributable_post_types
+	 * @tutorial snippets
 	 *
 	 * @param {array} Post types that are distributable.
 	 *
@@ -427,6 +416,7 @@ function excluded_meta() {
 	 *
 	 * @since 1.9.0
 	 * @hook dt_excluded_meta
+	 * @tutorial snippets
 	 *
 	 * @param {array} $meta_keys Excluded meta keys. Default `dt_unlinked, dt_connection_map, dt_subscription_update, dt_subscriptions, dt_subscription_signature, dt_original_post_id, dt_original_post_url, dt_original_blog_id, dt_syndicate_time, _wp_attached_file, _wp_attachment_metadata, _edit_lock, _edit_last, _wp_old_slug, _wp_old_date`.
 	 *
@@ -443,6 +433,7 @@ function excluded_meta() {
  * @return array
  */
 function prepare_meta( $post_id ) {
+	update_postmeta_cache( array( $post_id ) );
 	$meta          = get_post_meta( $post_id );
 	$prepared_meta = array();
 	$excluded_meta = excluded_meta();
@@ -472,6 +463,23 @@ function prepare_meta( $post_id ) {
 		}
 	}
 
+	/**
+	 * Filter prepared meta for consumption.
+	 *
+	 * Modify meta data before it is sent for consumption by a distributed
+	 * post. The prepared meta data should not include any excluded meta.
+	 * see `excluded_meta()`.
+	 *
+	 * @since 2.0.0
+	 * @hook dt_prepared_meta
+	 *
+	 * @param {array} $prepared_meta Prepared meta.
+	 * @param {int}   $post_id      Post ID.
+	 *
+	 * @return {array} Prepared meta.
+	 */
+	$prepared_meta = apply_filters( 'dt_prepared_meta', $prepared_meta, $post_id );
+
 	return $prepared_meta;
 }
 
@@ -483,44 +491,39 @@ function prepare_meta( $post_id ) {
  * @return array
  */
 function prepare_media( $post_id ) {
-	$raw_media   = get_attached_media( get_allowed_mime_types(), $post_id );
-	$media_array = array();
-
-	$featured_image_id = get_post_thumbnail_id( $post_id );
-	$found_featured    = false;
-
-	foreach ( $raw_media as $media_post ) {
-		$media_item = format_media_post( $media_post );
-
-		if ( $media_item['featured'] ) {
-			$found_featured = true;
-		}
-
-		$media_array[] = $media_item;
+	$dt_post = new DistributorPost( $post_id );
+	if ( ! $dt_post ) {
+		return array();
 	}
 
-	if ( ! empty( $featured_image_id ) && ! $found_featured ) {
-		$featured_image             = format_media_post( get_post( $featured_image_id ) );
-		$featured_image['featured'] = true;
-
-		$media_array[] = $featured_image;
-	}
-
-	return $media_array;
+	return $dt_post->get_media();
 }
 
 /**
  * Format taxonomy terms for consumption
  *
- * @param  int $post_id Post ID.
  * @since  1.0
- * @return array
+ *
+ * @param  int   $post_id Post ID.
+ * @param  array $args    Taxonomy query arguments. See get_taxonomies().
+ * @return array[] Array of taxonomy terms.
  */
-function prepare_taxonomy_terms( $post_id ) {
+function prepare_taxonomy_terms( $post_id, $args = array() ) {
 	$post = get_post( $post_id );
 
+	if ( ! $post ) {
+		return array();
+	}
+
+	// Warm the term cache for the post.
+	update_object_term_cache( array( $post->ID ), $post->post_type );
+
+	if ( empty( $args ) ) {
+		$args = array( 'publicly_queryable' => true );
+	}
+
 	$taxonomy_terms = [];
-	$taxonomies     = get_object_taxonomies( $post );
+	$taxonomies     = get_taxonomies( $args );
 
 	/**
 	 * Filters the taxonomies that should be synced.
@@ -538,6 +541,23 @@ function prepare_taxonomy_terms( $post_id ) {
 	foreach ( $taxonomies as $taxonomy ) {
 		$taxonomy_terms[ $taxonomy ] = wp_get_object_terms( $post_id, $taxonomy );
 	}
+
+	/**
+	 * Filters the taxonomy terms for consumption.
+	 *
+	 * Modify taxonomies and terms prior to distribution. The array should be
+	 * keyed by taxonomy. The returned data by filters should only return
+	 * taxonomies permitted for distribution. See the `dt_syncable_taxonomies` hook.
+	 *
+	 * @since 2.0.0
+	 * @hook dt_prepared_taxonomy_terms
+	 *
+	 * @param {array} $taxonomy_terms Associative array of terms keyed by taxonomy.
+	 * @param {int}   $post_id        Post ID.
+	 *
+	 * @param {array} $args           Modified array of terms keyed by taxonomy.
+	 */
+	$taxonomy_terms = apply_filters( 'dt_prepared_taxonomy_terms', $taxonomy_terms, $post_id );
 
 	return $taxonomy_terms;
 }
@@ -892,11 +912,11 @@ function process_media( $url, $post_id, $args = [] ) {
 	 * @since 1.3.7
 	 * @hook dt_media_processing_filename
 	 *
-	 * @param {string} $media_name Filemame of the media being processed.
+	 * @param {string} $media_name Filename of the media being processed.
 	 * @param {string} $url        Media url.
 	 * @param {int}    $post_id    Post ID.
 	 *
-	 * @return {string} Filemame of the media being processed.
+	 * @return {string} Filename of the media being processed.
 	 */
 	$media_name = apply_filters( 'dt_media_processing_filename', $media_name, $url, $post_id );
 
@@ -953,6 +973,11 @@ function process_media( $url, $post_id, $args = [] ) {
 	// Default for external or if a local file copy failed.
 	if ( $download_url ) {
 
+		// Set the scheme to http: if a relative URL is specified.
+		if ( str_starts_with( $url, '//' ) ) {
+			$url = 'http:' . $url;
+		}
+
 		// Allows to pull media from local IP addresses
 		// Uses a "magic number" for priority so we only unhook our call, just in case.
 		add_filter( 'http_request_host_is_external', '__return_true', 88 );
@@ -1005,12 +1030,21 @@ function process_media( $url, $post_id, $args = [] ) {
  * The block editor depends on the REST API, and if the post type is not shown in the
  * REST API, then it won't work with the block editor.
  *
+ * This duplicates the function use_block_editor_for_post_type() in WordPress Core
+ * to ensure the function is always available in Distributor. The function is not
+ * available in some WordPress contexts.
+ *
  * @source WordPress 5.0.0
  *
  * @param string $post_type The post type.
  * @return bool Whether the post type can be edited with the block editor.
  */
 function dt_use_block_editor_for_post_type( $post_type ) {
+	// In some contexts this function doesn't exist so we can't reliably use it.
+	if ( function_exists( 'use_block_editor_for_post_type' ) ) {
+		return use_block_editor_for_post_type( $post_type );
+	}
+
 	if ( ! post_type_exists( $post_type ) ) {
 		return false;
 	}
@@ -1022,12 +1056,6 @@ function dt_use_block_editor_for_post_type( $post_type ) {
 	$post_type_object = get_post_type_object( $post_type );
 	if ( $post_type_object && ! $post_type_object->show_in_rest ) {
 		return false;
-	}
-
-	// In some contexts this function doesn't exist so we can't reliably use the filter.
-	if ( function_exists( 'use_block_editor_for_post_type' ) ) {
-		// Filter documented in WordPress core.
-		return apply_filters( 'use_block_editor_for_post_type', true, $post_type );
 	}
 
 	/**
@@ -1224,4 +1252,36 @@ function remote_http_request( $url, $args = array(), $fallback = '', $threshold 
 	}
 
 	return wp_remote_request( $url, $args );
+}
+
+/**
+ * Determines if a post is distributed.
+ *
+ * @since 2.0.0
+ *
+ * @param int|\WP_Post $post The post object or ID been checked.
+ * @return bool True if the post is distributed, false otherwise.
+ */
+function is_distributed_post( $post ) {
+	$post = get_post( $post );
+	if ( ! $post ) {
+		return false;
+	}
+	$post_id          = $post->ID;
+	$original_post_id = get_post_meta( $post_id, 'dt_original_post_id', true );
+	return ! empty( $original_post_id );
+}
+
+/**
+ * Returns the admin icon in data URL base64 format.
+ *
+ * @since 2.0.1
+ *
+ * @param string $color The hex color if changing the color of the icon. Default `#a0a5aa`.
+ * @return string Data URL base64 encoded SVG icon string.
+ */
+function get_admin_icon( $color = '#a0a5aa' ) {
+	$svg_icon = sprintf( '<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2" viewBox="13.4 8.8 573.2 573.2"><path fill="%1$s" d="M195.113 411.033c45.835 46.692 119.124 58.488 178.387 24.273 70.262-40.566 94.371-130.544 53.806-200.806-40.566-70.262-130.544-94.371-200.806-53.806-19.873 11.474-36.055 26.899-48.124 44.715l64.722 33.186c22.201-25.593 59.796-33.782 91.279-17.639 37.002 18.973 51.64 64.418 32.667 101.421-18.973 37.002-64.418 51.64-101.421 32.667-31.483-16.143-46.776-51.45-38.951-84.415l-81.702-41.892c-8.838-4.532-12.335-15.367-7.814-24.211 15.514-30.346 39.658-56.715 71.344-75.009 87.469-50.5 199.482-20.486 249.983 66.983 50.5 87.469 20.486 199.482-66.983 249.983-75.235 43.437-168.63 27.307-225.419-33.717-17.809 3.778-36.797-4.055-46.387-20.666-11.922-20.648-4.837-47.091 15.812-59.012 20.648-11.922 47.091-4.836 59.012 15.812 7.77 13.458 7.466 29.377.595 42.133Z"/><path fill="%1$s" d="M262.237 72.985C148.8 91.101 62 189.494 62 308c0 131.356 106.644 238 238 238s238-106.644 238-238c0-34.059-7.168-66.458-20.08-95.766-15.121.99-30.323-6.014-39.137-19.626-12.959-20.014-7.231-46.783 12.783-59.742 20.014-12.958 46.783-7.231 59.742 12.783 10.095 15.592 8.849 35.284-1.657 49.352C565.288 229.461 574 267.721 574 308c0 151.225-122.775 274-274 274S26 459.225 26 308C26 170.539 127.443 56.584 259.487 36.98 265.594 20.533 281.438 8.8 300 8.8c23.843 0 43.2 19.357 43.2 43.2 0 23.843-19.357 43.2-43.2 43.2-16.229 0-30.38-8.968-37.763-22.215Z"/></svg>', $color );
+
+	return sprintf( 'data:image/svg+xml;base64,%s', base64_encode( $svg_icon ) );
 }
