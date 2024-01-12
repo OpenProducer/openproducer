@@ -29,7 +29,7 @@ class Red_Redirect_Log extends Red_Log {
 	 * Get's the table name for this log object
 	 *
 	 * @param Object $wpdb WPDB object.
-	 * @return String
+	 * @return string
 	 */
 	protected static function get_table_name( $wpdb ) {
 		return "{$wpdb->prefix}redirection_logs";
@@ -150,7 +150,7 @@ class Red_Redirect_Log extends Red_Log {
 	/**
 	 * Convert a log entry to JSON
 	 *
-	 * @return Array
+	 * @return array
 	 */
 	public function to_json() {
 		return array_merge( parent::to_json(), [
