@@ -4,8 +4,8 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: child, theme, child theme, child themes, custom styles, customize styles, customize theme, css, responsive, css editor, child theme editor, child theme generator, child theme creator, style, stylesheet, customizer, childtheme, childthemes
 Requires at least: 4.0
 Requires PHP: 5.6.36
-Tested up to: 6.3
-Stable tag: 2.6.3
+Tested up to: 6.4
+Stable tag: 2.6.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -299,6 +299,12 @@ https://www.youtube.com/watch?v=iBiiAgsK4G4
 7. Files tab
 
 == Changelog ==
+= 2.6.5 =
+* Fixed deprecation notice for utf8_encode
+= 2.6.4 =
+* Fixed deprecation notices in Packer.php and CSS.php
+= 2.6.2/2.6.3 =
+* Version updates only.
 = 2.6.1 =
 * Fixed ui-active-state selector where select menu was not being highlighted
 = 2.5.8 =

@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the WooCommerce Stripe Gateway plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Stripe Gateway 7.9.0\n"
+"Project-Id-Version: WooCommerce Stripe Gateway 7.9.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-gateway-stripe\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-01-11T20:13:32+00:00\n"
+"POT-Creation-Date: 2024-01-16T15:48:08+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: woocommerce-gateway-stripe\n"
@@ -1314,52 +1314,52 @@ msgid "Stripe works by adding payment fields on the checkout and then sending th
 msgstr ""
 
 #. translators: 1) Opening anchor tag 2) closing anchor tag
-#: includes/class-wc-gateway-stripe.php:158
+#: includes/class-wc-gateway-stripe.php:163
 msgid "If your billing address has been changed for saved payment methods, be sure to remove any %1$ssaved payment methods%2$s on file and re-add them."
 msgstr ""
 
 #. translators: link to Stripe testing page
-#: includes/class-wc-gateway-stripe.php:220
+#: includes/class-wc-gateway-stripe.php:225
 msgid "TEST MODE ENABLED. In test mode, you can use the card number 4242424242424242 with any CVC and a valid expiration date or check the <a href=\"%s\" target=\"_blank\">Testing Stripe documentation</a> for more card numbers."
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:259
+#: includes/class-wc-gateway-stripe.php:264
 msgid "Credit or debit card"
 msgstr ""
 
 #: build/index.js:1
-#: includes/class-wc-gateway-stripe.php:267
+#: includes/class-wc-gateway-stripe.php:272
 #: client/blocks/credit-card/elements.js:117
 msgid "Card Number"
 msgstr ""
 
 #: build/index.js:1
-#: includes/class-wc-gateway-stripe.php:278
+#: includes/class-wc-gateway-stripe.php:283
 #: client/blocks/credit-card/elements.js:134
 msgid "Expiry Date"
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:286
+#: includes/class-wc-gateway-stripe.php:291
 msgid "Card Code (CVC)"
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:527
+#: includes/class-wc-gateway-stripe.php:532
 msgid "This represents the fee Stripe collects for the transaction."
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:528
+#: includes/class-wc-gateway-stripe.php:533
 msgid "Stripe Fee:"
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:564
+#: includes/class-wc-gateway-stripe.php:569
 msgid "This represents the net total that will be credited to your Stripe bank account. This may be in the currency that is set in your Stripe account."
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:565
+#: includes/class-wc-gateway-stripe.php:570
 msgid "Stripe Payout:"
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:591
+#: includes/class-wc-gateway-stripe.php:596
 #: includes/class-wc-stripe-order-handler.php:153
 #: includes/class-wc-stripe-webhook-handler.php:256
 #: includes/compat/trait-wc-stripe-subscriptions.php:306
@@ -1368,7 +1368,7 @@ msgstr ""
 msgid "Sorry, we are unable to process your payment at this time. Please retry later."
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:644
+#: includes/class-wc-gateway-stripe.php:649
 msgid ""
 "Almost there!\n"
 "\n"
@@ -1376,53 +1376,53 @@ msgid ""
 msgstr ""
 
 #. translators: %s is the order Id
-#: includes/class-wc-gateway-stripe.php:666
+#: includes/class-wc-gateway-stripe.php:671
 msgid "Payment Intent not found for order #%s"
 msgstr ""
 
 #. translators: 1) The error message that was received from Stripe.
-#: includes/class-wc-gateway-stripe.php:913
+#: includes/class-wc-gateway-stripe.php:918
 #: includes/class-wc-stripe-webhook-handler.php:904
 #: includes/class-wc-stripe-webhook-handler.php:955
 msgid "Stripe SCA authentication failed. Reason: %s"
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:914
+#: includes/class-wc-gateway-stripe.php:919
 msgid "Stripe SCA authentication failed."
 msgstr ""
 
 #. translators: Number of the maximum characters allowed
-#: includes/class-wc-gateway-stripe.php:1076
+#: includes/class-wc-gateway-stripe.php:1081
 msgid "- Has between 5 and %s characters"
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:1083
+#: includes/class-wc-gateway-stripe.php:1088
 msgid "- Contains at least one letter"
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:1088
+#: includes/class-wc-gateway-stripe.php:1093
 msgid "- Does not contain any of the following special characters: ' \" * &lt; &gt;"
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:1096
+#: includes/class-wc-gateway-stripe.php:1101
 msgid "- Contains only Latin characters"
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:1101
+#: includes/class-wc-gateway-stripe.php:1106
 msgid "customer bank statement"
 msgstr ""
 
-#: includes/class-wc-gateway-stripe.php:1104
+#: includes/class-wc-gateway-stripe.php:1109
 msgid "shortened customer bank statement"
 msgstr ""
 
 #. translators: %1 The field name, %2 <br> tag, %3 Validation error messages
-#: includes/class-wc-gateway-stripe.php:1109
+#: includes/class-wc-gateway-stripe.php:1114
 msgid "The %1$s is invalid. Please make sure it: %2$s%3$s"
 msgstr ""
 
 #. translators: %1$s Link to Stripe API details, %2$s Link to register a Stripe account
-#: includes/class-wc-gateway-stripe.php:1152
+#: includes/class-wc-gateway-stripe.php:1157
 msgid "Your API details can be obtained from your <a href=\"%1$s\">Stripe account</a>. Don’t have a Stripe account? <a href=\"%2$s\">Create one.</a>"
 msgstr ""
 

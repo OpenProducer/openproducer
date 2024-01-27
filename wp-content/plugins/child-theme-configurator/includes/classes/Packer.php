@@ -358,13 +358,13 @@ class ChildThemeConfiguratorPacker {
                     $b >>= 14;
                     $n -= 14;
                 endif;
-                $o .= $this->enctab[ $v % 91 ] . $this->enctab[ $v / 91 ];
+                $o .= $this->enctab[ $v % 91 ] . $this->enctab[ (int) ( $v / 91 ) ];
             endif;
         endfor;
         if ( $n ):
             $o .= $this->enctab[ $b % 91 ];
             if ( $n > 7 || $b > 90 )
-                $o .= $this->enctab[ $b / 91 ];
+                $o .= $this->enctab[ (int) ( $b / 91 ) ];
         endif;
         return $o;
     }
