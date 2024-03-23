@@ -1495,7 +1495,7 @@ msgstr "Zu Themen gehen"
 
 #: includes/forms/settings-errors.php:46
 msgid "%sPreview your child theme%s before activating."
-msgstr "%sPrüfen Sie Ihr Kindthema in der Voransicht% vor der Aktivierung."
+msgstr "%sPrüfen Sie Ihr Kindthema in der Voransichts vor der Aktivierung."
 
 #: includes/forms/settings-errors.php:49 includes/forms/themepreview.php:18
 msgid "Live Preview"

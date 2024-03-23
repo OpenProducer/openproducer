@@ -6,7 +6,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
     Plugin Name: Child Theme Configurator
     Plugin URI: http://www.childthemeplugin.com
     Description: When using the Customizer is not enough - Create child themes and customize styles, templates, functions and more.
-    Version: 2.6.5
+    Version: 2.6.6
     Author: Lilaea Media
     Author URI: http://www.lilaeamedia.com
     Text Domain: child-theme-configurator
