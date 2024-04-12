@@ -1,7 +1,7 @@
 === Jetpack - WP Security, Backup, Speed, & Growth ===
 Contributors: automattic, adamkheckler, adrianmoldovanwp, aduth, akirk, allendav, alternatekev, andy, annamcphee, annezazu, apeatling, arcangelini, azaozz, barry, batmoo, beaulebens, bindlegirl, biskobe, bjorsch, blobaugh, brbrr, cainm, cena, cfinke, cgastrell, chaselivingston, chellycat, clickysteve, csonnek, danielbachhuber, daniloercoli, davoraltman, delawski, designsimply, dllh, drawmyface, dsmart, dzver, ebinnion, egregor, eliorivero, enej, eoigal, erania-pinnera, ethitter, fgiannar, gcorne, georgestephanis, gibrown, goldsounds, hew, hugobaeta, hypertextranch, iammattthomas, iandunn, joen, jblz, jeffgolenski, jeherve, jenhooks, jenia, jessefriedman, jgs, jkudish, jmdodd, joanrho, johnjamesjacoby, jshreve, kbrownkd, keoshi, koke, kraftbj, lancewillett, leogermani, lhkowalski, lschuyler, macmanx, martinremy, matt, mattwiebe, matveb, maverick3x6, mcsf, mdawaffe, mdbitz, MichaelArestad, migueluy, mikeyarce, mkaz, nancythanki, nickmomrik, nunyvega, obenland, oskosk, pento, professor44, rachelsquirrel, rdcoll, renatoagds, retrofox, richardmtl, richardmuscat, robertbpugh, roccotripaldi, ryancowles, samhotchkiss, samiff, scarstocea, scottsweb, sdixon194, sdquirk, sermitr, simison, stephdau, thehenridev, tmoorewp, tyxla, Viper007Bond, westi, williamvianas, wpkaren, yoavf, zinigor
 Tags: Security, backup, Woo, malware, scan, performance
-Stable tag: 13.2.2
+Stable tag: 13.3.1
 Requires at least: 6.3
 Requires PHP: 7.0
 Tested up to: 6.5
@@ -216,7 +216,6 @@ Jetpack is the ultimate toolkit for WP for both the classic editor and the block
 * Custom CSS — Customize the appearance of your theme without creating a child theme or worrying about updates overwriting your customizations.
 * Custom Content Types — Adds custom post types (CPTs) to your site.
 * Downtime Monitor — Alerts you via electronic mail if your site goes down to ensure you keep uptime.
-* Enhanced Distribution — Increase your reach by allowing your content to be included in the WordPress.com “firehose” of public blog content.
 * Extra Sidebar Widgets — Extra widgets you can add to your blog, including RSS Links and Facebook Like Boxes.
 * Gravatar Hovercards — Make your Gravatar profile visible to those viewing your blog.
 * Google Analytics (GA) — Track your WordPress site statistics thanks to Google Analytics.
@@ -326,9 +325,9 @@ Jetpack Backup can do a full website migration to a new host, migrate theme file
 
 
 == Changelog ==
-### 13.2.2 - 2024-03-22
-### Bug fixes
-- Fix potential error when calling an unavailable WordPress function.
+### 13.3.1 - 2024-04-10
+- Protect: Improved handling of request URLs.
+
 --------
 
 [See the previous changelogs here](https://github.com/Automattic/jetpack/blob/trunk/projects/plugins/jetpack/CHANGELOG.md#changelog)
