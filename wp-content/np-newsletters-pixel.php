@@ -17,7 +17,7 @@
 		if ( ! isset( $_GET["id"] ) || ! isset( $_GET["tid"] ) || ! isset( $_GET["em"] ) ) {
 			exit;
 		}
-		$file = "/files/2024/04/newspack_newsletters_pixel_log_g8TuCD";
+		$file = "/files/2024/04/newspack_newsletters_pixel_log_YVLX3L";
 		$id = $_GET["id"];
 		$tid = $_GET["tid"];
 		$email_address = $_GET["em"];
