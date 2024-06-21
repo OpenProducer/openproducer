@@ -1,3 +1,17 @@
+## [2.0.2](https://github.com/Automattic/newspack-ads/compare/v2.0.1...v2.0.2) (2024-06-18)
+
+
+### Bug Fixes
+
+* update deprecated v202305 GAM API to v202405 ([#859](https://github.com/Automattic/newspack-ads/issues/859)) ([25b0ff5](https://github.com/Automattic/newspack-ads/commit/25b0ff5cf2f40d356801a9fa79995e977aef1ce5))
+
+## [2.0.1](https://github.com/Automattic/newspack-ads/compare/v2.0.0...v2.0.1) (2024-06-10)
+
+
+### Bug Fixes
+
+* update above-header hook ([5a0f8c8](https://github.com/Automattic/newspack-ads/commit/5a0f8c855ccda9ce625de8732bb4e84d3475ad20))
+
 # [2.0.0](https://github.com/Automattic/newspack-ads/compare/v1.48.0...v2.0.0) (2024-05-28)
 
 

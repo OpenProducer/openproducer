@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit502bce90d9b700413b0054055d372f5b
+class ComposerStaticInit381af5b7569e56d1c3afda113aa92785
 {
     public static $prefixLengthsPsr4 = array (
         'D' => 
@@ -79,15 +79,16 @@ class ComposerStaticInit502bce90d9b700413b0054055d372f5b
         'Newspack_Newsletters_Service_Provider_Usage_Report' => __DIR__ . '/../..' . '/includes/service-providers/class-newspack-newsletters-service-provider-usage-report.php',
         'Newspack_Newsletters_Settings' => __DIR__ . '/../..' . '/includes/class-newspack-newsletters-settings.php',
         'Newspack_Newsletters_Subscription' => __DIR__ . '/../..' . '/includes/class-newspack-newsletters-subscription.php',
+        'Newspack_Newsletters_Subscription_Attempts' => __DIR__ . '/../..' . '/includes/class-newspack-newsletters-subscription-attempts.php',
         'Newspack_Newsletters_WP_Hookable_Interface' => __DIR__ . '/../..' . '/includes/service-providers/interface-newspack-newsletters-wp-hookable.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit502bce90d9b700413b0054055d372f5b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit502bce90d9b700413b0054055d372f5b::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit502bce90d9b700413b0054055d372f5b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit381af5b7569e56d1c3afda113aa92785::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit381af5b7569e56d1c3afda113aa92785::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit381af5b7569e56d1c3afda113aa92785::$classMap;
 
         }, null, ClassLoader::class);
     }
