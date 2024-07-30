@@ -2,35 +2,40 @@
 # This file is distributed under the same license as the WooCommerce Stripe Gateway plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Stripe Gateway 8.5.1\n"
+"Project-Id-Version: WooCommerce Stripe Gateway 8.5.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-gateway-stripe\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-07-12T10:52:59-04:00\n"
+"POT-Creation-Date: 2024-07-22T20:36:25+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: woocommerce-gateway-stripe\n"
 
 #. Plugin Name of the plugin
+#: woocommerce-gateway-stripe.php
 msgid "WooCommerce Stripe Gateway"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: woocommerce-gateway-stripe.php
 msgid "https://wordpress.org/plugins/woocommerce-gateway-stripe/"
 msgstr ""
 
 #. Description of the plugin
+#: woocommerce-gateway-stripe.php
 msgid "Take credit card payments on your store using Stripe."
 msgstr ""
 
 #. Author of the plugin
+#: woocommerce-gateway-stripe.php
 msgid "WooCommerce"
 msgstr ""
 
 #. Author URI of the plugin
+#: woocommerce-gateway-stripe.php
 msgid "https://woocommerce.com/"
 msgstr ""
 
@@ -136,7 +141,7 @@ msgid "Stripe charge authorized (Charge ID: %s). Process order to take payment, 
 msgstr ""
 
 #: includes/abstracts/abstract-wc-stripe-payment-gateway.php:777
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2058
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2060
 msgid "Sorry, we're not accepting prepaid cards at this time. Your credit card has not been charged. Please try with alternative payment method."
 msgstr ""
 
@@ -164,31 +169,31 @@ msgstr ""
 msgid "Refunded %1$s - Refund ID: %2$s - Reason: %3$s"
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2023
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2025
 msgid "Please accept the terms and conditions first"
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2024
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2026
 msgid "Please fill in required checkout fields first"
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2059
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2061
 msgid "Please enter your IBAN account name."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2060
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2062
 msgid "Please enter your IBAN account number."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2061
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2063
 msgid "We couldn't initiate the payment. Please try again."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2072
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2074
 msgid "Billing First Name and Last Name are required."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2080
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2082
 msgid "CPF/CNPJ is a required field"
 msgstr ""
 
@@ -2263,19 +2268,19 @@ msgid "Stripe Sofort"
 msgstr ""
 
 #: includes/payment-methods/class-wc-stripe-payment-request.php:421
-#: includes/payment-methods/class-wc-stripe-payment-request.php:1377
-#: includes/payment-methods/class-wc-stripe-payment-request.php:1891
+#: includes/payment-methods/class-wc-stripe-payment-request.php:1378
+#: includes/payment-methods/class-wc-stripe-payment-request.php:1892
 msgid "Tax"
 msgstr ""
 
 #: includes/payment-methods/class-wc-stripe-payment-request.php:429
-#: includes/payment-methods/class-wc-stripe-payment-request.php:1385
-#: includes/payment-methods/class-wc-stripe-payment-request.php:1898
+#: includes/payment-methods/class-wc-stripe-payment-request.php:1386
+#: includes/payment-methods/class-wc-stripe-payment-request.php:1899
 msgid "Shipping"
 msgstr ""
 
 #: includes/payment-methods/class-wc-stripe-payment-request.php:436
-#: includes/payment-methods/class-wc-stripe-payment-request.php:1392
+#: includes/payment-methods/class-wc-stripe-payment-request.php:1393
 msgid "Pending"
 msgstr ""
 
@@ -2292,44 +2297,44 @@ msgstr ""
 msgid "OR"
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-payment-request.php:1214
-#: includes/payment-methods/class-wc-stripe-payment-request.php:1233
+#: includes/payment-methods/class-wc-stripe-payment-request.php:1215
+#: includes/payment-methods/class-wc-stripe-payment-request.php:1234
 msgid "Unable to find shipping method for address."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-payment-request.php:1221
+#: includes/payment-methods/class-wc-stripe-payment-request.php:1222
 msgid "Unable to provide shipping options for Payment Requests."
 msgstr ""
 
 #. translators: 1) The product Id
-#: includes/payment-methods/class-wc-stripe-payment-request.php:1335
+#: includes/payment-methods/class-wc-stripe-payment-request.php:1336
 msgid "Product with the ID (%1$s) cannot be found."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-payment-request.php:1350
+#: includes/payment-methods/class-wc-stripe-payment-request.php:1351
 msgid "The chosen subscription product is not supported."
 msgstr ""
 
 #. translators: 1) product name 2) quantity in stock
-#: includes/payment-methods/class-wc-stripe-payment-request.php:1360
+#: includes/payment-methods/class-wc-stripe-payment-request.php:1361
 msgid "You cannot add that amount of \"%1$s\"; to the cart because there is not enough stock (%2$s remaining)."
 msgstr ""
 
 #. translators: 1) country.
-#: includes/payment-methods/class-wc-stripe-payment-request.php:1671
+#: includes/payment-methods/class-wc-stripe-payment-request.php:1672
 msgid "The Payment Request button is not supported in %1$s because some required fields couldn't be verified. Please proceed to the checkout page and try again."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-payment-request.php:1687
+#: includes/payment-methods/class-wc-stripe-payment-request.php:1688
 msgid "Empty cart"
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-payment-request.php:1905
+#: includes/payment-methods/class-wc-stripe-payment-request.php:1906
 msgid "Discount"
 msgstr ""
 
 #. translators: The text encapsulated in `**` can be replaced with "Apple Pay" or "Google Pay". Please translate this text, but don't remove the `**`.
-#: includes/payment-methods/class-wc-stripe-payment-request.php:1948
+#: includes/payment-methods/class-wc-stripe-payment-request.php:1949
 msgid "To complete your transaction with **the selected payment method**, you must log in or create an account with our site."
 msgstr ""
 
@@ -2441,15 +2446,15 @@ msgstr ""
 msgid "The selected payment method isn't valid."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2272
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2278
 msgid "The selected payment method type is invalid."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2298
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2304
 msgid "This payment method type is not available in the selected country."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2511
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2517
 msgid "Unable to update Stripe Elements appearance values at this time."
 msgstr ""
 
