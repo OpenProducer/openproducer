@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the WooCommerce Stripe Gateway plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Stripe Gateway 8.8.1\n"
+"Project-Id-Version: WooCommerce Stripe Gateway 8.8.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-gateway-stripe\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-10-28T14:56:32+00:00\n"
+"POT-Creation-Date: 2024-11-07T20:51:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: woocommerce-gateway-stripe\n"
@@ -144,7 +144,7 @@ msgid "Stripe charge authorized (Charge ID: %s). Process order to take payment, 
 msgstr ""
 
 #: includes/abstracts/abstract-wc-stripe-payment-gateway.php:792
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2078
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2086
 msgid "Sorry, we're not accepting prepaid cards at this time. Your credit card has not been charged. Please try with alternative payment method."
 msgstr ""
 
@@ -172,31 +172,31 @@ msgstr ""
 msgid "Refunded %1$s - Refund ID: %2$s - Reason: %3$s"
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2043
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2051
 msgid "Please accept the terms and conditions first"
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2044
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2052
 msgid "Please fill in required checkout fields first"
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2079
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2087
 msgid "Please enter your IBAN account name."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2080
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2088
 msgid "Please enter your IBAN account number."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2081
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2089
 msgid "We couldn't initiate the payment. Please try again."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2092
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2100
 msgid "Billing First Name and Last Name are required."
 msgstr ""
 
-#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2100
+#: includes/abstracts/abstract-wc-stripe-payment-gateway.php:2108
 msgid "CPF/CNPJ is a required field"
 msgstr ""
 
@@ -527,9 +527,9 @@ msgstr ""
 
 #. translators: 1) card brand 2) last 4 digits
 #: includes/admin/class-wc-stripe-privacy.php:40
-#: includes/compat/trait-wc-stripe-subscriptions.php:956
-#: includes/compat/trait-wc-stripe-subscriptions.php:969
-#: includes/compat/trait-wc-stripe-subscriptions.php:976
+#: includes/compat/trait-wc-stripe-subscriptions.php:955
+#: includes/compat/trait-wc-stripe-subscriptions.php:968
+#: includes/compat/trait-wc-stripe-subscriptions.php:975
 msgid "N/A"
 msgstr ""
 
@@ -1428,8 +1428,8 @@ msgstr ""
 
 #. translators: 1) The error message that was received from Stripe.
 #: includes/class-wc-gateway-stripe.php:955
-#: includes/class-wc-stripe-webhook-handler.php:976
-#: includes/class-wc-stripe-webhook-handler.php:1030
+#: includes/class-wc-stripe-webhook-handler.php:971
+#: includes/class-wc-stripe-webhook-handler.php:1025
 msgid "Stripe SCA authentication failed. Reason: %s"
 msgstr ""
 
@@ -1906,7 +1906,7 @@ msgstr ""
 msgid "The opened review for this order is now closed. Reason: (%s)"
 msgstr ""
 
-#: includes/class-wc-stripe-webhook-handler.php:968
+#: includes/class-wc-stripe-webhook-handler.php:963
 msgid "Payment not completed in time"
 msgstr ""
 
@@ -2051,8 +2051,8 @@ msgstr ""
 #. translators: %s is the charge Id
 #. translators: %s is the stripe charge Id
 #: includes/compat/trait-wc-stripe-pre-orders.php:274
-#: includes/compat/trait-wc-stripe-subscriptions.php:531
-#: includes/compat/trait-wc-stripe-subscriptions.php:1055
+#: includes/compat/trait-wc-stripe-subscriptions.php:528
+#: includes/compat/trait-wc-stripe-subscriptions.php:1054
 msgid "Stripe charge awaiting authentication by user: %s."
 msgstr ""
 
@@ -2078,53 +2078,53 @@ msgstr ""
 msgid "The mandate used for this renewal payment is invalid. You may need to bring the customer back to your store and ask them to resubmit their payment information."
 msgstr ""
 
-#: includes/compat/trait-wc-stripe-subscriptions.php:523
+#: includes/compat/trait-wc-stripe-subscriptions.php:520
 msgid "This transaction requires authentication."
 msgstr ""
 
 #. translators: 1) a date in the format yyyy-mm-dd, e.g. 2021-09-21; 2) time in the 24-hour format HH:mm, e.g. 23:04
-#: includes/compat/trait-wc-stripe-subscriptions.php:542
+#: includes/compat/trait-wc-stripe-subscriptions.php:539
 msgid "The customer must authorize this payment via the pre-debit notification sent to them by their card issuing bank, before %1$s at %2$s, when the charge will be attempted."
 msgstr ""
 
-#: includes/compat/trait-wc-stripe-subscriptions.php:711
+#: includes/compat/trait-wc-stripe-subscriptions.php:710
 msgid "A \"Stripe Customer ID\" value is required."
 msgstr ""
 
-#: includes/compat/trait-wc-stripe-subscriptions.php:714
+#: includes/compat/trait-wc-stripe-subscriptions.php:713
 msgid "Invalid customer ID. A valid \"Stripe Customer ID\" must begin with \"cus_\"."
 msgstr ""
 
-#: includes/compat/trait-wc-stripe-subscriptions.php:724
+#: includes/compat/trait-wc-stripe-subscriptions.php:723
 msgid "Invalid source ID. A valid source \"Stripe Source ID\" must begin with \"src_\", \"pm_\", or \"card_\"."
 msgstr ""
 
 #. translators: 1) card brand 2) last 4 digits
-#: includes/compat/trait-wc-stripe-subscriptions.php:969
-#: includes/compat/trait-wc-stripe-subscriptions.php:976
+#: includes/compat/trait-wc-stripe-subscriptions.php:968
+#: includes/compat/trait-wc-stripe-subscriptions.php:975
 msgid "Via %1$s card ending in %2$s"
 msgstr ""
 
 #. translators: 1) last 4 digits of SEPA Direct Debit
-#: includes/compat/trait-wc-stripe-subscriptions.php:980
+#: includes/compat/trait-wc-stripe-subscriptions.php:979
 msgid "Via SEPA Direct Debit ending in %1$s"
 msgstr ""
 
 #. translators: 1) Cash App Cashtag
-#: includes/compat/trait-wc-stripe-subscriptions.php:984
+#: includes/compat/trait-wc-stripe-subscriptions.php:983
 msgid "Via Cash App Pay (%1$s)"
 msgstr ""
 
 #. translators: 1) email address associated with the Stripe Link payment method
-#: includes/compat/trait-wc-stripe-subscriptions.php:988
+#: includes/compat/trait-wc-stripe-subscriptions.php:987
 msgid "Via Stripe Link (%1$s)"
 msgstr ""
 
-#: includes/compat/trait-wc-stripe-subscriptions.php:1089
+#: includes/compat/trait-wc-stripe-subscriptions.php:1088
 msgid "Your early renewal order was successful."
 msgstr ""
 
-#: includes/compat/trait-wc-stripe-subscriptions.php:1103
+#: includes/compat/trait-wc-stripe-subscriptions.php:1102
 msgid "Payment authorization for the renewal order was unsuccessful, please try again."
 msgstr ""
 

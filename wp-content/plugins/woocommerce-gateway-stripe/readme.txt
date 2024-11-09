@@ -4,7 +4,7 @@ Tags: credit card, stripe, apple pay, payment request, google pay, sepa, bancont
 Requires at least: 6.4
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 8.8.1
+Stable tag: 8.8.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Attributions: thorsten-stripe
@@ -110,11 +110,9 @@ If you get stuck, you can ask for help in the [Plugin Forum](https://wordpress.o
 
 == Changelog ==
 
-= 8.8.1 - 2024-10-28 =
-* Tweak - Disables APMs when using the legacy checkout experience due Stripe deprecation by October 29, 2024.
-* Fix - Prevent marking orders on-hold with order note "Process order to take payment" when the payment has failed.
-* Fix - Prevent subscriptions from being marked as "Pending" when a customer attempts to change their payment method to a declining card.
-* Fix - Delay updating the subscription's payment method until after the intent is confirmed when using the new checkout experience.
-* Fix - Display a success notice to customers after successfully changing their subscription payment method to a card that required 3DS authentication.
+= 8.8.2 - 2024-11-07 =
+* Fix - Prevent marking renewal orders as processing/completed multiple times due to handling the Stripe webhook in parallel.
+* Dev - Refactor lock_order_payment() to use order meta instead of transients.
+* Update - Process successful payment intent webhooks asynchronously.
 
 [See changelog for all versions](https://raw.githubusercontent.com/woocommerce/woocommerce-gateway-stripe/trunk/changelog.txt).
