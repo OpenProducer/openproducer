@@ -682,7 +682,7 @@ trait WC_Stripe_Subscriptions_Trait {
 				],
 				'_stripe_source_id'   => [
 					'value' => $source_id,
-					'label' => 'Stripe Source ID',
+					'label' => 'Stripe Payment Method ID',
 				],
 			],
 		];
@@ -720,7 +720,7 @@ trait WC_Stripe_Subscriptions_Trait {
 					&& 0 !== strpos( $payment_meta['post_meta']['_stripe_source_id']['value'], 'pm_' )
 				)
 			) {
-				throw new Exception( __( 'Invalid source ID. A valid source "Stripe Source ID" must begin with "src_", "pm_", or "card_".', 'woocommerce-gateway-stripe' ) );
+				throw new Exception( __( 'Invalid payment method ID. A valid "Stripe Payment Method ID" must begin with "src_", "pm_", or "card_".', 'woocommerce-gateway-stripe' ) );
 			}
 		}
 	}
@@ -965,14 +965,14 @@ trait WC_Stripe_Subscriptions_Trait {
 					// Legacy handling for Stripe Card objects. ref: https://docs.stripe.com/api/cards/object
 					if ( isset( $source->object ) && WC_Stripe_Payment_Methods::CARD === $source->object ) {
 						/* translators: 1) card brand 2) last 4 digits */
-						$payment_method_to_display = sprintf( __( 'Via %1$s card ending in %2$s', 'woocommerce-gateway-stripe' ), ( isset( $source->brand ) ? $source->brand : __( 'N/A', 'woocommerce-gateway-stripe' ) ), $source->last4 );
+						$payment_method_to_display = sprintf( __( 'Via %1$s card ending in %2$s', 'woocommerce-gateway-stripe' ), ( isset( $source->brand ) ? wc_get_credit_card_type_label( $source->brand ) : __( 'N/A', 'woocommerce-gateway-stripe' ) ), $source->last4 );
 						break 2;
 					}
 
 					switch ( $source->type ) {
 						case WC_Stripe_Payment_Methods::CARD:
 							/* translators: 1) card brand 2) last 4 digits */
-							$payment_method_to_display = sprintf( __( 'Via %1$s card ending in %2$s', 'woocommerce-gateway-stripe' ), ( isset( $source->card->brand ) ? $source->card->brand : __( 'N/A', 'woocommerce-gateway-stripe' ) ), $source->card->last4 );
+							$payment_method_to_display = sprintf( __( 'Via %1$s card ending in %2$s', 'woocommerce-gateway-stripe' ), ( isset( $source->card->brand ) ? wc_get_credit_card_type_label( $source->card->brand ) : __( 'N/A', 'woocommerce-gateway-stripe' ) ), $source->card->last4 );
 							break 3;
 						case WC_Stripe_Payment_Methods::SEPA_DEBIT:
 							/* translators: 1) last 4 digits of SEPA Direct Debit */

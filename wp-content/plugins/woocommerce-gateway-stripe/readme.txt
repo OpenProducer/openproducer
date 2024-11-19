@@ -1,10 +1,10 @@
 === WooCommerce Stripe Payment Gateway ===
 Contributors: woocommerce, automattic, royho, akeda, mattyza, bor0, woothemes
 Tags: credit card, stripe, apple pay, payment request, google pay, sepa, bancontact, alipay, giropay, ideal, p24, woocommerce, automattic
-Requires at least: 6.4
-Tested up to: 6.6
+Requires at least: 6.5
+Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 8.8.2
+Stable tag: 8.9.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Attributions: thorsten-stripe
@@ -110,9 +110,33 @@ If you get stuck, you can ask for help in the [Plugin Forum](https://wordpress.o
 
 == Changelog ==
 
-= 8.8.2 - 2024-11-07 =
-* Fix - Prevent marking renewal orders as processing/completed multiple times due to handling the Stripe webhook in parallel.
-* Dev - Refactor lock_order_payment() to use order meta instead of transients.
-* Update - Process successful payment intent webhooks asynchronously.
+= 8.9.0 - 2024-11-14 =
+* Update - Enhance webhook processing to enable retrieving orders using payment_intent metadata.
+* Dev - Minor updates to the webhook handler class related to payment method names constants.
+* Tweak - Improve error message displayed when payment method creation fails in classic checkout.
+* Dev - Replace two occurrences of payment method names with their constant equivalents.
+* Fix - Hide express checkout when credit card payments are not enabled.
+* Fix - Fix issues when detaching payment methods on staging sites (with the new checkout experience enabled).
+* Fix - Display a notice if taxes vary by customer's billing address when checking out using the Stripe Express Checkout Element.
+* Tweak - Makes the new Stripe Express Checkout Element enabled by default in new accounts.
+* Dev - Add multiple unit tests for the Stripe Express Checkout Element implementation (for both frontend and backend).
+* Fix - Check if taxes are enabled when applying ECE tax compatibility check.
+* Fix - Fix ECE error when initial address on load is not defined as a shipping zone.
+* Fix - Corrected card brand capitalization on the My Account → Subscription page.
+* Fix - Displays a specific message when an authentication error occurs during checkout for 3DS cards (shortcode version).
+* Fix - Show 'Use a New Payment Method' radio button for logged in users only when card saving is enabled.
+* Fix - Fix the display and usage of the Link payment method on the shortcode checkout page with the Stripe Express Checkout Element.
+* Fix - Fix payment methods count on settings page.
+* Update - Improve Express Payment button previews on the edit Block Checkout and Cart pages for Google Pay and Apple Pay.
+* Tweak - Add error logging in ECE critical Ajax requests.
+* Add - Add support for Stripe Link payments via the new Stripe Checkout Element on the block cart and block checkout pages.
+* Add - Add support for Stripe Link payments via the new Stripe Checkout Element on the product, cart, checkout and pay for order pages.
+* Tweak - Do not load ECE button if the total amount is 0.
+* Add - Show ECE button preview on settings page.
+* Tweak - Remove the subscription order notes added each time a source wasn't migrated.
+* Tweak - Update ECE default button type.
+* Fix - Fix position of ECE button on shortcode cart page.
+* Fix - Call ECE specific 'paymentFailed' function only when payment request fails.
+* Fix - Fix issue in purchasing subscriptions when the store has no shipping options.
 
 [See changelog for all versions](https://raw.githubusercontent.com/woocommerce/woocommerce-gateway-stripe/trunk/changelog.txt).
