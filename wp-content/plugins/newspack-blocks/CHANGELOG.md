@@ -1,3 +1,10 @@
+## [4.3.7](https://github.com/Automattic/newspack-blocks/compare/v4.3.6...v4.3.7) (2024-11-21)
+
+
+### Bug Fixes
+
+* do not invalidate tax queries ([#1968](https://github.com/Automattic/newspack-blocks/issues/1968)) ([a0c1915](https://github.com/Automattic/newspack-blocks/commit/a0c191561e3bd6f16135590e66e5d695f2c3b3d3))
+
 ## [4.3.6](https://github.com/Automattic/newspack-blocks/compare/v4.3.5...v4.3.6) (2024-11-18)
 
 
