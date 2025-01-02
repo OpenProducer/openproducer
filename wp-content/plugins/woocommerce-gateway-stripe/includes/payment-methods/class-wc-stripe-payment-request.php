@@ -70,7 +70,7 @@ class WC_Stripe_Payment_Request {
 	public function __construct() {
 		self::$_this           = $this;
 		$this->stripe_settings = WC_Stripe_Helper::get_stripe_settings();
-		$this->testmode        = ( ! empty( $this->stripe_settings['testmode'] ) && 'yes' === $this->stripe_settings['testmode'] ) ? true : false;
+		$this->testmode        = WC_Stripe_Mode::is_test();
 		$this->publishable_key = ! empty( $this->stripe_settings['publishable_key'] ) ? $this->stripe_settings['publishable_key'] : '';
 		$this->secret_key      = ! empty( $this->stripe_settings['secret_key'] ) ? $this->stripe_settings['secret_key'] : '';
 		$this->total_label     = ! empty( $this->stripe_settings['statement_descriptor'] ) ? WC_Stripe_Helper::clean_statement_descriptor( $this->stripe_settings['statement_descriptor'] ) : '';
@@ -101,6 +101,11 @@ class WC_Stripe_Payment_Request {
 
 		// Don't load for change payment method page.
 		if ( isset( $_GET['change_payment_method'] ) ) {
+			return;
+		}
+
+		// Don't load for switch subscription page.
+		if ( isset( $_GET['switch-subscription'] ) ) {
 			return;
 		}
 
@@ -361,13 +366,13 @@ class WC_Stripe_Payment_Request {
 	 * @since 5.2.0
 	 *
 	 * @param object $product WC_Product_* object.
-	 * @return integer Total price.
+	 * @return float Total price.
 	 */
 	public function get_product_price( $product ) {
-		$product_price = $product->get_price();
+		$product_price = (float) $product->get_price();
 		// Add subscription sign-up fees to product price.
 		if ( in_array( $product->get_type(), [ 'subscription', 'subscription_variation' ] ) && class_exists( 'WC_Subscriptions_Product' ) ) {
-			$product_price = $product->get_price() + WC_Subscriptions_Product::get_sign_up_fee( $product );
+			$product_price += (float) WC_Subscriptions_Product::get_sign_up_fee( $product );
 		}
 
 		return $product_price;

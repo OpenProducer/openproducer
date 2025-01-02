@@ -37,7 +37,7 @@ class WC_Stripe_Express_Checkout_Helper {
 	 */
 	public function __construct() {
 		$this->stripe_settings = WC_Stripe_Helper::get_stripe_settings();
-		$this->testmode        = ( ! empty( $this->stripe_settings['testmode'] ) && 'yes' === $this->stripe_settings['testmode'] ) ? true : false;
+		$this->testmode        = WC_Stripe_Mode::is_test();
 		$this->total_label     = ! empty( $this->stripe_settings['statement_descriptor'] ) ? WC_Stripe_Helper::clean_statement_descriptor( $this->stripe_settings['statement_descriptor'] ) : '';
 
 		$this->total_label = str_replace( "'", '', $this->total_label ) . apply_filters( 'wc_stripe_payment_request_total_label_suffix', ' (via WooCommerce)' );
@@ -147,7 +147,7 @@ class WC_Stripe_Express_Checkout_Helper {
 	 * @param bool|null $is_deposit      Whether this is a deposit.
 	 * @param int       $deposit_plan_id Deposit plan ID.
 	 *
-	 * @return integer Total price.
+	 * @return float Total price.
 	 */
 	public function get_product_price( $product, $is_deposit = null, $deposit_plan_id = 0 ) {
 		// If prices should include tax, using tax inclusive price.
@@ -180,10 +180,10 @@ class WC_Stripe_Express_Checkout_Helper {
 
 		// Add subscription sign-up fees to product price.
 		if ( in_array( $product->get_type(), [ 'subscription', 'subscription_variation' ] ) && class_exists( 'WC_Subscriptions_Product' ) ) {
-			$product_price = $product_price + WC_Subscriptions_Product::get_sign_up_fee( $product );
+			$product_price = (float) $product_price + (float) WC_Subscriptions_Product::get_sign_up_fee( $product );
 		}
 
-		return $product_price;
+		return (float) $product_price;
 	}
 
 	/**
@@ -544,7 +544,7 @@ class WC_Stripe_Express_Checkout_Helper {
 
 		// If no SSL bail.
 		if ( ! $this->testmode && ! is_ssl() ) {
-			WC_Stripe_Logger::log( 'Stripe Express Checkout live mode requires SSL.' );
+			WC_Stripe_Logger::log( 'Stripe Express Checkout live mode requires SSL. ' . print_r( [ 'url' => get_permalink() ], true ) );
 			return false;
 		}
 

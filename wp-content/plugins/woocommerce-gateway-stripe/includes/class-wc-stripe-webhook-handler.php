@@ -55,7 +55,7 @@ class WC_Stripe_Webhook_Handler extends WC_Stripe_Payment_Gateway {
 	public function __construct() {
 		$this->retry_interval = 2;
 		$stripe_settings      = WC_Stripe_Helper::get_stripe_settings();
-		$this->testmode       = ( ! empty( $stripe_settings['testmode'] ) && 'yes' === $stripe_settings['testmode'] ) ? true : false;
+		$this->testmode       = WC_Stripe_Mode::is_test();
 		$secret_key           = ( $this->testmode ? 'test_' : '' ) . 'webhook_secret';
 		$this->secret         = ! empty( $stripe_settings[ $secret_key ] ) ? $stripe_settings[ $secret_key ] : false;
 
@@ -119,7 +119,7 @@ class WC_Stripe_Webhook_Handler extends WC_Stripe_Payment_Gateway {
 
 			// A webhook endpoint must return a 2xx HTTP status code to prevent future webhook
 			// delivery failures.
-			// @see https://stripe.com/docs/webhooks/build#acknowledge-events-immediately
+			// @see https://docs.stripe.com/webhooks#acknowledge-events-immediately
 			status_header( 204 );
 			exit;
 		}
@@ -921,8 +921,9 @@ class WC_Stripe_Webhook_Handler extends WC_Stripe_Payment_Gateway {
 		}
 
 		$order_id           = $order->get_id();
-		$is_voucher_payment = in_array( $order->get_meta( '_stripe_upe_payment_type' ), [ WC_Stripe_Payment_Methods::BOLETO, WC_Stripe_Payment_Methods::OXXO, WC_Stripe_Payment_Methods::MULTIBANCO ] );
-		$is_wallet_payment  = WC_Stripe_Helper::is_wallet_payment_method( $order );
+		$payment_type_meta  = $order->get_meta( '_stripe_upe_payment_type' );
+		$is_voucher_payment = in_array( $payment_type_meta, WC_Stripe_Payment_Methods::VOUCHER_PAYMENT_METHODS, true );
+		$is_wallet_payment  = in_array( $payment_type_meta, WC_Stripe_Payment_Methods::WALLET_PAYMENT_METHODS, true );
 
 		switch ( $notification->type ) {
 			case 'payment_intent.requires_action':
