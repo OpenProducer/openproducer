@@ -85,7 +85,7 @@ class WC_Stripe_Payment_Request {
 		add_action( 'woocommerce_stripe_updated', [ $this, 'migrate_button_size' ] );
 
 		// Check if ECE feature flag is enabled.
-		if ( WC_Stripe_Feature_Flags::is_stripe_ece_enabled() ) {
+		if ( WC_Stripe_Feature_Flags::is_upe_checkout_enabled() && WC_Stripe_Feature_Flags::is_stripe_ece_enabled() ) {
 			return;
 		}
 
@@ -512,14 +512,35 @@ class WC_Stripe_Payment_Request {
 	 */
 	public function get_normalized_postal_code( $postcode, $country ) {
 		/**
-		 * Currently, Apple Pay truncates the UK and Canadian postal codes to the first 4 and 3 characters respectively
-		 * when passing it back from the shippingcontactselected object. This causes WC to invalidate
+		 * Currently, Apple Pay truncates the UK postcodes by removing the "inward" (last 3 chars) of the postcode.
+		 * Apple Pay also truncates Canadian postal codes to the first 4 characters.
+		 * When either of these are passed back from the shippingcontactselected object. This causes WC to invalidate
 		 * the postal code and not calculate shipping zones correctly.
 		 */
 		if ( 'GB' === $country ) {
-			// Replaces a redacted string with something like LN10***.
-			return str_pad( preg_replace( '/\s+/', '', $postcode ), 7, '*' );
+			// UK Postcodes returned from Apple Pay can be alpha numeric 2 chars, 3 chars, or 4 chars long will optionally have a trailing space,
+			// depending on whether the customer put a space in their postcode between the outcode and incode part.
+			// See https://assets.publishing.service.gov.uk/media/5a7b997d40f0b62826a049e0/ILRSpecification2013_14Appendix_C_Dec2012_v1.pdf for more details.
+
+			// Here is a table showing the functionality by example:
+			//  Original  | Apple Pay |  Normalized
+			// 'LN10 1AA' |  'LN10 '  |  'LN10 ***'
+			// 'LN101AA'  |  'LN10'   |  'LN10 ***'
+			// 'W10 2AA'  |  'W10 '   |  'W10 ***'
+			// 'W102AA'   |  'W10'    |  'W10 ***'
+			// 'N2 3AA    |  'N2 '    |  'N2 ***'
+			// 'N23AA     |  'N2'     |  'N2 ***'
+
+			$spaceless_postcode = preg_replace( '/\s+/', '', $postcode );
+
+			if ( strlen( $spaceless_postcode ) < 5 ) {
+				// Always reintroduce the space so that Shipping Zones regex like 'N1 *' work to match N1 postcodes like N1 1AA, but don't match N10 postcodes like N10 1AA
+				return $spaceless_postcode . ' ***';
+			}
+
+			return $postcode; // 5 or more chars means it probably wasn't redacted and will likely validate unchanged.
 		}
+
 		if ( 'CA' === $country ) {
 			// Replaces a redacted string with something like L4Y***.
 			return str_pad( preg_replace( '/\s+/', '', $postcode ), 6, '*' );
@@ -596,9 +617,9 @@ class WC_Stripe_Payment_Request {
 			return false;
 		}
 
-		// If the cart is not available we don't have any unsupported products in the cart, so we
+		// If the cart is not available or if the cart is empty we don't have any unsupported products in the cart, so we
 		// return true. This can happen e.g. when loading the cart or checkout blocks in Gutenberg.
-		if ( is_null( WC()->cart ) ) {
+		if ( is_null( WC()->cart ) || WC()->cart->is_empty() ) {
 			return true;
 		}
 
@@ -1458,9 +1479,7 @@ class WC_Stripe_Payment_Request {
 			$variation_id = $data_store->find_matching_product_variation( $product, $attributes );
 
 			WC()->cart->add_to_cart( $product->get_id(), $qty, $variation_id, $attributes );
-		}
-
-		if ( in_array( $product_type, [ 'simple', 'variation', 'subscription', 'subscription_variation' ], true ) ) {
+		} elseif ( in_array( $product_type, $this->supported_product_types(), true ) ) {
 			WC()->cart->add_to_cart( $product->get_id(), $qty );
 		}
 

@@ -5,12 +5,12 @@
  * Description: Take credit card payments on your store using Stripe.
  * Author: Stripe
  * Author URI: https://stripe.com/
- * Version: 9.0.0
+ * Version: 9.1.1
  * Requires Plugins: woocommerce
  * Requires at least: 6.5
  * Tested up to: 6.7
  * WC requires at least: 9.2
- * WC tested up to: 9.4
+ * WC tested up to: 9.5
  * Text Domain: woocommerce-gateway-stripe
  * Domain Path: /languages
  */
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Required minimums and constants
  */
-define( 'WC_STRIPE_VERSION', '9.0.0' ); // WRCS: DEFINED_VERSION.
+define( 'WC_STRIPE_VERSION', '9.1.1' ); // WRCS: DEFINED_VERSION.
 define( 'WC_STRIPE_MIN_PHP_VER', '7.3.0' );
 define( 'WC_STRIPE_MIN_WC_VER', '7.4' );
 define( 'WC_STRIPE_FUTURE_MIN_WC_VER', '7.5' );
@@ -208,13 +208,17 @@ function woocommerce_gateway_stripe() {
 				require_once dirname( __FILE__ ) . '/includes/class-wc-stripe-action-scheduler-service.php';
 				require_once dirname( __FILE__ ) . '/includes/class-wc-stripe-webhook-state.php';
 				require_once dirname( __FILE__ ) . '/includes/class-wc-stripe-webhook-handler.php';
-				require_once dirname( __FILE__ ) . '/includes/class-wc-stripe-sepa-payment-token.php';
-				require_once dirname( __FILE__ ) . '/includes/class-wc-stripe-link-payment-token.php';
-				require_once dirname( __FILE__ ) . '/includes/class-wc-stripe-cash-app-pay-token.php';
+				require_once dirname( __FILE__ ) . '/includes/payment-tokens/trait-wc-stripe-fingerprint.php';
+				require_once dirname( __FILE__ ) . '/includes/payment-tokens/interface-wc-stripe-payment-method-comparison.php';
+				require_once dirname( __FILE__ ) . '/includes/payment-tokens/class-wc-stripe-cc-payment-token.php';
+				require_once dirname( __FILE__ ) . '/includes/payment-tokens/class-wc-stripe-sepa-payment-token.php';
+				require_once dirname( __FILE__ ) . '/includes/payment-tokens/class-wc-stripe-link-payment-token.php';
+				require_once dirname( __FILE__ ) . '/includes/payment-tokens/class-wc-stripe-cash-app-payment-token.php';
 				require_once dirname( __FILE__ ) . '/includes/class-wc-stripe-apple-pay-registration.php';
 				require_once dirname( __FILE__ ) . '/includes/class-wc-gateway-stripe.php';
 				require_once dirname( __FILE__ ) . '/includes/constants/class-wc-stripe-currency-code.php';
 				require_once dirname( __FILE__ ) . '/includes/constants/class-wc-stripe-payment-methods.php';
+				require_once dirname( __FILE__ ) . '/includes/constants/class-wc-stripe-intent-status.php';
 				require_once dirname( __FILE__ ) . '/includes/payment-methods/class-wc-stripe-upe-payment-gateway.php';
 				require_once dirname( __FILE__ ) . '/includes/payment-methods/class-wc-stripe-upe-payment-method.php';
 				require_once dirname( __FILE__ ) . '/includes/payment-methods/class-wc-stripe-upe-payment-method-cc.php';
@@ -254,14 +258,17 @@ function woocommerce_gateway_stripe() {
 				require_once dirname( __FILE__ ) . '/includes/connect/class-wc-stripe-connect.php';
 				require_once dirname( __FILE__ ) . '/includes/connect/class-wc-stripe-connect-api.php';
 				require_once dirname( __FILE__ ) . '/includes/class-wc-stripe-order-handler.php';
-				require_once dirname( __FILE__ ) . '/includes/class-wc-stripe-payment-tokens.php';
+				require_once dirname( __FILE__ ) . '/includes/payment-tokens/class-wc-stripe-payment-tokens.php';
 				require_once dirname( __FILE__ ) . '/includes/class-wc-stripe-customer.php';
 				require_once dirname( __FILE__ ) . '/includes/class-wc-stripe-intent-controller.php';
 				require_once dirname( __FILE__ ) . '/includes/admin/class-wc-stripe-inbox-notes.php';
 				require_once dirname( __FILE__ ) . '/includes/admin/class-wc-stripe-upe-compatibility-controller.php';
 				require_once dirname( __FILE__ ) . '/includes/migrations/class-allowed-payment-request-button-types-update.php';
+				require_once dirname( __FILE__ ) . '/includes/migrations/class-migrate-payment-request-data-to-express-checkout-data.php';
 				require_once dirname( __FILE__ ) . '/includes/class-wc-stripe-account.php';
 				new Allowed_Payment_Request_Button_Types_Update();
+				// TODO: Temporary disabling the migration as it has a conflict with the new UPE checkout.
+				// new Migrate_Payment_Request_Data_To_Express_Checkout_Data();
 
 				$this->api                           = new WC_Stripe_Connect_API();
 				$this->connect                       = new WC_Stripe_Connect( $this->api );

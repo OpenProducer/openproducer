@@ -1,6 +1,6 @@
 /* global wc_stripe_params, Stripe */
 
-jQuery( function( $ ) {
+jQuery( function($ ) {
 	'use strict';
 
 	try {

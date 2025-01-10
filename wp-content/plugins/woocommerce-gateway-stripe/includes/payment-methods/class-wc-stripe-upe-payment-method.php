@@ -230,11 +230,20 @@ abstract class WC_Stripe_UPE_Payment_Method extends WC_Payment_Gateway {
 			return false;
 		}
 
-		// Check currency compatibility.
+		// Check currency compatibility. On the pay for order page, check the order currency.
+		// Otherwise, check the store currency.
 		$current_store_currency = $this->get_woocommerce_currency();
 		$currencies             = $this->get_supported_currencies();
-		if ( ! empty( $currencies ) && ! in_array( $current_store_currency, $currencies, true ) ) {
-			return false;
+		if ( ! empty( $currencies ) ) {
+			if ( is_wc_endpoint_url( 'order-pay' ) && isset( $_GET['key'] ) ) {
+				$order          = wc_get_order( $order_id ? $order_id : absint( get_query_var( 'order-pay' ) ) );
+				$order_currency = $order->get_currency();
+				if ( ! in_array( $order_currency, $currencies, true ) ) {
+					return false;
+				}
+			} else if ( ! in_array( $current_store_currency, $currencies, true ) ) {
+				return false;
+			}
 		}
 
 		// For payment methods that only support domestic payments, check if the store currency matches the account's default currency.
@@ -365,6 +374,20 @@ abstract class WC_Stripe_UPE_Payment_Method extends WC_Payment_Gateway {
 		$token->set_token( $payment_method->id );
 		$token->set_payment_method_type( $this->get_id() );
 		$token->set_user_id( $user_id );
+		$token->set_fingerprint( $payment_method->sepa_debit->fingerprint );
+		$token->save();
+		return $token;
+	}
+
+	/**
+	 * Updates a payment token.
+	 *
+	 * @param WC_Payment_Token $token   The token to update.
+	 * @param string $payment_method_id The new payment method ID.
+	 * @return WC_Payment_Token
+	 */
+	public function update_payment_token( $token, $payment_method_id ) {
+		$token->set_token( $payment_method_id );
 		$token->save();
 		return $token;
 	}
