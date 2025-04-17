@@ -15,6 +15,8 @@ if ( version_compare( $GLOBALS['wp_version'], '4.7', '<' ) ) {
 	return;
 }
 
+// Default for the "time ago" date format. Dates older than this cutoff will be displayed as a full date.
+const NP_DEFAULT_POST_TIME_AGO_CUT_OFF_DAYS = 14;
 
 if ( ! function_exists( 'newspack_is_amp' ) ) {
 	/**
@@ -61,10 +63,11 @@ if ( ! function_exists( 'newspack_setup' ) ) :
 		 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
 		 */
 		add_theme_support( 'post-thumbnails' );
-		set_post_thumbnail_size( 1568, 9999 );
+		set_post_thumbnail_size( 1200, 9999 );
 
 		add_image_size( 'newspack-featured-image', 1200, 9999 );
 		add_image_size( 'newspack-featured-image-large', 2000, 9999 );
+		add_image_size( 'newspack-featured-image-small', 780, 9999 );
 		add_image_size( 'newspack-archive-image', 800, 600, true );
 		add_image_size( 'newspack-archive-image-large', 1200, 900, true );
 		add_image_size( 'newspack-footer-logo', 400, 9999 );
@@ -424,6 +427,13 @@ function newspack_content_width() {
 add_action( 'template_redirect', 'newspack_content_width', 0 );
 
 /**
+ * Return the list of custom fonts in use.
+ */
+function newspack_get_used_custom_fonts(): array {
+	return array_filter( [ get_theme_mod( 'font_header', '' ), get_theme_mod( 'font_body', '' ) ] );
+}
+
+/**
  * Enqueue scripts and styles.
  */
 function newspack_scripts() {
@@ -485,6 +495,34 @@ function newspack_scripts() {
 	if ( newspack_is_sticky_animated_header() ) {
 		wp_enqueue_script( 'amp-animation', 'https://cdn.ampproject.org/v0/amp-animation-0.1.js', array(), '0.1', true );
 		wp_enqueue_script( 'amp-position-observer', 'https://cdn.ampproject.org/v0/amp-position-observer-0.1.js', array(), '0.1', true );
+	}
+
+	wp_enqueue_script( 'newspack-font-loading', get_theme_file_uri( '/js/dist/font-loading.js' ), array(), wp_get_theme()->get( 'Version' ), true );
+	wp_localize_script(
+		'newspack-font-loading',
+		'newspackFontLoading',
+		[
+			'fonts' => newspack_get_used_custom_fonts(),
+		]
+	);
+
+	if ( get_theme_mod( 'post_time_ago' ) ) {
+		wp_register_script( 'newspack-relative-time', get_theme_file_uri( '/js/dist/relative-time.js' ), [], wp_get_theme()->get( 'Version' ), true );
+
+		$cutoff_in_days = get_theme_mod( 'post_time_ago_cut_off', NP_DEFAULT_POST_TIME_AGO_CUT_OFF_DAYS );
+		if ( get_theme_mod( 'post_updated_date' ) ) {
+			// Switch cut off to 24 hours if we are also displaying the updated date.
+			$cutoff_in_days = 1;
+		}
+		wp_localize_script(
+			'newspack-relative-time',
+			'newspack_relative_time',
+			[
+				'language_tag' => str_replace( '_', '-', get_locale() ), // The language tag in the format of 'en-US' for example.
+				'cutoff'       => $cutoff_in_days,
+			]
+		);
+		wp_enqueue_script( 'newspack-relative-time' );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'newspack_scripts' );
