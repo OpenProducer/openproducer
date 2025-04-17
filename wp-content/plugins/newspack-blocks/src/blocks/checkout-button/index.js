@@ -1,14 +1,14 @@
 /**
  * WordPress dependencies
  */
-import { Icon, button } from '@wordpress/icons';
+import { button } from '@wordpress/icons';
 
 /**
  * Internal dependencies
  */
 import edit from './edit';
 import metadata from './block.json';
-import save from './save';
+import deprecated from './deprecated';
 
 const { name } = metadata;
 
@@ -17,11 +17,11 @@ export { name };
 
 export const settings = {
 	...metadata,
-
 	icon: {
-		src: <Icon icon={ button } />,
-		foreground: '#36f',
+		src: button,
+		foreground: '#406ebc',
 	},
 	edit,
-	save,
+	deprecated,
+	save: () => null, // to use view.php.
 };

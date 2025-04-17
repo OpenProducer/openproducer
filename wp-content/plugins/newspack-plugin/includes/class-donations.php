@@ -45,13 +45,6 @@ class Donations {
 	];
 
 	/**
-	 * Donation product WC name;
-	 *
-	 * @var string
-	 */
-	private static $donation_product_name = '';
-
-	/**
 	 * Cached status of the current request - is it a WC page.
 	 *
 	 * @var string
@@ -64,18 +57,25 @@ class Donations {
 	 * @codeCoverageIgnore
 	 */
 	public static function init() {
-		self::$donation_product_name = __( 'Donate', 'newspack' );
-		if ( ! is_admin() ) {
-			add_action( 'wp_loaded', [ __CLASS__, 'process_donation_form' ], 99 );
-			add_action( 'woocommerce_checkout_update_order_meta', [ __CLASS__, 'woocommerce_checkout_update_order_meta' ] );
-			add_filter( 'woocommerce_billing_fields', [ __CLASS__, 'woocommerce_billing_fields' ] );
-			add_filter( 'pre_option_woocommerce_enable_guest_checkout', [ __CLASS__, 'disable_guest_checkout' ] );
-			add_action( 'woocommerce_check_cart_items', [ __CLASS__, 'handle_cart' ] );
-			add_filter( 'amp_skip_post', [ __CLASS__, 'should_skip_amp' ], 10, 2 );
-			add_filter( 'newspack_blocks_donate_billing_fields_keys', [ __CLASS__, 'get_billing_fields' ] );
-			add_action( 'woocommerce_checkout_create_order_line_item', [ __CLASS__, 'checkout_create_order_line_item' ], 10, 4 );
-			add_action( 'woocommerce_coupons_enabled', [ __CLASS__, 'disable_coupons' ] );
-		}
+
+		// Process donation request.
+		add_action( 'wp_ajax_modal_checkout_request', [ __CLASS__, 'process_donation_request' ] );
+		add_action( 'wp_ajax_nopriv_modal_checkout_request', [ __CLASS__, 'process_donation_request' ] );
+		add_action( 'wp_loaded', [ __CLASS__, 'process_donation_request' ], 99 );
+
+		add_action( 'woocommerce_checkout_update_order_meta', [ __CLASS__, 'woocommerce_checkout_update_order_meta' ] );
+		add_filter( 'woocommerce_billing_fields', [ __CLASS__, 'woocommerce_billing_fields' ] );
+		add_filter( 'pre_option_woocommerce_enable_guest_checkout', [ __CLASS__, 'disable_guest_checkout' ] );
+		add_action( 'woocommerce_check_cart_items', [ __CLASS__, 'handle_cart' ] );
+		add_filter( 'amp_skip_post', [ __CLASS__, 'should_skip_amp' ], 10, 2 );
+		add_filter( 'newspack_blocks_donate_billing_fields_keys', [ __CLASS__, 'get_billing_fields' ] );
+		add_action( 'woocommerce_checkout_create_order_line_item', [ __CLASS__, 'checkout_create_order_line_item' ], 10, 4 );
+		add_filter( 'woocommerce_coupons_enabled', [ __CLASS__, 'disable_coupons' ] );
+		add_filter( 'wcs_place_subscription_order_text', [ __CLASS__, 'order_button_text' ], 9 );
+		add_filter( 'woocommerce_order_button_text', [ __CLASS__, 'order_button_text' ], 9 );
+		add_filter( 'option_woocommerce_subscriptions_order_button_text', [ __CLASS__, 'order_button_text' ], 9 );
+
+		add_filter( 'render_block', [ __CLASS__, 'prevent_rendering_donate_block' ], 10, 2 );
 	}
 
 	/**
@@ -155,6 +155,7 @@ class Donations {
 			],
 			'platform'            => self::get_platform_slug(),
 			'minimumDonation'     => 5.0,
+			'trashed'             => [],
 		];
 	}
 
@@ -231,7 +232,7 @@ class Donations {
 	 */
 	private static function get_parent_donation_product() {
 		$product = \wc_get_product( get_option( self::DONATION_PRODUCT_ID_OPTION, 0 ) );
-		if ( ! $product || 'grouped' !== $product->get_type() || 'trash' === $product->get_status() ) {
+		if ( ! $product || 'grouped' !== $product->get_type() ) {
 			return false;
 		}
 		return $product;
@@ -252,7 +253,7 @@ class Donations {
 			// Add the product IDs for each frequency.
 			foreach ( $product->get_children() as $child_id ) {
 				$child_product = wc_get_product( $child_id );
-				if ( ! $child_product || 'trash' === $child_product->get_status() ) {
+				if ( ! $child_product ) {
 					continue;
 				}
 				if ( 'subscription' === $child_product->get_type() ) {
@@ -366,6 +367,24 @@ class Donations {
 			// Migrate legacy WC settings, stored as product meta.
 			$parent_product = self::get_parent_donation_product();
 			if ( $parent_product ) {
+				$saved_settings['trashed'] = [];
+
+				// Check if parent is in trash.
+				if ( 'trash' === $parent_product->get_status() ) {
+					$saved_settings['trashed'][] = $parent_product->get_name();
+				}
+				$child_products_ids = self::get_donation_product_child_products_ids();
+
+				// Check for child products in trash.
+				foreach ( $child_products_ids as $frequency => $child_product_id ) {
+					if ( ! $child_product_id ) {
+						continue;
+					}
+					$child_product = \wc_get_product( $child_product_id );
+					if ( $child_product && 'trash' === $child_product->get_status() ) {
+						$saved_settings['trashed'][] = $child_product->get_name();
+					}
+				}
 				$suggested_amounts         = $parent_product->get_meta( 'newspack_donation_suggested_amount', true );
 				$untiered_suggested_amount = $parent_product->get_meta( 'newspack_donation_untiered_suggested_amount', true );
 				$parent_product_modified   = false;
@@ -429,8 +448,7 @@ class Donations {
 			$parsed_settings['amounts'][ $frequency ] = array_map( 'floatval', $amounts );
 		}
 
-		$parsed_settings['platform']      = self::get_platform_slug();
-		$parsed_settings['billingFields'] = self::get_billing_fields();
+		$parsed_settings['platform'] = self::get_platform_slug();
 
 		// If NYP isn't available, force untiered config.
 		if ( ! self::can_use_name_your_price() ) {
@@ -460,13 +478,6 @@ class Donations {
 
 			if ( isset( $args['saveDonationProduct'] ) && $args['saveDonationProduct'] === true ) {
 				self::update_donation_product( $configuration );
-			}
-
-			// Update the billing fields.
-			$billing_fields = isset( $args['billingFields'] ) ? $args['billingFields'] : [];
-			if ( ! empty( $billing_fields ) ) {
-				$billing_fields = array_map( 'sanitize_text_field', $billing_fields );
-				self::update_billing_fields( $billing_fields );
 			}
 		}
 
@@ -518,7 +529,10 @@ class Donations {
 		if ( ! $parent_product ) {
 			$parent_product = new \WC_Product_Grouped();
 		}
-		$parent_product->set_name( self::$donation_product_name );
+
+		$donation_product_name = __( 'Donate', 'newspack-plugin' );
+
+		$parent_product->set_name( $donation_product_name );
 		$parent_product->set_catalog_visibility( 'hidden' );
 		$parent_product->set_virtual( true );
 		$parent_product->set_downloadable( true );
@@ -538,14 +552,14 @@ class Donations {
 			}
 
 			/* translators: %s: Product name */
-			$product_name = sprintf( __( '%s: One-Time', 'newspack' ), self::$donation_product_name );
+			$product_name = sprintf( __( '%s: One-Time', 'newspack' ), $donation_product_name );
 			if ( 'month' === $frequency ) {
 				/* translators: %s: Product name */
-				$product_name = sprintf( __( '%s: Monthly', 'newspack' ), self::$donation_product_name );
+				$product_name = sprintf( __( '%s: Monthly', 'newspack' ), $donation_product_name );
 			}
 			if ( 'year' === $frequency ) {
 				/* translators: %s: Product name */
-				$product_name = sprintf( __( '%s: Yearly', 'newspack' ), self::$donation_product_name );
+				$product_name = sprintf( __( '%s: Yearly', 'newspack' ), $donation_product_name );
 			}
 
 			if ( $is_recurring ) {
@@ -619,7 +633,6 @@ class Donations {
 	 * @param string $platform Platform slug.
 	 */
 	public static function set_platform_slug( $platform ) {
-		delete_option( self::NEWSPACK_READER_REVENUE_PLATFORM );
 		update_option( self::NEWSPACK_READER_REVENUE_PLATFORM, $platform, true );
 	}
 
@@ -647,7 +660,11 @@ class Donations {
 	/**
 	 * Handle submission of the donation form.
 	 */
-	public static function process_donation_form() {
+	public static function process_donation_request() {
+		if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
+			return;
+		}
+
 		$is_wc = self::is_platform_wc();
 
 		$donation_form_submitted = filter_input( INPUT_GET, 'newspack_donate', FILTER_SANITIZE_NUMBER_INT );
@@ -737,6 +754,11 @@ class Donations {
 				[],
 				$cart_item_data
 			);
+
+			// Set checkout registration flag if user is not logged in.
+			if ( ! is_user_logged_in() && class_exists( '\Newspack_Blocks\Modal_Checkout' ) ) {
+				\Newspack_Blocks\Modal_Checkout::set_checkout_registration_flag();
+			}
 		}
 
 		$query_args = [];
@@ -771,8 +793,16 @@ class Donations {
 		);
 
 		// Redirect to checkout.
-		\wp_safe_redirect( apply_filters( 'newspack_donation_checkout_url', $checkout_url, $donation_value, $donation_frequency ) );
-		exit;
+		$checkout_url = apply_filters( 'newspack_donation_checkout_url', $checkout_url, $donation_value, $donation_frequency );
+
+		if ( defined( 'DOING_AJAX' ) ) {
+			echo wp_json_encode( [ 'url' => $checkout_url ] );
+			exit;
+		} else {
+			// Redirect to checkout.
+			\wp_safe_redirect( $checkout_url );
+			exit;
+		}
 	}
 
 	/**
@@ -1085,6 +1115,9 @@ class Donations {
 	 * @return bool
 	 */
 	public static function disable_coupons( $enabled ) {
+		if ( is_admin() ) {
+			return $enabled;
+		}
 		$cart = WC()->cart;
 		if ( ! $cart ) {
 			return $enabled;
@@ -1093,6 +1126,35 @@ class Donations {
 			return $enabled;
 		}
 		return false;
+	}
+
+	/**
+	 * Prevent rendering of Donate block if Reader Revenue platform is set to 'other.
+	 *
+	 * @param string $block_content The block content about to be rendered.
+	 * @param array  $block The data of the block about to be rendered.
+	 */
+	public static function prevent_rendering_donate_block( $block_content, $block ) {
+		if (
+			isset( $block['blockName'] )
+			&& 'newspack-blocks/donate' === $block['blockName']
+			&& self::is_platform_other()
+		) {
+			return '';
+		}
+		return $block_content;
+	}
+
+	/**
+	 * Set the "Place order" button text.
+	 *
+	 * @param string $text The button text.
+	 */
+	public static function order_button_text( $text ) {
+		if ( self::is_donation_cart() ) {
+			return __( 'Donate now', 'newspack-plugin' );
+		}
+		return $text;
 	}
 }
 Donations::init();

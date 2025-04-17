@@ -39,6 +39,7 @@ class GA4 {
 		'newsletter_subscribed',
 		'prompt_interaction',
 		'gate_interaction',
+		'modal_checkout_interaction',
 	];
 
 	/**
@@ -64,13 +65,24 @@ class GA4 {
 	}
 
 	/**
+	 * Gets the credentials for the GA4 API.
+	 *
+	 * @return array
+	 */
+	public static function get_ga4_credentials() {
+		$measurement_protocol_secret = get_option( 'ga4_measurement_protocol_secret', '' );
+		$measurement_id              = get_option( 'ga4_measurement_id', '' );
+		return compact( 'measurement_protocol_secret', 'measurement_id' );
+	}
+
+	/**
 	 * Get the GA4 properties to send events to.
 	 *
 	 * @return array
 	 */
 	private static function get_ga4_properties() {
 		$properties = [
-			Analytics_Wizard::get_ga4_credentials(),
+			self::get_ga4_credentials(),
 		];
 
 		/**
@@ -184,10 +196,13 @@ class GA4 {
 				)
 			);
 		} else {
-			// For some reason, get_the_author() does not work here.
-			$author_user = get_user_by( 'ID', get_post()->post_author );
-			if ( $author_user ) {
-				$author_name = $author_user->display_name;
+			$post = get_post();
+			if ( null !== $post && is_numeric( $post->post_author ) ) {
+				// For some reason, get_the_author() does not work here.
+				$author_user = get_user_by( 'ID', $post->post_author );
+				if ( $author_user ) {
+					$author_name = $author_user->display_name;
+				}
 			}
 		}
 		if ( ! empty( $author_name ) ) {
@@ -444,6 +459,25 @@ class GA4 {
 		$transformed_data = Newspack_Popups_Data_Api::prepare_popup_params_for_ga( $transformed_data );
 
 		return array_merge( $params, $transformed_data );
+	}
+
+	/**
+	 * Handler for modal_checkout_interaction event.
+	 *
+	 * @param array $params The GA4 event parameters.
+	 * @param array $data   Data associated with the Data Events api event.
+	 *
+	 * @return array $params The final version of the GA4 event params that will be sent to GA.
+	 */
+	public static function handle_modal_checkout_interaction( $params, $data ) {
+
+		// remove data added in the body filter.
+		unset( $data['ga_params'] );
+		unset( $data['ga_client_id'] );
+		unset( $data['platform_data'] );
+		$data['referrer'] = substr( $data['referer'], strlen( home_url() ) ); // remove domain from referrer.
+
+		return array_merge( $params, $data );
 	}
 
 	/**

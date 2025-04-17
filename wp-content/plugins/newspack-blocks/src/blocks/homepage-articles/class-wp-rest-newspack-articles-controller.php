@@ -107,19 +107,6 @@ class WP_REST_Newspack_Articles_Controller extends WP_REST_Controller {
 				},
 			]
 		);
-
-		// Endpoint to get styles in the editor.
-		register_rest_route(
-			$this->namespace,
-			'/homepage-articles-css',
-			[
-				'methods'             => \WP_REST_Server::READABLE,
-				'callback'            => [ 'Newspack_Blocks_API', 'css_endpoint' ],
-				'permission_callback' => function() {
-					return current_user_can( 'edit_posts' );
-				},
-			]
-		);
 	}
 
 	/**
@@ -129,7 +116,7 @@ class WP_REST_Newspack_Articles_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function get_items( $request ) {
-		$page        = $request->get_param( 'page' ) ?? 1;
+		$page        = (int) $request->get_param( 'page' ) ?? 1;
 		$exclude_ids = $request->get_param( 'exclude_ids' ) ?? [];
 		$next_page   = $page + 1;
 		$attributes  = wp_parse_args(

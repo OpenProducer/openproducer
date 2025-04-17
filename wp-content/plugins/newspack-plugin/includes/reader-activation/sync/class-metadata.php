@@ -7,6 +7,7 @@
 
 namespace Newspack\Reader_Activation\Sync;
 
+use Newspack\Donations;
 use Newspack\Reader_Activation;
 use Newspack\Logger;
 
@@ -42,12 +43,15 @@ class Metadata {
 	 */
 	public static function get_keys() {
 		if ( empty( self::$keys ) ) {
+			// Only get Woo fields if using Woo.
+			$fields = Donations::is_platform_wc() ? self::get_all_fields() : self::get_basic_fields();
+
 			/**
 			 * Filters the list of key/value pairs for metadata fields to be synced to the connected ESP.
 			 *
 			 * @param array $keys The list of key/value pairs for metadata fields to be synced to the connected ESP.
 			 */
-			self::$keys = \apply_filters( 'newspack_ras_metadata_keys', self::get_all_fields() );
+			self::$keys = \apply_filters( 'newspack_ras_metadata_keys', $fields );
 		}
 		return self::$keys;
 	}
@@ -231,6 +235,7 @@ class Metadata {
 			'payment_page_utm'    => 'Payment UTM: ',
 			'sub_start_date'      => 'Current Subscription Start Date',
 			'sub_end_date'        => 'Current Subscription End Date',
+			'cancellation_reason' => 'Subscription Cancellation Reason',
 			// At what interval does the recurring payment occur – e.g. day, week, month or year.
 			'billing_cycle'       => 'Billing Cycle',
 			// The total value of the recurring payment.
@@ -290,23 +295,25 @@ class Metadata {
 
 	/**
 	 * Get the UTM key from a raw or prefixed key.
+	 * The returned key must have a suffix (source, medium, campaign, content).
 	 *
 	 * @param string $key Key to check.
 	 *
 	 * @return string|false Formatted key if it is a UTM key, false otherwise.
 	 */
-	private static function get_utm_key( $key ) {
+	public static function get_utm_key( $key ) {
 		$keys     = [ 'signup_page_utm', 'payment_page_utm' ];
 		$raw_keys = self::get_raw_keys();
 		foreach ( $keys as $utm_key ) {
 			if ( ! in_array( $utm_key, $raw_keys, true ) ) { // Skip if the UTM key is not in the list of fields to sync.
 				continue;
 			}
+			$prefixed_key = self::get_key( $utm_key );
 			if ( 0 === strpos( $key, $utm_key ) ) {
 				$suffix = str_replace( $utm_key . '_', '', $key );
-				return self::get_key( $utm_key ) . $suffix;
+				return ! empty( trim( $suffix ) ) && $suffix !== $key ? $prefixed_key . $suffix : false;
 			}
-			if ( 0 === strpos( $key, self::get_key( $utm_key ) ) ) {
+			if ( 0 === strpos( $key, $prefixed_key ) && $key !== $prefixed_key ) {
 				return $key;
 			}
 		}
@@ -349,12 +356,12 @@ class Metadata {
 	 *
 	 * @return array Metadata with UTM fields added.
 	 */
-	private static function add_utm_data( $metadata ) {
+	public static function add_utm_data( $metadata ) {
 		// Capture UTM params and signup/payment page URLs as meta for registration or payment.
 		if ( self::has_key( 'current_page_url', $metadata ) || self::has_key( 'registration_page', $metadata ) || self::has_key( 'payment_page', $metadata ) ) {
-			$is_payment = self::has_key( 'payment_page', $metadata );
+			$payment_page = self::has_key( 'payment_page', $metadata ) ? self::get_key_value( 'payment_page', $metadata ) : false;
 			$raw_url    = false;
-			if ( $is_payment ) {
+			if ( ! empty( $payment_page ) ) {
 				$raw_url = self::get_key_value( 'payment_page', $metadata );
 			} elseif ( self::has_key( 'current_page_url', $metadata ) ) {
 				$raw_url = self::get_key_value( 'current_page_url', $metadata );
@@ -366,7 +373,7 @@ class Metadata {
 
 			// Maybe set UTM meta.
 			if ( ! empty( $parsed_url['query'] ) ) {
-				$utm_key_prefix = $is_payment ? 'payment_page_utm' : 'signup_page_utm';
+				$utm_key_prefix = ! empty( $payment_page ) ? 'payment_page_utm' : 'signup_page_utm';
 				$params         = [];
 				\wp_parse_str( $parsed_url['query'], $params );
 				foreach ( $params as $param => $value ) {
@@ -406,10 +413,20 @@ class Metadata {
 		// Keys allowed to pass through without prefixing.
 		$allowed_keys = [ 'status', 'status_if_new' ];
 
+		// UTM keys must be suffixed.
+		$disallowed_keys = [
+			'payment_page_utm',
+			'payment_page_utm_',
+			'signup_page_utm',
+			'signup_page_utm_',
+			self::get_key( 'payment_page_utm' ),
+			self::get_key( 'signup_page_utm' ),
+		];
+
 		foreach ( $metadata as $meta_key => $meta_value ) {
-			if ( in_array( $meta_key, $raw_keys, true ) ) { // Handle raw keys.
+			if ( in_array( $meta_key, $raw_keys, true ) && ! in_array( $meta_key, $disallowed_keys, true ) ) { // Handle raw keys.
 				$normalized_metadata[ self::get_key( $meta_key ) ] = $meta_value;
-			} elseif ( in_array( $meta_key, $prefixed_keys, true ) ) { // Handle prefixed keys.
+			} elseif ( in_array( $meta_key, $prefixed_keys, true ) && ! in_array( $meta_key, $disallowed_keys, true ) ) { // Handle prefixed keys.
 				$normalized_metadata[ $meta_key ] = $meta_value;
 			} elseif ( self::get_utm_key( $meta_key ) ) { // Handle UTM keys.
 				$normalized_metadata[ self::get_utm_key( $meta_key ) ] = $meta_value;

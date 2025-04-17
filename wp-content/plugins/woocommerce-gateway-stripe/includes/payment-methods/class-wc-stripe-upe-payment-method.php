@@ -106,17 +106,33 @@ abstract class WC_Stripe_UPE_Payment_Method extends WC_Payment_Gateway {
 	public $testmode;
 
 	/**
+	 * Wether this payment method supports deferred intent creation.
+	 *
+	 * @var bool
+	 */
+	protected $supports_deferred_intent;
+
+	/**
+	 * Whether Single Payment Element is enabled.
+	 *
+	 * @var bool
+	 */
+	protected $spe_enabled;
+
+	/**
 	 * Create instance of payment method
 	 */
 	public function __construct() {
 		$main_settings     = WC_Stripe_Helper::get_stripe_settings();
 		$is_stripe_enabled = ! empty( $main_settings['enabled'] ) && 'yes' === $main_settings['enabled'];
 
-		$this->enabled    = $is_stripe_enabled && in_array( static::STRIPE_ID, $this->get_option( 'upe_checkout_experience_accepted_payments', [ WC_Stripe_Payment_Methods::CARD ] ), true ) ? 'yes' : 'no'; // @phpstan-ignore-line (STRIPE_ID is defined in classes using this class)
-		$this->id         = WC_Gateway_Stripe::ID . '_' . static::STRIPE_ID; // @phpstan-ignore-line (STRIPE_ID is defined in classes using this class)
-		$this->has_fields = true;
-		$this->testmode   = WC_Stripe_Mode::is_test();
-		$this->supports   = [ 'products', 'refunds' ];
+		$this->enabled                  = $is_stripe_enabled && in_array( static::STRIPE_ID, $this->get_upe_enabled_payment_method_ids(), true ) ? 'yes' : 'no'; // @phpstan-ignore-line (STRIPE_ID is defined in classes using this class)
+		$this->id                       = WC_Gateway_Stripe::ID . '_' . static::STRIPE_ID; // @phpstan-ignore-line (STRIPE_ID is defined in classes using this class)
+		$this->has_fields               = true;
+		$this->testmode                 = WC_Stripe_Mode::is_test();
+		$this->supports                 = [ 'products', 'refunds' ];
+		$this->supports_deferred_intent = true;
+		$this->spe_enabled              = WC_Stripe_Feature_Flags::is_spe_available() && 'yes' === $this->get_option( 'single_payment_element' );
 	}
 
 	/**
@@ -202,6 +218,10 @@ abstract class WC_Stripe_UPE_Payment_Method extends WC_Payment_Gateway {
 	 * @return string
 	 */
 	public function get_description() {
+		if ( $this->spe_enabled ) { // Disable the description when SPE is enabled.
+			return '';
+		}
+
 		$payment_method_settings = get_option( 'woocommerce_stripe_' . $this->stripe_id . '_settings', [] );
 		return ! empty( $payment_method_settings['description'] ) ? $payment_method_settings['description'] : '';
 	}
@@ -241,7 +261,7 @@ abstract class WC_Stripe_UPE_Payment_Method extends WC_Payment_Gateway {
 				if ( ! in_array( $order_currency, $currencies, true ) ) {
 					return false;
 				}
-			} else if ( ! in_array( $current_store_currency, $currencies, true ) ) {
+			} elseif ( ! in_array( $current_store_currency, $currencies, true ) ) {
 				return false;
 			}
 		}
@@ -268,8 +288,9 @@ abstract class WC_Stripe_UPE_Payment_Method extends WC_Payment_Gateway {
 		}
 
 		// If cart or order contains pre-order, enable payment method if it's reusable.
+		// BLIK supports pre-order when product is charged upfront. We're handling availability in WC_Stripe_UPE_Payment_Method_BLIK.
 		if ( $this->is_pre_order_item_in_cart() || ( ! empty( $order_id ) && $this->has_pre_order( $order_id ) ) ) {
-			return $this->is_reusable();
+			return $this->is_reusable() || WC_Stripe_Payment_Methods::BLIK === $this->stripe_id;
 		}
 
 		// Note: this $this->is_automatic_capture_enabled() call will be handled by $this->__call() and fall through to the UPE gateway class.
@@ -334,7 +355,7 @@ abstract class WC_Stripe_UPE_Payment_Method extends WC_Payment_Gateway {
 		if ( empty( $capabilities ) ) {
 			return false;
 		}
-		$key = $this->get_id() . '_payments';
+		$key = WC_Stripe_Helper::get_payment_method_capability_id( $this->get_id() );
 		return isset( $capabilities[ $key ] ) && 'active' === $capabilities[ $key ];
 	}
 
@@ -475,9 +496,10 @@ abstract class WC_Stripe_UPE_Payment_Method extends WC_Payment_Gateway {
 	/**
 	 * Returns testing credentials to be printed at checkout in test mode.
 	 *
+	 * @param bool $show_smart_checkout_instruction Whether this is being called through the Smart Checkout instructions method. Used to avoid an infinite loop call.
 	 * @return string
 	 */
-	public function get_testing_instructions() {
+	public function get_testing_instructions( bool $show_smart_checkout_instruction = false ) {
 		return '';
 	}
 
@@ -536,12 +558,31 @@ abstract class WC_Stripe_UPE_Payment_Method extends WC_Payment_Gateway {
 	/**
 	 * Returns the UPE Payment Method settings option.
 	 *
-	 * Overrides @see WC:Settings_API::get_option_key() to use the same option key as the main Stripe gateway.
-	 *
 	 * @return string
 	 */
 	public function get_option_key() {
-		return 'woocommerce_stripe_settings';
+		return 'woocommerce_stripe_' . $this->stripe_id . '_settings';
+	}
+
+	/**
+	 * Get option from the main Stripe gateway if it exists.
+	 *
+	 * @param string $key Option key.
+	 * @param mixed  $empty_value Value when empty.
+	 * @return string The value specified for the option or a default value for the option.
+	 */
+	public function get_option( $key, $empty_value = null ) {
+		$main_settings = WC_Stripe_Helper::get_stripe_settings();
+
+		if ( empty( $main_settings ) ) {
+			return $empty_value;
+		}
+
+		if ( isset( $main_settings[ $key ] ) && ! is_null( $empty_value ) && '' === $main_settings[ $key ] ) {
+			return $empty_value;
+		}
+
+		return $main_settings[ $key ] ?? $empty_value;
 	}
 
 	/**
@@ -557,23 +598,24 @@ abstract class WC_Stripe_UPE_Payment_Method extends WC_Payment_Gateway {
 			<?php if ( ! empty( $this->get_description() ) ) : ?>
 				<p><?php echo wp_kses_post( $this->get_description() ); ?></p>
 			<?php endif; ?>
+
+			<?php
+			if ( $display_tokenization ) {
+				$this->tokenization_script();
+				$this->saved_payment_methods();
+			}
+			?>
 			<fieldset id="wc-<?php echo esc_attr( $this->id ); ?>-upe-form" class="wc-upe-form wc-payment-form">
 				<div class="wc-stripe-upe-element" data-payment-method-type="<?php echo esc_attr( $this->stripe_id ); ?>"></div>
 				<div id="wc-<?php echo esc_attr( $this->id ); ?>-upe-errors" role="alert"></div>
 				<input type="hidden" class="wc-stripe-is-deferred-intent" name="wc-stripe-is-deferred-intent" value="1" />
 			</fieldset>
 			<?php
-
 			if ( $this->should_show_save_option() ) {
 				$force_save_payment = ( $display_tokenization && ! apply_filters( 'wc_stripe_display_save_payment_method_checkbox', $display_tokenization ) ) || is_add_payment_method_page();
 				if ( is_user_logged_in() ) {
 					$this->save_payment_method_checkbox( $force_save_payment );
 				}
-			}
-
-			if ( $display_tokenization ) {
-				$this->tokenization_script();
-				$this->saved_payment_methods();
 			}
 
 			do_action( 'wc_stripe_payment_fields_' . $this->id, $this->id );
@@ -595,6 +637,15 @@ abstract class WC_Stripe_UPE_Payment_Method extends WC_Payment_Gateway {
 	 */
 	public function is_saved_cards_enabled() {
 		return 'yes' === $this->get_option( 'saved_cards' );
+	}
+
+	/**
+	 * Returns true if the SEPA tokens for other methods (Bancontact and iDEAL) feature is enabled.
+	 *
+	 * @return bool
+	 */
+	public function is_sepa_tokens_for_other_methods_enabled() {
+		return 'yes' === $this->get_option( 'sepa_tokens_for_other_methods' );
 	}
 
 	/**
@@ -676,7 +727,7 @@ abstract class WC_Stripe_UPE_Payment_Method extends WC_Payment_Gateway {
 		$id = 'wc-' . $this->id . '-new-payment-method';
 		?>
 		<fieldset <?php echo $force_checked ? 'style="display:none;"' : ''; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
-			<p class="form-row woocommerce-SavedPaymentMethods-saveNew">
+			<p class="form-row woocommerce-SavedPaymentMethods-saveNew" <?php echo ! is_user_logged_in() ? 'style="display:none;"' : ''; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>>
 				<input id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $id ); ?>" type="checkbox" value="true" style="width:auto;" <?php echo $force_checked ? 'checked' : ''; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?> />
 				<label for="<?php echo esc_attr( $id ); ?>" style="display:inline;">
 					<?php echo esc_html( apply_filters( 'wc_stripe_save_to_account_text', __( 'Save payment information to my account for future purchases.', 'woocommerce-gateway-stripe' ) ) ); ?>
@@ -697,5 +748,23 @@ abstract class WC_Stripe_UPE_Payment_Method extends WC_Payment_Gateway {
 		$this->view_transaction_url = WC_Stripe_Helper::get_transaction_url( $this->testmode );
 
 		return parent::get_transaction_url( $order );
+	}
+
+	/**
+	 * Whether this payment method supports deferred intent creation.
+	 *
+	 * @return bool
+	 */
+	public function supports_deferred_intent() {
+		return $this->supports_deferred_intent;
+	}
+
+	/**
+	 * Returns UPE enabled payment method IDs.
+	 *
+	 * @return string[]
+	 */
+	public function get_upe_enabled_payment_method_ids() {
+		return WC_Stripe_Payment_Method_Configurations::get_upe_enabled_payment_method_ids();
 	}
 }

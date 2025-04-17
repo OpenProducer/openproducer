@@ -26,6 +26,9 @@ class Initializer {
 		include_once NEWSPACK_ABSPATH . 'includes/cli/class-ras.php';
 		include_once NEWSPACK_ABSPATH . 'includes/cli/class-ras-esp-sync.php';
 		include_once NEWSPACK_ABSPATH . 'includes/cli/class-co-authors-plus.php';
+		include_once NEWSPACK_ABSPATH . 'includes/cli/class-mailchimp.php';
+		include_once NEWSPACK_ABSPATH . 'includes/cli/class-optional-modules.php';
+		include_once NEWSPACK_ABSPATH . 'includes/cli/class-woocommerce-subscriptions.php';
 	}
 
 	/**
@@ -39,6 +42,7 @@ class Initializer {
 		}
 
 		WP_CLI::add_command( 'newspack setup', 'Newspack\CLI\Setup' );
+		WP_CLI::add_command( 'newspack remove-starter-content', [ 'Newspack\Starter_Content','remove_starter_content' ] );
 
 		// Utility commands for managing RAS data via WP CLI.
 		WP_CLI::add_command(
@@ -48,97 +52,33 @@ class Initializer {
 
 		WP_CLI::add_command(
 			'newspack verify-reader',
-			[ 'Newspack\CLI\RAS', 'cli_verify_reader' ],
-			[
-				'shortdesc' => 'Verify a reader account . ',
-				'synopsis'  => [
-					[
-						'type'        => 'positional',
-						'name'        => 'user',
-						'description' => 'ID or email of the user account . ',
-						'optional'    => false,
-						'repeating'   => false,
-					],
-				],
-			]
+			[ 'Newspack\CLI\RAS', 'cli_verify_reader' ]
 		);
 
 		WP_CLI::add_command(
 			'newspack esp sync',
-			[ 'Newspack\CLI\RAS_ESP_Sync', 'cli_sync_contacts' ],
-			[
-				'shortdesc' => __( 'Sync reader data to the connected ESP.', 'newspack-plugin' ),
-				'synopsis'  => [
-					[
-						'type'     => 'flag',
-						'name'     => 'dry-run',
-						'optional' => true,
-					],
-					[
-						'type'     => 'flag',
-						'name'     => 'active-only',
-						'optional' => true,
-					],
-					[
-						'type'     => 'assoc',
-						'name'     => 'migrated-subscriptions',
-						'default'  => false,
-						'optional' => true,
-						'options'  => [ 'stripe', 'piano-csv', 'stripe-csv', false ],
-					],
-					[
-						'type'     => 'assoc',
-						'name'     => 'subscription-ids',
-						'default'  => false,
-						'optional' => true,
-					],
-					[
-						'type'     => 'assoc',
-						'name'     => 'user-ids',
-						'default'  => false,
-						'optional' => true,
-					],
-					[
-						'type'     => 'assoc',
-						'name'     => 'order-ids',
-						'default'  => false,
-						'optional' => true,
-					],
-					[
-						'type'     => 'assoc',
-						'name'     => 'batch-size',
-						'default'  => 10,
-						'optional' => true,
-					],
-					[
-						'type'     => 'assoc',
-						'name'     => 'offset',
-						'default'  => 0,
-						'optional' => true,
-					],
-					[
-						'type'     => 'assoc',
-						'name'     => 'max-batches',
-						'default'  => 0,
-						'optional' => true,
-					],
-					[
-						'type'     => 'assoc',
-						'name'     => 'sync-context',
-						'optional' => true,
-					],
-				],
-			]
+			[ 'Newspack\CLI\RAS_ESP_Sync', 'cli_sync_contacts' ]
+		);
+
+		WP_CLI::add_command(
+			'newspack mailchimp merge-fields list',
+			[ 'Newspack\CLI\Mailchimp', 'cli_mailchimp_list_merge_fields' ]
+		);
+
+		WP_CLI::add_command(
+			'newspack mailchimp merge-fields delete',
+			[ 'Newspack\CLI\Mailchimp', 'cli_mailchimp_delete_merge_fields' ]
+		);
+
+		WP_CLI::add_command(
+			'newspack mailchimp merge-fields fix-duplicates',
+			[ 'Newspack\CLI\Mailchimp', 'cli_mailchimp_fix_duplicate_merge_fields' ]
 		);
 
 		WP_CLI::add_command( 'newspack migrate-co-authors-guest-authors', [ 'Newspack\CLI\Co_Authors_Plus', 'migrate_guest_authors' ] );
 		WP_CLI::add_command( 'newspack backfill-non-editing-contributors', [ 'Newspack\CLI\Co_Authors_Plus', 'backfill_non_editing_contributor' ] );
-		WP_CLI::add_command(
-			'newspack schedule-co-authors-author-term-backfill',
-			[
-				'Newspack\CLI\Co_Authors_Plus',
-				'schedule_author_term_backfill',
-			]
-		);
+		WP_CLI::add_command( 'newspack migrate-expired-subscriptions', [ 'Newspack\CLI\WooCommerce_Subscriptions', 'migrate_expired_subscriptions' ] );
+
+		Optional_Modules::register_commands();
 	}
 }

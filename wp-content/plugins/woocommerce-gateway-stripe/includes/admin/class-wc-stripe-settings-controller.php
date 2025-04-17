@@ -28,8 +28,9 @@ class WC_Stripe_Settings_Controller {
 	 * Constructor
 	 *
 	 * @param WC_Stripe_Account $account Stripe account
+	 * @param WC_Stripe_Payment_Gateway|null $gateway Stripe gateway
 	 */
-	public function __construct( WC_Stripe_Account $account, WC_Stripe_Payment_Gateway $gateway = null ) {
+	public function __construct( WC_Stripe_Account $account, ?WC_Stripe_Payment_Gateway $gateway = null ) {
 		$this->account = $account;
 		$this->gateway = $gateway;
 
@@ -40,9 +41,10 @@ class WC_Stripe_Settings_Controller {
 		// Priority 5 so we can manipulate the registered gateways before they are shown.
 		add_action( 'woocommerce_admin_field_payment_gateways', [ $this, 'hide_gateways_on_settings_page' ], 5 );
 
-		add_action( 'admin_init', [ $this, 'maybe_update_account_data' ] );
-
 		add_action( 'update_option_woocommerce_gateway_order', [ $this, 'set_stripe_gateways_in_list' ] );
+
+		// Add AJAX handler for OAuth URLs
+		add_action( 'wp_ajax_wc_stripe_get_oauth_urls', [ $this, 'ajax_get_oauth_urls' ] );
 	}
 
 	/**
@@ -87,7 +89,7 @@ class WC_Stripe_Settings_Controller {
 				$no_refunds_button  = __( 'Refunding unavailable', 'woocommerce-gateway-stripe' );
 				$no_refunds_tooltip = __( 'Refunding via Stripe is unavailable because funds have not been captured for this order. Process order to take payment, or cancel to remove the pre-authorization.', 'woocommerce-gateway-stripe' );
 				echo '<style>.button.refund-items { display: none; }</style>';
-				echo '<span class="button button-disabled">' . esc_html( $no_refunds_button ) . wc_help_tip( $no_refunds_tooltip ) . '</span>';
+				echo '<span class="button button-disabled">' . esc_html( $no_refunds_button ) . wp_kses_post( wc_help_tip( $no_refunds_tooltip ) ) . '</span>';
 			}
 		} catch ( Exception $e ) {
 			WC_Stripe_Logger::log( 'Error getting intent from order: ' . $e->getMessage() );
@@ -102,16 +104,65 @@ class WC_Stripe_Settings_Controller {
 	 */
 	public function admin_options( WC_Stripe_Payment_Gateway $gateway ) {
 		global $hide_save_button;
-		$hide_save_button = true;
 
-		echo '<h2>' . esc_html( $gateway->get_method_title() );
-		wc_back_link( __( 'Return to payments', 'woocommerce-gateway-stripe' ), admin_url( 'admin.php?page=wc-settings&tab=checkout' ) );
-		echo '</h2>';
+		$hide_save_button = true;
+		$return_url       = admin_url( 'admin.php?page=wc-settings&tab=checkout' );
+		$header          = $gateway->get_method_title();
+		$return_text     = __( 'Return to payments', 'woocommerce-gateway-stripe' );
+
+		WC_Stripe_Helper::render_admin_header( $header, $return_text, $return_url );
 
 		$settings = WC_Stripe_Helper::get_stripe_settings();
 
 		$account_data_exists = ( ! empty( $settings['publishable_key'] ) && ! empty( $settings['secret_key'] ) ) || ( ! empty( $settings['test_publishable_key'] ) && ! empty( $settings['test_secret_key'] ) );
 		echo $account_data_exists ? '<div id="wc-stripe-account-settings-container"></div>' : '<div id="wc-stripe-new-account-container"></div>';
+	}
+
+	/**
+	 * AJAX handler to get OAuth URLs for the configuration modal
+	 */
+	public function ajax_get_oauth_urls() {
+		// Check nonce and capabilities
+		if ( ! check_ajax_referer( 'wc_stripe_get_oauth_urls', 'nonce', false ) ||
+			! current_user_can( 'manage_woocommerce' ) ) {
+			wp_send_json_error( [ 'message' => __( 'You do not have permission to do this.', 'woocommerce-gateway-stripe' ) ] );
+			return;
+		}
+
+		$oauth_url      = woocommerce_gateway_stripe()->connect->get_oauth_url();
+		$test_oauth_url = woocommerce_gateway_stripe()->connect->get_oauth_url( '', 'test' );
+
+		wp_send_json_success(
+			[
+				'oauth_url'      => is_wp_error( $oauth_url ) ? '' : $oauth_url,
+				'test_oauth_url' => is_wp_error( $test_oauth_url ) ? '' : $test_oauth_url,
+			]
+		);
+	}
+
+	/**
+	 * Determines if OAuth URLs need to be generated.
+	 * URLs are needed for new accounts or accounts not connected via OAuth.
+	 *
+	 * @return bool True if OAuth URLs are needed
+	 */
+	public function needs_oauth_urls() {
+		$settings      = WC_Stripe_Helper::get_stripe_settings();
+		$has_live_keys = ! empty( $settings['publishable_key'] ) && ! empty( $settings['secret_key'] );
+		$has_test_keys = ! empty( $settings['test_publishable_key'] ) && ! empty( $settings['test_secret_key'] );
+
+		// If no keys at all, we need OAuth URLs for new account setup
+		if ( ! $has_live_keys && ! $has_test_keys ) {
+			return true;
+		}
+
+		$stripe_connect = woocommerce_gateway_stripe()->connect;
+
+		// Check each mode only if it has keys
+		$needs_live_oauth = $has_live_keys && ! $stripe_connect->is_connected_via_oauth( 'live' );
+		$needs_test_oauth = $has_test_keys && ! $stripe_connect->is_connected_via_oauth( 'test' );
+
+		return $needs_live_oauth || $needs_test_oauth;
 	}
 
 	/**
@@ -138,10 +189,8 @@ class WC_Stripe_Settings_Controller {
 			return;
 		}
 
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
 		// Webpack generates an assets file containing a dependencies array for our built JS file.
-		$script_asset_path = WC_STRIPE_PLUGIN_PATH . '/build/upe_settings.asset.php';
+		$script_asset_path = WC_STRIPE_PLUGIN_PATH . '/build/upe-settings.asset.php';
 		$script_asset      = file_exists( $script_asset_path )
 			? require $script_asset_path
 			: [
@@ -151,23 +200,29 @@ class WC_Stripe_Settings_Controller {
 
 		wp_register_script(
 			'woocommerce_stripe_admin',
-			plugins_url( 'build/upe_settings.js', WC_STRIPE_MAIN_FILE ),
+			plugins_url( 'build/upe-settings.js', WC_STRIPE_MAIN_FILE ),
 			$script_asset['dependencies'],
 			$script_asset['version'],
 			true
 		);
 		wp_register_style(
 			'woocommerce_stripe_admin',
-			plugins_url( 'build/upe_settings.css', WC_STRIPE_MAIN_FILE ),
+			plugins_url( 'build/upe-settings.css', WC_STRIPE_MAIN_FILE ),
 			[ 'wc-components' ],
 			$script_asset['version']
 		);
 
-		$oauth_url = woocommerce_gateway_stripe()->connect->get_oauth_url();
-		$oauth_url = is_wp_error( $oauth_url ) ? '' : $oauth_url;
+		$oauth_url      = '';
+		$test_oauth_url = '';
 
-		$test_oauth_url = woocommerce_gateway_stripe()->connect->get_oauth_url( '', 'test' );
-		$test_oauth_url = is_wp_error( $test_oauth_url ) ? '' : $test_oauth_url;
+		// Get URLs at page load only if account doesn't exist or if account exists but not connected via OAuth
+		if ( $this->needs_oauth_urls() ) {
+			$oauth_url = woocommerce_gateway_stripe()->connect->get_oauth_url();
+			$oauth_url = is_wp_error( $oauth_url ) ? '' : $oauth_url;
+
+			$test_oauth_url = woocommerce_gateway_stripe()->connect->get_oauth_url( '', 'test' );
+			$test_oauth_url = is_wp_error( $test_oauth_url ) ? '' : $test_oauth_url;
+		}
 
 		$message = sprintf(
 		/* translators: 1) Html strong opening tag 2) Html strong closing tag */
@@ -180,6 +235,11 @@ class WC_Stripe_Settings_Controller {
 			'time'                      => time(),
 			'i18n_out_of_sync'          => $message,
 			'is_upe_checkout_enabled'   => WC_Stripe_Feature_Flags::is_upe_checkout_enabled(),
+			'is_ach_enabled'            => WC_Stripe_Feature_Flags::is_ach_lpm_enabled(),
+			'is_acss_enabled'           => WC_Stripe_Feature_Flags::is_acss_lpm_enabled(),
+			'is_bacs_enabled'           => WC_Stripe_Feature_Flags::is_bacs_lpm_enabled(),
+			'is_blik_enabled'           => WC_Stripe_Feature_Flags::is_blik_lpm_enabled(),
+			'is_becs_debit_enabled'     => WC_Stripe_Feature_Flags::is_becs_debit_lpm_enabled(),
 			'stripe_oauth_url'          => $oauth_url,
 			'stripe_test_oauth_url'     => $test_oauth_url,
 			'show_customization_notice' => get_option( 'wc_stripe_show_customization_notice', 'yes' ) === 'yes' ? true : false,
@@ -187,6 +247,9 @@ class WC_Stripe_Settings_Controller {
 			'plugin_version'            => WC_STRIPE_VERSION,
 			'account_country'           => $this->account->get_account_country(),
 			'are_apms_deprecated'       => WC_Stripe_Feature_Flags::are_apms_deprecated(),
+			'is_amazon_pay_available'   => WC_Stripe_Feature_Flags::is_amazon_pay_available(),
+			'is_spe_available'          => WC_Stripe_Feature_Flags::is_spe_available(),
+			'oauth_nonce'               => wp_create_nonce( 'wc_stripe_get_oauth_urls' ),
 		];
 		wp_localize_script(
 			'woocommerce_stripe_admin',
@@ -234,29 +297,5 @@ class WC_Stripe_Settings_Controller {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Updates the Stripe account data on the settings page.
-	 *
-	 * Some plugin settings (eg statement descriptions) require the latest update-to-date data from the Stripe Account to display
-	 * correctly. This function clears the account cache when the settings page is loaded to ensure the latest data is displayed.
-	 */
-	public function maybe_update_account_data() {
-
-		// Exit early if we're not on the payments settings page.
-		if ( ! isset( $_GET['page'], $_GET['tab'] ) || 'wc-settings' !== $_GET['page'] || 'checkout' !== $_GET['tab'] ) {
-			return;
-		}
-
-		if ( ! isset( $_GET['section'] ) || 'stripe' !== $_GET['section'] ) {
-			return;
-		}
-
-		if ( ! WC_Stripe::get_instance()->connect->is_connected() ) {
-			return [];
-		}
-
-		$this->account->clear_cache();
 	}
 }

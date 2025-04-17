@@ -1,4 +1,7 @@
 <?php
+
+use Automattic\WooCommerce\Enums\OrderStatus;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -105,13 +108,13 @@ class WC_Gateway_Stripe_Boleto extends WC_Stripe_Payment_Gateway_Voucher {
 	 * Adds on-hold as accepted status during webhook handling on orders paid with voucher
 	 *
 	 * @param $allowed_statuses
-	 * @param $order
+	 * @param $order WC_Stripe_Order
 	 *
 	 * @return mixed
 	 */
 	public function add_allowed_payment_processing_statuses( $allowed_statuses, $order ) {
-		if ( $this->stripe_id === $order->get_meta( '_stripe_upe_payment_type' ) && ! in_array( 'on-hold', $allowed_statuses ) ) {
-			$allowed_statuses[] = 'on-hold';
+		if ( $this->stripe_id === $order->get_upe_payment_type() && ! in_array( OrderStatus::ON_HOLD, $allowed_statuses, true ) ) {
+			$allowed_statuses[] = OrderStatus::ON_HOLD;
 		}
 
 		return $allowed_statuses;
@@ -183,7 +186,7 @@ class WC_Gateway_Stripe_Boleto extends WC_Stripe_Payment_Gateway_Voucher {
 				WC_Stripe_Payment_Methods::BOLETO => [
 					'tax_id' => isset( $_POST['stripe_boleto_tax_id'] ) ? wc_clean( wp_unslash( $_POST['stripe_boleto_tax_id'] ) ) : null,
 				],
-				'billing_details' => [
+				'billing_details'                 => [
 					'name'    => $order->get_formatted_billing_full_name(),
 					'email'   => $order->get_billing_email(),
 					'address' => [

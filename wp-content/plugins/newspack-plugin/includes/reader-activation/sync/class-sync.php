@@ -21,9 +21,18 @@ class Sync {
 	 * Log a message to the Newspack Logger.
 	 *
 	 * @param string $message The message to log.
+	 * @param array  $data    Optional. Additional data to log.
 	 */
-	protected static function log( $message ) {
+	protected static function log( $message, $data = [] ) {
 		Logger::log( $message, 'NEWSPACK-SYNC' );
+		if ( ! empty( $data ) ) {
+			Logger::newspack_log(
+				'newspack_sync',
+				$message,
+				$data,
+				'debug'
+			);
+		}
 	}
 
 	/**
@@ -39,14 +48,14 @@ class Sync {
 		if ( ! Reader_Activation::is_enabled() ) {
 			$errors->add(
 				'ras_not_enabled',
-				__( 'Reader Activation is not enabled.', 'newspack-plugin' )
+				__( 'Audience Management is not enabled.', 'newspack-plugin' )
 			);
 		}
 
 		if ( class_exists( 'WCS_Staging' ) && \WCS_Staging::is_duplicate_site() ) {
 			$errors->add(
 				'wcs_duplicate_site',
-				__( 'Reader Activation sync is disabled for cloned sites.', 'newspack-plugin' )
+				__( 'Audience Management contact data syncing is disabled for cloned sites.', 'newspack-plugin' )
 			);
 		}
 
@@ -62,7 +71,7 @@ class Sync {
 		) {
 			$errors->add(
 				'esp_sync_not_allowed',
-				__( 'Sync is disabled for staging sites. To bypass this check, set the NEWSPACK_ALLOW_READER_SYNC constant in your wp-config.php.', 'newspack-plugin' )
+				__( 'Contact data syncing is disabled for staging sites. To bypass this check, set the NEWSPACK_ALLOW_READER_SYNC constant in your wp-config.php.', 'newspack-plugin' )
 			);
 		}
 

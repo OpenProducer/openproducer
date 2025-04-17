@@ -11,6 +11,7 @@ declare global {
 			post_subtitle: boolean;
 			can_use_name_your_price: boolean;
 			tier_amounts_template: string;
+			currency: string;
 		};
 		grecaptcha: any;
 		newspackReaderActivation: {
@@ -101,6 +102,7 @@ declare global {
 		authors: AuthorId[];
 		categories: CategoryId[];
 		includeSubcategories: boolean;
+		categoryJoinType: string;
 		excerptLength: number;
 		postType: PostType[];
 		showImage: boolean;

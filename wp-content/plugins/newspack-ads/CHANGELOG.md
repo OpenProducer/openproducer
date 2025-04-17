@@ -1,3 +1,55 @@
+# [3.5.0](https://github.com/Automattic/newspack-ads/compare/v3.4.0...v3.5.0) (2025-03-31)
+
+
+### Bug Fixes
+
+* **ad-block-recovery:** remove nonce field ([#940](https://github.com/Automattic/newspack-ads/issues/940)) ([8144ed1](https://github.com/Automattic/newspack-ads/commit/8144ed1ca7b6139164550989a71aca238827852b))
+
+
+### Features
+
+* **blocks:** update ad-unit icon and move icons to their own file ([#941](https://github.com/Automattic/newspack-ads/issues/941)) ([2ccd063](https://github.com/Automattic/newspack-ads/commit/2ccd06374880a39f874d79deac981bfbb5c6c467))
+
+# [3.4.0](https://github.com/Automattic/newspack-ads/compare/v3.3.2...v3.4.0) (2025-03-04)
+
+
+### Features
+
+* update brand colours ([#937](https://github.com/Automattic/newspack-ads/issues/937)) ([92b7835](https://github.com/Automattic/newspack-ads/commit/92b7835a29ae1103c503e7baead0b44f99367220))
+
+## [3.3.2](https://github.com/Automattic/newspack-ads/compare/v3.3.1...v3.3.2) (2025-01-20)
+
+
+### Bug Fixes
+
+* consolidate duplicate selectors ([6382fb0](https://github.com/Automattic/newspack-ads/commit/6382fb083686b987676d031052a6a63a3b426f08))
+* correct linting errors ([1dbc9ec](https://github.com/Automattic/newspack-ads/commit/1dbc9ec5f00112d1c14593cc77c5e79dcf8fd8f1))
+* correct linting errors ([759e54e](https://github.com/Automattic/newspack-ads/commit/759e54e34b391fbb405dcc4411265a6ff7d05552))
+* correct spacing issues in editor ([31ef925](https://github.com/Automattic/newspack-ads/commit/31ef9255d3e9c4743432ae21d8f38f9edfff65db))
+* correct variable value ([7fd768d](https://github.com/Automattic/newspack-ads/commit/7fd768da0488c04e87ab77c240b4ec9afc75492b))
+* update CSS selector for tabs to work outside of media kit ([49d7a86](https://github.com/Automattic/newspack-ads/commit/49d7a86fd0462d439050095b6a7f9c9980685645))
+
+## [3.3.1](https://github.com/Automattic/newspack-ads/compare/v3.3.0...v3.3.1) (2025-01-17)
+
+
+### Bug Fixes
+
+* **gam:** better handling of broken ad unit ([#934](https://github.com/Automattic/newspack-ads/issues/934)) ([0fdcc4f](https://github.com/Automattic/newspack-ads/commit/0fdcc4fba341140e40e2d7ae6b8799b19161f4e2))
+
+# [3.3.0](https://github.com/Automattic/newspack-ads/compare/v3.2.2...v3.3.0) (2025-01-14)
+
+
+### Features
+
+* **gam:** add filter for ad config data in gtag ([#933](https://github.com/Automattic/newspack-ads/issues/933)) ([32e931e](https://github.com/Automattic/newspack-ads/commit/32e931ee737ddb756103e22e3dcb06cf0193f30e))
+
+## [3.2.2](https://github.com/Automattic/newspack-ads/compare/v3.2.1...v3.2.2) (2024-11-25)
+
+
+### Bug Fixes
+
+* add clear: both to global ads ([#918](https://github.com/Automattic/newspack-ads/issues/918)) ([8f951b5](https://github.com/Automattic/newspack-ads/commit/8f951b5e16e0c02690163e0cedce8e93b510c823))
+
 ## [3.2.1](https://github.com/Automattic/newspack-ads/compare/v3.2.0...v3.2.1) (2024-10-11)
 
 

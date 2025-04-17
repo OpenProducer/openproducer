@@ -3,6 +3,8 @@
  * Class WC_REST_Stripe_Orders_Controller
  */
 
+use Automattic\WooCommerce\Enums\OrderStatus;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -16,6 +18,39 @@ class WC_REST_Stripe_Orders_Controller extends WC_Stripe_REST_Base_Controller {
 	 * @var string
 	 */
 	protected $rest_base = 'wc_stripe/orders';
+
+	/**
+	 * Minimum charge amounts by currency.
+	 * https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts
+	 *
+	 * @var array
+	 */
+	protected static $minimum_amounts = [
+		'USD' => 50,    // $0.50
+		'AED' => 200,   // 2.00 د.إ
+		'AUD' => 50,    // $0.50
+		'BGN' => 100,   // лв1.00
+		'BRL' => 50,    // R$0.50
+		'CAD' => 50,    // $0.50
+		'CHF' => 50,    // 0.50 Fr
+		'CZK' => 1500,  // 15.00Kč
+		'DKK' => 250,   // 2.50-kr
+		'EUR' => 50,    // €0.50
+		'GBP' => 30,    // £0.30
+		'HKD' => 400,   // $4.00
+		'HUF' => 17500, // 175.00 Ft
+		'INR' => 50,    // ₹0.50
+		'JPY' => 50,    // ¥50
+		'MXN' => 1000,  // $10
+		'MYR' => 200,   // RM 2
+		'NOK' => 300,   // 3.00-kr
+		'NZD' => 50,    // $0.50
+		'PLN' => 200,   // 2.00 zł
+		'RON' => 200,   // lei2.00
+		'SEK' => 300,   // 3.00-kr
+		'SGD' => 50,    // $0.50
+		'THB' => 1000,  // ฿10
+	];
 
 	/**
 	 * Stripe payment gateway.
@@ -72,13 +107,13 @@ class WC_REST_Stripe_Orders_Controller extends WC_Stripe_REST_Base_Controller {
 		$order_id = $request['order_id'];
 
 		// Ensure order exists.
-		$order = wc_get_order( $order_id );
+		$order = WC_Stripe_Order::get_by_id( $order_id );
 		if ( false === $order || ! ( $order instanceof WC_Order ) ) {
 			return new WP_Error( 'wc_stripe', __( 'Order not found', 'woocommerce-gateway-stripe' ), [ 'status' => 404 ] );
 		}
 
 		// Validate order status before creating customer.
-		$disallowed_order_statuses = apply_filters( 'wc_stripe_create_customer_disallowed_order_statuses', [ 'completed', 'cancelled', 'refunded', 'failed' ] );
+		$disallowed_order_statuses = apply_filters( 'wc_stripe_create_customer_disallowed_order_statuses', [ OrderStatus::COMPLETED, OrderStatus::CANCELLED, OrderStatus::REFUNDED, OrderStatus::FAILED ] );
 		if ( $order->has_status( $disallowed_order_statuses ) ) {
 			return new WP_Error( 'wc_stripe_invalid_order_status', __( 'Invalid order status', 'woocommerce-gateway-stripe' ), [ 'status' => 400 ] );
 		}
@@ -91,7 +126,7 @@ class WC_REST_Stripe_Orders_Controller extends WC_Stripe_REST_Base_Controller {
 		$customer = new WC_Stripe_Customer( $order_user->ID );
 
 		// Set the customer ID if known but not already set.
-		$customer_id = $order->get_meta( '_stripe_customer_id', true );
+		$customer_id = $order->get_stripe_customer_id();
 		if ( ! $customer->get_id() && $customer_id ) {
 			$customer->set_id( $customer_id );
 		}
@@ -108,7 +143,7 @@ class WC_REST_Stripe_Orders_Controller extends WC_Stripe_REST_Base_Controller {
 			return new WP_Error( 'stripe_error', $e->getMessage() );
 		}
 
-		$order->update_meta_data( '_stripe_customer_id', $customer_id );
+		$order->set_stripe_customer_id( $customer_id );
 		$order->save();
 
 		return rest_ensure_response( [ 'id' => $customer_id ] );
@@ -118,7 +153,7 @@ class WC_REST_Stripe_Orders_Controller extends WC_Stripe_REST_Base_Controller {
 		try {
 			$intent_id = $request['payment_intent_id'];
 			$order_id  = $request['order_id'];
-			$order     = wc_get_order( $order_id );
+			$order     = WC_Stripe_Order::get_by_id( $order_id );
 
 			// Check that order exists before capturing payment.
 			if ( ! $order ) {
@@ -153,6 +188,25 @@ class WC_REST_Stripe_Orders_Controller extends WC_Stripe_REST_Base_Controller {
 			$this->gateway->process_response( $charge, $order );
 			$result = WC_Stripe_Order_Handler::get_instance()->capture_payment( $order );
 
+			// Check for amount_too_small error
+			if ( ! empty( $result->error ) && 'amount_too_small' === $result->error->code ) {
+				$currency       = strtoupper( $order->get_currency() );
+				$minimum_amount = isset( self::$minimum_amounts[ $currency ] ) ? self::$minimum_amounts[ $currency ] : null;
+
+				$message = wp_json_encode(
+					[
+						'minimum_amount'          => $minimum_amount,
+						'minimum_amount_currency' => $currency,
+					]
+				);
+
+				return new WP_Error(
+					'wc_stripe_capture_error_amount_too_small',
+					$message,
+					[ 'status' => 400 ]
+				);
+			}
+
 			// Check for failure to capture payment.
 			if ( empty( $result ) || empty( $result->status ) || WC_Stripe_Intent_Status::SUCCEEDED !== $result->status ) {
 				return new WP_Error(
@@ -167,7 +221,7 @@ class WC_REST_Stripe_Orders_Controller extends WC_Stripe_REST_Base_Controller {
 			}
 
 			// Successfully captured.
-			$order->update_status( 'completed' );
+			$order->update_status( OrderStatus::COMPLETED );
 			return rest_ensure_response(
 				[
 					'status' => $result->status,
@@ -177,6 +231,5 @@ class WC_REST_Stripe_Orders_Controller extends WC_Stripe_REST_Base_Controller {
 		} catch ( WC_Stripe_Exception $e ) {
 			return rest_ensure_response( new WP_Error( 'stripe_error', $e->getMessage() ) );
 		}
-
 	}
 }

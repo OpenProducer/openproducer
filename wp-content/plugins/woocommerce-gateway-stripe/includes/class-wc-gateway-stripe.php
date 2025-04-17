@@ -1,4 +1,7 @@
 <?php
+
+use Automattic\WooCommerce\Enums\OrderStatus;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -416,7 +419,16 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 			if ( $use_order_source ) {
 				$prepared_source = $this->prepare_order_source( $order );
 			} else {
-				$prepared_source = $this->prepare_source( get_current_user_id(), $force_save_source, $stripe_customer_id );
+				/**
+				 * Filters the user ID used to prepare the payment source.
+				 *
+				 * @since 9.2.0
+				 *
+				 * @param int     $user_id The user ID.
+				 * @param WC_Order $order  The order object.
+				 */
+				$user_id         = apply_filters( 'wc_stripe_process_payment_prepared_source_user', get_current_user_id(), $order );
+				$prepared_source = $this->prepare_source( $user_id, $force_save_source, $stripe_customer_id );
 			}
 
 			$this->maybe_disallow_prepaid_card( $prepared_source->source_object );
@@ -526,7 +538,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 			do_action( 'wc_gateway_stripe_process_payment_error', $e, $order );
 
 			/* translators: error message */
-			$order->update_status( 'failed' );
+			$order->update_status( OrderStatus::FAILED );
 
 			return [
 				'result'   => 'fail',
@@ -816,7 +828,10 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 
 		$force_save_source_value = apply_filters( 'wc_stripe_force_save_source', false );
 
-		if ( $this->save_payment_method_requested() || $force_save_source_value ) {
+		// We want to save the payment method if requested or forced, AND if we are not
+		// already using a saved payment method.
+		if ( ( $this->save_payment_method_requested() || $force_save_source_value ) &&
+			! $this->is_using_saved_payment_method() ) {
 			$query_params['save_payment_method'] = true;
 		}
 
@@ -876,7 +891,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 		if ( ! $order->has_status(
 			apply_filters(
 				'wc_stripe_allowed_payment_processing_statuses',
-				[ 'pending', 'failed' ],
+				[ OrderStatus::PENDING, OrderStatus::FAILED ],
 				$order
 			)
 		) ) {
@@ -945,7 +960,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 	 */
 	public function failed_sca_auth( $order, $intent ) {
 		// If the order has already failed, do not repeat the same message.
-		if ( $order->has_status( 'failed' ) ) {
+		if ( $order->has_status( OrderStatus::FAILED ) ) {
 			return;
 		}
 
@@ -954,7 +969,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 			/* translators: 1) The error message that was received from Stripe. */
 			? sprintf( __( 'Stripe SCA authentication failed. Reason: %s', 'woocommerce-gateway-stripe' ), $intent->last_payment_error->message )
 			: __( 'Stripe SCA authentication failed.', 'woocommerce-gateway-stripe' );
-		$order->update_status( 'failed', $status_message );
+		$order->update_status( OrderStatus::FAILED, $status_message );
 	}
 
 	/**
@@ -1204,5 +1219,17 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 		}
 
 		return $this->validate_text_field( $field_key, $field_value );
+	}
+
+	/**
+	 * Returns whether Google Pay and Apple Pay (PRBs) are enabled,
+	 * for the legacy checkout.
+	 *
+	 * WC_Stripe_UPE_Payment_Gateway overrides this method.
+	 *
+	 * @return bool
+	 */
+	public function is_payment_request_enabled() {
+		return 'yes' === $this->get_option( 'payment_request' );
 	}
 }

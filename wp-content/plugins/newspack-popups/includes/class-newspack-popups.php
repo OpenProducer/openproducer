@@ -23,11 +23,14 @@ final class Newspack_Popups {
 		'background_color'               => 'n_bc',
 		'hide_border'                    => 'n_hb',
 		'large_border'                   => 'n_lb',
+		'no_padding'                     => 'n_np',
 		'frequency'                      => 'n_fr',
 		'frequency_max'                  => 'n_fm',
 		'frequency_start'                => 'n_fs',
 		'frequency_between'              => 'n_fb',
 		'frequency_reset'                => 'n_ft',
+		'close_button_background_color'  => 'n_cb',
+		'enable_close_button_background' => 'n_cbg',
 		'overlay_color'                  => 'n_oc',
 		'overlay_opacity'                => 'n_oo',
 		'overlay_size'                   => 'n_os',
@@ -108,6 +111,8 @@ final class Newspack_Popups {
 		include_once __DIR__ . '/class-newspack-popups-data-api.php';
 		include_once __DIR__ . '/class-newspack-popups-criteria.php';
 		include_once __DIR__ . '/class-newspack-popups-expiry.php';
+		include_once __DIR__ . '/merge-tags/class-merge-tag.php';
+		include_once __DIR__ . '/merge-tags/class-merge-tags.php';
 	}
 
 	/**
@@ -161,6 +166,7 @@ final class Newspack_Popups {
 		$cpt_args = [
 			'labels'       => $labels,
 			'public'       => false,
+			'show_in_menu' => false,
 			'show_ui'      => true,
 			'show_in_rest' => true,
 			'supports'     => [ 'editor', 'title', 'custom-fields', 'thumbnail', 'revisions' ],
@@ -333,6 +339,9 @@ final class Newspack_Popups {
 				'single'            => true,
 				'auth_callback'     => '__return_true',
 				'sanitize_callback' => function( $input ) {
+					if ( empty( $input ) ) {
+						return '';
+					}
 					return preg_replace( '~[^-\w0-9_\s]+~', '', $input );
 				},
 			]
@@ -345,6 +354,31 @@ final class Newspack_Popups {
 				'object_subtype' => self::NEWSPACK_POPUPS_CPT,
 				'show_in_rest'   => true,
 				'type'           => 'string',
+				'single'         => true,
+				'auth_callback'  => '__return_true',
+			]
+		);
+
+		\register_meta(
+			'post',
+			'close_button_background_color',
+			[
+				'object_subtype' => self::NEWSPACK_POPUPS_CPT,
+				'show_in_rest'   => true,
+				'type'           => 'string',
+				'single'         => true,
+				'auth_callback'  => '__return_true',
+			]
+		);
+
+		\register_meta(
+			'post',
+			'enable_close_button_background',
+			[
+				'object_subtype' => self::NEWSPACK_POPUPS_CPT,
+				'show_in_rest'   => true,
+				'type'           => 'boolean',
+				'default'        => false,
 				'single'         => true,
 				'auth_callback'  => '__return_true',
 			]
@@ -415,6 +449,18 @@ final class Newspack_Popups {
 		\register_meta(
 			'post',
 			'large_border',
+			[
+				'object_subtype' => self::NEWSPACK_POPUPS_CPT,
+				'show_in_rest'   => true,
+				'type'           => 'boolean',
+				'single'         => true,
+				'auth_callback'  => '__return_true',
+			]
+		);
+
+		\register_meta(
+			'post',
+			'no_padding',
 			[
 				'object_subtype' => self::NEWSPACK_POPUPS_CPT,
 				'show_in_rest'   => true,
@@ -881,7 +927,10 @@ final class Newspack_Popups {
 		update_post_meta( $post_id, 'background_color', '#FFFFFF' );
 		update_post_meta( $post_id, 'hide_border', false );
 		update_post_meta( $post_id, 'large_border', false );
+		update_post_meta( $post_id, 'no_padding', false );
 		update_post_meta( $post_id, 'frequency', $frequency );
+		update_post_meta( $post_id, 'close_button_background_color', '#00000000' );
+		update_post_meta( $post_id, 'enable_close_button_background', false );
 		update_post_meta( $post_id, 'overlay_color', '#000000' );
 		update_post_meta( $post_id, 'overlay_opacity', 30 );
 		update_post_meta( $post_id, 'overlay_size', $overlay_size );
@@ -1250,6 +1299,14 @@ final class Newspack_Popups {
 				[ 'fields' => 'ids' ]
 			);
 			wp_set_post_terms( $new_popup_id, $old_campaigns, self::NEWSPACK_POPUPS_TAXONOMY );
+
+			// Apply segment terms.
+			$old_segments = wp_get_post_terms(
+				$id,
+				Newspack_Segments_Model::TAX_SLUG,
+				[ 'fields' => 'ids' ]
+			);
+			wp_set_post_terms( $new_popup_id, $old_segments, Newspack_Segments_Model::TAX_SLUG );
 
 			// Set prompt options to match old prompt.
 			$old_popup_options = Newspack_Popups_Model::get_popup_options( $id );

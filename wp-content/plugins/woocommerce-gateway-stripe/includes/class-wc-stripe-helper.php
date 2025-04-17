@@ -1,4 +1,7 @@
 <?php
+
+use Automattic\WooCommerce\Enums\OrderStatus;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -265,6 +268,7 @@ class WC_Stripe_Helper {
 				'tax_id_invalid'                        => __( 'Invalid Tax Id, please try again with a valid tax id', 'woocommerce-gateway-stripe' ),
 				'invalid_wallet_type'                   => __( 'Invalid wallet payment type, please try again or use an alternative method.', 'woocommerce-gateway-stripe' ),
 				'payment_intent_authentication_failure' => __( 'We are unable to authenticate your payment method. Please choose a different payment method and try again.', 'woocommerce-gateway-stripe' ),
+				'insufficient_funds'                    => __( 'Your card has insufficient funds.', 'woocommerce-gateway-stripe' ),
 			]
 		);
 	}
@@ -617,7 +621,7 @@ class WC_Stripe_Helper {
 	 */
 	public static function get_upe_individual_payment_method_settings( $gateway ) {
 		$payment_method_settings = [];
-		$available_gateways = $gateway->get_upe_available_payment_methods();
+		$available_gateways      = $gateway->get_upe_available_payment_methods();
 
 		foreach ( $available_gateways as $gateway ) {
 			$individual_gateway_settings = get_option( 'woocommerce_stripe_' . $gateway . '_settings', [] );
@@ -736,7 +740,7 @@ class WC_Stripe_Helper {
 		$payment_method_ids_with_capability = [];
 
 		foreach ( $payment_method_ids as $payment_method_id ) {
-			$key            = $payment_method_id . '_payments';
+			$key = self::get_payment_method_capability_id( $payment_method_id );
 			// Check if the payment method has capabilities set in the account data.
 			// Generally the key is the payment method id appended with '_payments' (i.e. 'card_payments', 'sepa_debit_payments', 'klarna_payments').
 			// In some cases, the Stripe account might have the legacy key set. For example, for Klarna, the legacy key is 'klarna'.
@@ -988,7 +992,7 @@ class WC_Stripe_Helper {
 			$order = wc_get_order( $order_id );
 		}
 
-		if ( ! empty( $order ) && $order->get_status() !== 'trash' ) {
+		if ( ! empty( $order ) && $order->get_status() !== OrderStatus::TRASH ) {
 			return $order;
 		}
 
@@ -1489,7 +1493,17 @@ class WC_Stripe_Helper {
 	 * @return bool Whether the payment method allows manual capture.
 	 */
 	public static function payment_method_allows_manual_capture( string $payment_method_id ) {
-		return in_array( $payment_method_id, [ 'stripe', 'stripe_affirm', 'stripe_klarna', 'stripe_afterpay_clearpay' ], true );
+		return in_array(
+			$payment_method_id,
+			[
+				'stripe',
+				'stripe_affirm',
+				'stripe_klarna',
+				'stripe_afterpay_clearpay',
+				'stripe_amazon_pay',
+			],
+			true
+		);
 	}
 
 	/**
@@ -1605,5 +1619,113 @@ class WC_Stripe_Helper {
 		}
 
 		return $target_locale;
+	}
+
+	/**
+	 * Adds mandate data to the request.
+	 *
+	 * @param array $request The request to add mandate data to.
+	 *
+	 * @return array The request with mandate data added.
+	 */
+	public static function add_mandate_data( $request ) {
+		$ip_address = WC_Geolocation::get_ip_address();
+		self::maybe_log_ip_issues( $ip_address );
+
+		$request['mandate_data'] = [
+			'customer_acceptance' => [
+				'type'   => 'online',
+				'online' => [
+					'ip_address' => $ip_address,
+					'user_agent' => 'WooCommerce Stripe Gateway' . WC_STRIPE_VERSION . '; ' . get_bloginfo( 'url' ),
+				],
+			],
+		];
+
+		return $request;
+	}
+
+	/**
+	 * Logs an invalid IP address.
+	 *
+	 * @param string $ip_address The IP address to log.
+	 * @return void
+	 */
+	public static function maybe_log_ip_issues( $ip_address ) {
+		if ( rest_is_ip_address( $ip_address ) === false ) {
+			$log_data = [ 'WC_Geolocation::get_ip_address()' => $ip_address ];
+			$headers  = [
+				'HTTP_X_REAL_IP',
+				'HTTP_X_FORWARDED_FOR',
+				'REMOTE_ADDR',
+			];
+			foreach ( $headers as $header ) {
+				$log_data[ $header ] = isset( $_SERVER[ $header ] ) ? sanitize_text_field( wp_unslash( $_SERVER[ $header ] ) ) : 'not set';
+			}
+
+			WC_Stripe_Logger::log( 'Invalid IP address detected. Data: ' . wp_json_encode( $log_data ) );
+		}
+	}
+
+	/**
+	 * Return capability ID based on payment method ID.
+	 *
+	 * @param string $payment_method_id The payment method ID.
+	 * @return string The capability ID.
+	 */
+	public static function get_payment_method_capability_id( $payment_method_id ) {
+		// "_payments" is a suffix that comes from Stripe API, except when it is "transfers" or ACH.
+		if ( WC_Stripe_UPE_Payment_Method_ACH::STRIPE_ID === $payment_method_id ) {
+			return $payment_method_id . '_ach_payments';
+		}
+
+		return $payment_method_id . '_payments';
+	}
+
+	/**
+	 * Renders the admin header with back link consistently across admin pages.
+	 *
+	 * @param string $header_text The text to display in the header.
+	 * @param string $return_text The text for the return link.
+	 * @param string $return_url  The URL for the return link.
+	 * @return void
+	 */
+	public static function render_admin_header( $header_text, $return_text, $return_url ) {
+		if ( function_exists( 'wc_back_header' ) ) {
+			wc_back_header( $header_text, $return_text, $return_url );
+		} else {
+			// Until the wc_back_header function is available (WC Core 9.9) use the current available version.
+			echo '<h2>' . esc_html( $header_text );
+			wc_back_link( $return_text, $return_url );
+			echo '</h2>';
+		}
+	}
+
+	/**
+	 * Checks if a given currency is supported for Indian recurring payment mandates.
+	 *
+	 * @since 9.4.0
+	 * @param string $currency The currency code to check (e.g., 'usd', 'eur').
+	 * @return bool True if the currency is supported, false otherwise.
+	 */
+	public static function is_currency_supported_for_indian_recurring_payment_mandate( $currency ) {
+		// India recurring payment mandates can only be requested for the following currencies.
+		$supported_currencies = [
+			'inr', // Indian Rupee
+			'usd', // US Dollar
+			'eur', // Euro
+			'gbp', // British Pound
+			'sgd', // Singapore Dollar
+			'cad', // Canadian Dollar
+			'chf', // Swiss Franc
+			'sek', // Swedish Krona
+			'aed', // UAE Dirham
+			'jpy', // Japanese Yen
+			'nok', // Norwegian Krone
+			'myr', // Malaysian Ringgit
+			'hkd', // Hong Kong Dollar
+		];
+
+		return in_array( strtolower( $currency ), $supported_currencies, true );
 	}
 }
