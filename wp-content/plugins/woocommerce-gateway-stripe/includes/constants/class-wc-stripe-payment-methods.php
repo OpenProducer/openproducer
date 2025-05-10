@@ -1,23 +1,18 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
-}
-
 /**
  * Class WC_Stripe_Payment_Methods
  */
 class WC_Stripe_Payment_Methods {
-	// Standard payment method constants
+
 	const ACH               = 'us_bank_account';
 	const ACSS_DEBIT        = 'acss_debit';
 	const AFFIRM            = 'affirm';
 	const AFTERPAY_CLEARPAY = 'afterpay_clearpay';
 	const ALIPAY            = 'alipay';
+	const AMAZON_PAY        = 'amazon_pay';
 	const BACS_DEBIT        = 'bacs_debit';
-	const BECS_DEBIT        = 'au_becs_debit';
 	const BANCONTACT        = 'bancontact';
-	const BLIK              = 'blik';
 	const BOLETO            = 'boleto';
 	const CARD              = 'card';
 	const CARD_PRESENT      = 'card_present';
@@ -26,6 +21,7 @@ class WC_Stripe_Payment_Methods {
 	const GIROPAY           = 'giropay';
 	const IDEAL             = 'ideal';
 	const KLARNA            = 'klarna';
+	const LINK              = 'link';
 	const MULTIBANCO        = 'multibanco';
 	const OXXO              = 'oxxo';
 	const P24               = 'p24';
@@ -34,18 +30,9 @@ class WC_Stripe_Payment_Methods {
 	const SOFORT            = 'sofort';
 	const WECHAT_PAY        = 'wechat_pay';
 
-	// Express method constants
-	const AMAZON_PAY = 'amazon_pay';
-	const GOOGLE_PAY = 'google_pay';
-	const APPLE_PAY  = 'apple_pay';
-	const LINK       = 'link';
-
 	// Payment method labels
-	const BACS_DEBIT_LABEL      = 'Bacs Direct Debit';
-	const GOOGLE_PAY_LABEL      = 'Google Pay';
-	const APPLE_PAY_LABEL       = 'Apple Pay';
-	const LINK_LABEL            = 'Link';
-	const PAYMENT_REQUEST_LABEL = 'Payment Request';
+	const AMAZON_PAY_LABEL = 'Amazon Pay (Stripe)';
+	const BACS_DEBIT_LABEL = 'Bacs Direct Debit';
 
 	/**
 	 * Payment methods that are considered as voucher payment methods.
@@ -80,11 +67,10 @@ class WC_Stripe_Payment_Methods {
 	];
 
 	/**
-	 * List of express payment methods labels. Amazon Pay and Link are not included,
-	 * as they have their own payment method classes.
+	 * Payment methods we need to hide the action buttons from the order page.
 	 */
-	const EXPRESS_METHODS_LABELS = [
-		'google_pay' => self::GOOGLE_PAY_LABEL,
-		'apple_pay'  => self::APPLE_PAY_LABEL,
+	const PAYMENT_METHODS_WITH_DELAYED_VERIFICATION = [
+		self::AMAZON_PAY_LABEL,
+		self::BACS_DEBIT_LABEL,
 	];
 }

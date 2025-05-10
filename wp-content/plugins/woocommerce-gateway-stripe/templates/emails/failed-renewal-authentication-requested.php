@@ -17,7 +17,6 @@ do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
 
 <p>
 	<?php
-
 	echo esc_html(
 		sprintf(
 			// translators: 1) an order number, 2) the customer's full name, 3) lowercase human time diff in the form returned by wcs_get_human_time_diff(), e.g. 'in 12 hours'.
@@ -28,7 +27,7 @@ do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
 			),
 			$order->get_order_number(),
 			$order->get_formatted_billing_full_name(),
-			$email->get_retry_time()
+			function_exists( 'wcs_get_human_time_diff' ) ? wcs_get_human_time_diff( $retry->get_time() ) : ''
 		)
 	);
 	?>

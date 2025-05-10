@@ -1,7 +1,4 @@
 <?php
-
-use Automattic\WooCommerce\Enums\OrderStatus;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -538,7 +535,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 			do_action( 'wc_gateway_stripe_process_payment_error', $e, $order );
 
 			/* translators: error message */
-			$order->update_status( OrderStatus::FAILED );
+			$order->update_status( 'failed' );
 
 			return [
 				'result'   => 'fail',
@@ -891,7 +888,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 		if ( ! $order->has_status(
 			apply_filters(
 				'wc_stripe_allowed_payment_processing_statuses',
-				[ OrderStatus::PENDING, OrderStatus::FAILED ],
+				[ 'pending', 'failed' ],
 				$order
 			)
 		) ) {
@@ -960,7 +957,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 	 */
 	public function failed_sca_auth( $order, $intent ) {
 		// If the order has already failed, do not repeat the same message.
-		if ( $order->has_status( OrderStatus::FAILED ) ) {
+		if ( $order->has_status( 'failed' ) ) {
 			return;
 		}
 
@@ -969,7 +966,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 			/* translators: 1) The error message that was received from Stripe. */
 			? sprintf( __( 'Stripe SCA authentication failed. Reason: %s', 'woocommerce-gateway-stripe' ), $intent->last_payment_error->message )
 			: __( 'Stripe SCA authentication failed.', 'woocommerce-gateway-stripe' );
-		$order->update_status( OrderStatus::FAILED, $status_message );
+		$order->update_status( 'failed', $status_message );
 	}
 
 	/**
@@ -1219,17 +1216,5 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 		}
 
 		return $this->validate_text_field( $field_key, $field_value );
-	}
-
-	/**
-	 * Returns whether Google Pay and Apple Pay (PRBs) are enabled,
-	 * for the legacy checkout.
-	 *
-	 * WC_Stripe_UPE_Payment_Gateway overrides this method.
-	 *
-	 * @return bool
-	 */
-	public function is_payment_request_enabled() {
-		return 'yes' === $this->get_option( 'payment_request' );
 	}
 }

@@ -3,8 +3,6 @@
  * Class WC_REST_Stripe_Orders_Controller
  */
 
-use Automattic\WooCommerce\Enums\OrderStatus;
-
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -107,13 +105,13 @@ class WC_REST_Stripe_Orders_Controller extends WC_Stripe_REST_Base_Controller {
 		$order_id = $request['order_id'];
 
 		// Ensure order exists.
-		$order = WC_Stripe_Order::get_by_id( $order_id );
+		$order = wc_get_order( $order_id );
 		if ( false === $order || ! ( $order instanceof WC_Order ) ) {
 			return new WP_Error( 'wc_stripe', __( 'Order not found', 'woocommerce-gateway-stripe' ), [ 'status' => 404 ] );
 		}
 
 		// Validate order status before creating customer.
-		$disallowed_order_statuses = apply_filters( 'wc_stripe_create_customer_disallowed_order_statuses', [ OrderStatus::COMPLETED, OrderStatus::CANCELLED, OrderStatus::REFUNDED, OrderStatus::FAILED ] );
+		$disallowed_order_statuses = apply_filters( 'wc_stripe_create_customer_disallowed_order_statuses', [ 'completed', 'cancelled', 'refunded', 'failed' ] );
 		if ( $order->has_status( $disallowed_order_statuses ) ) {
 			return new WP_Error( 'wc_stripe_invalid_order_status', __( 'Invalid order status', 'woocommerce-gateway-stripe' ), [ 'status' => 400 ] );
 		}
@@ -126,7 +124,7 @@ class WC_REST_Stripe_Orders_Controller extends WC_Stripe_REST_Base_Controller {
 		$customer = new WC_Stripe_Customer( $order_user->ID );
 
 		// Set the customer ID if known but not already set.
-		$customer_id = $order->get_stripe_customer_id();
+		$customer_id = $order->get_meta( '_stripe_customer_id', true );
 		if ( ! $customer->get_id() && $customer_id ) {
 			$customer->set_id( $customer_id );
 		}
@@ -143,7 +141,7 @@ class WC_REST_Stripe_Orders_Controller extends WC_Stripe_REST_Base_Controller {
 			return new WP_Error( 'stripe_error', $e->getMessage() );
 		}
 
-		$order->set_stripe_customer_id( $customer_id );
+		$order->update_meta_data( '_stripe_customer_id', $customer_id );
 		$order->save();
 
 		return rest_ensure_response( [ 'id' => $customer_id ] );
@@ -153,7 +151,7 @@ class WC_REST_Stripe_Orders_Controller extends WC_Stripe_REST_Base_Controller {
 		try {
 			$intent_id = $request['payment_intent_id'];
 			$order_id  = $request['order_id'];
-			$order     = WC_Stripe_Order::get_by_id( $order_id );
+			$order     = wc_get_order( $order_id );
 
 			// Check that order exists before capturing payment.
 			if ( ! $order ) {
@@ -221,7 +219,7 @@ class WC_REST_Stripe_Orders_Controller extends WC_Stripe_REST_Base_Controller {
 			}
 
 			// Successfully captured.
-			$order->update_status( OrderStatus::COMPLETED );
+			$order->update_status( 'completed' );
 			return rest_ensure_response(
 				[
 					'status' => $result->status,

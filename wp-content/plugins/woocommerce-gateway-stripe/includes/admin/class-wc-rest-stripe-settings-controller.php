@@ -88,6 +88,11 @@ class WC_REST_Stripe_Settings_Controller extends WC_Stripe_REST_Base_Controller 
 						'type'              => 'boolean',
 						'validate_callback' => 'rest_validate_request_arg',
 					],
+					'is_amazon_pay_enabled'              => [
+						'description'       => __( 'If Amazon Pay should be enabled.', 'woocommerce-gateway-stripe' ),
+						'type'              => 'boolean',
+						'validate_callback' => 'rest_validate_request_arg',
+					],
 					'amazon_pay_button_size'             => [
 						'description'       => __( 'Express checkout button sizes.', 'woocommerce-gateway-stripe' ),
 						'type'              => 'string',
@@ -241,7 +246,7 @@ class WC_REST_Stripe_Settings_Controller extends WC_Stripe_REST_Base_Controller 
 		$is_upe_enabled               = WC_Stripe_Feature_Flags::is_upe_checkout_enabled();
 		$available_payment_method_ids = $is_upe_enabled ? $this->gateway->get_upe_available_payment_methods() : WC_Stripe_Helper::get_legacy_available_payment_method_ids();
 		$ordered_payment_method_ids   = $is_upe_enabled ? WC_Stripe_Helper::get_upe_ordered_payment_method_ids( $this->gateway ) : $available_payment_method_ids;
-		$enabled_payment_method_ids   = $is_upe_enabled ? $this->gateway->get_upe_enabled_payment_method_ids() : WC_Stripe_Helper::get_legacy_enabled_payment_method_ids();
+		$enabled_payment_method_ids   = $is_upe_enabled ? WC_Stripe_Helper::get_upe_settings_enabled_payment_method_ids( $this->gateway ) : WC_Stripe_Helper::get_legacy_enabled_payment_method_ids();
 
 		return new WP_REST_Response(
 			[
@@ -252,18 +257,14 @@ class WC_REST_Stripe_Settings_Controller extends WC_Stripe_REST_Base_Controller 
 				/* Settings > Payments accepted on checkout */
 				'enabled_payment_method_ids'               => array_values( array_intersect( $enabled_payment_method_ids, $available_payment_method_ids ) ), // only fetch enabled payment methods that are available.
 				'available_payment_method_ids'             => $available_payment_method_ids,
-				'ordered_payment_method_ids'               => array_values(
-					array_diff(
-						$ordered_payment_method_ids,
-						[ WC_Stripe_Payment_Methods::AMAZON_PAY, WC_Stripe_Payment_Methods::LINK ]
-					)
-				), // exclude Amazon Pay and Link from this list as they are express methods only.
+				'ordered_payment_method_ids'               => array_values( array_diff( $ordered_payment_method_ids, [ WC_Stripe_Payment_Methods::LINK ] ) ), // exclude Link from this list as it is a express methods.
 				'individual_payment_method_settings'       => $is_upe_enabled ? WC_Stripe_Helper::get_upe_individual_payment_method_settings( $this->gateway ) : WC_Stripe_Helper::get_legacy_individual_payment_method_settings(),
 
 				/* Settings > Express checkouts */
+				'is_amazon_pay_enabled'                    => 'yes' === $this->gateway->get_option( 'amazon_pay' ),
 				'amazon_pay_button_size'                   => $this->gateway->get_validated_option( 'amazon_pay_button_size' ),
 				'amazon_pay_button_locations'              => $this->gateway->get_validated_option( 'amazon_pay_button_locations' ),
-				'is_payment_request_enabled'               => $this->gateway->is_payment_request_enabled(),
+				'is_payment_request_enabled'               => 'yes' === $this->gateway->get_option( 'payment_request' ),
 				'payment_request_button_type'              => $this->gateway->get_validated_option( 'payment_request_button_type' ),
 				'payment_request_button_theme'             => $this->gateway->get_validated_option( 'payment_request_button_theme' ),
 				'payment_request_button_size'              => $this->gateway->get_validated_option( 'payment_request_button_size' ),
@@ -294,16 +295,14 @@ class WC_REST_Stripe_Settings_Controller extends WC_Stripe_REST_Base_Controller 
 		$this->update_is_stripe_enabled( $request );
 		$this->update_is_test_mode_enabled( $request );
 
-		/* Settings > Payments accepted on checkout + Express checkouts */
-		$payment_method_ids_to_enable = $this->get_payment_method_ids_to_enable( $request );
-		$is_upe_enabled               = $request->get_param( 'is_upe_enabled' );
-		$this->update_enabled_payment_methods( $payment_method_ids_to_enable, $is_upe_enabled );
-		if ( ! WC_Stripe_Feature_Flags::is_upe_checkout_enabled() || ! WC_Stripe_Payment_Method_Configurations::is_enabled() ) {
-			// We need to update a separate setting for legacy checkout.
-			$this->update_is_payment_request_enabled_for_legacy_checkout( $request );
-		}
+		/* Settings > Payments accepted on checkout */
+		$this->update_enabled_payment_methods( $request );
 		$this->update_individual_payment_method_settings( $request );
+
+		/* Settings > Express checkouts */
+		$this->update_is_payment_request_enabled( $request );
 		$this->update_payment_request_settings( $request );
+		$this->update_is_amazon_pay_enabled( $request );
 		$this->update_amazon_pay_settings( $request );
 
 		/* Settings > Payments & transactions */
@@ -319,28 +318,6 @@ class WC_REST_Stripe_Settings_Controller extends WC_Stripe_REST_Base_Controller 
 		$this->update_is_spe_enabled( $request );
 
 		return new WP_REST_Response( [], 200 );
-	}
-
-	/**
-	 * Returns the payment method IDs to enable.
-	 *
-	 * @param WP_REST_Request $request Request object.
-	 *
-	 * @return string[]
-	 */
-	private function get_payment_method_ids_to_enable( WP_REST_Request $request ) {
-		$payment_method_ids_to_enable = $request->get_param( 'enabled_payment_method_ids' );
-		$is_upe_enabled               = $request->get_param( 'is_upe_enabled' );
-		$is_payment_request_enabled   = $request->get_param( 'is_payment_request_enabled' );
-
-		if ( $is_upe_enabled && $is_payment_request_enabled ) {
-			$payment_method_ids_to_enable = array_merge(
-				$payment_method_ids_to_enable,
-				[ WC_Stripe_Payment_Methods::APPLE_PAY, WC_Stripe_Payment_Methods::GOOGLE_PAY ]
-			);
-		}
-
-		return $payment_method_ids_to_enable;
 	}
 
 	/**
@@ -414,11 +391,26 @@ class WC_REST_Stripe_Settings_Controller extends WC_Stripe_REST_Base_Controller 
 	}
 
 	/**
+	 * Updates the "Amazon Pay" enable/disable settings.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 */
+	private function update_is_amazon_pay_enabled( WP_REST_Request $request ) {
+		$is_amazon_pay_enabled = $request->get_param( 'is_amazon_pay_enabled' );
+
+		if ( null === $is_amazon_pay_enabled ) {
+			return;
+		}
+
+		$this->gateway->update_option( 'amazon_pay', $is_amazon_pay_enabled ? 'yes' : 'no' );
+	}
+
+	/**
 	 * Updates the "payment request" enable/disable settings.
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 */
-	private function update_is_payment_request_enabled_for_legacy_checkout( WP_REST_Request $request ) {
+	private function update_is_payment_request_enabled( WP_REST_Request $request ) {
 		$is_payment_request_enabled = $request->get_param( 'is_payment_request_enabled' );
 
 		if ( null === $is_payment_request_enabled ) {
@@ -599,35 +591,25 @@ class WC_REST_Stripe_Settings_Controller extends WC_Stripe_REST_Base_Controller 
 	 * @param WP_REST_Request $request Request object.
 	 */
 	private function update_is_spe_enabled( WP_REST_Request $request ) {
-		$is_spe_enabled      = $request->get_param( 'is_spe_enabled' );
-		$current_spe_enabled = $this->gateway->get_option( 'single_payment_element' );
+		$is_spe_enabled = $request->get_param( 'is_spe_enabled' );
 
 		if ( null === $is_spe_enabled ) {
 			return;
 		}
 
-		if ( $is_spe_enabled !== $current_spe_enabled ) {
-			$this->gateway->update_option( 'single_payment_element', $is_spe_enabled ? 'yes' : 'no' );
-			wc_admin_record_tracks_event(
-				$is_spe_enabled ? 'wcstripe_spe_enabled' : 'wcstripe_spe_disabled',
-				[ 'test_mode' => WC_Stripe_Mode::is_test() ? 1 : 0 ]
-			);
-		}
-
+		$this->gateway->update_option( 'single_payment_element', $is_spe_enabled ? 'yes' : 'no' );
 	}
 
 	/**
 	 * Updates the list of enabled payment methods.
 	 *
-	 * @param array $payment_method_ids_to_enable The list of payment method ids to enable.
-	 * @param bool $is_upe_enabled Whether UPE is enabled.
+	 * @param WP_REST_Request $request Request object.
 	 */
-	private function update_enabled_payment_methods( $payment_method_ids_to_enable, $is_upe_enabled ) {
-		if ( null === $is_upe_enabled ) {
-			return;
-		}
+	private function update_enabled_payment_methods( WP_REST_Request $request ) {
+		$payment_method_ids_to_enable = $request->get_param( 'enabled_payment_method_ids' );
+		$is_upe_enabled               = $request->get_param( 'is_upe_enabled' );
 
-		if ( null === $payment_method_ids_to_enable ) {
+		if ( null === $is_upe_enabled ) {
 			return;
 		}
 
@@ -647,9 +629,26 @@ class WC_REST_Stripe_Settings_Controller extends WC_Stripe_REST_Base_Controller 
 			return;
 		}
 
-		if ( $this->gateway instanceof WC_Stripe_UPE_Payment_Gateway ) {
-			$this->gateway->update_enabled_payment_methods( $payment_method_ids_to_enable );
+		if ( null === $payment_method_ids_to_enable ) {
+			return;
 		}
+
+		$currently_enabled_payment_method_ids      = (array) $this->gateway->get_option( 'upe_checkout_experience_accepted_payments' );
+		$upe_checkout_experience_accepted_payments = [];
+
+		foreach ( WC_Stripe_UPE_Payment_Gateway::UPE_AVAILABLE_METHODS as $gateway ) {
+			if ( in_array( $gateway::STRIPE_ID, $payment_method_ids_to_enable, true ) ) {
+				$upe_checkout_experience_accepted_payments[] = $gateway::STRIPE_ID;
+			}
+		}
+
+		$this->gateway->update_option( 'upe_checkout_experience_accepted_payments', $upe_checkout_experience_accepted_payments );
+
+		// After updating payment methods record tracks events.
+		$newly_enabled_methods  = array_diff( $upe_checkout_experience_accepted_payments, $currently_enabled_payment_method_ids );
+		$newly_disabled_methods = array_diff( $currently_enabled_payment_method_ids, $payment_method_ids_to_enable );
+
+		$this->record_payment_method_settings_event( $newly_enabled_methods, $newly_disabled_methods );
 	}
 
 	/**

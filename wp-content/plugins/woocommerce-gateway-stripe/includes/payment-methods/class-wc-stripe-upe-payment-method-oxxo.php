@@ -1,7 +1,4 @@
 <?php
-
-use Automattic\WooCommerce\Enums\OrderStatus;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -47,8 +44,8 @@ class WC_Stripe_UPE_Payment_Method_Oxxo extends WC_Stripe_UPE_Payment_Method {
 	 * @return mixed
 	 */
 	public function add_allowed_payment_processing_statuses( $allowed_statuses, $order ) {
-		if ( WC_Stripe_Payment_Methods::OXXO === $order->get_meta( '_stripe_upe_payment_type' ) && ! in_array( OrderStatus::ON_HOLD, $allowed_statuses, true ) ) {
-			$allowed_statuses[] = OrderStatus::ON_HOLD;
+		if ( WC_Stripe_Payment_Methods::OXXO === $order->get_meta( '_stripe_upe_payment_type' ) && ! in_array( 'on-hold', $allowed_statuses ) ) {
+			$allowed_statuses[] = 'on-hold';
 		}
 
 		return $allowed_statuses;

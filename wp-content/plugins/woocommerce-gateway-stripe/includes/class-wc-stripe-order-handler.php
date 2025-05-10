@@ -1,7 +1,4 @@
 <?php
-
-use Automattic\WooCommerce\Enums\OrderStatus;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -106,7 +103,7 @@ class WC_Stripe_Order_Handler extends WC_Stripe_Payment_Gateway {
 				return;
 			}
 
-			if ( $order->has_status( [ OrderStatus::PROCESSING, OrderStatus::COMPLETED, OrderStatus::ON_HOLD ] ) ) {
+			if ( $order->has_status( [ 'processing', 'completed', 'on-hold' ] ) ) {
 				return;
 			}
 
@@ -229,7 +226,7 @@ class WC_Stripe_Order_Handler extends WC_Stripe_Payment_Gateway {
 			do_action( 'wc_gateway_stripe_process_redirect_payment_error', $e, $order );
 
 			/* translators: error message */
-			$order->update_status( OrderStatus::FAILED, sprintf( __( 'Stripe payment failed: %s', 'woocommerce-gateway-stripe' ), $e->getLocalizedMessage() ) );
+			$order->update_status( 'failed', sprintf( __( 'Stripe payment failed: %s', 'woocommerce-gateway-stripe' ), $e->getLocalizedMessage() ) );
 
 			// Unlock the order.
 			$this->unlock_order_payment( $order );
@@ -318,7 +315,7 @@ class WC_Stripe_Order_Handler extends WC_Stripe_Payment_Gateway {
 
 						if ( ! empty( $result->error ) ) {
 							/* translators: error message */
-							$order->update_status( OrderStatus::FAILED, sprintf( __( 'Unable to capture charge! %s', 'woocommerce-gateway-stripe' ), $result->error->message ) );
+							$order->update_status( 'failed', sprintf( __( 'Unable to capture charge! %s', 'woocommerce-gateway-stripe' ), $result->error->message ) );
 						} else {
 							$is_stripe_captured = true;
 							$result             = $this->get_latest_charge_from_intent( $result );
@@ -349,7 +346,7 @@ class WC_Stripe_Order_Handler extends WC_Stripe_Payment_Gateway {
 
 						if ( ! empty( $result->error ) ) {
 							/* translators: error message */
-							$order->update_status( OrderStatus::FAILED, sprintf( __( 'Unable to capture charge! %s', 'woocommerce-gateway-stripe' ), $result->error->message ) );
+							$order->update_status( 'failed', sprintf( __( 'Unable to capture charge! %s', 'woocommerce-gateway-stripe' ), $result->error->message ) );
 						} else {
 							$is_stripe_captured = true;
 						}
