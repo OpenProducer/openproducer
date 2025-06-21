@@ -18,7 +18,7 @@ class WC_Stripe_Payment_Gateways_Controller {
 	public function __construct() {
 		// If UPE is enabled and there are enabled payment methods, we need to load the disable Stripe confirmation modal.
 		$stripe_settings              = WC_Stripe_Helper::get_stripe_settings();
-		$enabled_upe_payment_methods  = isset( $stripe_settings['upe_checkout_experience_accepted_payments'] ) ? $stripe_settings['upe_checkout_experience_accepted_payments'] : [];
+		$enabled_upe_payment_methods  = WC_Stripe_Payment_Method_Configurations::get_upe_enabled_payment_method_ids();
 		$upe_payment_requests_enabled = 'yes' === $stripe_settings['payment_request'];
 
 		if ( ( is_array( $enabled_upe_payment_methods ) && count( $enabled_upe_payment_methods ) > 0 ) || $upe_payment_requests_enabled ) {
@@ -28,7 +28,7 @@ class WC_Stripe_Payment_Gateways_Controller {
 	}
 
 	public function register_payments_scripts() {
-		$payment_gateways_script_asset_path = WC_STRIPE_PLUGIN_PATH . '/build/payment_gateways.asset.php';
+		$payment_gateways_script_asset_path = WC_STRIPE_PLUGIN_PATH . '/build/payment-gateways.asset.php';
 		$payment_gateways_script_asset      = file_exists( $payment_gateways_script_asset_path )
 			? require_once $payment_gateways_script_asset_path
 			: [
@@ -38,7 +38,7 @@ class WC_Stripe_Payment_Gateways_Controller {
 
 		wp_register_script(
 			'woocommerce_stripe_payment_gateways_page',
-			plugins_url( 'build/payment_gateways.js', WC_STRIPE_MAIN_FILE ),
+			plugins_url( 'build/payment-gateways.js', WC_STRIPE_MAIN_FILE ),
 			$payment_gateways_script_asset['dependencies'],
 			$payment_gateways_script_asset['version'],
 			true
@@ -49,7 +49,7 @@ class WC_Stripe_Payment_Gateways_Controller {
 		);
 		wp_register_style(
 			'woocommerce_stripe_payment_gateways_page',
-			plugins_url( 'build/payment_gateways.css', WC_STRIPE_MAIN_FILE ),
+			plugins_url( 'build/payment-gateways.css', WC_STRIPE_MAIN_FILE ),
 			[ 'wc-components' ],
 			$payment_gateways_script_asset['version']
 		);
@@ -80,5 +80,4 @@ class WC_Stripe_Payment_Gateways_Controller {
 		?><div id="wc-stripe-payment-gateways-container" />
 		<?php
 	}
-
 }
