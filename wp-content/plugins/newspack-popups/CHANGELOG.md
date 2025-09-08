@@ -1,3 +1,10 @@
+## [3.6.1](https://github.com/Automattic/newspack-popups/compare/v3.6.0...v3.6.1) (2025-09-08)
+
+
+### Bug Fixes
+
+* scheduling expiry check for midnight using AS ([#1467](https://github.com/Automattic/newspack-popups/issues/1467)) ([9ccb1fa](https://github.com/Automattic/newspack-popups/commit/9ccb1faebeaa16777780f67cddbb6f3e00df754b))
+
 # [3.6.0](https://github.com/Automattic/newspack-popups/compare/v3.5.4...v3.6.0) (2025-08-25)
 
 

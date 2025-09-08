@@ -41,6 +41,7 @@ class Bylines {
 		// Newspack Network compatibility.
 		add_filter( 'newspack_network_distributed_post_meta', [ __CLASS__, 'newspack_network_distributed_post_meta' ], 10, 2 );
 		add_action( 'newspack_network_incoming_post_inserted', [ __CLASS__, 'newspack_network_incoming_post_inserted' ], 10, 3 );
+		add_filter( 'the_author', [ __CLASS__, 'replace_feed_author' ], 99, 1 );
 	}
 
 	/**
@@ -360,6 +361,7 @@ class Bylines {
 
 	/**
 	 * After an incoming post is inserted, update the IDs with the IDs in the target site, based on the mapping that was sent.
+	 * If an author ID is not found in the mapping, remove the entire author shortcode and keep only the author name.
 	 *
 	 * @param int   $post_id   The post ID.
 	 * @param bool  $is_linked Whether the post is linked.
@@ -371,24 +373,59 @@ class Bylines {
 		}
 
 		$byline = get_post_meta( $post_id, self::META_KEY_BYLINE, true );
-
-		$mapping = get_post_meta( $post_id, '_newspack_byline_network_authors', true );
-
-		$mapping = json_decode( $mapping, true );
-
-		if ( empty( $mapping ) ) {
+		if ( empty( $byline ) ) {
 			return;
 		}
 
-		foreach ( $mapping as $author_id => $author_email ) {
-			$local_user = get_user_by( 'email', $author_email );
-			if ( ! $local_user ) {
-				continue;
-			}
-			$byline = str_replace( 'id=' . $author_id, 'id=' . $local_user->ID, $byline );
+		$mapping = get_post_meta( $post_id, '_newspack_byline_network_authors', true );
+		$mapping = json_decode( $mapping, true );
+
+		// If mapping is empty, set it to empty array so we still process shortcodes.
+		if ( empty( $mapping ) ) {
+			$mapping = [];
 		}
 
+		// Process all author shortcodes in one pass.
+		$byline = preg_replace_callback(
+			'/\[Author id=(\d+)\](.*?)\[\/Author\]/',
+			function( $matches ) use ( $mapping ) {
+				$author_id = $matches[1];
+				$author_name = $matches[2];
+
+				// If the author ID is not in the mapping, return just the author name.
+				if ( ! array_key_exists( $author_id, $mapping ) ) {
+					return $author_name;
+				}
+
+				// If the author ID is in the mapping but no local user found, return just the author name.
+				$author_email = $mapping[ $author_id ];
+				$local_user = get_user_by( 'email', $author_email );
+				if ( ! $local_user ) {
+					return $author_name;
+				}
+
+				// Return the original shortcode with updated ID.
+				return sprintf( '[Author id=%d]%s[/Author]', $local_user->ID, $author_name );
+			},
+			$byline
+		);
+
 		update_post_meta( $post_id, self::META_KEY_BYLINE, $byline );
+	}
+
+	/**
+	 * Replace feed author with byline.
+	 *
+	 * @param string $display_name The author display name.
+	 */
+	public static function replace_feed_author( $display_name ) {
+		if ( is_feed() ) {
+			$byline = self::get_post_byline_html( false, false );
+			if ( $byline ) {
+				$display_name = html_entity_decode( wp_strip_all_tags( $byline ) );
+			}
+		}
+		return $display_name;
 	}
 }
 Bylines::init();
