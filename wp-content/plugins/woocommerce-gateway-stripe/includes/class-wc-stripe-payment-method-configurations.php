@@ -31,21 +31,14 @@ class WC_Stripe_Payment_Method_Configurations {
 	const LIVE_MODE_CONFIGURATION_PARENT_ID = 'pmc_1LEKjAGX8lmJQndTk2ziRchV';
 
 	/**
-	 * The test mode payment method configuration cache key.
+	 * The payment method configuration cache key.
 	 *
 	 * @var string
 	 */
-	const TEST_MODE_CONFIGURATION_CACHE_KEY = 'wcstripe_test_payment_method_configuration_cache';
+	const CONFIGURATION_CACHE_KEY = 'payment_method_configuration';
 
 	/**
-	 * The live mode payment method configuration cache key.
-	 *
-	 * @var string
-	 */
-	const LIVE_MODE_CONFIGURATION_CACHE_KEY = 'wcstripe_live_payment_method_configuration_cache';
-
-	/**
-	 * The payment method configuration cache expiration.
+	 * The payment method configuration cache expiration (TTL).
 	 *
 	 * @var int
 	 */
@@ -64,20 +57,13 @@ class WC_Stripe_Payment_Method_Configurations {
 	 */
 	private static function get_primary_configuration( $force_refresh = false ) {
 		// Only allow fetching payment configuration once per minute.
+		// Even when $force_refresh is true, we will not fetch the configuration from Stripe more than once per minute.
 		$fetch_cooldown = get_option( self::FETCH_COOLDOWN_OPTION_KEY, 0 );
 		$is_in_cooldown = $fetch_cooldown > time();
 		if ( ! $force_refresh || $is_in_cooldown ) {
 			$cached_primary_configuration = self::get_payment_method_configuration_from_cache();
 			if ( $cached_primary_configuration ) {
 				return $cached_primary_configuration;
-			}
-
-			// If we are hitting the API too much, and our main cache is not working, use the fallback cache.
-			if ( $is_in_cooldown ) {
-				$fallback_cache = self::get_payment_method_configuration_from_cache( true );
-				if ( $fallback_cache ) {
-					return $fallback_cache;
-				}
 			}
 
 			// Intentionally fall through to fetching the data from Stripe if we don't have it locally,
@@ -94,21 +80,15 @@ class WC_Stripe_Payment_Method_Configurations {
 	/**
 	 * Get the payment method configuration from cache.
 	 *
-	 * @param bool $use_fallback Whether to use the fallback cache if the transient is not available.
-	 *
 	 * @return object|null
 	 */
-	private static function get_payment_method_configuration_from_cache( $use_fallback = false ) {
+	private static function get_payment_method_configuration_from_cache() {
 		if ( null !== self::$primary_configuration ) {
 			return self::$primary_configuration;
 		}
 
-		$cache_key                    = WC_Stripe_Mode::is_test() ? self::TEST_MODE_CONFIGURATION_CACHE_KEY : self::LIVE_MODE_CONFIGURATION_CACHE_KEY;
-		$cached_primary_configuration = WC_Stripe_Database_Cache::get( $cache_key );
+		$cached_primary_configuration = WC_Stripe_Database_Cache::get( self::CONFIGURATION_CACHE_KEY );
 		if ( false === $cached_primary_configuration || null === $cached_primary_configuration ) {
-			if ( $use_fallback ) {
-				return get_option( $cache_key . '_fallback' );
-			}
 			return null;
 		}
 
@@ -121,9 +101,7 @@ class WC_Stripe_Payment_Method_Configurations {
 	 */
 	public static function clear_payment_method_configuration_cache() {
 		self::$primary_configuration = null;
-		$cache_key                   = WC_Stripe_Mode::is_test() ? self::TEST_MODE_CONFIGURATION_CACHE_KEY : self::LIVE_MODE_CONFIGURATION_CACHE_KEY;
-		WC_Stripe_Database_Cache::delete( $cache_key );
-		delete_option( $cache_key . '_fallback' );
+		WC_Stripe_Database_Cache::delete( self::CONFIGURATION_CACHE_KEY );
 	}
 
 	/**
@@ -133,11 +111,7 @@ class WC_Stripe_Payment_Method_Configurations {
 	 */
 	private static function set_payment_method_configuration_cache( $configuration ) {
 		self::$primary_configuration = $configuration;
-		$cache_key                   = WC_Stripe_Mode::is_test() ? self::TEST_MODE_CONFIGURATION_CACHE_KEY : self::LIVE_MODE_CONFIGURATION_CACHE_KEY;
-		WC_Stripe_Database_Cache::set( $cache_key, $configuration, self::CONFIGURATION_CACHE_EXPIRATION );
-
-		// To be used as fallback if we are in API cooldown and the main cache is not available.
-		update_option( $cache_key . '_fallback', $configuration );
+		WC_Stripe_Database_Cache::set( self::CONFIGURATION_CACHE_KEY, $configuration, self::CONFIGURATION_CACHE_EXPIRATION );
 	}
 
 	/**
@@ -165,12 +139,12 @@ class WC_Stripe_Payment_Method_Configurations {
 	}
 
 	/**
-	 * Get the parent configuration ID.
+	 * Get the WooCommerce Platform payment method configuration id.
 	 *
-	 * @return string|null
+	 * @return string
 	 */
 	public static function get_parent_configuration_id() {
-		return self::get_primary_configuration()->parent ?? null;
+		return WC_Stripe_Mode::is_test() ? self::TEST_MODE_CONFIGURATION_PARENT_ID : self::LIVE_MODE_CONFIGURATION_PARENT_ID;
 	}
 
 	/**
@@ -322,20 +296,17 @@ class WC_Stripe_Payment_Method_Configurations {
 
 	/**
 	 * Check if the payment method configurations API can be used to store enabled payment methods.
-	 * This requires the Stripe account to be connected to our platform ('connection_type' option to be 'connect').
-	 *
-	 * This is temporary until we finish the re-authentication campaign.
+	 * This requires the Stripe account to be connected to Stripe.
 	 *
 	 * @return bool
 	 */
 	public static function is_enabled() {
-		$stripe_settings     = WC_Stripe_Helper::get_stripe_settings();
-		$connection_type_key = WC_Stripe_Mode::is_test() ? 'test_connection_type' : 'connection_type';
-
-		// If the account is not a Connect OAuth account, we can't use the payment method configurations API.
-		if ( ! isset( $stripe_settings[ $connection_type_key ] ) || 'connect' !== $stripe_settings[ $connection_type_key ] ) {
+		// Bail if account is not connected.
+		if ( ! WC_Stripe_Helper::is_connected() ) {
 			return false;
 		}
+
+		$stripe_settings = WC_Stripe_Helper::get_stripe_settings();
 
 		// If we have the pmc_enabled flag, and it is set to no, we should not use the payment method configurations API.
 		// We only disable the PMC if the flag is set to no explicitly, an empty value means the migration has not been attempted yet.
@@ -388,9 +359,8 @@ class WC_Stripe_Payment_Method_Configurations {
 			);
 		}
 
-		// Update the PMC if there are any enabled payment methods
+		// Update the PMC if there are locally enabled payment methods
 		if ( ! empty( $enabled_payment_methods ) ) {
-
 			// Get all available payment method IDs from the configuration.
 			// We explicitly disable all payment methods that are not in the enabled_payment_methods array
 			$available_payment_method_ids = [];
@@ -398,7 +368,25 @@ class WC_Stripe_Payment_Method_Configurations {
 				if ( isset( $payment_method->display_preference ) ) {
 					$available_payment_method_ids[] = $payment_method_id;
 				}
+
+				// We want to also include payment methods enabled in the PMC, except for express payment methods.
+				if (
+					! in_array( $payment_method_id, WC_Stripe_Payment_Methods::EXPRESS_PAYMENT_METHODS, true ) &&
+					! in_array( $payment_method_id, $enabled_payment_methods, true ) &&
+					isset( $payment_method->display_preference->value ) && 'on' === $payment_method->display_preference->value
+				) {
+					$enabled_payment_methods[] = $payment_method_id;
+				}
 			}
+
+			WC_Stripe_Logger::error(
+				'Switching to Stripe-hosted payment method configuration',
+				[
+					'pmc_id'                       => $merchant_payment_method_configuration->id,
+					'enabled_payment_methods'      => $enabled_payment_methods,
+					'available_payment_method_ids' => $available_payment_method_ids,
+				]
+			);
 
 			self::update_payment_method_configuration(
 				$enabled_payment_methods,
@@ -421,7 +409,7 @@ class WC_Stripe_Payment_Method_Configurations {
 	 * This is called when no Payment Method Configuration is found that inherits from the WooCommerce Platform.
 	 */
 	private static function disable_payment_method_configuration_sync() {
-		$stripe_settings = WC_Stripe_Helper::get_stripe_settings();
+		$stripe_settings                = WC_Stripe_Helper::get_stripe_settings();
 		$stripe_settings['pmc_enabled'] = 'no';
 		WC_Stripe_Helper::update_main_stripe_settings( $stripe_settings );
 	}

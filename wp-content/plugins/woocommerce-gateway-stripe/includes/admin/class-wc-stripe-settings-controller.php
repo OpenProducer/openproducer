@@ -1,5 +1,7 @@
 <?php
 
+use Automattic\WooCommerce\Admin\Features\OnboardingTasks\TaskLists;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -119,6 +121,25 @@ class WC_Stripe_Settings_Controller {
 	}
 
 	/**
+	 * Determines if the payments task is completed in WooCommerce onboarding flow.
+	 *
+	 * @return bool True if the payments task is completed, false otherwise.
+	 */
+	private function is_payments_onboarding_task_completed(): bool {
+		$task_list = TaskLists::get_list( 'setup' );
+		if ( empty( $task_list ) ) {
+			return false;
+		}
+
+		$payments_task = $task_list->get_task( 'payments' );
+		if ( empty( $payments_task ) ) {
+			return false;
+		}
+
+		return $payments_task->is_complete();
+	}
+
+	/**
 	 * AJAX handler to get OAuth URLs for the configuration modal
 	 */
 	public function ajax_get_oauth_urls() {
@@ -231,25 +252,39 @@ class WC_Stripe_Settings_Controller {
 			'</strong>'
 		);
 
+		$enabled_payment_methods    = $this->get_gateway()->get_upe_enabled_payment_method_ids();
+		$show_bnpl_promotion_banner = get_option( 'wc_stripe_show_bnpl_promotion_banner', 'yes' ) === 'yes'
+			// Show the BNPL promotional banner only if no BNPL payment methods are enabled.
+			&& ! array_intersect( WC_Stripe_Payment_Methods::BNPL_PAYMENT_METHODS, $enabled_payment_methods );
+
+		$is_oc_enabled = $this->get_gateway()->is_oc_enabled();
+
+		$show_oc_promotion_banner = get_option( 'wc_stripe_show_oc_promotion_banner', 'yes' ) === 'yes'
+			// Show the OC promotional banner only if OC is disabled
+			&& ! $is_oc_enabled;
+
 		$params = [
-			'time'                      => time(),
-			'i18n_out_of_sync'          => $message,
-			'is_upe_checkout_enabled'   => WC_Stripe_Feature_Flags::is_upe_checkout_enabled(),
-			'is_ach_enabled'            => WC_Stripe_Feature_Flags::is_ach_lpm_enabled(),
-			'is_acss_enabled'           => WC_Stripe_Feature_Flags::is_acss_lpm_enabled(),
-			'is_bacs_enabled'           => WC_Stripe_Feature_Flags::is_bacs_lpm_enabled(),
-			'is_blik_enabled'           => WC_Stripe_Feature_Flags::is_blik_lpm_enabled(),
-			'is_becs_debit_enabled'     => WC_Stripe_Feature_Flags::is_becs_debit_lpm_enabled(),
-			'stripe_oauth_url'          => $oauth_url,
-			'stripe_test_oauth_url'     => $test_oauth_url,
-			'show_customization_notice' => get_option( 'wc_stripe_show_customization_notice', 'yes' ) === 'yes' ? true : false,
-			'is_test_mode'              => $this->get_gateway()->is_in_test_mode(),
-			'plugin_version'            => WC_STRIPE_VERSION,
-			'account_country'           => $this->account->get_account_country(),
-			'are_apms_deprecated'       => WC_Stripe_Feature_Flags::are_apms_deprecated(),
-			'is_amazon_pay_available'   => WC_Stripe_Feature_Flags::is_amazon_pay_available(),
-			'is_oc_available'           => WC_Stripe_Feature_Flags::is_oc_available(),
-			'oauth_nonce'               => wp_create_nonce( 'wc_stripe_get_oauth_urls' ),
+			'time'                                  => time(),
+			'i18n_out_of_sync'                      => $message,
+			'is_upe_checkout_enabled'               => WC_Stripe_Feature_Flags::is_upe_checkout_enabled(),
+			'stripe_oauth_url'                      => $oauth_url,
+			'stripe_test_oauth_url'                 => $test_oauth_url,
+			'show_customization_notice'             => get_option( 'wc_stripe_show_customization_notice', 'yes' ) === 'yes' ? true : false,
+			'show_bnpl_promotional_banner'          => $show_bnpl_promotion_banner,
+			'show_oc_promotional_banner'            => $show_oc_promotion_banner,
+			'is_test_mode'                          => $this->get_gateway()->is_in_test_mode(),
+			'plugin_version'                        => WC_STRIPE_VERSION,
+			'account_country'                       => $this->account->get_account_country(),
+			'are_apms_deprecated'                   => WC_Stripe_Feature_Flags::are_apms_deprecated(),
+			'is_amazon_pay_available'               => WC_Stripe_Feature_Flags::is_amazon_pay_available(),
+			'is_oc_available'                       => WC_Stripe_Feature_Flags::is_oc_available() && WC_Stripe_Feature_Flags::is_upe_checkout_enabled(),
+			'is_oc_enabled'                         => $is_oc_enabled,
+			'oauth_nonce'                           => wp_create_nonce( 'wc_stripe_get_oauth_urls' ),
+			'is_sepa_tokens_enabled'                => 'yes' === $this->gateway->get_option( 'sepa_tokens_for_other_methods', 'no' ),
+			'has_affirm_gateway_plugin'             => WC_Stripe_Helper::has_gateway_plugin_active( WC_Stripe_Helper::OFFICIAL_PLUGIN_ID_AFFIRM ),
+			'has_klarna_gateway_plugin'             => WC_Stripe_Helper::has_gateway_plugin_active( WC_Stripe_Helper::OFFICIAL_PLUGIN_ID_KLARNA ),
+			'has_other_bnpl_plugins'                => WC_Stripe_Helper::has_other_bnpl_plugins_active(),
+			'is_payments_onboarding_task_completed' => $this->is_payments_onboarding_task_completed(),
 		];
 		wp_localize_script(
 			'woocommerce_stripe_admin',
@@ -272,6 +307,11 @@ class WC_Stripe_Settings_Controller {
 	 * to display the payment gateways on the WooCommerce Settings page.
 	 */
 	public static function hide_gateways_on_settings_page() {
+		// Prevent hiding gateways in the new payments settings experience (React-based UI).
+		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) && \Automattic\WooCommerce\Utilities\FeaturesUtil::feature_is_enabled( 'reactify-classic-payments-settings' ) ) {
+			return;
+		}
+
 		$gateways_to_hide = [
 			// Hide all UPE payment methods.
 			WC_Stripe_UPE_Payment_Method::class,

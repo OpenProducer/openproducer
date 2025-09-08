@@ -1969,11 +1969,25 @@ class WC_Stripe_Payment_Request {
 			];
 		}
 
+		$calculated_total = WC_Stripe_Helper::get_stripe_amount( $order_total );
+		$calculated_total = apply_filters_deprecated(
+			'woocommerce_stripe_calculated_total',
+			[ $calculated_total, $order_total, WC()->cart ],
+			'9.6.0',
+			'wc_stripe_calculated_total',
+			'The woocommerce_stripe_calculated_total filter is deprecated since WooCommerce Stripe Gateway 9.6.0, and will be removed in a future version. Use wc_stripe_calculated_total instead.'
+		);
+
+		/**
+		 * This filter is documented in includes/payment-methods/class-wc-stripe-express-checkout-helper.php
+		 */
+		$calculated_total = apply_filters( 'wc_stripe_calculated_total', $calculated_total, $order_total, WC()->cart );
+
 		return [
 			'displayItems' => $items,
 			'total'        => [
 				'label'   => $this->total_label,
-				'amount'  => max( 0, apply_filters( 'woocommerce_stripe_calculated_total', WC_Stripe_Helper::get_stripe_amount( $order_total ), $order_total, WC()->cart ) ),
+				'amount'  => max( 0, $calculated_total ),
 				'pending' => false,
 			],
 		];
@@ -2046,13 +2060,19 @@ class WC_Stripe_Payment_Request {
 	public function migrate_button_size() {
 		$previous_version = get_option( 'wc_stripe_version' );
 
-		// Exit if it's a new install or the previous version is already 7.8.0 or greater.
-		if ( ! $previous_version || version_compare( $previous_version, '7.8.0', '>=' ) ) {
+		// Exit if it's a new install, or if we don't have a stored button size.
+		if ( ! $previous_version || ! isset( $this->stripe_settings['payment_request_button_size'] ) ) {
 			return;
 		}
 
-		if ( ! isset( $this->stripe_settings['payment_request_button_size'] ) ) {
-			return;
+		$button_size = $this->stripe_settings['payment_request_button_size'];
+
+		// If the previous version is already 7.8.0 or greater, exit unless we have 'medium' as the value.
+		if ( version_compare( $previous_version, '7.8.0', '>=' ) ) {
+			if ( 'medium' !== $button_size ) {
+				return;
+			}
+			// If we have 'medium' as the value, we need to migrate it below.
 		}
 
 		$gateway = woocommerce_gateway_stripe()->get_main_stripe_gateway();
@@ -2060,8 +2080,6 @@ class WC_Stripe_Payment_Request {
 		if ( ! $gateway ) {
 			return;
 		}
-
-		$button_size = $this->stripe_settings['payment_request_button_size'];
 
 		// If the button was set to the default, it is now the small size (40px). If it was set to medium, it is now the default size (48px).
 		if ( 'default' === $button_size ) {
