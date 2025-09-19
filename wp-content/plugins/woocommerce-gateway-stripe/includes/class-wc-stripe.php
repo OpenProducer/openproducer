@@ -150,6 +150,7 @@ class WC_Stripe {
 		require_once WC_STRIPE_PLUGIN_PATH . '/includes/payment-tokens/class-wc-stripe-bacs-payment-token.php';
 		require_once WC_STRIPE_PLUGIN_PATH . '/includes/payment-tokens/class-wc-stripe-becs-debit-payment-token.php';
 		require_once WC_STRIPE_PLUGIN_PATH . '/includes/payment-tokens/class-wc-stripe-amazon-pay-payment-token.php';
+		require_once WC_STRIPE_PLUGIN_PATH . '/includes/payment-tokens/class-wc-stripe-klarna-payment-token.php';
 		require_once WC_STRIPE_PLUGIN_PATH . '/includes/class-wc-stripe-apple-pay-registration.php';
 		require_once WC_STRIPE_PLUGIN_PATH . '/includes/class-wc-stripe-status.php';
 		require_once WC_STRIPE_PLUGIN_PATH . '/includes/class-wc-gateway-stripe.php';
@@ -182,6 +183,7 @@ class WC_Stripe {
 		require_once WC_STRIPE_PLUGIN_PATH . '/includes/payment-methods/class-wc-stripe-upe-payment-method-wechat-pay.php';
 		require_once WC_STRIPE_PLUGIN_PATH . '/includes/payment-methods/class-wc-stripe-upe-payment-method-acss.php';
 		require_once WC_STRIPE_PLUGIN_PATH . '/includes/payment-methods/class-wc-stripe-upe-payment-method-amazon-pay.php';
+		require_once WC_STRIPE_PLUGIN_PATH . '/includes/payment-methods/class-wc-stripe-upe-payment-method-oc.php';
 		require_once WC_STRIPE_PLUGIN_PATH . '/includes/payment-methods/class-wc-gateway-stripe-bancontact.php';
 		require_once WC_STRIPE_PLUGIN_PATH . '/includes/payment-methods/class-wc-gateway-stripe-sofort.php';
 		require_once WC_STRIPE_PLUGIN_PATH . '/includes/payment-methods/class-wc-gateway-stripe-giropay.php';
@@ -285,7 +287,10 @@ class WC_Stripe {
 		// Check for payment methods that should be toggled, e.g. unreleased,
 		// BNPLs when official plugins are active,
 		// cards when the Optimized Checkout is enabled, etc.
-		add_action( 'init', [ $this, 'maybe_toggle_payment_methods' ] );
+		add_action( 'wc_payment_gateways_initialized', [ $this, 'maybe_toggle_payment_methods' ] );
+
+		add_action( WC_Stripe_Database_Cache::ASYNC_CLEANUP_ACTION, [ WC_Stripe_Database_Cache::class, 'delete_all_stale_entries_async' ], 10, 2 );
+		add_action( 'action_scheduler_run_recurring_actions_schedule_hook', [ WC_Stripe_Database_Cache::class, 'maybe_schedule_daily_async_cleanup' ], 10, 0 );
 	}
 
 	/**
@@ -357,6 +362,9 @@ class WC_Stripe {
 			// TODO: Remove this call when all the merchants have moved to the new checkout experience.
 			// We are calling this function here to make sure that the Stripe methods are added to the `woocommerce_gateway_order` option.
 			WC_Stripe_Helper::add_stripe_methods_in_woocommerce_gateway_order();
+
+			// Try to schedule the daily async cleanup of the Stripe database cache.
+			WC_Stripe_Database_Cache::maybe_schedule_daily_async_cleanup();
 		}
 	}
 
@@ -865,8 +873,7 @@ class WC_Stripe {
 
 	/**
 	 * Toggle payment methods that should be enabled/disabled, e.g. unreleased,
-	 * BNPLs when other official plugins are active,
-	 * cards when the Optimized Checkout is enabled, etc.
+	 * BNPLs when other official plugins are active, etc.
 	 *
 	 * @return void
 	 */
@@ -877,7 +884,6 @@ class WC_Stripe {
 		}
 
 		$payment_method_ids_to_disable = [];
-		$payment_method_ids_to_enable  = [];
 		$enabled_payment_methods       = $gateway->get_upe_enabled_payment_method_ids();
 
 		// Check for BNPLs that should be deactivated.
@@ -892,21 +898,9 @@ class WC_Stripe {
 			$this->maybe_deactivate_amazon_pay( $enabled_payment_methods )
 		);
 
-		// Check if cards should be activated.
-		// TODO: Remove this once card is not a requirement for the Optimized Checkout.
-		if ( $gateway->is_oc_enabled()
-			&& ! in_array( WC_Stripe_Payment_Methods::CARD, $enabled_payment_methods, true ) ) {
-			$payment_method_ids_to_enable[] = WC_Stripe_Payment_Methods::CARD;
-		}
-
-		if ( [] === $payment_method_ids_to_disable && [] === $payment_method_ids_to_enable ) {
+		if ( [] === $payment_method_ids_to_disable ) {
 			return;
 		}
-
-		$enabled_payment_methods = array_merge(
-			$enabled_payment_methods,
-			$payment_method_ids_to_enable
-		);
 
 		$gateway->update_enabled_payment_methods(
 			array_diff( $enabled_payment_methods, $payment_method_ids_to_disable )
