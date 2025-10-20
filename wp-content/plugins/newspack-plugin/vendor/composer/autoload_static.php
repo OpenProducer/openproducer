@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitdf79c870274cddbed17bca790afe3dbb
+class ComposerStaticInitcd506e00bbd2bbf41c61d65382d6f343
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -232,6 +232,7 @@ class ComposerStaticInitdf79c870274cddbed17bca790afe3dbb
         'Newspack\\Stripe_Connection' => __DIR__ . '/../..' . '/includes/reader-revenue/stripe/class-stripe-connection.php',
         'Newspack\\Subscriptions_Confirmation' => __DIR__ . '/../..' . '/includes/plugins/woocommerce-subscriptions/class-subscriptions-confirmation.php',
         'Newspack\\Subscriptions_Meta' => __DIR__ . '/../..' . '/includes/plugins/woocommerce-subscriptions/class-subscriptions-meta.php',
+        'Newspack\\Subscriptions_Tiers' => __DIR__ . '/../..' . '/includes/plugins/woocommerce-subscriptions/class-subscriptions-tiers.php',
         'Newspack\\Sync_Reader_Data_CLI' => __DIR__ . '/../..' . '/includes/reader-activation/cli/class-sync-reader-data-cli.php',
         'Newspack\\Syndication' => __DIR__ . '/../..' . '/includes/class-syndication.php',
         'Newspack\\Teams_For_Memberships' => __DIR__ . '/../..' . '/includes/plugins/class-teams-for-memberships.php',
@@ -254,6 +255,7 @@ class ComposerStaticInitdf79c870274cddbed17bca790afe3dbb
         'Newspack\\WooCommerce_Configuration_Manager' => __DIR__ . '/../..' . '/includes/configuration_managers/class-woocommerce-configuration-manager.php',
         'Newspack\\WooCommerce_Connection' => __DIR__ . '/../..' . '/includes/plugins/woocommerce/class-woocommerce-connection.php',
         'Newspack\\WooCommerce_Cover_Fees' => __DIR__ . '/../..' . '/includes/plugins/woocommerce/class-woocommerce-cover-fees.php',
+        'Newspack\\WooCommerce_Custom_Currency_Symbol' => __DIR__ . '/../..' . '/includes/plugins/woocommerce/class-woocommerce-custom-currency-symbol.php',
         'Newspack\\WooCommerce_Duplicate_Orders' => __DIR__ . '/../..' . '/includes/plugins/woocommerce/class-woocommerce-duplicate-orders.php',
         'Newspack\\WooCommerce_Gateway_Stripe' => __DIR__ . '/../..' . '/includes/plugins/class-woocommerce-gateway-stripe.php',
         'Newspack\\WooCommerce_Logs' => __DIR__ . '/../..' . '/includes/plugins/woocommerce/class-woocommerce-logs.php',
@@ -271,9 +273,9 @@ class ComposerStaticInitdf79c870274cddbed17bca790afe3dbb
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitdf79c870274cddbed17bca790afe3dbb::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitdf79c870274cddbed17bca790afe3dbb::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitdf79c870274cddbed17bca790afe3dbb::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitcd506e00bbd2bbf41c61d65382d6f343::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitcd506e00bbd2bbf41c61d65382d6f343::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitcd506e00bbd2bbf41c61d65382d6f343::$classMap;
 
         }, null, ClassLoader::class);
     }
