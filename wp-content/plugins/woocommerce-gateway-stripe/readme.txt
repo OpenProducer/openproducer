@@ -110,53 +110,38 @@ If you get stuck, you can ask for help in the [Plugin Forum](https://wordpress.o
 
 == Changelog ==
 
-= 10.0.1 - 2025-10-15 =
-* Fix - Remove persistent reconnection notices
-
-= 10.0.0 - 2025-10-14 =
-
-**New Features**
-
-* Add - Allow the purchase of free trials using the Express Payment methods when the product does not require shipping
-* Update - Splits the "Enable SEPA for other methods" setting into two separate settings for Bancontact and iDEAL
-
-**Important Fixes and Updates**
-
-* Update - Removing the `wc_stripe_is_upe_checkout_enabled` filter, as Legacy Checkout is no longer supported
-* Update - Disable Payment Request Buttons and ensure Express Checkout is used when express checkout buttons are enabled
-* Add - Introduce wc_stripe_preselect_payment_method_configuration filter for manual payment method configuration selection
-* Update - Removes frontend code related to Payment Request Buttons in the checkout page
-* Fix - Ensure Klarna payment tokens can be deleted and handled correctly
-* Fix - Prevent fatal error when third-party plugins check for non-existent methods in payment method classes
-* Add - Implement cache prefetch for payment method configuration
-* Update - Shows the Stripe account connection modal in settings when the merchant did not connect via OAuth along with a new notice
-* Update - The usage of SEPA Direct Debit as a saved payment method for iDEAL and Bancontact is now disabled by default
-* Update - Reduce settings Javascript file size by using smaller image
-
-**Other Fixes**
-
-* Fix - Minor fixes and code improvements for the saved payment methods comparison logic
-* Update - Changes the documentation page URL for the Optimized Checkout feature to https://woocommerce.com/document/stripe/admin-experience/optimized-checkout-suite/
-* Update - Changes the background color and spacing for the Woo logo shown in the account modal
-
-**Internal Changes and Upcoming Features**
-
-* Tweak - Update PMC cache expiration time from 10 minutes to 20 minutes
-* Dev - Expands the Stripe Order Helper class to handle source ID, refund ID, intent ID, and setup intent ID metas
-* Dev - Upgrades `jest` to version 29.7.0, `@wordpress/scripts` to 26.19.0, and adds `axios`(version 1.12.2) to the JavaScript development dependencies
-* Dev - Introduces a new helper class to handle Stripe orders
-* Dev - Fixes a warning thrown when running Klarna payment token PHP Unit tests
-* Dev - Fixes some possible warnings shown in the browser console when the Optimized Checkout payment element is instantiated with invalid parameters
-* Dev - Renaming the Klarna payment token class to WC_Stripe_Klarna_Payment_Token
-* Dev - Upgrades Node to v20
-* Dev - Fix live reload issue with Webpack 5
-* Dev - Upgrades the Webpack-related packages
-* Dev - Upgrade the cross-env and rimraf NPM packages; remove chromedriver NPM dependency
-* Dev - Removes three unused NPM script commands: `test`, `test:grep`, and `test:single`
-* Dev - Upgrades the Babel-related packages
-* Dev - Consolidate component used for unavailable payment methods
-* Dev - Update webhook unit tests to be compatible with WooCommerce 10.2
-* Dev - Update the @woocommerce/navigation dependency
-* Dev - Update @wordpress/scripts to 30.24.0 and @wordpress/base-styles to 6.7.0
+= 10.1.0 - 2025-11-11 =
+* Dev - Remove unused `shouldShowPaymentRequestButton` parameter and calculations from backend
+* Fix - Improves the error message shown in checkout when a saved payment method is no longer valid
+* Fix - Fix fatal error when trying to allow the `display` CSS property using the `safe_style_css` filter
+* Fix - Remove `redirect_url` parameter from Express Checkout payment flow
+* Fix - Adjust UI spacing of help text on express checkout theme settings page
+* Update - Renames and migrates all Payment Request Buttons settings to Express Checkout
+* Dev - Upgrades `@automattic/interpolate-components` to 1.2.1 to remove the `node-fetch` dependency
+* Add - Includes a notice to inform merchants about methods that are automatically enabled upon account connection
+* Dev - Upgrades the `nock` NPM package to version `^13.5.6` to remove the lodash.set dependency
+* Add - Add a new filter allowing third-party plugins to hook captcha solutions when creating and confirming setup intents
+* Dev - Add track events when clicking the "Reconnect to Stripe" button (both in the settings page and the admin notice)
+* Update - Removes unnecessary legacy checkout gateway instantiations and UPE disablement code
+* Dev - Renames previous Order Helper class methods to use the `_id` suffix
+* Dev - Expands the Stripe Order Helper class to handle customer ID, card ID, UPE payment type, and UPE redirect status metas
+* Fix - Remove redundant secret management logic when configuring webhooks
+* Dev - Improve Payment Method Configuration error logging
+* Dev - Add Stripe's request-id to API response logs
+* Fix - Increase limit when listing available payment method configurations from the Stripe API
+* Fix - Klarna not processing recurring payments
+* Fix - Fix Express Checkout error with free trial subscription on blocks cart/checkout
+* Fix - Improve Express Checkout compatibility with One Page Checkout
+* Fix - Allow express checkout to complete successfully for addresses without postal codes in countries where it's not required (eg: Israel)
+* Fix - Prevent retrying requests that errored out due to declined payment methods
+* Fix - GooglePay/ApplePay fail when there are more than 9 shipping options
+* Fix - Detect WooCommerce Subscriptions staging sites when checking if payments can be detached
+* Fix - Fix saved ACH payment methods sending unsupported capture_method parameter causing checkout failures
+* Dev - Add Stripe's masked API key to API request/response logs
+* Add - Add wc_stripe_is_amazon_pay_available filter to override Amazon Pay feature flag
+* Dev - Add verbose debug logging mode to the OAuth connect flow
+* Fix - Disable Amazon Pay when taxes are based on billing address and add notices with details
+* Fix - Fix express checkout error for a Saudi Arabian address without state and postal code
+* Fix - Ensure we have a fallback for shipping rate names in classic checkout
 
 [See changelog for full details across versions](https://raw.githubusercontent.com/woocommerce/woocommerce-gateway-stripe/trunk/changelog.txt).
