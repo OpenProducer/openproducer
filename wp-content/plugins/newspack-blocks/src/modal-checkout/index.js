@@ -8,7 +8,7 @@ import './checkout.scss';
  * Internal dependencies
  */
 import { manageCheckoutAttempt, manageCheckoutSuccess, manageLoaded, managePagination } from './analytics';
-import { domReady } from './utils';
+import { domReady, onCheckoutPlaceOrderProcessing } from './utils';
 
 ( $ => {
 	domReady( () => {
@@ -23,6 +23,10 @@ import { domReady } from './utils';
 		const readyEvent = new CustomEvent( 'checkout-ready' );
 		const completeEvent = new CustomEvent( 'checkout-complete' );
 		const cancelEvent = new CustomEvent( 'checkout-cancel' );
+		const placeOrderStartEvent = new CustomEvent( 'checkout-place-order-start' );
+		const placeOrderSuccessEvent = new CustomEvent( 'checkout-place-order-success' );
+		const placeOrderErrorEvent = new CustomEvent( 'checkout-place-order-error' );
+		const placeOrderCriticalErrorEvent = new CustomEvent( 'checkout-place-order-critical-error' );
 
 		function getEventHandlers( element, event ) {
 			const events = $._data( element, 'events' );
@@ -66,9 +70,9 @@ import { domReady } from './utils';
 		} else {
 			function init() {
 				// If present, update the markup used for the WooPayments express checkout divider.
-				$( '#wcpay-express-checkout-button-separator, #wc-stripe-payment-request-button-separator, #wc-stripe-express-checkout-button-separator' ).after(
-					'<div class="newspack-ui__word-divider">' + newspackBlocksModalCheckout.divider_text + '</div>'
-				);
+				$(
+					'#wcpay-express-checkout-button-separator, #wc-stripe-payment-request-button-separator, #wc-stripe-express-checkout-button-separator'
+				).after( '<div class="newspack-ui__word-divider">' + newspackBlocksModalCheckout.divider_text + '</div>' );
 
 				let originalFormHandlers = [];
 
@@ -106,6 +110,51 @@ import { domReady } from './utils';
 				$( document ).on( 'payment_method_selected', handlePaymentMethodSelect );
 				$( document ).on( 'updated_checkout', handlePaymentMethodSelect );
 				handlePaymentMethodSelect();
+
+				/**
+				 * Bubble up checkout place order event.
+				 */
+				let placedOrder = false;
+				$form.on( 'checkout_place_order', function () {
+					if ( placedOrder ) {
+						return;
+					}
+					placedOrder = true;
+					container.dispatchEvent( placeOrderStartEvent );
+				} );
+				onCheckoutPlaceOrderProcessing( container, function () {
+					if ( ! placedOrder ) {
+						return;
+					}
+					// If the form stops processing before the `checkout_place_order_success` event is fired, dispatch an error event.
+					if ( ! $form.is( '.processing' ) ) {
+						placedOrder = false;
+						container.dispatchEvent( placeOrderErrorEvent );
+					}
+				} );
+				$form.on( 'checkout_place_order_success', function () {
+					placedOrder = false;
+					container.dispatchEvent( placeOrderSuccessEvent );
+				} );
+
+				$( document.body ).on( 'checkout_error', function ( event, errors ) {
+					if ( ! placedOrder ) {
+						return;
+					}
+					placedOrder = false;
+					if ( errors && errors.indexOf( newspackBlocksModalCheckout.labels.critical_error ) >= 0 ) {
+						container.dispatchEvent( placeOrderCriticalErrorEvent );
+						return;
+					}
+					container.dispatchEvent( placeOrderErrorEvent );
+				} );
+				$form.on( 'update_checkout', function () {
+					if ( ! placedOrder ) {
+						return;
+					}
+					placedOrder = false;
+					container.dispatchEvent( placeOrderErrorEvent );
+				} );
 
 				/**
 				 * Toggle "Payment info" title if there's no money transaction.
@@ -148,7 +197,7 @@ import { domReady } from './utils';
 						const $el = $wrapper.clone();
 						// Make sure Transaction Details toggle's aria-expanded value is correct in cloned version.
 						if ( expanded ) {
-							$('[id="order_review_heading"]', $el).attr( 'aria-expanded', 'true' );
+							$( '[id="order_review_heading"]', $el ).attr( 'aria-expanded', 'true' );
 						}
 						$( '.order-review-wrapper' ).remove();
 						$payment_methods.after( $el );
@@ -161,13 +210,13 @@ import { domReady } from './utils';
 				/**
 				 * Toggle Transaction Details
 				 */
-				$( document ).on( 'click', '#order_review_heading', function() {
+				$( document ).on( 'click', '#order_review_heading', function () {
 					// Toggle the aria-expanded attribute.
-					$( this ).attr( 'aria-expanded', function( index, attr ) {
+					$( this ).attr( 'aria-expanded', function ( index, attr ) {
 						return attr === 'false' ? 'true' : 'false';
 					} );
 					// Toggle the CSS class to show/hide the Transaction Details.
-					$( '#after_customer_details').toggleClass( 'transaction-details-expanded' );
+					$( '#after_customer_details' ).toggleClass( 'transaction-details-expanded' );
 				} );
 
 				/**
@@ -175,17 +224,17 @@ import { domReady } from './utils';
 				 */
 				function getUpdatedCartTotal() {
 					let cartTotal;
-					$.ajax({
+					$.ajax( {
 						url: newspackBlocksModalCheckout.ajax_url,
 						method: 'POST',
 						async: false,
 						data: {
 							action: 'get_cart_total',
 						},
-						success: (response)=>{
+						success: response => {
 							cartTotal = response;
-						}
-					});
+						},
+					} );
 					if ( cartTotal ) {
 						return cartTotal;
 					}
@@ -194,7 +243,7 @@ import { domReady } from './utils';
 				/**
 				 * Update Place Order button text.
 				 */
-				$( document ).on( 'updated_checkout', function() {
+				$( document ).on( 'updated_checkout', function () {
 					// Update "Place Order" button to include current price.
 					let processOrderText = newspackBlocksModalCheckout.labels.complete_button;
 					if ( ! processOrderText ) {
@@ -204,7 +253,7 @@ import { domReady } from './utils';
 						// Modify button text to include updated price.
 						const tree = $( '<div>' + processOrderText + '</div>' );
 						// Update the HTML in the .cart-price span with the new price, and return.
-						tree.find('.cart-price').html( getUpdatedCartTotal, function() {
+						tree.find( '.cart-price' ).html( getUpdatedCartTotal, function () {
 							return this.childNodes;
 						} );
 						processOrderText = tree.html();
@@ -249,10 +298,7 @@ import { domReady } from './utils';
 				 * @param {string} error_message
 				 */
 				function handleFormError( error_message ) {
-					$form
-						.find( '.input-text, select, input:checkbox' )
-						.trigger( 'validate' )
-						.trigger( 'blur' );
+					$form.find( '.input-text, select, input:checkbox' ).trigger( 'validate' ).trigger( 'blur' );
 
 					let $fieldToFocus = false;
 
@@ -276,9 +322,7 @@ import { domReady } from './utils';
 								$existingError.remove();
 							}
 							$field.addClass( 'woocommerce-invalid' ).removeClass( 'woocommerce-valid' );
-							$field.append(
-								`<span class="${ CLASS_PREFIX }__inline-error">` + $error.text() + '</span>'
-							);
+							$field.append( `<span class="${ CLASS_PREFIX }__inline-error">` + $error.text() + '</span>' );
 							$error.remove();
 						} else {
 							if ( ! $error.is( 'li' ) ) {
@@ -343,9 +387,7 @@ import { domReady } from './utils';
 					// Ajax request.
 					$.ajax( {
 						type: 'POST',
-						url: wc_checkout_params.wc_ajax_url
-							.toString()
-							.replace( '%%endpoint%%', 'apply_coupon' ),
+						url: wc_checkout_params.wc_ajax_url.toString().replace( '%%endpoint%%', 'apply_coupon' ),
 						data,
 						dataType: 'html',
 						success: code => {
@@ -354,22 +396,16 @@ import { domReady } from './utils';
 							if ( code ) {
 								const isError = code.includes( 'error' );
 								$coupon.append(
-									`<p class="result ${ CLASS_PREFIX }__helper-text ${
-										isError ? CLASS_PREFIX + '__inline-error' : ''
-									}">` +
+									`<p class="result ${ CLASS_PREFIX }__helper-text ${ isError ? CLASS_PREFIX + '__inline-error' : '' }">` +
 										$( code ).text() +
 										'</p>'
 								);
 								if ( isError ) {
 									$coupon.find( 'input[name="coupon_code"]' ).focus();
-									$coupon
-										.find( 'h3, input[name="coupon_code"]' )
-										.addClass( 'newspack-ui__field-error' );
+									$coupon.find( 'h3, input[name="coupon_code"]' ).addClass( 'newspack-ui__field-error' );
 								} else {
 									$coupon.find( 'input[name="coupon_code"]' ).focus();
-									$coupon
-										.find( 'h3, input[name="coupon_code"]' )
-										.removeClass( 'newspack-ui__field-error' );
+									$coupon.find( 'h3, input[name="coupon_code"]' ).removeClass( 'newspack-ui__field-error' );
 								}
 								$( document.body ).trigger( 'applied_coupon_in_checkout', [ data.coupon_code ] );
 								$( document.body ).trigger( 'update_checkout', { update_shipping_method: false } );
@@ -407,9 +443,7 @@ import { domReady } from './utils';
 						action: 'process_name_your_price_request',
 						price: $nyp.find( 'input[name="price"]' ).val(),
 						product_id: $nyp.find( 'input[name="product_id"]' ).val(),
-						newspack_checkout_name_your_price: $nyp
-							.find( 'input[name="newspack_checkout_name_your_price"]' )
-							.val(),
+						newspack_checkout_name_your_price: $nyp.find( 'input[name="newspack_checkout_name_your_price"]' ).val(),
 					};
 					$.ajax( {
 						type: 'POST',
@@ -419,9 +453,7 @@ import { domReady } from './utils';
 							clearNotices();
 							$nyp.find( '.result' ).remove();
 							$nyp.append(
-								`<p class="result ${ CLASS_PREFIX }__helper-text ${
-									! success ? CLASS_PREFIX + '__inline-error' : ''
-								}">` +
+								`<p class="result ${ CLASS_PREFIX }__helper-text ${ ! success ? CLASS_PREFIX + '__inline-error' : '' }">` +
 									res.message +
 									'</p>'
 							);
@@ -501,8 +533,8 @@ import { domReady } from './utils';
 							const onSuccess = () => {
 								clearNotices();
 								$form.get( 0 ).scrollIntoView( { behavior: 'smooth' } );
-							}
-							const onError = ( error ) => handleFormError( error );
+							};
+							const onError = error => handleFormError( error );
 							newspack_grecaptcha.render( $form.get(), onSuccess, onError );
 							// Refresh reCAPTCHAs on Woo checkout update and error.
 							$( document ).on( 'updated_checkout', () => newspack_grecaptcha.render( $form.get(), onSuccess, onError ) );
@@ -546,13 +578,7 @@ import { domReady } from './utils';
 					html.push( '<div class="billing-details">' );
 					html.push( '<h3>' + newspackBlocksModalCheckout.labels.billing_details + '</h3>' );
 					if ( data.billing_first_name || data.billing_last_name ) {
-						html.push(
-							`<p class="${ classname }">` +
-								data.billing_first_name +
-								' ' +
-								data.billing_last_name +
-								'</p>'
-						);
+						html.push( `<p class="${ classname }">` + data.billing_first_name + ' ' + data.billing_last_name + '</p>' );
 					}
 					if ( data.billing_company ) {
 						html.push( `<p class="${ classname }">` + data.billing_company + '</p>' );
@@ -622,10 +648,7 @@ import { domReady } from './utils';
 					}
 
 					// WCSG Gift details.
-					if (
-						data.hasOwnProperty( 'newspack_wcsg_is_gift' ) &&
-						data.hasOwnProperty( 'wcsg_gift_recipients_email' )
-					) {
+					if ( data.hasOwnProperty( 'newspack_wcsg_is_gift' ) && data.hasOwnProperty( 'wcsg_gift_recipients_email' ) ) {
 						if ( !! data.newspack_wcsg_is_gift && !! data.wcsg_gift_recipients_email ) {
 							html.push( '<div class="gift-details">' );
 							html.push( '<h3>' + newspackBlocksModalCheckout.labels.gift_recipient + '</h3>' );
@@ -633,9 +656,7 @@ import { domReady } from './utils';
 						}
 					}
 
-					$( '.order-details-summary' ).after(
-						'<div id="checkout_details">' + html.join( '' ) + '</div>'
-					);
+					$( '.order-details-summary' ).after( '<div id="checkout_details">' + html.join( '' ) + '</div>' );
 				}
 
 				/**
@@ -654,20 +675,14 @@ import { domReady } from './utils';
 					clearNotices();
 
 					// Remove generic errors.
-					const $genericErrors = $form.find(
-						'.woocommerce-NoticeGroup.woocommerce-NoticeGroup-checkout'
-					);
+					const $genericErrors = $form.find( '.woocommerce-NoticeGroup.woocommerce-NoticeGroup-checkout' );
 					if ( $genericErrors.length ) {
 						$genericErrors.remove();
 					}
 
-					const removeFromValidation = [
-						'save_user_in_woopay',
-					];
+					const removeFromValidation = [ 'save_user_in_woopay' ];
 					// Serialize form and remove fields that shouldn't be included for validation.
-					const serializedForm = $form.serializeArray().filter(
-						item => ! removeFromValidation.includes( item.name )
-					);
+					const serializedForm = $form.serializeArray().filter( item => ! removeFromValidation.includes( item.name ) );
 					// Add 'update totals' parameter so it just performs validation.
 					serializedForm.push( { name: 'woocommerce_checkout_update_totals', value: '1' } );
 					// Ajax request.
@@ -682,10 +697,7 @@ import { domReady } from './utils';
 								result = JSON.parse( response );
 							} catch ( e ) {
 								result = {
-									messages:
-										'<div class="woocommerce-error">' +
-										wc_checkout_params.i18n_checkout_error +
-										'</div>',
+									messages: '<div class="woocommerce-error">' + wc_checkout_params.i18n_checkout_error + '</div>',
 								};
 							}
 
@@ -703,11 +715,7 @@ import { domReady } from './utils';
 							if ( success ) {
 								setEditingDetails( false );
 								// If click #checkout_edit_billing event handler doesn't already exist add it to the form.
-								if (
-									! $._data( $form[ 0 ], 'events' )?.click?.some(
-										handler => handler.selector === '#checkout_edit_billing'
-									)
-								) {
+								if ( ! $._data( $form[ 0 ], 'events' )?.click?.some( handler => handler.selector === '#checkout_edit_billing' ) ) {
 									$form.on( 'click', '#checkout_edit_billing', function ( ev ) {
 										ev.preventDefault();
 										setEditingDetails( true );
@@ -719,9 +727,7 @@ import { domReady } from './utils';
 									handleFormError( result.messages );
 								} else {
 									handleFormError(
-										`<div class="${ CLASS_PREFIX }__inline-error">` +
-											wc_checkout_params.i18n_checkout_error +
-											'</div>'
+										`<div class="${ CLASS_PREFIX }__inline-error">` + wc_checkout_params.i18n_checkout_error + '</div>'
 									);
 								}
 							}
@@ -730,10 +736,7 @@ import { domReady } from './utils';
 						error: ( jqXHR, textStatus, errorThrown ) => {
 							let messages = '';
 							if ( ! silent ) {
-								messages =
-									'<div class="woocommerce-error">' +
-									( errorThrown || wc_checkout_params.i18n_checkout_error ) +
-									'</div>';
+								messages = '<div class="woocommerce-error">' + ( errorThrown || wc_checkout_params.i18n_checkout_error ) + '</div>';
 								handleFormError( messages );
 							}
 							cb( { messages } );
@@ -812,7 +815,7 @@ import { domReady } from './utils';
 				$subscription_confirmation.on( 'change', toggleButtonState );
 
 				// Prevent form submission if the Subscription Confirmation or Terms & Conditions checkbox is not checked.
-				$form.on( 'submit', function( e ) {
+				$form.on( 'submit', function ( e ) {
 					if ( ! $subscription_confirmation.is( ':checked' ) ) {
 						e.preventDefault();
 						e.stopPropagation();
@@ -833,16 +836,14 @@ import { domReady } from './utils';
 			// Apply newspack styling to default Woo checkout errors.
 			const $errors = $( '.woocommerce-NoticeGroup-checkout, .woocommerce-notices-wrapper' );
 			if ( $errors.length ) {
-				$errors.each(
-					( _, error ) => $( error ).addClass(`${ CLASS_PREFIX }__notice ${ CLASS_PREFIX }__notice--error` )
-				);
+				$errors.each( ( _, error ) => $( error ).addClass( `${ CLASS_PREFIX }__notice ${ CLASS_PREFIX }__notice--error` ) );
 			}
 			// Handle "Back" button click.
 			const $checkout_error_back = $( '#checkout_error_back' );
 			if ( $checkout_error_back.length ) {
 				$checkout_error_back.on( 'click', ev => {
 					ev.preventDefault();
-					parent.newspackCloseModalCheckout()
+					parent.newspackCloseModalCheckout();
 				} );
 			}
 			// Trigger ready state.
@@ -859,5 +860,5 @@ import { domReady } from './utils';
 		if ( newspackBlocksModalCheckout.is_error ) {
 			$( document.body ).trigger( 'checkout_error' );
 		}
-	} )
+	} );
 } )( jQuery );

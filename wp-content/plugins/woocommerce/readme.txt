@@ -1,10 +1,10 @@
 === WooCommerce ===
 Contributors: automattic, woocommerce, mikejolley, jameskoster, claudiosanches, rodrigosprimo, peterfabian1000, vedjain, jamosova, obliviousharmony, konamiman, sadowski, wpmuguru, royho, barryhughes-1, claudiulodro, tiagonoronha, ryelle, levinmedia, aljullu, nerrad, joshuawold, assassinateur, haszari, mppfeiffer, nielslange, opr18, ralucastn, tjcafferkey, danielwrobert, patriciahillebrandt, albarin, dinhtungdu, imanish003, karolmanijak, sunyatasattva, alexandrelara, gigitux, danieldudzic, samueljseay, alexflorisca, opr18, tarunvijwani, pauloarromba, saadtarhi, bor0, kloon, coreymckrill, jorgeatorres, leifsinger, neosinner
 Tags: online store, ecommerce, shop, shopping cart, sell online
-Requires at least: 6.7
-Tested up to: 6.8
+Requires at least: 6.8
+Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 10.3.4
+Stable tag: 10.4.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -144,7 +144,7 @@ Check out [Frequently Asked Questions](https://woocommerce.com/document/frequent
 
 * PHP 7.4 or greater is required (PHP 8.0 or greater is recommended)
 * MySQL 5.5.5 or greater, OR MariaDB version 10.1 or greater, is required
-* WordPress 6.7 or greater
+* WordPress 6.8 or greater
 * (Recommended) WordPress [memory limit](https://woocommerce.com/document/increasing-the-wordpress-memory-limit/) of 256 MB or greater.
 * (Recommended) [HTTPS](https://woocommerce.com/document/ssl-and-https/) support.
 
@@ -170,19 +170,14 @@ WooCommerce comes with some sample data you can use to see how products look; im
 
 == Changelog ==
 
-= 10.3.5 2025-11-12 =
+= 10.4.3 2025-12-22 =
 
 **WooCommerce**
 
-* Fix - Add a new line when concatenating translations in a script for the Mini-Cart block [#61918](https://github.com/woocommerce/woocommerce/pull/61918)
-* Fix - Disable the Deactivate menu option for bundled payment gateways. [#61841](https://github.com/woocommerce/woocommerce/pull/61841)
-* Fix - Fix 'shows password form in products protected with password' e2e tests in WP 6.9 [#61911](https://github.com/woocommerce/woocommerce/pull/61911)
-* Fix - Fixes CSV import where hierarchical brands could not be imported. [#61873](https://github.com/woocommerce/woocommerce/pull/61873)
-* Fix - Legacy assets: respect theme support when using Classic Template or Product Image Gallery blocks with block themes. [#61837](https://github.com/woocommerce/woocommerce/pull/61837)
-* Fix - WP 6.9: load WP Button block styles when rendering the Add to Cart Button [#61911](https://github.com/woocommerce/woocommerce/pull/61911)
-* Update - Onboarding: Remove onboarding step to Customize Your Store flow [#61911](https://github.com/woocommerce/woocommerce/pull/61911)
-* Dev - e2e tests: skip block-based product editor tests [#61911](https://github.com/woocommerce/woocommerce/pull/61911)
-* Dev - Remove price filter widget accounting script deprecation notice [#61844](https://github.com/woocommerce/woocommerce/pull/61844)
+* Fix - Ensure guest orders cannot be read by customers without providing the key and billing address. [#62557](https://github.com/woocommerce/woocommerce/pull/62557)
+* Fix - Fix undo button after cart item removal in the cart shortcode [#62529](https://github.com/woocommerce/woocommerce/pull/62529)
+* Fix - Improve handling of order modified date during HPOS sync on read to prevent infinite loops. [#62532](https://github.com/woocommerce/woocommerce/pull/62532)
+* Update - Add automatic currency transition from BGN to EUR for Bulgaria effective January 1, 2026 [#62478](https://github.com/woocommerce/woocommerce/pull/62478)
 
 
 [See changelog for all versions](https://raw.githubusercontent.com/woocommerce/woocommerce/trunk/changelog.txt).

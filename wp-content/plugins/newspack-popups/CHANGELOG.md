@@ -1,3 +1,24 @@
+## [3.8.2](https://github.com/Automattic/newspack-popups/compare/v3.8.1...v3.8.2) (2026-01-06)
+
+
+### Bug Fixes
+
+* **prompt-expiration:** evaluate expiration timestamp in site timezone ([#1507](https://github.com/Automattic/newspack-popups/issues/1507)) ([c4114b1](https://github.com/Automattic/newspack-popups/commit/c4114b1fd4d439b1d98d880ef2a4eb0ad8ecf7eb))
+
+## [3.8.1](https://github.com/Automattic/newspack-popups/compare/v3.8.0...v3.8.1) (2025-12-08)
+
+
+### Bug Fixes
+
+* make sure custom placements follow post type restrictions ([#1500](https://github.com/Automattic/newspack-popups/issues/1500)) ([488b71d](https://github.com/Automattic/newspack-popups/commit/488b71d99e9ac63d983a229aa74888b2cef97131))
+
+# [3.8.0](https://github.com/Automattic/newspack-popups/compare/v3.7.1...v3.8.0) (2025-11-24)
+
+
+### Features
+
+* trigger alpha release ([3860726](https://github.com/Automattic/newspack-popups/commit/38607266ccffbbf83d8db2c9999f8b4611faf9d4))
+
 ## [3.7.1](https://github.com/Automattic/newspack-popups/compare/v3.7.0...v3.7.1) (2025-11-10)
 
 

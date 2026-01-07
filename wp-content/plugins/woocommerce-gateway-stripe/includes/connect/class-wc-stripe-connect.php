@@ -64,7 +64,7 @@ if ( ! class_exists( 'WC_Stripe_Connect' ) ) {
 				return $result;
 			}
 
-			set_transient( 'wcs_stripe_connect_state_' . $mode, $result->state, 6 * HOUR_IN_SECONDS );
+			WC_Stripe_Database_Cache::set_with_mode( 'oauth_connect_state', $result->state, 6 * HOUR_IN_SECONDS, $mode );
 
 			if ( WC_Stripe_Helper::is_verbose_debug_mode_enabled() ) {
 				WC_Stripe_Logger::debug(
@@ -95,7 +95,8 @@ if ( ! class_exists( 'WC_Stripe_Connect' ) ) {
 			// The state parameter is used to protect against CSRF.
 			// It's a unique, randomly generated, opaque, and non-guessable string that is sent when starting the
 			// authentication request and validated when processing the response.
-			if ( get_transient( 'wcs_stripe_connect_state_' . $mode ) !== $state ) {
+			$stored_state = WC_Stripe_Database_Cache::get_with_mode( 'oauth_connect_state', $mode );
+			if ( $stored_state !== $state ) {
 				if ( WC_Stripe_Helper::is_verbose_debug_mode_enabled() ) {
 					WC_Stripe_Logger::error(
 						'OAuth: Invalid state received from the WCC server',
@@ -105,11 +106,14 @@ if ( ! class_exists( 'WC_Stripe_Connect' ) ) {
 							'connect_type'           => $type,
 							'state'                  => self::redact_string( $state ),
 							'code'                   => self::redact_string( $code ),
+							'stored_state'           => false === $stored_state ? 'false' : self::redact_string( $stored_state ),
 						]
 					);
 				}
 				return new WP_Error( 'Invalid state received from the WCC server' );
 			}
+			// Delete the state from the cache immediately after validating it to prevent duplicate requests.
+			WC_Stripe_Database_Cache::delete_with_mode( 'oauth_connect_state', $mode );
 
 			$response = $this->api->get_stripe_oauth_keys( $code, $type, $mode );
 
@@ -130,8 +134,6 @@ if ( ! class_exists( 'WC_Stripe_Connect' ) ) {
 
 				return $response;
 			}
-
-			delete_transient( 'wcs_stripe_connect_state_' . $mode );
 
 			return $this->save_stripe_keys( $response, $type, $mode );
 		}
@@ -196,16 +198,22 @@ if ( ! class_exists( 'WC_Stripe_Connect' ) ) {
 				}
 
 				if ( $is_verbose_debug_mode_enabled ) {
-					WC_Stripe_Logger::debug(
-						'OAuth: Account connected successfully, reloading the page to clear URL parameters',
-						[
-							'current_stripe_api_key' => WC_Stripe_API::get_masked_secret_key(),
-							'connect_mode'           => $mode,
-							'connect_type'           => $type,
-							'connect_response'       => self::redact_sensitive_data( $response ),
-							'redirect_url'           => self::redact_sensitive_data( $redirect_url ),
-						]
-					);
+					$log_data = [
+						'current_stripe_api_key' => WC_Stripe_API::get_masked_secret_key(),
+						'connect_mode'           => $mode,
+						'connect_type'           => $type,
+						'state'                  => self::redact_string( $state ),
+						'code'                   => self::redact_string( $code ),
+						'nonce'                  => self::redact_string( $nonce ),
+						'connect_response'       => self::redact_sensitive_data( $response ),
+						'redirect_url'           => self::redact_sensitive_data( $redirect_url ),
+					];
+
+					if ( ! is_wp_error( $response ) ) {
+						WC_Stripe_Logger::debug( 'OAuth: Account connected successfully', $log_data );
+					} else {
+						WC_Stripe_Logger::error( 'OAuth: Account connection failed', $log_data );
+					}
 				}
 
 				wp_safe_redirect( esc_url_raw( $redirect_url ) );
@@ -259,6 +267,12 @@ if ( ! class_exists( 'WC_Stripe_Connect' ) ) {
 			$options[ $prefix . 'secret_key' ]          = $secret_key;
 			$options[ $prefix . 'connection_type' ]     = $type;
 			$options['pmc_enabled']                     = 'connect' === $type ? 'yes' : 'no'; // When not connected via Connect OAuth, the PMC is disabled.
+			$should_default_optimized_checkout_on = get_option( 'wc_stripe_optimized_checkout_default_on' );
+			// Clean up the option.
+			delete_option( 'wc_stripe_optimized_checkout_default_on' );
+			if ( 'connect' === $type && $should_default_optimized_checkout_on ) {
+				$options['optimized_checkout_element'] = 'yes';
+			}
 			if ( 'app' === $type ) {
 				$options[ $prefix . 'refresh_token' ] = $result->refreshToken; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			}

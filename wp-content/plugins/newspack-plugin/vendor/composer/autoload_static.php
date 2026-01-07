@@ -136,7 +136,11 @@ class ComposerStaticInitcd506e00bbd2bbf41c61d65382d6f343
         'Newspack\\Configuration_Managers' => __DIR__ . '/../..' . '/includes/configuration_managers/class-configuration-managers.php',
         'Newspack\\Content_Gate' => __DIR__ . '/../..' . '/includes/content-gate/class-content-gate.php',
         'Newspack\\Content_Gate\\Block_Patterns' => __DIR__ . '/../..' . '/includes/content-gate/class-block-patterns.php',
+        'Newspack\\Content_Gifting' => __DIR__ . '/../..' . '/includes/content-gate/content-gifting/class-content-gifting.php',
+        'Newspack\\Content_Gifting_CTA' => __DIR__ . '/../..' . '/includes/content-gate/content-gifting/class-content-gifting-cta.php',
         'Newspack\\Content_Restriction_Control' => __DIR__ . '/../..' . '/includes/content-gate/class-content-restriction-control.php',
+        'Newspack\\Contribution_Meter\\Block_Patterns' => __DIR__ . '/../..' . '/includes/contribution-meter/class-block-patterns.php',
+        'Newspack\\Contribution_Meter\\Contribution_Meter' => __DIR__ . '/../..' . '/includes/contribution-meter/class-contribution-meter.php',
         'Newspack\\Corrections' => __DIR__ . '/../..' . '/includes/corrections/class-corrections.php',
         'Newspack\\Data_Events' => __DIR__ . '/../..' . '/includes/data-events/class-data-events.php',
         'Newspack\\Data_Events\\Api' => __DIR__ . '/../..' . '/includes/data-events/class-api.php',
@@ -175,6 +179,7 @@ class ComposerStaticInitcd506e00bbd2bbf41c61d65382d6f343
         'Newspack\\Memberships\\Import_Export' => __DIR__ . '/../..' . '/includes/plugins/wc-memberships/class-import-export.php',
         'Newspack\\Meta_Pixel' => __DIR__ . '/../..' . '/includes/tracking/class-meta-pixel.php',
         'Newspack\\Metering' => __DIR__ . '/../..' . '/includes/content-gate/class-metering.php',
+        'Newspack\\Metering_Countdown' => __DIR__ . '/../..' . '/includes/content-gate/class-metering-countdown.php',
         'Newspack\\My_Account_UI_V0' => __DIR__ . '/../..' . '/includes/plugins/woocommerce/my-account/class-my-account-ui-v0.php',
         'Newspack\\My_Account_UI_V1' => __DIR__ . '/../..' . '/includes/plugins/woocommerce/my-account/class-my-account-ui-v1.php',
         'Newspack\\My_Account_UI_V1_Passwords' => __DIR__ . '/../..' . '/includes/plugins/woocommerce/my-account/class-my-account-ui-v1-passwords.php',
@@ -280,6 +285,7 @@ class ComposerStaticInitcd506e00bbd2bbf41c61d65382d6f343
         'Newspack\\Woo_Member_Commenting' => __DIR__ . '/../..' . '/includes/optional-modules/class-woo-member-commenting.php',
         'Newspack\\WordPress_SEO_Configuration_Manager' => __DIR__ . '/../..' . '/includes/configuration_managers/class-wordpress-seo-configuration-manager.php',
         'Newspack\\Yoast' => __DIR__ . '/../..' . '/includes/plugins/class-yoast.php',
+        'Newspack_Jetpack_Gift_Article' => __DIR__ . '/../..' . '/includes/content-gate/content-gifting/class-newspack-jetpack-gift-article.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

@@ -93,9 +93,11 @@ class WC_Stripe_Feature_Flags {
 	 * This allows the merchant to enable/disable UPE checkout.
 	 *
 	 * @return bool
+	 *
+	 * @deprecated 10.1.0 UPE is always enabled. This method will be removed in a future release.
 	 */
 	public static function is_upe_preview_enabled() {
-		return 'yes' === self::get_option_with_default( '_wcstripe_feature_upe' );
+		return true;
 	}
 
 	/**
@@ -126,7 +128,7 @@ class WC_Stripe_Feature_Flags {
 	 * @return bool Whether the APMs are deprecated.
 	 */
 	public static function are_apms_deprecated() {
-		return ( new \DateTime() )->format( 'Y-m-d' ) > '2024-10-28' && ! self::is_upe_checkout_enabled();
+		return false;
 	}
 
 	/**
