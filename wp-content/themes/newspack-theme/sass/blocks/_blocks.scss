@@ -15,6 +15,33 @@
 		margin-bottom: 0;
 	}
 
+	&.aligncenter {
+		margin-left: auto;
+		margin-right: auto;
+
+		@include utilities.media( tablet ) {
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+
+	@include utilities.media( notdesktop ) {
+		&.wp-block-embed {
+			&.alignleft,
+			&.alignright {
+				float: none;
+				margin-left: auto;
+				margin-right: auto;
+				max-width: 100%;
+			}
+		}
+	}
+}
+
+.entry .entry-content > *,
+.newspack-inline-popup > *,
+.everlit-no-audio > *,
+[id="pico"] > * {
 	// When the image block is aligned left or right, the markup changes,
 	// making a slighly different selector necessary.
 	&.wp-block-image .alignleft,
@@ -40,28 +67,6 @@
 	.alignleft:not(:first-child),
 	.alignright:not(:first-child) {
 		margin-top: 0;
-	}
-
-	&.aligncenter {
-		margin-left: auto;
-		margin-right: auto;
-
-		@include utilities.media( tablet ) {
-			margin-left: 0;
-			margin-right: 0;
-		}
-	}
-
-	@include utilities.media( notdesktop ) {
-		&.wp-block-embed {
-			&.alignleft,
-			&.alignright {
-				float: none;
-				margin-left: auto;
-				margin-right: auto;
-				max-width: 100%;
-			}
-		}
 	}
 }
 
@@ -223,7 +228,7 @@ h6 {
 }
 
 //! Paragraphs
-.has-drop-cap:not(:focus)::first-letter {
+p.has-drop-cap:not(:focus)::first-letter {
 	font-size: 4em;
 	line-height: 0.75;
 	margin: 0.125em #{0.75 * structure.$size__spacing-unit} 0 0;
@@ -362,11 +367,14 @@ p.has-background {
 //! Newspack Newlsetter Subscription Block
 .wp-block-newspack-newsletters-subscribe {
 	// Make sure custom colors don't override the color that should be used for the modern style.
-	&.is-style-modern input[type="checkbox"]::before {
-		background:
-			transparent
-			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath d='M16.7 7.1l-6.3 8.5-3.3-2.5-.9 1.2 4.5 3.4L17.9 8z' fill='white' %3E%3C/path%3E%3C/svg%3E")
-			0 0 no-repeat;
+	&.is-style-modern,
+	&.is-style-modern--grid {
+		input[type="checkbox"]::before {
+			background:
+				transparent
+				url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath d='M16.7 7.1l-6.3 8.5-3.3-2.5-.9 1.2 4.5 3.4L17.9 8z' fill='white' %3E%3C/path%3E%3C/svg%3E")
+				0 0 no-repeat;
+		}
 	}
 }
 
@@ -703,6 +711,10 @@ p.has-background {
 //! Button
 .wp-block-buttons {
 	--wp--style--block-gap: 0.5rem;
+
+	.everlit-no-audio {
+		display: contents;
+	}
 }
 
 .wp-block-buttons,
@@ -999,6 +1011,10 @@ p.has-background {
 			margin-right: auto;
 		}
 	}
+
+	.everlit-no-audio {
+		display: contents;
+	}
 }
 
 //! Separator
@@ -1194,6 +1210,10 @@ hr {
 	& > .wp-block-group-is-layout-grid > * {
 		margin: 0;
 	}
+
+	&.is-layout-flex > * {
+		max-width: 100%;
+	}
 }
 
 .entry .entry-content > .wp-block-group.alignleft,
@@ -1226,11 +1246,18 @@ hr {
 }
 
 // Remove space between full-width group block and header on homepage.
-.newspack-front-page.hide-homepage-title .entry-content > .wp-block-group.alignfull:first-child,
-.newspack-front-page.hide-homepage-title [id="pico"] > .wp-block-group.alignfull:first-child {
-	margin-top: 0;
-	@include utilities.media( tablet ) {
-		margin-top: calc(#{-0.5 * structure.$size__spacing-unit} - 1px); // minus 1px to offset bottom border on header
+.newspack-front-page.hide-homepage-title {
+	.entry-content > .wp-block-group.alignfull:first-child,
+	[id="pico"] > .wp-block-group.alignfull:first-child {
+		margin-top: 0;
+
+		@include utilities.media( tablet ) {
+			margin-top: calc(#{-0.5 * structure.$size__spacing-unit} - 1px); // minus 1px to offset bottom border on header
+		}
+	}
+
+	&.splash-page-home .entry .entry-content > *.alignfull:first-child {
+		margin-top: 0;
 	}
 }
 
@@ -1267,6 +1294,61 @@ hr {
 	+ .wp-block-details {
 		border-top: 0;
 		margin-top: -32px;
+	}
+}
+
+//! Accordion block
+.wp-block-accordion {
+	.wp-block-accordion-item {
+		border: solid var(--newspack-theme-color-border);
+		border-width: 1px 0;
+		padding: 0.5rem;
+
+		+ .wp-block-accordion-item {
+			border-top: 0;
+		}
+	}
+
+	.wp-block-accordion-heading {
+		font-size: var(--newspack-theme-font-size-base);
+	}
+
+	.wp-block-accordion-heading__toggle:hover .wp-block-accordion-heading__toggle-title {
+		text-decoration: none;
+	}
+}
+
+//! Accordion Group Block (Woocommerce)
+.wp-block-woocommerce-accordion-group {
+	.wp-block-woocommerce-accordion-item {
+		border: solid var(--newspack-theme-color-border);
+		border-width: 1px 0;
+		padding: 0.5rem;
+
+		+ .wp-block-woocommerce-accordion-item {
+			border-top: 0;
+		}
+	}
+
+	.wp-block-woocommerce-accordion-header {
+		font-size: var(--newspack-theme-font-size-base);
+
+		.accordion-item__toggle {
+			&:hover,
+			&:active,
+			&:focus {
+				background: transparent !important;
+				color: var(--newspack-theme-color-text-main) !important;
+			}
+
+			&:focus {
+				outline: none;
+			}
+
+			&:focus-visible {
+				outline: thin dotted;
+			}
+		}
 	}
 }
 
@@ -1520,7 +1602,8 @@ $colors: (
 	.is-style-outline .wp-block-button__link.has-#{$name}-color:not( :hover ), //legacy selector
 	.wp-block-button__link.is-style-outline.has-#{$name}-color:not( :hover ),
 	.wp-block-search__button.has-#{$name}-color,
-	.newspack-newsletters-subscribe input[type='submit'].has-#{$name}-color {
+	.newspack-newsletters-subscribe input[type='submit'].has-#{$name}-color,
+	.wp-block-woocommerce-accordion-item .accordion-item__heading.has-#{$name}-color {
 		color: $hex;
 	}
 
