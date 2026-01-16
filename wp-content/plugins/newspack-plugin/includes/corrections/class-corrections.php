@@ -467,7 +467,7 @@ class Corrections {
 
 		ob_start();
 		?>
-		<!-- wp:group {"className":"correction-module","backgroundColor":"light-gray"} -->
+		<!-- wp:newspack/correction-box {"className":"correction-module","backgroundColor":"light-gray"} -->
 		<div class="wp-block-group newspack-corrections-module corrections-<?php echo esc_attr( $corrections_priority ); ?>-module">
 			<?php foreach ( $corrections as $correction ) : ?>
 				<?php
@@ -488,9 +488,9 @@ class Corrections {
 				</p>
 			<?php endforeach; ?>
 		</div>
-		<!-- /wp:group -->
+		<!-- /wp:newspack/correction-box -->
 		<?php
-		return do_blocks( ob_get_clean() );
+		return ob_get_clean();
 	}
 
 	/**

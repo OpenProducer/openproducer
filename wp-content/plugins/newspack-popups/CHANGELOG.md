@@ -1,3 +1,10 @@
+## [3.8.3](https://github.com/Automattic/newspack-popups/compare/v3.8.2...v3.8.3) (2026-01-12)
+
+
+### Bug Fixes
+
+* ignore corrections when validating content for inline prompts ([#1511](https://github.com/Automattic/newspack-popups/issues/1511)) ([034ebed](https://github.com/Automattic/newspack-popups/commit/034ebed8e4cee5402aa10f2a3097ad57df0b4ac4))
+
 ## [3.8.2](https://github.com/Automattic/newspack-popups/compare/v3.8.1...v3.8.2) (2026-01-06)
 
 

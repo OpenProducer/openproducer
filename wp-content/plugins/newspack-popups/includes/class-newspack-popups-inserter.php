@@ -466,7 +466,7 @@ final class Newspack_Popups_Inserter {
 			return $content;
 		}
 
-		$filtered_content = explode( "\n", $content );
+		$filtered_content = explode( "\n", self::get_validation_content( $content ) );
 		$post_content     = explode( "\n", $post->post_content );
 		if (
 			// Avoid duplicate execution.
@@ -604,6 +604,34 @@ final class Newspack_Popups_Inserter {
 		$is_amp_plus = $is_amp && self::is_amp_plus();
 
 		return Newspack_Popups_Segmentation::is_admin_user() && ( ! $is_amp || $is_amp_plus ) && ! is_admin();
+	}
+
+	/**
+	 * Filter specific blocks to be ignored when validating content.
+	 *
+	 * @param string $content The content.
+	 *
+	 * @return string Filtered content.
+	 */
+	private static function get_validation_content( $content ) {
+		$blocks   = parse_blocks( $content );
+		$filtered = array_filter(
+			$blocks,
+			function ( $block ) {
+				$excluded_blocks = [
+					// Corrections are always added to the start or end of the content, so we can ignore them.
+					'newspack/correction-box',
+					'newspack/correction-item',
+				];
+				return ! in_array( $block['blockName'], $excluded_blocks, true );
+			}
+		);
+
+		$filtered_html = '';
+		foreach ( $filtered as $block ) {
+			$filtered_html .= serialize_block( $block );
+		}
+		return trim( $filtered_html );
 	}
 
 	/**
