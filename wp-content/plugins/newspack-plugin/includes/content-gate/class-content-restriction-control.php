@@ -25,7 +25,6 @@ class Content_Restriction_Control {
 	 */
 	public static function init() {
 		add_filter( 'newspack_is_post_restricted', [ __CLASS__, 'is_post_restricted' ], 10, 2 );
-		add_filter( 'newspack_content_gate_post_id', [ __CLASS__, 'get_gate_post_id' ], 10, 2 );
 	}
 
 	/**
@@ -106,7 +105,7 @@ class Content_Restriction_Control {
 			return [];
 		}
 
-		$gates = Content_Gate::get_gates();
+		$gates = Content_Gate::get_gates( Content_Gate::GATE_CPT, 'publish' );
 		if ( empty( $gates ) ) {
 			return [];
 		}
@@ -122,9 +121,10 @@ class Content_Restriction_Control {
 			}
 
 			foreach ( $content_rules as $content_rule ) {
+				$is_exclusion = isset( $content_rule['exclusion'] ) && $content_rule['exclusion'];
 				if ( $content_rule['slug'] === 'post_types' ) {
 					$post_type = get_post_type( $post_id );
-					if ( ! in_array( $post_type, $content_rule['value'], true ) ) {
+					if ( $is_exclusion ? in_array( $post_type, $content_rule['value'], true ) : ! in_array( $post_type, $content_rule['value'], true ) ) {
 						continue 2;
 					}
 				} else {
@@ -133,10 +133,10 @@ class Content_Restriction_Control {
 						continue 2;
 					}
 					$terms = wp_get_post_terms( $post_id, $content_rule['slug'], [ 'fields' => 'ids' ] );
-					if ( ! $terms || is_wp_error( $terms ) ) {
+					if ( ( ! $is_exclusion && ! $terms ) || is_wp_error( $terms ) ) {
 						continue 2;
 					}
-					if ( empty( array_intersect( $terms, $content_rule['value'] ) ) ) {
+					if ( $is_exclusion ? ! empty( array_intersect( $terms, $content_rule['value'] ) ) : empty( array_intersect( $terms, $content_rule['value'] ) ) ) {
 						continue 2;
 					}
 				}
@@ -193,17 +193,24 @@ class Content_Restriction_Control {
 	/**
 	 * Get the current gate post ID.
 	 *
-	 * @param int $gate_post_id Gate post ID.
-	 * @param int $post_id      Post ID. If not given, uses the current post ID.
+	 * @param int $post_id Post ID. If not given, uses the current post ID.
 	 *
 	 * @return int|false
 	 */
-	public static function get_gate_post_id( $gate_post_id, $post_id = null ) {
-		$post_id = $post_id ?? \get_the_ID();
+	public static function get_gate_post_id( $post_id = null ) {
+		if ( ! Content_Gate::is_newspack_feature_enabled() ) {
+			return false;
+		}
+		if ( is_singular() ) {
+			$post_id = $post_id ? $post_id : get_queried_object_id();
+		}
+		if ( ! $post_id ) {
+			return false;
+		}
 		if ( ! empty( self::$post_gate_id_map[ $post_id ] ) ) {
 			return self::$post_gate_id_map[ $post_id ];
 		}
-		return $gate_post_id;
+		return false;
 	}
 }
 Content_Restriction_Control::init();

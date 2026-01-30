@@ -1,3 +1,10 @@
+## [3.8.4](https://github.com/Automattic/newspack-popups/compare/v3.8.3...v3.8.4) (2026-01-19)
+
+
+### Bug Fixes
+
+* **apple-news:** disable prompts when exporting to apple news ([#1499](https://github.com/Automattic/newspack-popups/issues/1499)) ([cb6ed91](https://github.com/Automattic/newspack-popups/commit/cb6ed91c17d8e319598299dc8f62d7d12212b575))
+
 ## [3.8.3](https://github.com/Automattic/newspack-popups/compare/v3.8.2...v3.8.3) (2026-01-12)
 
 
