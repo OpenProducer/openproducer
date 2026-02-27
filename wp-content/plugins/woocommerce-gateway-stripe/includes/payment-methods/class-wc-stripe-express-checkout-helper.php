@@ -38,7 +38,7 @@ class WC_Stripe_Express_Checkout_Helper {
 	/**
 	 * Gateway.
 	 *
-	 * @var WC_Gateway_Stripe
+	 * @var WC_Stripe_UPE_Payment_Gateway
 	 */
 	private $gateway;
 
@@ -649,7 +649,7 @@ class WC_Stripe_Express_Checkout_Helper {
 	public function should_show_express_checkout_button() {
 		// Bail if account is not connected.
 		if ( ! WC_Stripe::get_instance()->connect->is_connected() ) {
-			WC_Stripe_Logger::log( 'Account is not connected.' );
+			WC_Stripe_Logger::debug( 'Account is not connected.' );
 			return false;
 		}
 
@@ -667,7 +667,7 @@ class WC_Stripe_Express_Checkout_Helper {
 
 		$available_gateways = WC()->payment_gateways->get_available_payment_gateways();
 		if ( ! isset( $available_gateways['stripe'] ) ) {
-			WC_Stripe_Logger::log( 'Stripe Express Checkout requires the Stripe gateway to be enabled.' );
+			WC_Stripe_Logger::debug( 'Stripe Express Checkout requires the Stripe gateway to be enabled.' );
 			return false;
 		}
 
@@ -683,13 +683,13 @@ class WC_Stripe_Express_Checkout_Helper {
 			WC_Stripe_Helper::has_cart_or_checkout_on_current_page()
 			&& ! $this->allowed_items_in_cart()
 		) {
-			WC_Stripe_Logger::log( 'Some items in cart are not compatible with Stripe Express Checkout. ' );
+			WC_Stripe_Logger::debug( 'Some items in cart are not compatible with Stripe Express Checkout. ' );
 			return false;
 		}
 
 		// Don't show on cart if disabled.
 		if ( $this->is_cart() && ! $this->should_show_ece_on_cart_page() ) {
-			WC_Stripe_Logger::log( 'Stripe Express Checkout buttons display on cart is disabled. ' );
+			WC_Stripe_Logger::debug( 'Stripe Express Checkout buttons display on cart is disabled. ' );
 			return false;
 		}
 
@@ -697,7 +697,7 @@ class WC_Stripe_Express_Checkout_Helper {
 		$is_one_page_checkout = $this->is_one_page_checkout();
 
 		if ( ( $this->is_checkout() || $is_one_page_checkout ) && ! $this->should_show_ece_on_checkout_page() ) {
-			WC_Stripe_Logger::log( 'Stripe Express Checkout buttons display on checkout is disabled. ' );
+			WC_Stripe_Logger::debug( 'Stripe Express Checkout buttons display on checkout is disabled. ' );
 			return false;
 		}
 
@@ -706,14 +706,14 @@ class WC_Stripe_Express_Checkout_Helper {
 		// Don't show if product page ECE is disabled.
 		// Skip this check for One Page Checkout pages since they should be treated as checkout pages, not product pages.
 		if ( $is_product && ! $is_one_page_checkout && ! $this->should_show_ece_on_product_pages() ) {
-			WC_Stripe_Logger::log( 'Stripe Express Checkout buttons display on product pages is disabled. ' );
+			WC_Stripe_Logger::debug( 'Stripe Express Checkout buttons display on product pages is disabled. ' );
 			return false;
 		}
 
 		// On One Page Checkout pages, if we're in the product section and checkout buttons are enabled,
 		// skip rendering here because the button will render in the checkout section instead.
 		if ( $is_one_page_checkout && $is_product && doing_action( 'woocommerce_after_add_to_cart_form' ) && $this->should_show_ece_on_checkout_page() ) {
-			WC_Stripe_Logger::log( 'Stripe Express Checkout buttons on One Page Checkout will be displayed in checkout section, not product section.' );
+			WC_Stripe_Logger::debug( 'Stripe Express Checkout buttons on One Page Checkout will be displayed in checkout section, not product section.' );
 			return false;
 		}
 
@@ -721,19 +721,19 @@ class WC_Stripe_Express_Checkout_Helper {
 
 		if ( $is_product && ! $product ) {
 			$request_uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
-			WC_Stripe_Logger::log( 'Failed to identify product; not showing Stripe Express Checkout. Current URI: ' . $request_uri );
+			WC_Stripe_Logger::debug( 'Failed to identify product; not showing Stripe Express Checkout. Current URI: ' . $request_uri );
 			return false;
 		}
 
 		// Don't show if product on current page is not supported.
 		if ( $is_product && ! $this->is_product_supported( $product ) ) {
-			WC_Stripe_Logger::log( 'Product is not supported by Stripe Express Checkout. Product ID: ' . $product->get_id() );
+			WC_Stripe_Logger::debug( 'Product is not supported by Stripe Express Checkout. Product ID: ' . $product->get_id() );
 			return false;
 		}
 
 		// Don't show in the product page if the product price is 0 and the product requires shipping.
 		if ( $is_product && $product && 0.0 === (float) $product->get_price() && $this->product_or_cart_needs_shipping() ) {
-			WC_Stripe_Logger::log( 'Stripe Express Checkout does not support free products that requires shipping.' );
+			WC_Stripe_Logger::debug( 'Stripe Express Checkout does not support free products that requires shipping.' );
 			return false;
 		}
 
@@ -741,7 +741,7 @@ class WC_Stripe_Express_Checkout_Helper {
 			$stock_availability = array_column( $product->get_available_variations(), 'is_in_stock' );
 			// Don't show if all product variations are out-of-stock.
 			if ( ! in_array( true, $stock_availability, true ) ) {
-				WC_Stripe_Logger::log( 'Stripe Express Checkout is hidden due to product variations being out of stock. Product ID: ' . $product->get_id() );
+				WC_Stripe_Logger::debug( 'Stripe Express Checkout is hidden due to product variations being out of stock. Product ID: ' . $product->get_id() );
 				return false;
 			}
 		}
@@ -760,9 +760,9 @@ class WC_Stripe_Express_Checkout_Helper {
 		$hide_based_on_tax_filtered = apply_filters( 'wc_stripe_should_hide_express_checkout_button_based_on_tax_setup', $hide_based_on_tax );
 		if ( $hide_based_on_tax_filtered ) {
 			if ( $hide_based_on_tax !== $hide_based_on_tax_filtered ) {
-				WC_Stripe_Logger::log( 'Stripe Express Checkout is hidden due to the tax setup being overridden by the filter.' );
+				WC_Stripe_Logger::debug( 'Stripe Express Checkout is hidden due to the tax setup being overridden by the filter.' );
 			} else {
-				WC_Stripe_Logger::log( 'Stripe Express Checkout is hidden due to product/cart not requiring shipping and tax being based on customer\'s billing or shipping address.' );
+				WC_Stripe_Logger::debug( 'Stripe Express Checkout is hidden due to product/cart not requiring shipping and tax being based on customer\'s billing or shipping address.' );
 			}
 			return false;
 		}
@@ -1497,91 +1497,10 @@ class WC_Stripe_Express_Checkout_Helper {
 			define( 'WOOCOMMERCE_CART', true );
 		}
 
-		$items         = [];
-		$lines         = [];
-		$subtotal      = 0;
-		$discounts     = 0;
 		$display_items = ! apply_filters( 'wc_stripe_payment_request_hide_itemization', true ) || $itemized_display_items;
-		$has_deposits  = false;
-
-		if ( $display_items ) {
-			foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
-				// Hide itemization/subtotals for Apple Pay and Google Pay when deposits are present.
-				if ( ! empty( $cart_item['is_deposit'] ) ) {
-					$has_deposits = true;
-					continue;
-				}
-
-				$subtotal      += $cart_item['line_subtotal'];
-				$amount         = $cart_item['line_subtotal'];
-				$quantity_label = 1 < $cart_item['quantity'] ? ' (x' . $cart_item['quantity'] . ')' : '';
-				$product_name   = $cart_item['data']->get_name();
-
-				$lines[] = [
-					'label'  => $product_name . $quantity_label,
-					'amount' => WC_Stripe_Helper::get_stripe_amount( $amount ),
-				];
-			}
-		} else {
-			$subtotal = WC()->cart->get_subtotal();
-		}
-
-		if ( $display_items && ! $has_deposits ) {
-			$items = array_merge( $items, $lines );
-		} elseif ( ! $has_deposits ) { // If the cart contains a deposit, the subtotal will be different to the cart total and will throw an error.
-			$items[] = [
-				'label'  => 'Subtotal',
-				'amount' => WC_Stripe_Helper::get_stripe_amount( $subtotal ),
-			];
-		}
-
-		$applied_coupons = array_values( WC()->cart->get_coupon_discount_totals() );
-
-		foreach ( $applied_coupons as $amount ) {
-			$discounts += (float) $amount;
-		}
-
-		$discounts   = wc_format_decimal( $discounts, WC()->cart->dp );
-		$tax         = wc_format_decimal( WC()->cart->tax_total + WC()->cart->shipping_tax_total, WC()->cart->dp );
-		$shipping    = wc_format_decimal( WC()->cart->shipping_total, WC()->cart->dp );
-		$items_total = wc_format_decimal( WC()->cart->cart_contents_total, WC()->cart->dp ) + $discounts;
-		$order_total = WC()->cart->get_total( false );
-
-		if ( wc_tax_enabled() ) {
-			$items[] = [
-				'label'  => esc_html( __( 'Tax', 'woocommerce-gateway-stripe' ) ),
-				'amount' => WC_Stripe_Helper::get_stripe_amount( $tax ),
-			];
-		}
-
-		if ( WC()->cart->needs_shipping() ) {
-			$items[] = [
-				'key'    => 'total_shipping',
-				'label'  => esc_html( __( 'Shipping', 'woocommerce-gateway-stripe' ) ),
-				'amount' => WC_Stripe_Helper::get_stripe_amount( $shipping ),
-			];
-		}
-
-		if ( WC()->cart->has_discount() ) {
-			$items[] = [
-				'key'    => 'total_discount',
-				'label'  => esc_html( __( 'Discount', 'woocommerce-gateway-stripe' ) ),
-				'amount' => WC_Stripe_Helper::get_stripe_amount( $discounts ),
-			];
-		}
-
-		$cart_fees = WC()->cart->get_fees();
-
-		// Include fees and taxes as display items.
-		foreach ( $cart_fees as $key => $fee ) {
-			$items[] = [
-				'label'  => $fee->name,
-				'amount' => WC_Stripe_Helper::get_stripe_amount( $fee->amount ),
-			];
-		}
+		$order_total   = WC()->cart->get_total( false );
 
 		$calculated_total = WC_Stripe_Helper::get_stripe_amount( $order_total );
-
 		$calculated_total = apply_filters_deprecated(
 			'woocommerce_stripe_calculated_total',
 			[ $calculated_total, $order_total, WC()->cart ],
@@ -1602,7 +1521,7 @@ class WC_Stripe_Express_Checkout_Helper {
 		$calculated_total = apply_filters( 'wc_stripe_calculated_total', $calculated_total, $order_total, WC()->cart );
 
 		return [
-			'displayItems' => $items,
+			'displayItems' => WC_Stripe_Helper::build_line_items( $display_items ),
 			'total'        => [
 				'label'   => $this->total_label,
 				'amount'  => max( 0, $calculated_total ),

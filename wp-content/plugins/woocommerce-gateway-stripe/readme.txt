@@ -2,7 +2,7 @@
 Contributors: woocommerce, automattic, royho, akeda, mattyza, bor0, woothemes
 Tags: credit card, stripe, payments, woocommerce, woo
 Requires at least: 6.7
-Tested up to: 6.9
+Tested up to: 6.9.1
 Requires PHP: 7.4
 Stable tag: 10.3.1
 License: GPLv3
@@ -35,6 +35,12 @@ Stripe is available for store owners and merchants in [46 countries worldwide](h
 
 The following items note specific versions that include important changes, features, or deprecations.
 
+* 10.4.0
+   - Optimized Checkout Suite no longer enabled by default for new installs
+   - Removed the main Payment Request Buttons backend class, WC_Stripe_Payment_Request, which was deprecated in 10.2.0
+   - Removed the deprecated WC_Stripe_Apple_Pay class
+* 10.3.0
+   - Removed legacy checkout payment method classes and settings retrieval methods
 * 10.2.0
    - Optimized Checkout Suite enabled by default for all new installations
    - Add minimum transaction amounts for BRL, INR, NZD, THB, CZK, HUF, AED, MYR, PLN, RON
@@ -139,7 +145,45 @@ If you get stuck, you can ask for help in the [Plugin Forum](https://wordpress.o
 
 == Changelog ==
 
-= 10.3.1 - 2026-01-15 =
-* Fix - Fatal error when using express payment method with certain addresses
+= 10.4.0 - 2026-02-09 =
+
+**New Features**
+* Add - Enable Amazon Pay for eligible new installs
+* Add - Support Amazon Pay as an express checkout method
+
+**Important Fixes and Updates**
+* Add - Admin notice for merchants potentially affected by the express checkout button location issue in versions 10.1.0 to 10.2.x
+* Add - Map Norwegian nb-NO to generic no-NO locale
+* Update - Redirect merchants to the Stripe settings screen upon plugin activation
+* Update - Stop auto-enabling Optimized Checkout Suite for new installs
+* Fix - Prevent Optimized Checkout from showing unsupported payment methods
+* Fix - Fix Stripe client API calls with wrong amount when rendering the express checkout buttons in blocks
+
+**Other Fixes and Updates**
+* Update - Ensure the `customer_name` metadata sent to Stripe does not have leading or trailing spaces
+* Fix - Validate product exists before accessing product methods in express checkout to prevent fatal errors
+* Fix - Add order validation in Multibanco email instructions to prevent fatal error when order is invalid
+* Fix - Add validation to prevent fatal error when setting default payment token if token doesn't exist
+* Fix - Validate order object before accessing methods in my account orders actions to prevent fatal errors
+* Fix - Resolve false incompatibility warnings for Block Editor payment methods
+* Fix - Prevent credit card input fields from being cleared in the Optimized Checkout Suite (OCS) when the "Save payment method" checkbox is selected on classic checkout
+* Fix - Better error handling when token creation fails
+
+**Internal Changes and Upcoming Features**
+* Add - New setting to control Adaptive Pricing
+* Add - Introduce an endpoint to create Checkout Sessions tokens
+* Update - Move all logic from WC_Gateway_Stripe to WC_Stripe_UPE_Payment_Gateway as part of deprecation
+* Update - Remove the main Payment Request Buttons backend class, WC_Stripe_Payment_Request, which was deprecated in 10.2.0
+* Dev - Replace deprecated logger method calls with severity specific methods
+* Dev - Ensure PHPStan runs when pushing changes
+* Dev - Add PHPStan stub for WC_Subscription class
+* Dev - Remove the deprecated WC_Stripe_Apple_Pay class
+* Dev - Unit tests to cover address normalization
+* Dev - Use WC_STRIPE_PLUGIN_PATH constant instead of __DIR__ for more reliable file path resolution
+* Dev - Automate release note creation PR
+* Dev - Introduce a feature flag for the Stripe checkout sessions feature
+* Dev - Improve the pre-push hook
+* Tweak - Improve PHPDoc for payment token code
+* Tweak - Update PHPDoc for email notification classes
 
 [See changelog for full details across versions](https://raw.githubusercontent.com/woocommerce/woocommerce-gateway-stripe/trunk/changelog.txt).
