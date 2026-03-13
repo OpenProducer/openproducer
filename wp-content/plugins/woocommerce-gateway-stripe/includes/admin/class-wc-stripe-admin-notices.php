@@ -39,6 +39,14 @@ class WC_Stripe_Admin_Notices {
 	 *
 	 * @since 1.0.0
 	 * @version 4.0.0
+	 *
+	 * @param string $slug        The notice slug.
+	 * @param string $class       The notice CSS class.
+	 * @param string $message     The notice message.
+	 * @param bool   $dismissible Whether the notice is dismissible.
+	 * @param array  $actions     Optional action buttons.
+	 *
+	 * @return void
 	 */
 	public function add_admin_notice( $slug, $class, $message, $dismissible = false, $actions = [] ) {
 		$this->notices[ $slug ] = [
@@ -54,6 +62,8 @@ class WC_Stripe_Admin_Notices {
 	 *
 	 * @since 1.0.0
 	 * @version 4.0.0
+	 *
+	 * @return void
 	 */
 	public function admin_notices() {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
@@ -89,7 +99,7 @@ class WC_Stripe_Admin_Notices {
 
 			if ( $notice['dismissible'] ) {
 				?>
-				<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'wc-stripe-hide-notice', $notice_key ), 'wc_stripe_hide_notices_nonce', '_wc_stripe_notice_nonce' ) ); ?>" class="woocommerce-message-close notice-dismiss" style="position:relative;float:right;padding:9px 0px 9px 9px 9px;text-decoration:none;"></a>
+				<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'wc-stripe-hide-notice', $notice_key ), 'wc_stripe_hide_notices_nonce', '_wc_stripe_notice_nonce' ) ); ?>" class="woocommerce-message-close notice-dismiss" style="position:relative;float:right;padding:9px 0 9px 9px;text-decoration:none;"></a>
 				<?php
 			}
 
@@ -129,6 +139,8 @@ class WC_Stripe_Admin_Notices {
 	 * Displays the legacy deprecation notice.
 	 *
 	 * @param string $plugin_file Plugin file.
+	 *
+	 * @return void
 	 */
 	public static function display_legacy_deprecation_notice( $plugin_file ) {
 		return;
@@ -152,6 +164,8 @@ class WC_Stripe_Admin_Notices {
 	 *
 	 * @since 1.0.0
 	 * @version 4.0.0
+	 *
+	 * @return void
 	 */
 	public function stripe_check_environment() {
 		$show_style_notice         = get_option( 'wc_stripe_show_style_notice' );
@@ -352,6 +366,8 @@ class WC_Stripe_Admin_Notices {
 	 * Environment check for all other payment methods.
 	 *
 	 * @since 4.1.0
+	 *
+	 * @return void
 	 */
 	public function payment_methods_check_environment() {
 		// phpcs:ignore
@@ -437,7 +453,7 @@ class WC_Stripe_Admin_Notices {
 	 * @return void
 	 */
 	public function subscription_check_detachment() {
-		if ( ! self::is_subscription_edit_page() ) {
+		if ( ! WC_Stripe_Subscriptions_Helper::is_subscription_edit_page() ) {
 			return;
 		}
 
@@ -560,6 +576,8 @@ class WC_Stripe_Admin_Notices {
 	 *
 	 * @since 4.0.0
 	 * @version 4.0.0
+	 *
+	 * @return void
 	 */
 	public function hide_notices() {
 		if ( isset( $_GET['wc-stripe-hide-notice'] ) && isset( $_GET['_wc_stripe_notice_nonce'] ) ) {
@@ -650,6 +668,8 @@ class WC_Stripe_Admin_Notices {
 	 * Saves options in order to hide notices based on the gateway's version.
 	 *
 	 * @since 4.3.0
+	 *
+	 * @return void
 	 */
 	public function stripe_updated() {
 		$previous_version = get_option( 'wc_stripe_version' );
@@ -674,24 +694,4 @@ class WC_Stripe_Admin_Notices {
 			update_option( 'wc_stripe_show_ece_location_notice', 'yes' );
 		}
 	}
-
-	/**
-	 * Checks if the current page is a subscription edit page in wp-admin.
-	 *
-	 * This should be removed once WooCommerce provides a way to check for subscription edit pages.
-	 *
-	 * @return bool
-	 */
-	private static function is_subscription_edit_page() {
-		$query_params = wp_unslash( $_REQUEST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		if ( WC_Stripe_Woo_Compat_Utils::is_custom_orders_table_enabled() ) { // If custom order tables are enabled, we need to check the page query param.
-			return isset( $query_params['page'] ) && 'wc-orders--shop_subscription' === $query_params['page'] && isset( $query_params['id'] );
-		}
-
-		// If custom order tables are not enabled, we need to check the post type and action query params.
-		$is_shop_subscription_post_type = isset( $query_params['post'] ) && 'shop_subscription' === get_post_type( $query_params['post'] );
-		return isset( $query_params['action'] ) && 'edit' === $query_params['action'] && $is_shop_subscription_post_type;
-	}
 }
-
-new WC_Stripe_Admin_Notices();
