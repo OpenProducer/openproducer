@@ -4,13 +4,38 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit5b902fe9fbd5436e6c65600b25f6b8bd
+class ComposerStaticInit93a6c12dcd489fbadaeec550274b5ed0
 {
     public static $classMap = array (
+        'Allowed_Payment_Request_Button_Types_Update' => __DIR__ . '/../..' . '/includes/migrations/class-allowed-payment-request-button-types-update.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Migrate_Payment_Request_Data_To_Express_Checkout_Data' => __DIR__ . '/../..' . '/includes/migrations/class-migrate-payment-request-data-to-express-checkout-data.php',
+        'Sepa_Tokens_For_Other_Methods_Settings_Update' => __DIR__ . '/../..' . '/includes/migrations/class-sepa-tokens-for-other-methods-settings-update.php',
+        'WC_Payment_Token_ACH' => __DIR__ . '/../..' . '/includes/payment-tokens/class-wc-stripe-ach-payment-token.php',
+        'WC_Payment_Token_ACSS' => __DIR__ . '/../..' . '/includes/payment-tokens/class-wc-stripe-acss-payment-token.php',
+        'WC_Payment_Token_Amazon_Pay' => __DIR__ . '/../..' . '/includes/payment-tokens/class-wc-stripe-amazon-pay-payment-token.php',
+        'WC_Payment_Token_Bacs_Debit' => __DIR__ . '/../..' . '/includes/payment-tokens/class-wc-stripe-bacs-payment-token.php',
+        'WC_Payment_Token_Becs_Debit' => __DIR__ . '/../..' . '/includes/payment-tokens/class-wc-stripe-becs-debit-payment-token.php',
+        'WC_Payment_Token_CashApp' => __DIR__ . '/../..' . '/includes/payment-tokens/class-wc-stripe-cash-app-payment-token.php',
+        'WC_Payment_Token_Link' => __DIR__ . '/../..' . '/includes/payment-tokens/class-wc-stripe-link-payment-token.php',
+        'WC_Payment_Token_SEPA' => __DIR__ . '/../..' . '/includes/payment-tokens/class-wc-stripe-sepa-payment-token.php',
         'WC_REST_Stripe_Agentic_Commerce_Controller' => __DIR__ . '/../..' . '/includes/admin/class-wc-rest-stripe-agentic-commerce-controller.php',
         'WC_REST_Stripe_Exit_Survey_Controller' => __DIR__ . '/../..' . '/includes/admin/class-wc-rest-stripe-exit-survey-controller.php',
         'WC_Stripe_API_Address' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-api-address.php',
+        'WC_Stripe_API_Outage_Status' => __DIR__ . '/../..' . '/includes/class-wc-stripe-api-outage-status.php',
+        'WC_Stripe_Abilities_Registrar' => __DIR__ . '/../..' . '/includes/abilities/class-wc-stripe-abilities-registrar.php',
+        'WC_Stripe_Ability_Base' => __DIR__ . '/../..' . '/includes/abilities/abstract-wc-stripe-ability-base.php',
+        'WC_Stripe_Ability_Get_Account_Summary' => __DIR__ . '/../..' . '/includes/abilities/domain/class-wc-stripe-ability-get-account-summary.php',
+        'WC_Stripe_Ability_Get_Balance' => __DIR__ . '/../..' . '/includes/abilities/domain/class-wc-stripe-ability-get-balance.php',
+        'WC_Stripe_Ability_Get_Balance_Transactions' => __DIR__ . '/../..' . '/includes/abilities/domain/class-wc-stripe-ability-get-balance-transactions.php',
+        'WC_Stripe_Ability_Get_Charge' => __DIR__ . '/../..' . '/includes/abilities/domain/class-wc-stripe-ability-get-charge.php',
+        'WC_Stripe_Ability_Get_Charges' => __DIR__ . '/../..' . '/includes/abilities/domain/class-wc-stripe-ability-get-charges.php',
+        'WC_Stripe_Ability_Get_Dispute' => __DIR__ . '/../..' . '/includes/abilities/domain/class-wc-stripe-ability-get-dispute.php',
+        'WC_Stripe_Ability_Get_Disputes' => __DIR__ . '/../..' . '/includes/abilities/domain/class-wc-stripe-ability-get-disputes.php',
+        'WC_Stripe_Ability_Get_Payment_Intent' => __DIR__ . '/../..' . '/includes/abilities/domain/class-wc-stripe-ability-get-payment-intent.php',
+        'WC_Stripe_Ability_Get_Payout' => __DIR__ . '/../..' . '/includes/abilities/domain/class-wc-stripe-ability-get-payout.php',
+        'WC_Stripe_Ability_Get_Payouts' => __DIR__ . '/../..' . '/includes/abilities/domain/class-wc-stripe-ability-get-payouts.php',
+        'WC_Stripe_Action_Scheduler_Service' => __DIR__ . '/../..' . '/includes/class-wc-stripe-action-scheduler-service.php',
         'WC_Stripe_Agentic_Checkout_Session' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-checkout-session.php',
         'WC_Stripe_Agentic_Commerce_CLI' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-cli.php',
         'WC_Stripe_Agentic_Commerce_Csv_Feed' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-csv-feed.php',
@@ -29,14 +54,39 @@ class ComposerStaticInit5b902fe9fbd5436e6c65600b25f6b8bd
         'WC_Stripe_Agentic_Line_Item' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-line-item.php',
         'WC_Stripe_Agentic_Shipping_Calculator' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-shipping-calculator.php',
         'WC_Stripe_Checkout_Sessions_Ajax_Handler' => __DIR__ . '/../..' . '/includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php',
+        'WC_Stripe_Co_Branded_CC_Compatibility' => __DIR__ . '/../..' . '/includes/class-wc-stripe-co-branded-cc-compatibility.php',
+        'WC_Stripe_Country_Code' => __DIR__ . '/../..' . '/includes/constants/class-wc-stripe-country-code.php',
+        'WC_Stripe_Currency_Code' => __DIR__ . '/../..' . '/includes/constants/class-wc-stripe-currency-code.php',
+        'WC_Stripe_Email_Failed_Authentication' => __DIR__ . '/../..' . '/includes/compat/class-wc-stripe-email-failed-authentication.php',
+        'WC_Stripe_Email_Failed_Preorder_Authentication' => __DIR__ . '/../..' . '/includes/compat/class-wc-stripe-email-failed-preorder-authentication.php',
+        'WC_Stripe_Email_Failed_Renewal_Authentication' => __DIR__ . '/../..' . '/includes/compat/class-wc-stripe-email-failed-renewal-authentication.php',
+        'WC_Stripe_Exception' => __DIR__ . '/../..' . '/includes/class-wc-stripe-exception.php',
+        'WC_Stripe_Express_Checkout_Add_Change_Payment_Method_Location_Update' => __DIR__ . '/../..' . '/includes/migrations/class-wc-stripe-express-checkout-add-change-payment-method-location-update.php',
+        'WC_Stripe_Express_Checkout_Button_States' => __DIR__ . '/../..' . '/includes/constants/class-wc-stripe-express-checkout-button-states.php',
+        'WC_Stripe_Express_Checkout_Custom_Fields' => __DIR__ . '/../..' . '/includes/payment-methods/class-wc-stripe-express-checkout-custom-fields.php',
+        'WC_Stripe_Fingerprint_Trait' => __DIR__ . '/../..' . '/includes/payment-tokens/trait-wc-stripe-fingerprint.php',
+        'WC_Stripe_Hong_Kong_States' => __DIR__ . '/../..' . '/includes/constants/class-wc-stripe-hong-kong-states.php',
+        'WC_Stripe_Intent_Status' => __DIR__ . '/../..' . '/includes/constants/class-wc-stripe-intent-status.php',
+        'WC_Stripe_Klarna_Payment_Token' => __DIR__ . '/../..' . '/includes/payment-tokens/class-wc-stripe-klarna-payment-token.php',
+        'WC_Stripe_OCS_AP_Default_On_Update' => __DIR__ . '/../..' . '/includes/migrations/class-wc-stripe-ocs-ap-default-on-update.php',
+        'WC_Stripe_Payment_Cancelled_Exception' => __DIR__ . '/../..' . '/includes/class-wc-stripe-payment-cancelled-exception.php',
+        'WC_Stripe_Payment_Method_Comparison_Interface' => __DIR__ . '/../..' . '/includes/payment-tokens/interface-wc-stripe-payment-method-comparison.php',
+        'WC_Stripe_Payment_Methods' => __DIR__ . '/../..' . '/includes/constants/class-wc-stripe-payment-methods.php',
+        'WC_Stripe_Payment_Request_Button_States' => __DIR__ . '/../..' . '/includes/constants/class-wc-stripe-payment-request-button-states.php',
+        'WC_Stripe_Payment_Token_CC' => __DIR__ . '/../..' . '/includes/payment-tokens/class-wc-stripe-cc-payment-token.php',
         'WC_Stripe_Plugins_Page_Controller' => __DIR__ . '/../..' . '/includes/admin/class-wc-stripe-plugins-page-controller.php',
         'WC_Stripe_REST_Base_Controller' => __DIR__ . '/../..' . '/includes/admin/class-wc-stripe-rest-base-controller.php',
+        'WC_Stripe_REST_UPE_Flag_Toggle_Controller' => __DIR__ . '/../..' . '/includes/admin/class-wc-stripe-rest-upe-flag-toggle-controller.php',
+        'WC_Stripe_UPE_Compatibility' => __DIR__ . '/../..' . '/includes/class-wc-stripe-upe-compatibility.php',
+        'WC_Stripe_UPE_Compatibility_Controller' => __DIR__ . '/../..' . '/includes/admin/class-wc-stripe-upe-compatibility-controller.php',
+        'WC_Stripe_Update_Manager' => __DIR__ . '/../..' . '/includes/class-wc-stripe-update-manager.php',
+        'WC_Stripe_Woo_Compat_Utils' => __DIR__ . '/../..' . '/includes/compat/class-wc-stripe-woo-compat-utils.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->classMap = ComposerStaticInit5b902fe9fbd5436e6c65600b25f6b8bd::$classMap;
+            $loader->classMap = ComposerStaticInit93a6c12dcd489fbadaeec550274b5ed0::$classMap;
 
         }, null, ClassLoader::class);
     }
