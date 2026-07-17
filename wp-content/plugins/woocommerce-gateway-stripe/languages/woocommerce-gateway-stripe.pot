@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the WooCommerce Stripe Gateway plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Stripe Gateway 10.8.1\n"
+"Project-Id-Version: WooCommerce Stripe Gateway 10.8.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-gateway-stripe\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-11T15:26:48+00:00\n"
+"POT-Creation-Date: 2026-07-14T13:52:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: woocommerce-gateway-stripe\n"
@@ -320,7 +320,7 @@ msgstr ""
 #: includes/abstracts/abstract-wc-stripe-payment-gateway-voucher.php:270
 #: includes/abstracts/abstract-wc-stripe-payment-gateway-voucher.php:390
 #: includes/class-wc-stripe-intent-controller.php:589
-#: includes/class-wc-stripe-webhook-handler.php:1207
+#: includes/class-wc-stripe-webhook-handler.php:1227
 msgid "Awaiting payment."
 msgstr ""
 
@@ -330,6 +330,7 @@ msgstr ""
 
 #: includes/abstracts/abstract-wc-stripe-payment-gateway-voucher.php:371
 #: includes/abstracts/abstract-wc-stripe-payment-gateway-voucher.php:409
+#: includes/class-wc-stripe-checkout-session-context.php:74
 #: includes/class-wc-stripe-intent-controller.php:353
 #: includes/class-wc-stripe-intent-controller.php:435
 msgid "We're not able to process this payment. Please refresh the page and try again."
@@ -342,7 +343,7 @@ msgstr ""
 #: includes/abstracts/abstract-wc-stripe-payment-gateway-voucher.php:384
 #: includes/class-wc-stripe-intent-controller.php:263
 #: includes/class-wc-stripe-intent-controller.php:445
-#: includes/class-wc-stripe-intent-controller.php:794
+#: includes/class-wc-stripe-intent-controller.php:793
 msgid "Unable to verify your request. Please reload the page and try again."
 msgstr ""
 
@@ -419,7 +420,7 @@ msgstr ""
 
 #. translators: transaction id
 #: includes/abstracts/abstract-wc-stripe-payment-gateway.php:641
-#: includes/class-wc-stripe-webhook-handler.php:1200
+#: includes/class-wc-stripe-webhook-handler.php:1220
 #, php-format
 msgid "Stripe charge awaiting payment: %s."
 msgstr ""
@@ -1140,7 +1141,7 @@ msgstr ""
 
 #: build/upe-settings.js:1
 #: includes/admin/stripe-settings.php:39
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2849
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2875
 #: client/settings/payment-gateway-section/index.js:109
 msgid "Description"
 msgstr ""
@@ -1499,13 +1500,13 @@ msgstr ""
 
 #: build/upe-settings.js:1
 #: includes/admin/stripe-settings.php:295
-#: client/settings/advanced-settings-section/optimized-checkout-feature.js:211
+#: client/settings/advanced-settings-section/optimized-checkout-feature.js:221
 msgid "Accordion"
 msgstr ""
 
 #: build/upe-settings.js:1
 #: includes/admin/stripe-settings.php:296
-#: client/settings/advanced-settings-section/optimized-checkout-feature.js:218
+#: client/settings/advanced-settings-section/optimized-checkout-feature.js:228
 msgid "Tabs"
 msgstr ""
 
@@ -1755,7 +1756,7 @@ msgstr ""
 #: build/express-checkout.js:1
 #: build/upe-blocks.js:1
 #: includes/agentic-commerce/class-wc-stripe-agentic-commerce-tax-calculator.php:162
-#: includes/class-wc-stripe-helper.php:2080
+#: includes/class-wc-stripe-helper.php:2089
 #: includes/payment-methods/class-wc-stripe-express-checkout-ajax-handler.php:331
 #: includes/payment-methods/class-wc-stripe-express-checkout-element.php:332
 #: includes/payment-methods/class-wc-stripe-express-checkout-helper.php:317
@@ -1763,37 +1764,37 @@ msgstr ""
 msgid "Tax"
 msgstr ""
 
-#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:30
-#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:99
+#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:37
+#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:113
 msgid "We're not able to process this request. Please refresh the page and try again."
 msgstr ""
 
-#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:34
-#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:110
+#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:41
+#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:124
 msgid "Your cart is currently empty."
 msgstr ""
 
-#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:57
+#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:69
 msgid "Unable to create or retrieve Stripe customer."
 msgstr ""
 
-#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:69
+#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:81
 msgid "Checkout Sessions API returned an error"
 msgstr ""
 
-#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:74
+#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:86
 msgid "Unable to create Stripe Checkout Session."
 msgstr ""
 
-#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:106
+#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:120
 msgid "Checkout session ID is required."
 msgstr ""
 
-#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:123
+#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:140
 msgid "Checkout Sessions update API returned an error"
 msgstr ""
 
-#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:150
+#: includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php:205
 msgid "Cart total"
 msgstr ""
 
@@ -1868,6 +1869,10 @@ msgstr ""
 
 #: includes/class-wc-stripe-blocks-support.php:329
 msgid "Diners"
+msgstr ""
+
+#: includes/class-wc-stripe-checkout-session-context.php:277
+msgid "The payment amount no longer matches the order total. Please refresh the page and try again."
 msgstr ""
 
 #. translators: %1$s First name, %2$s Second name, %3$s Username.
@@ -2075,38 +2080,38 @@ msgstr ""
 msgid "Your card has insufficient funds."
 msgstr ""
 
-#: includes/class-wc-stripe-helper.php:1830
+#: includes/class-wc-stripe-helper.php:1839
 msgid "The charge has been disputed"
 msgstr ""
 
-#: includes/class-wc-stripe-helper.php:1832
+#: includes/class-wc-stripe-helper.php:1841
 msgid "The refund was declined"
 msgstr ""
 
-#: includes/class-wc-stripe-helper.php:1834
+#: includes/class-wc-stripe-helper.php:1843
 msgid "The original payment method has expired or was canceled"
 msgstr ""
 
-#: includes/class-wc-stripe-helper.php:1836
+#: includes/class-wc-stripe-helper.php:1845
 msgid "We could not process the refund at this time"
 msgstr ""
 
-#: includes/class-wc-stripe-helper.php:1838
+#: includes/class-wc-stripe-helper.php:1847
 msgid "The original payment method was lost or stolen"
 msgstr ""
 
-#: includes/class-wc-stripe-helper.php:1840
+#: includes/class-wc-stripe-helper.php:1849
 msgid "We stopped processing the refund"
 msgstr ""
 
-#: includes/class-wc-stripe-helper.php:1843
+#: includes/class-wc-stripe-helper.php:1852
 #: includes/compat/class-wc-stripe-email-failed-refund.php:102
 msgid "Unknown reason"
 msgstr ""
 
-#: includes/class-wc-stripe-helper.php:1908
-#: includes/class-wc-stripe-helper.php:1924
-#: includes/class-wc-stripe-helper.php:1970
+#: includes/class-wc-stripe-helper.php:1917
+#: includes/class-wc-stripe-helper.php:1933
+#: includes/class-wc-stripe-helper.php:1979
 #: includes/class-wc-stripe-intent-controller.php:451
 #: includes/class-wc-stripe-intent-controller.php:569
 #: includes/class-wc-stripe-order-helper.php:1126
@@ -2115,14 +2120,14 @@ msgstr ""
 msgid "We're not able to process this request. Please try again later."
 msgstr ""
 
-#: includes/class-wc-stripe-helper.php:2064
+#: includes/class-wc-stripe-helper.php:2073
 #: includes/payment-methods/class-wc-stripe-express-checkout-element.php:313
 msgid "Subtotal"
 msgstr ""
 
 #: build/express-checkout.js:1
 #: build/upe-blocks.js:1
-#: includes/class-wc-stripe-helper.php:2088
+#: includes/class-wc-stripe-helper.php:2097
 #: includes/payment-methods/class-wc-stripe-express-checkout-ajax-handler.php:339
 #: includes/payment-methods/class-wc-stripe-express-checkout-helper.php:325
 #: client/express-checkout/transformers/wc-to-stripe.js:100
@@ -2131,7 +2136,7 @@ msgstr ""
 
 #: build/express-checkout.js:1
 #: build/upe-blocks.js:1
-#: includes/class-wc-stripe-helper.php:2096
+#: includes/class-wc-stripe-helper.php:2105
 #: includes/payment-methods/class-wc-stripe-express-checkout-element.php:339
 #: client/express-checkout/transformers/wc-to-stripe.js:111
 msgid "Discount"
@@ -2142,9 +2147,9 @@ msgid "We're not able to process this payment."
 msgstr ""
 
 #: includes/class-wc-stripe-intent-controller.php:87
-#: includes/class-wc-stripe-intent-controller.php:696
-#: includes/class-wc-stripe-intent-controller.php:787
-#: includes/class-wc-stripe-intent-controller.php:1362
+#: includes/class-wc-stripe-intent-controller.php:697
+#: includes/class-wc-stripe-intent-controller.php:786
+#: includes/class-wc-stripe-intent-controller.php:1361
 msgid "CSRF verification failed."
 msgstr ""
 
@@ -2154,12 +2159,12 @@ msgstr ""
 
 #: includes/class-wc-stripe-intent-controller.php:130
 #: includes/class-wc-stripe-intent-controller.php:136
-#: includes/class-wc-stripe-intent-controller.php:701
-#: includes/class-wc-stripe-intent-controller.php:713
-#: includes/class-wc-stripe-intent-controller.php:808
+#: includes/class-wc-stripe-intent-controller.php:702
+#: includes/class-wc-stripe-intent-controller.php:710
+#: includes/class-wc-stripe-intent-controller.php:807
 #: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1387
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2401
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2410
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2427
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2436
 msgid "We're not able to process this payment. Please try again later."
 msgstr ""
 
@@ -2187,70 +2192,64 @@ msgid "Unable to find a matching order."
 msgstr ""
 
 #: includes/class-wc-stripe-intent-controller.php:612
-#: includes/class-wc-stripe-intent-controller.php:1277
-#: includes/class-wc-stripe-intent-controller.php:1284
+#: includes/class-wc-stripe-intent-controller.php:1276
+#: includes/class-wc-stripe-intent-controller.php:1283
 msgid "We're not able to add this payment method. Please refresh the page and try again."
 msgstr ""
 
-#. translators: %1: transaction ID of the payment or a translated string indicating an unknown ID.
-#: includes/class-wc-stripe-intent-controller.php:709
-#, php-format
-msgid "A payment with ID %s was used in an attempt to pay for this order. This payment intent ID does not match any payments for this order, so it was ignored and the order was not updated."
-msgstr ""
-
-#: includes/class-wc-stripe-intent-controller.php:739
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2139
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2345
+#: includes/class-wc-stripe-intent-controller.php:737
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2165
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2371
 msgid "Your payment was cancelled. Please try again or use a different payment method."
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:962
+#: includes/class-wc-stripe-intent-controller.php:961
 msgid "Payments as per agreement"
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:1070
+#: includes/class-wc-stripe-intent-controller.php:1069
 msgid "There was a problem processing the payment."
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:1096
+#: includes/class-wc-stripe-intent-controller.php:1095
 msgid "Please reach out to us if the problem persists."
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:1254
+#: includes/class-wc-stripe-intent-controller.php:1253
 msgid "You cannot add a new payment method so soon after the previous one."
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:1259
+#: includes/class-wc-stripe-intent-controller.php:1258
 msgid "Unable to verify your request. Please refresh the page and try again."
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:1271
+#: includes/class-wc-stripe-intent-controller.php:1270
 msgid "Captcha verification failed. Please try again."
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:1305
+#: includes/class-wc-stripe-intent-controller.php:1304
 msgid "There was an error adding this payment method. Please refresh the page and try again"
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:1366
-#: includes/class-wc-stripe-intent-controller.php:1372
-#: includes/class-wc-stripe-intent-controller.php:1383
+#: includes/class-wc-stripe-intent-controller.php:1365
+#: includes/class-wc-stripe-intent-controller.php:1371
+#: includes/class-wc-stripe-intent-controller.php:1382
 msgid "We're not able to process this subscription change payment request payment. Please try again later."
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:1377
+#: includes/class-wc-stripe-intent-controller.php:1376
 msgid "You do not have permission to update this subscription."
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:1390
+#: includes/class-wc-stripe-intent-controller.php:1389
 msgid "We can't process your payment method change at this time. Please try again later."
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:1393
+#: includes/class-wc-stripe-intent-controller.php:1392
 msgid "Payment method updated."
 msgstr ""
 
-#: includes/class-wc-stripe-intent-controller.php:1405
+#: includes/class-wc-stripe-intent-controller.php:1404
 msgid "Payment method updated for all your current subscriptions."
 msgstr ""
 
@@ -2263,21 +2262,21 @@ msgid "You may edit the order to have a total less than or equal to the original
 msgstr ""
 
 #: includes/class-wc-stripe-order-handler.php:181
-#: includes/class-wc-stripe-webhook-handler.php:364
+#: includes/class-wc-stripe-webhook-handler.php:375
 msgid "This card is no longer available and has been removed."
 msgstr ""
 
 #: includes/class-wc-stripe-order-handler.php:202
-#: includes/class-wc-stripe-webhook-handler.php:386
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2550
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:3224
+#: includes/class-wc-stripe-webhook-handler.php:397
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2576
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:3250
 msgid "Sorry, we are unable to process your payment at this time. Please retry later."
 msgstr ""
 
 #. translators: error message
 #. translators: localized Stripe error message
 #: includes/class-wc-stripe-order-handler.php:234
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2331
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2357
 #, php-format
 msgid "Stripe payment failed: %s"
 msgstr ""
@@ -2333,7 +2332,7 @@ msgstr ""
 #: includes/class-wc-stripe-status.php:145
 #: includes/class-wc-stripe-status.php:182
 #: includes/class-wc-stripe-status.php:197
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2881
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2907
 msgid "Yes"
 msgstr ""
 
@@ -2343,7 +2342,7 @@ msgstr ""
 #: includes/class-wc-stripe-status.php:145
 #: includes/class-wc-stripe-status.php:182
 #: includes/class-wc-stripe-status.php:197
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2881
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2907
 msgid "No"
 msgstr ""
 
@@ -2389,7 +2388,7 @@ msgstr ""
 
 #: build/upe-settings.js:1
 #: includes/class-wc-stripe-status.php:163
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2848
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2874
 #: client/settings/account-details/index.js:64
 #: client/settings/account-details/index.js:79
 #: client/settings/account-details/index.js:111
@@ -2477,133 +2476,133 @@ msgid "Stripe database cache cleaned up successfully."
 msgstr ""
 
 #. translators: 1) HTML anchor open tag 2) HTML anchor closing tag
-#: includes/class-wc-stripe-webhook-handler.php:455
+#: includes/class-wc-stripe-webhook-handler.php:466
 #, php-format
 msgid "A dispute was created for this order. Response is needed. Please go to your %1$sStripe Dashboard%2$s to review this dispute."
 msgstr ""
 
-#: includes/class-wc-stripe-webhook-handler.php:460
+#: includes/class-wc-stripe-webhook-handler.php:471
 msgid "A dispute was created for this order."
 msgstr ""
 
-#: includes/class-wc-stripe-webhook-handler.php:495
+#: includes/class-wc-stripe-webhook-handler.php:506
 msgid "The dispute was lost or accepted."
 msgstr ""
 
-#: includes/class-wc-stripe-webhook-handler.php:497
+#: includes/class-wc-stripe-webhook-handler.php:508
 msgid "The dispute was resolved in your favor."
 msgstr ""
 
-#: includes/class-wc-stripe-webhook-handler.php:499
+#: includes/class-wc-stripe-webhook-handler.php:510
 msgid "The inquiry or retrieval was closed."
 msgstr ""
 
 #. translators: partial captured amount
-#: includes/class-wc-stripe-webhook-handler.php:588
+#: includes/class-wc-stripe-webhook-handler.php:599
 #, php-format
 msgid "This charge was partially captured via Stripe Dashboard in the amount of: %s"
 msgstr ""
 
 #. translators: transaction id
-#: includes/class-wc-stripe-webhook-handler.php:593
-#: includes/class-wc-stripe-webhook-handler.php:695
+#: includes/class-wc-stripe-webhook-handler.php:604
+#: includes/class-wc-stripe-webhook-handler.php:706
 #, php-format
 msgid "Stripe charge complete (Charge ID: %s) (via webhook)"
 msgstr ""
 
-#: includes/class-wc-stripe-webhook-handler.php:728
+#: includes/class-wc-stripe-webhook-handler.php:739
 msgid "This payment has expired."
 msgstr ""
 
-#: includes/class-wc-stripe-webhook-handler.php:730
+#: includes/class-wc-stripe-webhook-handler.php:741
 msgid "This payment failed to clear."
 msgstr ""
 
-#: includes/class-wc-stripe-webhook-handler.php:771
+#: includes/class-wc-stripe-webhook-handler.php:782
 msgid "This payment was cancelled."
 msgstr ""
 
 #. translators: amount (including currency symbol)
-#: includes/class-wc-stripe-webhook-handler.php:842
+#: includes/class-wc-stripe-webhook-handler.php:853
 #, php-format
 msgid "Pre-Authorization for %s voided from the Stripe Dashboard."
 msgstr ""
 
-#: includes/class-wc-stripe-webhook-handler.php:859
+#: includes/class-wc-stripe-webhook-handler.php:870
 msgid "Refunded via Stripe Dashboard"
 msgstr ""
 
 #. translators: 1) amount (including currency symbol) 2) transaction id 3) refund message
-#: includes/class-wc-stripe-webhook-handler.php:885
+#: includes/class-wc-stripe-webhook-handler.php:896
 #, php-format
 msgid "Refunded %1$s - Refund ID: %2$s - %3$s"
 msgstr ""
 
 #. translators: 1) amount (including currency symbol) 2) transaction id 3) refund failure code
-#: includes/class-wc-stripe-webhook-handler.php:953
+#: includes/class-wc-stripe-webhook-handler.php:964
 #, php-format
 msgid "Refund failed for %1$s - Refund ID: %2$s - Reason: %3$s"
 msgstr ""
 
 #. translators: 1) amount (including currency symbol) 2) transaction id 3) refund failure code
-#: includes/class-wc-stripe-webhook-handler.php:956
+#: includes/class-wc-stripe-webhook-handler.php:967
 #, php-format
 msgid "Refund canceled for %1$s - Refund ID: %2$s - Reason: %3$s"
 msgstr ""
 
 #. translators: 1) HTML anchor open tag 2) HTML anchor closing tag 3) The reason type.
-#: includes/class-wc-stripe-webhook-handler.php:1017
+#: includes/class-wc-stripe-webhook-handler.php:1028
 #, php-format
 msgid "A review has been opened for this order. Action is needed. Please go to your %1$sStripe Dashboard%2$s to review the issue. Reason: (%3$s)."
 msgstr ""
 
 #. translators: 1) The reason type.
-#: includes/class-wc-stripe-webhook-handler.php:1060
+#: includes/class-wc-stripe-webhook-handler.php:1071
 #, php-format
 msgid "The opened review for this order is now closed. Reason: (%s)"
 msgstr ""
 
-#: includes/class-wc-stripe-webhook-handler.php:1253
+#: includes/class-wc-stripe-webhook-handler.php:1273
 msgid "Payment not completed in time"
 msgstr ""
 
 #. translators: 1) The error message that was received from Stripe.
-#: includes/class-wc-stripe-webhook-handler.php:1261
-#: includes/class-wc-stripe-webhook-handler.php:1339
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:4592
+#: includes/class-wc-stripe-webhook-handler.php:1281
+#: includes/class-wc-stripe-webhook-handler.php:1359
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:4618
 #, php-format
 msgid "Stripe SCA authentication failed. Reason: %s"
 msgstr ""
 
 #. translators: 1) formatted amount with currency, 2) Stripe PaymentIntent ID, 3) Stripe charge ID, 4) opening anchor tag for the Stripe dashboard link, 5) closing anchor tag.
-#: includes/class-wc-stripe-webhook-handler.php:1521
+#: includes/class-wc-stripe-webhook-handler.php:1547
 #, php-format
 msgid "Stripe captured a charge of %1$s (PaymentIntent %2$s, charge %3$s) after this order was already paid by another gateway. This unexpected charge needs to be refunded manually from the %4$sStripe dashboard%5$s."
 msgstr ""
 
 #. translators: 1) presentment currency 2) presentment amount
-#: includes/class-wc-stripe-webhook-handler.php:1794
+#: includes/class-wc-stripe-webhook-handler.php:1839
 #, php-format
 msgid "Local currency purchase via Adaptive Pricing. Amount paid was: %1$s %2$s"
 msgstr ""
 
 #. translators: 1) Error message from the exception
-#: includes/class-wc-stripe-webhook-handler.php:1884
+#: includes/class-wc-stripe-webhook-handler.php:1929
 #, php-format
 msgid "Checkout session could not be processed. %s"
 msgstr ""
 
 #. translators: 1) Error message from the exception
-#: includes/class-wc-stripe-webhook-handler.php:1892
+#: includes/class-wc-stripe-webhook-handler.php:1937
 #, php-format
 msgid "Checkout session processing error: %s"
 msgstr ""
 
-#: includes/class-wc-stripe-webhook-handler.php:1979
+#: includes/class-wc-stripe-webhook-handler.php:2026
 msgid "The checkout session has expired."
 msgstr ""
 
-#: includes/class-wc-stripe-webhook-handler.php:1979
+#: includes/class-wc-stripe-webhook-handler.php:2026
 msgid "The async payment for this checkout session has failed."
 msgstr ""
 
@@ -2706,58 +2705,58 @@ msgstr[1] ""
 #: build/amazon-pay-settings.js:1
 #: build/express-checkout-settings.js:1
 #: build/upe-settings.js:1
-#: includes/class-wc-stripe.php:531
+#: includes/class-wc-stripe.php:533
 #: client/entrypoints/amazon-pay-settings/amazon-pay-page.js:30
 #: client/entrypoints/express-checkout-settings/express-checkout-page.js:32
 #: client/settings/settings-manager/index.js:35
 msgid "Settings"
 msgstr ""
 
-#: includes/class-wc-stripe.php:547
+#: includes/class-wc-stripe.php:549
 msgid "View Documentation"
 msgstr ""
 
-#: includes/class-wc-stripe.php:547
+#: includes/class-wc-stripe.php:549
 msgid "Docs"
 msgstr ""
 
-#: includes/class-wc-stripe.php:548
+#: includes/class-wc-stripe.php:550
 msgid "Open a support request at WooCommerce.com"
 msgstr ""
 
-#: includes/class-wc-stripe.php:548
+#: includes/class-wc-stripe.php:550
 msgid "Support"
 msgstr ""
 
-#: includes/class-wc-stripe.php:673
+#: includes/class-wc-stripe.php:655
 msgid "Stripe Bancontact"
 msgstr ""
 
-#: includes/class-wc-stripe.php:674
+#: includes/class-wc-stripe.php:656
 msgid "Stripe Sofort"
 msgstr ""
 
-#: includes/class-wc-stripe.php:675
+#: includes/class-wc-stripe.php:657
 msgid "Stripe EPS"
 msgstr ""
 
-#: includes/class-wc-stripe.php:676
+#: includes/class-wc-stripe.php:658
 msgid "Stripe iDEAL"
 msgstr ""
 
-#: includes/class-wc-stripe.php:677
+#: includes/class-wc-stripe.php:659
 msgid "Stripe P24"
 msgstr ""
 
-#: includes/class-wc-stripe.php:678
+#: includes/class-wc-stripe.php:660
 msgid "Stripe Alipay"
 msgstr ""
 
-#: includes/class-wc-stripe.php:679
+#: includes/class-wc-stripe.php:661
 msgid "Stripe SEPA Direct Debit"
 msgstr ""
 
-#: includes/class-wc-stripe.php:680
+#: includes/class-wc-stripe.php:662
 msgid "Stripe Multibanco"
 msgstr ""
 
@@ -3168,7 +3167,7 @@ msgstr ""
 #. translators: %s: field name
 #. translators: %s is an input field name
 #: includes/payment-methods/class-wc-stripe-express-checkout-custom-fields.php:61
-#: client/classic/upe/payment-processing.js:837
+#: client/classic/upe/payment-processing.js:1008
 #, php-format,js-format
 msgid "%s is a required field."
 msgstr ""
@@ -3262,130 +3261,130 @@ msgstr ""
 msgid "Adaptive Pricing Applied: The customer opted to pay %1$s (1 %2$s = %3$s). Your settlement remains unchanged at the original store price of %4$s."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1518
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1544
 msgid "Your payment is already being processed. Please wait."
 msgstr ""
 
 #. translators: localized exception message
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1747
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1773
 #, php-format
 msgid "There was an error processing the payment: %s"
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1755
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1781
 msgid "We're not able to process this payment. This may be an error on our side. Please contact us if you need any help placing your order."
 msgstr ""
 
 #. translators: localized exception message
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1767
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1793
 #, php-format
 msgid "Payment failed: %s"
 msgstr ""
 
 #. translators: %s is the order ID
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1801
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1827
 #, php-format
 msgid "We're not able to process this payment. The saved payment method for order %s could not be found."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1970
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1996
 msgid "Payment method successfully added."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1979
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2005
 msgid "Unable to create token for the payment method."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:1999
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2025
 msgid "Unable to add this payment method. Please try again or use an alternative method."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2002
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2028
 msgid "Failed to add payment method."
 msgstr ""
 
 #. translators: localized exception message
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2149
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2175
 #, php-format
 msgid "UPE payment failed: %s"
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2843
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2869
 msgid "Select payments available to customers at checkout. We'll only show your customers the most relevant payment methods based on their currency and location."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2847
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2873
 msgid "Method"
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2858
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2884
 msgid "enabled"
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2858
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2884
 msgid "disabled"
 msgstr ""
 
 #. translators: $1%s payment method ID, $2%s "enabled" or "disabled"
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2864
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2890
 #, php-format
 msgid "The &quot;%1$s&quot; payment method is currently %2$s"
 msgstr ""
 
 #. translators: $1%s payment method label
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2870
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2896
 #, php-format
 msgid "%1$s is not available to your customers when manual capture is enabled."
 msgstr ""
 
 #: build/upe-settings.js:1
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2892
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2918
 #: client/settings/general-settings-section/section-footer.js:14
 msgid "Get more payment methods"
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2893
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:2919
 msgid "You must save your changes."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:3014
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:3032
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:3040
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:3058
 msgid "We're not able to add this payment method. Please try again later."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:3190
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:3216
 msgid "This saved payment method is no longer valid. It might be expired, removed, or broken. Please choose a different payment method."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:3266
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:3292
 msgid "The selected payment method isn't valid."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:3810
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:3836
 msgid "The selected payment method type is invalid."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:3836
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:3862
 msgid "This payment method type is not available in the selected country."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:4359
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:4385
 msgid "This represents the fee Stripe collects for the transaction."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:4360
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:4386
 msgid "Stripe Fee:"
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:4398
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:4424
 msgid "This represents the net total that will be credited to your Stripe bank account. This may be in the currency that is set in your Stripe account."
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:4399
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:4425
 msgid "Stripe Payout:"
 msgstr ""
 
-#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:4593
+#: includes/payment-methods/class-wc-stripe-upe-payment-gateway.php:4619
 msgid "Stripe SCA authentication failed."
 msgstr ""
 
@@ -4034,23 +4033,23 @@ msgid "Loading payment method…"
 msgstr ""
 
 #: build/upe-blocks.js:1
-#: client/blocks/checkout-sessions/hooks.js:46
+#: client/blocks/checkout-sessions/hooks.js:47
 msgid "There was an error loading the payment information. Please refresh the page and try again."
 msgstr ""
 
 #: build/upe-blocks.js:1
-#: client/blocks/checkout-sessions/hooks.js:56
+#: client/blocks/checkout-sessions/hooks.js:57
 msgid "We could not initialize the payment session. Please refresh the page and try again."
 msgstr ""
 
 #: build/upe-blocks.js:1
-#: client/blocks/checkout-sessions/hooks.js:73
+#: client/blocks/checkout-sessions/hooks.js:74
 #: client/blocks/upe/upe-deferred-intent-creation/payment-processor.js:155
 msgid "Your payment information is incomplete."
 msgstr ""
 
 #: build/upe-blocks.js:1
-#: client/blocks/checkout-sessions/hooks.js:135
+#: client/blocks/checkout-sessions/hooks.js:136
 msgid "Checkout is not ready for confirmation."
 msgstr ""
 
@@ -4079,7 +4078,7 @@ msgstr ""
 #: build/upe-classic.js:1
 #. translators: %s is the payment method title.
 #: client/blocks/upe/upe-deferred-intent-creation/payment-elements.js:79
-#: client/classic/upe/payment-processing.js:245
+#: client/classic/upe/payment-processing.js:265
 #, js-format
 msgid "Failed to load %s payment method. Please refresh the page and try again."
 msgstr ""
@@ -4087,7 +4086,7 @@ msgstr ""
 #: build/upe-blocks.js:1
 #: build/upe-classic.js:1
 #: client/blocks/upe/upe-deferred-intent-creation/payment-processor.js:134
-#: client/classic/upe/payment-processing.js:851
+#: client/classic/upe/payment-processing.js:1026
 msgid "Invalid or missing payment details. Please ensure the provided payment method is correctly entered."
 msgstr ""
 
@@ -4104,34 +4103,34 @@ msgid "Woo logo"
 msgstr ""
 
 #: build/upe-classic.js:1
-#: client/classic/upe/payment-processing.js:315
+#: client/classic/upe/payment-processing.js:336
 msgid "Failed to load payment method due to missing client secret or session id."
 msgstr ""
 
 #: build/upe-classic.js:1
-#: client/classic/upe/payment-processing.js:703
+#: client/classic/upe/payment-processing.js:801
 msgid "Failed to load payment method. Please refresh the page and try again."
 msgstr ""
 
 #: build/upe-classic.js:1
-#: client/classic/upe/payment-processing.js:804
+#: client/classic/upe/payment-processing.js:975
 msgid "Payment failed. Please try again."
 msgstr ""
 
 #: build/upe-classic.js:1
-#: client/classic/upe/payment-processing.js:868
-#: client/classic/upe/payment-processing.js:883
-#: client/classic/upe/payment-processing.js:944
+#: client/classic/upe/payment-processing.js:1043
+#: client/classic/upe/payment-processing.js:1058
+#: client/classic/upe/payment-processing.js:1119
 msgid "Payment could not be completed. Please try again."
 msgstr ""
 
 #: build/upe-classic.js:1
-#: client/classic/upe/payment-processing.js:915
+#: client/classic/upe/payment-processing.js:1090
 msgid "An error occurred while processing your checkout. Please try again."
 msgstr ""
 
 #: build/upe-classic.js:1
-#: client/classic/upe/payment-processing.js:1152
+#: client/classic/upe/payment-processing.js:1327
 msgid "There was a problem processing the payment. Please refresh the page to try again."
 msgstr ""
 
@@ -4708,51 +4707,61 @@ msgstr ""
 
 #: build/upe-settings.js:1
 #: client/settings/advanced-settings-section/optimized-checkout-feature.js:73
+msgid "Adaptive Pricing requires working webhooks. Your Stripe webhooks are currently disabled, so it can’t be enabled."
+msgstr ""
+
+#: build/upe-settings.js:1
+#: client/settings/advanced-settings-section/optimized-checkout-feature.js:78
+msgid "Adaptive Pricing was disabled due to a plugin compatibility issue. Please contact WooCommerce support to report the issue so we can investigate the cause."
+msgstr ""
+
+#: build/upe-settings.js:1
+#: client/settings/advanced-settings-section/optimized-checkout-feature.js:83
 msgid "Adaptive Pricing is currently unavailable."
 msgstr ""
 
 #: build/upe-settings.js:1
-#: client/settings/advanced-settings-section/optimized-checkout-feature.js:122
+#: client/settings/advanced-settings-section/optimized-checkout-feature.js:132
 msgid "With Adaptive Pricing, Stripe detects the customer's currency and allows them to pay using their local currency and enabled local payment methods. <learnMoreLink>Learn more</learnMoreLink>."
 msgstr ""
 
 #: build/upe-settings.js:1
-#: client/settings/advanced-settings-section/optimized-checkout-feature.js:164
+#: client/settings/advanced-settings-section/optimized-checkout-feature.js:174
 msgid "Enable Optimized Checkout Suite (recommended)"
 msgstr ""
 
 #: build/upe-settings.js:1
-#: client/settings/advanced-settings-section/optimized-checkout-feature.js:171
+#: client/settings/advanced-settings-section/optimized-checkout-feature.js:181
 msgid "Optimized Checkout Suite is not currently available. Please try to reconnect your account to Stripe, but if that doesn't work, please contact our support team."
 msgstr ""
 
 #: build/upe-settings.js:1
-#: client/settings/advanced-settings-section/optimized-checkout-feature.js:179
+#: client/settings/advanced-settings-section/optimized-checkout-feature.js:189
 msgid "Dynamically display the most relevant payment methods you've enabled"
 msgstr ""
 
 #: build/upe-settings.js:1
-#: client/settings/advanced-settings-section/optimized-checkout-feature.js:184
+#: client/settings/advanced-settings-section/optimized-checkout-feature.js:194
 msgid "Stripe's Optimized Checkout Suite uses AI models to order the most relevant payment methods you've enabled for each of your customers dynamically. <learnMoreLink>Learn more</learnMoreLink>."
 msgstr ""
 
 #: build/upe-settings.js:1
-#: client/settings/advanced-settings-section/optimized-checkout-feature.js:203
+#: client/settings/advanced-settings-section/optimized-checkout-feature.js:213
 msgid "Layout"
 msgstr ""
 
 #: build/upe-settings.js:1
-#: client/settings/advanced-settings-section/optimized-checkout-feature.js:204
+#: client/settings/advanced-settings-section/optimized-checkout-feature.js:214
 msgid "Choose between a vertical accordion layout and a horizontal tabs layout to display payment methods."
 msgstr ""
 
 #: build/upe-settings.js:1
-#: client/settings/advanced-settings-section/optimized-checkout-feature.js:225
+#: client/settings/advanced-settings-section/optimized-checkout-feature.js:235
 msgid "Adaptive Pricing"
 msgstr ""
 
 #: build/upe-settings.js:1
-#: client/settings/advanced-settings-section/optimized-checkout-feature.js:232
+#: client/settings/advanced-settings-section/optimized-checkout-feature.js:242
 msgid "Let customers pay in their local currency with Adaptive Pricing"
 msgstr ""
 
