@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit93a6c12dcd489fbadaeec550274b5ed0
+class ComposerStaticInit7914bea8bfd344fbc96257f6b02db22c
 {
     public static $classMap = array (
         'Allowed_Payment_Request_Button_Types_Update' => __DIR__ . '/../..' . '/includes/migrations/class-allowed-payment-request-button-types-update.php',
@@ -39,6 +39,7 @@ class ComposerStaticInit93a6c12dcd489fbadaeec550274b5ed0
         'WC_Stripe_Agentic_Checkout_Session' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-checkout-session.php',
         'WC_Stripe_Agentic_Commerce_CLI' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-cli.php',
         'WC_Stripe_Agentic_Commerce_Csv_Feed' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-csv-feed.php',
+        'WC_Stripe_Agentic_Commerce_Feed_Preview' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-feed-preview.php',
         'WC_Stripe_Agentic_Commerce_Feed_Schema' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-feed-schema.php',
         'WC_Stripe_Agentic_Commerce_Feed_Validator' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-feed-validator.php',
         'WC_Stripe_Agentic_Commerce_Files_Api_Delivery' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-files-api-delivery.php',
@@ -46,13 +47,18 @@ class ComposerStaticInit93a6c12dcd489fbadaeec550274b5ed0
         'WC_Stripe_Agentic_Commerce_Inventory_Tracker' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-inventory-tracker.php',
         'WC_Stripe_Agentic_Commerce_Manual_Approval' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-manual-approval.php',
         'WC_Stripe_Agentic_Commerce_Order_Mapper' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-order-mapper.php',
+        'WC_Stripe_Agentic_Commerce_Product_Exclusion' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-product-exclusion.php',
+        'WC_Stripe_Agentic_Commerce_Product_Filter' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-product-filter.php',
         'WC_Stripe_Agentic_Commerce_Product_Mapper' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-product-mapper.php',
+        'WC_Stripe_Agentic_Commerce_Product_Meta_Box' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-product-meta-box.php',
         'WC_Stripe_Agentic_Commerce_Product_Resolver' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-product-resolver.php',
         'WC_Stripe_Agentic_Commerce_Tax_Calculator' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-commerce-tax-calculator.php',
         'WC_Stripe_Agentic_Customize_Checkout_Event' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-customize-checkout-event.php',
         'WC_Stripe_Agentic_Customize_Checkout_Line_Item' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-customize-checkout-line-item.php',
         'WC_Stripe_Agentic_Line_Item' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-line-item.php',
         'WC_Stripe_Agentic_Shipping_Calculator' => __DIR__ . '/../..' . '/includes/agentic-commerce/class-wc-stripe-agentic-shipping-calculator.php',
+        'WC_Stripe_Checkout_Session_Lifecycle' => __DIR__ . '/../..' . '/includes/class-wc-stripe-checkout-session-lifecycle.php',
+        'WC_Stripe_Checkout_Session_Manager' => __DIR__ . '/../..' . '/includes/class-wc-stripe-checkout-session-manager.php',
         'WC_Stripe_Checkout_Sessions_Ajax_Handler' => __DIR__ . '/../..' . '/includes/ajax-handlers/class-wc-stripe-checkout-sessions-ajax-handler.php',
         'WC_Stripe_Co_Branded_CC_Compatibility' => __DIR__ . '/../..' . '/includes/class-wc-stripe-co-branded-cc-compatibility.php',
         'WC_Stripe_Country_Code' => __DIR__ . '/../..' . '/includes/constants/class-wc-stripe-country-code.php',
@@ -66,27 +72,33 @@ class ComposerStaticInit93a6c12dcd489fbadaeec550274b5ed0
         'WC_Stripe_Express_Checkout_Custom_Fields' => __DIR__ . '/../..' . '/includes/payment-methods/class-wc-stripe-express-checkout-custom-fields.php',
         'WC_Stripe_Fingerprint_Trait' => __DIR__ . '/../..' . '/includes/payment-tokens/trait-wc-stripe-fingerprint.php',
         'WC_Stripe_Hong_Kong_States' => __DIR__ . '/../..' . '/includes/constants/class-wc-stripe-hong-kong-states.php',
+        'WC_Stripe_Hook_Categories' => __DIR__ . '/../..' . '/includes/constants/class-wc-stripe-hook-categories.php',
+        'WC_Stripe_Hook_Manager' => __DIR__ . '/../..' . '/includes/class-wc-stripe-hook-manager.php',
         'WC_Stripe_Intent_Status' => __DIR__ . '/../..' . '/includes/constants/class-wc-stripe-intent-status.php',
         'WC_Stripe_Klarna_Payment_Token' => __DIR__ . '/../..' . '/includes/payment-tokens/class-wc-stripe-klarna-payment-token.php',
+        'WC_Stripe_Migrate_Link_Button_Locations' => __DIR__ . '/../..' . '/includes/migrations/class-wc-stripe-migrate-link-button-locations.php',
         'WC_Stripe_OCS_AP_Default_On_Update' => __DIR__ . '/../..' . '/includes/migrations/class-wc-stripe-ocs-ap-default-on-update.php',
         'WC_Stripe_Payment_Cancelled_Exception' => __DIR__ . '/../..' . '/includes/class-wc-stripe-payment-cancelled-exception.php',
         'WC_Stripe_Payment_Method_Comparison_Interface' => __DIR__ . '/../..' . '/includes/payment-tokens/interface-wc-stripe-payment-method-comparison.php',
         'WC_Stripe_Payment_Methods' => __DIR__ . '/../..' . '/includes/constants/class-wc-stripe-payment-methods.php',
         'WC_Stripe_Payment_Request_Button_States' => __DIR__ . '/../..' . '/includes/constants/class-wc-stripe-payment-request-button-states.php',
+        'WC_Stripe_Payment_Request_Compat' => __DIR__ . '/../..' . '/includes/payment-methods/class-wc-stripe-payment-request-compat.php',
         'WC_Stripe_Payment_Token_CC' => __DIR__ . '/../..' . '/includes/payment-tokens/class-wc-stripe-cc-payment-token.php',
         'WC_Stripe_Plugins_Page_Controller' => __DIR__ . '/../..' . '/includes/admin/class-wc-stripe-plugins-page-controller.php',
         'WC_Stripe_REST_Base_Controller' => __DIR__ . '/../..' . '/includes/admin/class-wc-stripe-rest-base-controller.php',
         'WC_Stripe_REST_UPE_Flag_Toggle_Controller' => __DIR__ . '/../..' . '/includes/admin/class-wc-stripe-rest-upe-flag-toggle-controller.php',
+        'WC_Stripe_Restore_Adaptive_Pricing_After_Amount_Mismatch_Update' => __DIR__ . '/../..' . '/includes/migrations/class-wc-stripe-restore-adaptive-pricing-after-amount-mismatch-update.php',
         'WC_Stripe_UPE_Compatibility' => __DIR__ . '/../..' . '/includes/class-wc-stripe-upe-compatibility.php',
         'WC_Stripe_UPE_Compatibility_Controller' => __DIR__ . '/../..' . '/includes/admin/class-wc-stripe-upe-compatibility-controller.php',
         'WC_Stripe_Update_Manager' => __DIR__ . '/../..' . '/includes/class-wc-stripe-update-manager.php',
+        'WC_Stripe_Whats_New_Note' => __DIR__ . '/../..' . '/includes/notes/class-wc-stripe-whats-new-note.php',
         'WC_Stripe_Woo_Compat_Utils' => __DIR__ . '/../..' . '/includes/compat/class-wc-stripe-woo-compat-utils.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->classMap = ComposerStaticInit93a6c12dcd489fbadaeec550274b5ed0::$classMap;
+            $loader->classMap = ComposerStaticInit7914bea8bfd344fbc96257f6b02db22c::$classMap;
 
         }, null, ClassLoader::class);
     }

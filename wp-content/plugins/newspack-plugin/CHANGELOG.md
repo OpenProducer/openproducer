@@ -1,3 +1,17 @@
+## [6.42.5](https://github.com/Automattic/newspack-plugin/compare/v6.42.4...v6.42.5) (2026-08-18)
+
+
+### Bug Fixes
+
+* soften sunset plugin name and add migration notice ([caae8d7](https://github.com/Automattic/newspack-plugin/commit/caae8d754df828014592e112a743cd44333bc5bb))
+
+## [6.42.4](https://github.com/Automattic/newspack-plugin/compare/v6.42.3...v6.42.4) (2026-08-05)
+
+
+### Bug Fixes
+
+* trigger wrong version to sunset the repo ([a37ab87](https://github.com/Automattic/newspack-plugin/commit/a37ab8752b0b89616c587d75b7caad420215b9d1))
+
 ## [6.42.3](https://github.com/Automattic/newspack-plugin/compare/v6.42.2...v6.42.3) (2026-06-17)
 
 

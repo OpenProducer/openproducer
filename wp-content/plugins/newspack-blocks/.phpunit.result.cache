@@ -1,0 +1,1 @@
+{"version":1,"defects":[],"times":{"DonateBlockTest::test_donate_block_amount_formatting":0.001,"HomepagePostsBlockTest::test_hpb_build_articles_query":0.001,"HomepagePostsBlockTest::test_hpb_wp_query":0.024}}
