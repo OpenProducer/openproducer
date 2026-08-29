@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name:     Newspack Blocks (WRONG VERSION)
+ * Plugin Name:     Newspack Blocks
  * Plugin URI:      https://newspack.com/
- * Description:     This plugin was downloaded from the legacy plugin repo. Please download the latest version from https://github.com/Automattic/newspack-workspace.
+ * Description:     A collection of blocks for news publishers.
  * Author:          Automattic
  * Author URI:      https://newspack.com/
  * Text Domain:     newspack-blocks
  * Domain Path:     /languages
- * Version:         4.26.4
+ * Version:         4.30.4
  *
  * @package         Newspack_Blocks
  */
@@ -15,7 +15,7 @@
 define( 'NEWSPACK_BLOCKS__PLUGIN_FILE', __FILE__ );
 define( 'NEWSPACK_BLOCKS__BLOCKS_DIRECTORY', 'dist/' );
 define( 'NEWSPACK_BLOCKS__PLUGIN_DIR', plugin_dir_path( NEWSPACK_BLOCKS__PLUGIN_FILE ) );
-define( 'NEWSPACK_BLOCKS__VERSION', '4.26.4' );
+define( 'NEWSPACK_BLOCKS__VERSION', '4.30.4' );
 
 require_once NEWSPACK_BLOCKS__PLUGIN_DIR . 'includes/class-newspack-blocks.php';
 require_once NEWSPACK_BLOCKS__PLUGIN_DIR . 'includes/class-newspack-blocks-api.php';

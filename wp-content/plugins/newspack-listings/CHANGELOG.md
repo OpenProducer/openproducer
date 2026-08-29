@@ -1,16 +1,72 @@
-## [3.6.3](https://github.com/Automattic/newspack-listings/compare/v3.6.2...v3.6.3) (2026-08-18)
+## newspack-listings [3.7.4](https://github.com/Automattic/newspack-workspace/compare/newspack-listings@3.7.3...newspack-listings@3.7.4) (2026-08-20)
+
+
+### Dependencies
+
+* **newspack-components:** upgraded to 4.6.3
+
+## newspack-listings [3.7.3](https://github.com/Automattic/newspack-workspace/compare/newspack-listings@3.7.2...newspack-listings@3.7.3) (2026-08-19)
 
 
 ### Bug Fixes
 
-* soften sunset plugin name and add migration notice ([935d9e5](https://github.com/Automattic/newspack-listings/commit/935d9e58aeb18b3c35063e044dd76df35b6fa182))
+* **listings:** resolve event dates in the site timezone (NPPM-3125) ([#863](https://github.com/Automattic/newspack-workspace/issues/863)) ([194963e](https://github.com/Automattic/newspack-workspace/commit/194963ef3bec7fe21e366829c221970dcb1650ec))
 
-## [3.6.2](https://github.com/Automattic/newspack-listings/compare/v3.6.1...v3.6.2) (2026-08-05)
+## newspack-listings [3.7.2](https://github.com/Automattic/newspack-workspace/compare/newspack-listings@3.7.1...newspack-listings@3.7.2) (2026-08-18)
 
 
 ### Bug Fixes
 
-* trigger wrong version to sunset the repo ([754cb96](https://github.com/Automattic/newspack-listings/commit/754cb965362eb788c88d61db6a8e09a8a61c743c))
+* **content-gate:** keep withheld blocks out of generated excerpts ([#832](https://github.com/Automattic/newspack-workspace/issues/832)) ([86eecfe](https://github.com/Automattic/newspack-workspace/commit/86eecfeef6eb07440afc8d5ffa239907cceb45a3))
+
+## newspack-listings [3.7.1](https://github.com/Automattic/newspack-workspace/compare/newspack-listings@3.7.0...newspack-listings@3.7.1) (2026-08-17)
+
+
+### Dependencies
+
+* **newspack-components:** upgraded to 4.6.2
+
+# newspack-listings [3.7.0](https://github.com/Automattic/newspack-workspace/compare/newspack-listings@3.6.5...newspack-listings@3.7.0) (2026-08-17)
+
+
+### Features
+
+* **performance:** defer reader-facing JS assets (NPPM-3037) ([#722](https://github.com/Automattic/newspack-workspace/issues/722)) ([2855574](https://github.com/Automattic/newspack-workspace/commit/2855574099c4f416a984cda8565b269e5a9f0fb0))
+
+
+### Dependencies
+
+* **newspack-components:** upgraded to 4.6.1
+* **newspack-scripts:** upgraded to 5.11.0
+
+## newspack-listings [3.6.5](https://github.com/Automattic/newspack-workspace/compare/newspack-listings@3.6.4...newspack-listings@3.6.5) (2026-08-03)
+
+
+### Dependencies
+
+* **newspack-components:** upgraded to 4.6.0
+* **newspack-scripts:** upgraded to 5.10.0
+
+## newspack-listings [3.6.4](https://github.com/Automattic/newspack-workspace/compare/newspack-listings@3.6.3...newspack-listings@3.6.4) (2026-07-20)
+
+
+### Dependencies
+
+* **newspack-components:** upgraded to 4.5.0
+
+## newspack-listings [3.6.3](https://github.com/Automattic/newspack-workspace/compare/newspack-listings@3.6.2...newspack-listings@3.6.3) (2026-07-02)
+
+
+### Bug Fixes
+
+* **listings:** authorize self-serve premium listing create/delete ([#507](https://github.com/Automattic/newspack-workspace/issues/507)) ([60efb47](https://github.com/Automattic/newspack-workspace/commit/60efb475797b0a16d331396f3cd2d0bcad10b31e))
+
+## newspack-listings [3.6.2](https://github.com/Automattic/newspack-workspace/compare/newspack-listings@3.6.1...newspack-listings@3.6.2) (2026-06-29)
+
+
+### Dependencies
+
+* **newspack-components:** upgraded to 4.4.0
 
 ## [3.6.1](https://github.com/Automattic/newspack-listings/compare/v3.6.0...v3.6.1) (2026-04-13)
 

@@ -99,85 +99,18 @@ import { domReady, onCheckoutPlaceOrderProcessing } from './utils';
 				const $after_customer_details = $( '#after_customer_details' );
 				const $gift_options = $( '.newspack-wcsg--wrapper' );
 
-				// Mirrored from PHP via Modal_Checkout::get_recaptcha_bypass_gateways().
-				// Filterable on the PHP side via newspack_blocks_modal_checkout_recaptcha_bypass_gateways.
-				const recaptchaBypassGateways = Array.isArray( newspackBlocksModalCheckout.recaptcha_bypass_gateways )
-					? newspackBlocksModalCheckout.recaptcha_bypass_gateways
-					: [];
-
-				// Tracked via the editing_details event below instead of probing the DOM.
-				let isEditingDetails = false;
-
 				/**
 				 * Handle styling update for selected payment method.
-				 *
-				 * Bound to input.change, payment_method_selected, and updated_checkout
-				 * because each fires in distinct scenarios (initial bind, programmatic
-				 * Woo updates, full fragment refresh). The body is idempotent so the
-				 * overlap is intentional and harmless.
 				 */
 				function handlePaymentMethodSelect() {
 					const selected = $( 'input[name="payment_method"]:checked' ).val();
 					$( '.wc_payment_method' ).removeClass( 'selected' );
 					$( '.wc_payment_method.payment_method_' + selected ).addClass( 'selected' );
-					// setEditingDetails owns data-skip-recaptcha during edit mode.
-					if ( isEditingDetails ) {
-						return;
-					}
-					// Bypass reCAPTCHA on offline gateways with no client-side
-					// tokenization (cheque/bacs/cod). v2 invisible races with
-					// updated_checkout resets and freezes the submit button (NPPM-2619).
-					if ( selected && recaptchaBypassGateways.indexOf( selected ) !== -1 ) {
-						$form.attr( 'data-skip-recaptcha', '1' );
-					} else {
-						$form.removeAttr( 'data-skip-recaptcha' );
-					}
 				}
 				$( 'input[name="payment_method"]' ).change( handlePaymentMethodSelect );
 				$( document ).on( 'payment_method_selected', handlePaymentMethodSelect );
 				$( document ).on( 'updated_checkout', handlePaymentMethodSelect );
 				handlePaymentMethodSelect();
-
-				// When v2 invisible is rendered, newspack-plugin's recaptcha attaches a
-				// click handler to #place_order_clone that preventDefaults and runs
-				// handleSubmit. In skip-recaptcha mode that handler clears an attribute
-				// and returns without submitting — the visible button goes dead. Catch
-				// the click on document capture phase (before the clone's element-level
-				// listener) and force a native submit when the bypass is active.
-				// NOTE: this is a deliberate cross-repo monkey-patch of newspack-plugin's
-				// recaptcha handler from newspack-blocks. The cleaner home would be a
-				// data-skip-recaptcha branch in newspack-plugin's recaptcha/index.js
-				// handleSubmit, but the cross-repo coordination isn't worth it for this
-				// one-off fix.
-				document.addEventListener(
-					'click',
-					function ( e ) {
-						const clone = e.target && e.target.closest ? e.target.closest( '#place_order_clone' ) : null;
-						if ( ! clone || ! $form.is( '[data-skip-recaptcha]' ) ) {
-							return;
-						}
-						e.preventDefault();
-						e.stopImmediatePropagation();
-						const formEl = $form.get( 0 );
-						if ( typeof formEl.requestSubmit === 'function' ) {
-							formEl.requestSubmit();
-						} else {
-							formEl.submit();
-						}
-					},
-					true
-				);
-
-				// Mirror setEditingDetails' state so handlePaymentMethodSelect can defer
-				// to it without probing the DOM, and re-apply the payment-method toggle
-				// when leaving edit mode (setEditingDetails(false) clears the attr
-				// unconditionally before this fires).
-				$form.on( 'editing_details', function ( e, editing ) {
-					isEditingDetails = !! editing;
-					if ( ! isEditingDetails ) {
-						handlePaymentMethodSelect();
-					}
-				} );
 
 				/**
 				 * Bubble up checkout place order event.
@@ -256,78 +189,81 @@ import { domReady, onCheckoutPlaceOrderProcessing } from './utils';
 						$wrapper.removeClass( 'hidden' );
 					}
 
-					const $details = $( '#after_customer_details' );
-					const expanded = $details.hasClass( 'transaction-details-expanded' );
-
 					// Move new order review table to the payment methods.
 					const $payment_methods = $( '.payment_methods' );
 					if ( $payment_methods.length ) {
 						const $el = $wrapper.clone();
-						// Make sure Transaction Details toggle's aria-expanded value is correct in cloned version.
-						if ( expanded ) {
-							$( '[id="order_review_heading"]', $el ).attr( 'aria-expanded', 'true' );
-						}
 						$( '.order-review-wrapper' ).remove();
 						$payment_methods.after( $el );
-					} else if ( ! expanded ) {
-						// If there's no payment method, make sure to expand the Transaction Details on load.
-						$wrapper.find( '#order_review_heading' ).trigger( 'click' );
 					}
 				} );
 
 				/**
-				 * Toggle Transaction Details
+				 * Serialize the checkout form for cart-recalculation AJAX requests.
 				 */
-				$( document ).on( 'click', '#order_review_heading', function () {
-					// Toggle the aria-expanded attribute.
-					$( this ).attr( 'aria-expanded', function ( index, attr ) {
-						return attr === 'false' ? 'true' : 'false';
-					} );
-					// Toggle the CSS class to show/hide the Transaction Details.
-					$( '#after_customer_details' ).toggleClass( 'transaction-details-expanded' );
-				} );
+				function getCheckoutPostData() {
+					const $checkoutForm = $( 'form.checkout' );
+					// Repeat-trial checks can only resolve once the checkout form includes a billing email.
+					return $checkoutForm.length ? $checkoutForm.serialize() : '';
+				}
 
 				/**
 				 * Get updated cart total to update the "Place Order" button.
 				 */
-				function getUpdatedCartTotal() {
-					let cartTotal;
-					$.ajax( {
+				function getOrderReviewCartTotal() {
+					return $( '.order-review-wrapper tr.order-total:not(.recurring-total) .amount' ).first().text().replace( /\s+/g, ' ' ).trim();
+				}
+				let cartTotalRequest = false;
+				function requestUpdatedCartTotal( cb ) {
+					if ( cartTotalRequest ) {
+						cartTotalRequest.abort();
+					}
+					const request = $.ajax( {
 						url: newspackBlocksModalCheckout.ajax_url,
 						method: 'POST',
-						async: false,
 						data: {
 							action: 'get_cart_total',
+							modal_checkout: 1,
+							post_data: getCheckoutPostData(),
 						},
 						success: response => {
-							cartTotal = response;
+							if ( response && cartTotalRequest === request ) {
+								cb( response );
+							}
+						},
+						complete: () => {
+							if ( cartTotalRequest === request ) {
+								cartTotalRequest = false;
+							}
 						},
 					} );
-					if ( cartTotal ) {
-						return cartTotal;
-					}
+					cartTotalRequest = request;
 				}
 
 				/**
 				 * Update Place Order button text.
 				 */
-				$( document ).on( 'updated_checkout', function () {
+				function syncPlaceOrderButton( cartTotal = getOrderReviewCartTotal() ) {
 					// Update "Place Order" button to include current price.
 					let processOrderText = newspackBlocksModalCheckout.labels.complete_button;
 					if ( ! processOrderText ) {
 						return;
 					}
-					if ( $( '#place_order' ).has( $( 'span.cart-price' ) ) ) {
+					if ( cartTotal && $( '#place_order' ).has( $( 'span.cart-price' ) ) ) {
 						// Modify button text to include updated price.
 						const tree = $( '<div>' + processOrderText + '</div>' );
 						// Update the HTML in the .cart-price span with the new price, and return.
-						tree.find( '.cart-price' ).html( getUpdatedCartTotal, function () {
-							return this.childNodes;
-						} );
+						tree.find( '.cart-price' ).html( cartTotal );
 						processOrderText = tree.html();
 					}
 					$( '#place_order' ).html( processOrderText );
 					$( '#place_order_clone' ).html( processOrderText );
+					if ( ! cartTotal ) {
+						requestUpdatedCartTotal( syncPlaceOrderButton );
+					}
+				}
+				$( document ).on( 'updated_checkout', function () {
+					syncPlaceOrderButton();
 				} );
 
 				/**
@@ -559,14 +495,14 @@ import { domReady, onCheckoutPlaceOrderProcessing } from './utils';
 				/**
 				 * Set the checkout state as editing billing/shipping fields or not.
 				 *
-				 * @param {boolean} editing
+				 * @param {boolean} isEditingDetails
 				 */
-				function setEditingDetails( editing ) {
+				function setEditingDetails( isEditingDetails ) {
 					const newspack_grecaptcha = window.newspack_grecaptcha || {};
 					clearNotices();
 					// Clear checkout details.
 					$( '#checkout_details' ).remove();
-					if ( editing ) {
+					if ( isEditingDetails ) {
 						$form.attr( 'data-skip-recaptcha', '1' );
 						$form.append( '<input name="is_validation_only" type="hidden" value="1" />' );
 						// Destroy reCAPTCHA inputs so we don't trigger validation between checkout steps.
@@ -625,8 +561,9 @@ import { domReady, onCheckoutPlaceOrderProcessing } from './utils';
 
 						// Disable 'Place Order' button if Subscription Confirmation is required.
 						handleSubscriptionConfirmation();
+						$( document.body ).trigger( 'update_checkout', { update_shipping_method: false } );
 					}
-					$form.triggerHandler( 'editing_details', [ editing ] );
+					$form.triggerHandler( 'editing_details', [ isEditingDetails ] );
 					// Scroll to top.
 					window.scroll( { top: 0, left: 0, behavior: 'smooth' } );
 				}
@@ -724,7 +661,12 @@ import { domReady, onCheckoutPlaceOrderProcessing } from './utils';
 						}
 					}
 
-					$( '.order-details-summary' ).after( '<div id="checkout_details">' + html.join( '' ) + '</div>' );
+					// Anchor the summary to the hidden product-details carrier, falling back to
+					// #after_customer_details when the carrier isn't present (e.g. multi-item carts).
+					const $anchor = $( '#modal-checkout-product-details' ).length
+						? $( '#modal-checkout-product-details' )
+						: $( '#after_customer_details' );
+					$anchor.after( '<div id="checkout_details">' + html.join( '' ) + '</div>' );
 				}
 
 				/**

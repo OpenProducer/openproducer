@@ -12,6 +12,28 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Newspack_Popups_Model {
 	/**
+	 * Transient key caching whether the site has any published above-header prompts.
+	 *
+	 * @var string
+	 */
+	const HAS_ABOVE_HEADER_TRANSIENT = 'newspack_popups_has_above_header';
+
+	/**
+	 * Request-level memo of has_published_above_header_prompts(). Null when unresolved.
+	 *
+	 * @var bool|null
+	 */
+	private static $has_above_header_memo = null;
+
+	/**
+	 * Whether has_published_above_header_prompts() is mid-resolution, to catch a nested
+	 * read triggered from within its own query.
+	 *
+	 * @var bool
+	 */
+	private static $is_resolving_above_header = false;
+
+	/**
 	 * Possible placements of overlay popups.
 	 *
 	 * @var array
@@ -88,7 +110,7 @@ final class Newspack_Popups_Model {
 				[
 					'post_type'      => Newspack_Popups::NEWSPACK_POPUPS_CPT,
 					'post_status'    => 'publish',
-					'posts_per_page' => -1,
+					'posts_per_page' => -1, // phpcs:ignore WordPressVIPMinimum.Performance.NoPaging -- Prompt CPT; accepted cost. Unlike retrieve_popups() above this is frontend-reachable, so a cap would change which prompts render and is left to a follow-up.
 				]
 			),
 			true
@@ -284,12 +306,19 @@ final class Newspack_Popups_Model {
 	}
 
 	/**
-	 * Retrieve popup preview CPT post.
+	 * Retrieve popup preview CPT post, for users who can manage prompts.
+	 *
+	 * Previews render unsaved prompt content, so access is restricted to users who can
+	 * manage prompts and to the prompts CPT.
 	 *
 	 * @param int|string $post_id Post id. Often a query-parameter string.
-	 * @return array|null Popup object array, or null if the post id does not resolve to a post.
+	 * @return array|null Popup object array, or null if the current user cannot manage prompts,
+	 *                    the post is not a prompt, or the id does not resolve to a post.
 	 */
 	public static function retrieve_preview_popup( $post_id ) {
+		if ( ! Newspack_Popups::can_preview_popup( $post_id ) ) {
+			return null;
+		}
 		// Up-to-date post data is stored in an autosave.
 		$autosave    = wp_get_post_autosave( $post_id );
 		$post_object = $autosave ? $autosave : get_post( $post_id );
@@ -843,6 +872,100 @@ final class Newspack_Popups_Model {
 	}
 
 	/**
+	 * Whether the site has at least one published above-header prompt.
+	 *
+	 * Detection is intentionally coarse: it keys only on post status (`publish`) and
+	 * placement (`above_header`), not on full display eligibility (active campaign
+	 * group, activation/deactivation window, segment match). Evaluating real display
+	 * eligibility would duplicate the Inserter's per-request logic and is too expensive
+	 * for this path, which the Perfmatters integration reads on essentially every
+	 * front-end request. The trade-off is deliberate and fail-safe: a published
+	 * above-header prompt that never actually renders (parked in an inactive campaign,
+	 * expired, or behind a non-matching segment) will keep the reveal-path scripts out
+	 * of Perfmatters' JS delay/defer queues site-wide, forfeiting that optimization
+	 * until the prompt is unpublished or deleted. Nothing breaks – it only loses a
+	 * performance win – so over-counting is preferred to a delayed (invisible) prompt.
+	 *
+	 * The result is cached in a transient flushed via flush_above_header_cache()
+	 * whenever a prompt is saved, has its status transitioned, has its `placement` meta
+	 * changed, or is deleted (see Newspack_Popups). The transient flush is immediate, but
+	 * on a cached page (batcache / Perfmatters page cache) the script-loading change only
+	 * takes effect once that page's own cache entry is purged or expires. Publishing a
+	 * prompt purges the prompt's own URL, not necessarily the article/home pages where
+	 * the reveal scripts actually matter, so already-cached pages keep the old behavior
+	 * until their cache entries turn over.
+	 *
+	 * On top of the transient, the result is memoized for the rest of the request. The
+	 * Perfmatters integration reads it from `option_perfmatters_options`, which fires on
+	 * every read of that option and Perfmatters reads it many times per request; without
+	 * the memo each of those repeats the transient lookup (an uncached options query on
+	 * sites with no persistent object cache). The memo is reset by
+	 * flush_above_header_cache(), so an in-request change is still picked up.
+	 *
+	 * @return boolean True if at least one published above-header prompt exists.
+	 */
+	public static function has_published_above_header_prompts() {
+		if ( null !== self::$has_above_header_memo ) {
+			return self::$has_above_header_memo;
+		}
+
+		// The WP_Query below runs inside the option_perfmatters_options filter on a
+		// transient miss. Anything it touches that reads perfmatters_options again would
+		// re-enter this method, and with nothing memoized yet would start the query over,
+		// recursing without end. Report "no prompts" to such a nested read - it resolves
+		// before the outer pass has an answer to give it - and let the outer pass memoize
+		// the real result.
+		if ( self::$is_resolving_above_header ) {
+			return false;
+		}
+		self::$is_resolving_above_header = true;
+
+		// Reset the recursion guard unconditionally: if get_transient() or the WP_Query
+		// throws (or a hook firing inside them does), leaving the guard set would make every
+		// later call this request short-circuit to false, silently re-delaying the reveal
+		// scripts - the exact symptom this path fixes.
+		try {
+			$cached = get_transient( self::HAS_ABOVE_HEADER_TRANSIENT );
+			if ( false !== $cached ) {
+				self::$has_above_header_memo = '1' === $cached;
+				return self::$has_above_header_memo;
+			}
+
+			$query = new WP_Query(
+				[
+					'post_type'              => Newspack_Popups::NEWSPACK_POPUPS_CPT,
+					'post_status'            => 'publish',
+					'posts_per_page'         => 1,
+					'fields'                 => 'ids',
+					'no_found_rows'          => true,
+					'update_post_meta_cache' => false,
+					'update_post_term_cache' => false,
+					'orderby'                => 'none', // Pure existence check - skip the default post_date filesort.
+					'meta_key'               => 'placement', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					'meta_value'             => 'above_header', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+				]
+			);
+			$has_above_header = $query->have_posts();
+
+			set_transient( self::HAS_ABOVE_HEADER_TRANSIENT, $has_above_header ? '1' : '0', DAY_IN_SECONDS );
+
+			self::$has_above_header_memo = $has_above_header;
+
+			return $has_above_header;
+		} finally {
+			self::$is_resolving_above_header = false;
+		}
+	}
+
+	/**
+	 * Flush the cached above-header prompt detection.
+	 */
+	public static function flush_above_header_cache() {
+		self::$has_above_header_memo = null;
+		delete_transient( self::HAS_ABOVE_HEADER_TRANSIENT );
+	}
+
+	/**
 	 * Does the popup have newsletter prompt?
 	 *
 	 * @param object $popup The popup object.
@@ -1086,12 +1209,59 @@ final class Newspack_Popups_Model {
 	}
 
 	/**
+	 * Generate just the scroll-trigger page-position marker for an overlay popup.
+	 *
+	 * The marker is a `position: absolute; top: X%` element whose position is
+	 * computed against its nearest `position: relative` ancestor (typically the
+	 * post's `.entry-content`). An IntersectionObserver on this marker is what
+	 * reveals the scroll-triggered overlay. The lightbox is portaled to
+	 * wp_footer to escape ancestor stacking-context traps, but the marker
+	 * stays inline at the article container so its percentage offset still
+	 * encodes "scroll progress through the article".
+	 *
+	 * Returns the empty string for popups that aren't scroll-triggered overlays.
+	 *
+	 * @param array<string, mixed> $popup A fully-hydrated popup object as returned
+	 *                                    by {@see create_popup_object()}.
+	 * @return string Marker HTML, or '' when no marker is needed.
+	 */
+	public static function generate_position_marker( array $popup ): string {
+		if ( ! self::is_overlay( $popup ) ) {
+			return '';
+		}
+		$trigger_type = $popup['options']['trigger_type'] ?? '';
+		if ( 'scroll' !== $trigger_type ) {
+			return '';
+		}
+		$element_id = self::canonize_popup_id( $popup['id'] );
+		$progress   = absint( $popup['options']['trigger_scroll_progress'] ?? 0 );
+		return sprintf(
+			'<div id="page-position-marker_%1$s" class="page-position-marker" style="position: absolute; top: %2$d%%"></div>',
+			esc_attr( $element_id ),
+			$progress
+		);
+	}
+
+	/**
 	 * Generate markup and styles for an overlay popup.
 	 *
-	 * @param string $popup The popup object.
+	 * @param array<string, mixed> $popup                    A fully-hydrated popup object.
+	 * @param bool                 $include_position_marker  When true (default), the
+	 *                                                       returned markup includes the
+	 *                                                       scroll-trigger page-position
+	 *                                                       marker. Pass false when the
+	 *                                                       marker is emitted separately
+	 *                                                       at the content position via
+	 *                                                       {@see generate_position_marker()},
+	 *                                                       so the marker's percentage `top`
+	 *                                                       resolves against its
+	 *                                                       `position: relative` ancestor
+	 *                                                       (typically `.entry-content`)
+	 *                                                       rather than against the portaled
+	 *                                                       lightbox's footer position.
 	 * @return string The generated markup.
 	 */
-	public static function generate_popup( $popup ) {
+	public static function generate_popup( $popup, bool $include_position_marker = true ) {
 		$previewed_popup_id            = Newspack_Popups::previewed_popup_id();
 		$is_manual_or_custom_placement = self::is_manual_only( $popup ) || Newspack_Popups_Custom_Placements::is_custom_placement_or_manual( $popup );
 
@@ -1103,7 +1273,10 @@ final class Newspack_Popups_Model {
 			}
 		}
 		if ( Newspack_Popups::preset_popup_id() ) {
-			$popup = Newspack_Popups_Presets::retrieve_preset_popup( Newspack_Popups::preset_popup_id() );
+			$preset_popup = Newspack_Popups_Presets::retrieve_preset_popup( Newspack_Popups::preset_popup_id() );
+			if ( $preset_popup ) {
+				$popup = $preset_popup;
+			}
 		}
 
 		self::$current_popup = $popup;
@@ -1204,9 +1377,11 @@ final class Newspack_Popups_Model {
 				<?php endif; ?>
 			<?php endif; ?>
 		</div>
-		<?php if ( $is_scroll_triggered ) : ?>
-			<div id="page-position-marker_<?php echo esc_attr( $element_id ); ?>" class="page-position-marker" style="position: absolute; top: <?php echo esc_attr( $popup['options']['trigger_scroll_progress'] ); ?>%"></div>
-		<?php endif; ?>
+		<?php
+		if ( $include_position_marker ) {
+			echo self::generate_position_marker( $popup ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+		?>
 		<?php
 		self::$current_popup = null;
 

@@ -210,8 +210,11 @@ class WooCommerce_Cover_Fees {
 			$handler,
 			\Newspack\Newspack::plugin_url() . '/dist/other-scripts/wc-cover-fees.js',
 			[ 'jquery' ],
-			NEWSPACK_PLUGIN_VERSION,
-			[ 'in_footer' => true ]
+			\Newspack\Newspack::asset_version( 'other-scripts/wc-cover-fees' ),
+			[
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			]
 		);
 	}
 
@@ -238,8 +241,9 @@ class WooCommerce_Cover_Fees {
 		$total = self::get_total_with_fee( $subtotal );
 		if ( ! function_exists( 'wc_price' ) ) {
 			$donation_settings = Donations::get_donation_settings();
+			$currency_symbol   = is_wp_error( $donation_settings ) ? '$' : $donation_settings['currencySymbol'];
 			// Just one decimal place, please.
-			return $donation_settings['currencySymbol'] . ( (float) number_format( $total - $subtotal, 2 ) );
+			return $currency_symbol . ( (float) number_format( $total - $subtotal, 2 ) );
 		}
 		return \wc_price( $total - $subtotal );
 	}
